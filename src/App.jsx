@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "@/components/Navbar"
 import EmergencyBar from "@/components/EmergencyBar"
 import HomePage from "@/pages/HomePage" // or Home.jsx
+import SymptomAnalyzer from "@/pages/SymptonAnalyzer" // or SymptomAnalyzer.jsx
 
 export default function App() {
   return (
@@ -10,7 +11,7 @@ export default function App() {
       
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* other routes will go here */}
+        <Route path="/symptom-analyzer" element={<SymptomAnalyzer />} />
       </Routes>
 
       <EmergencyBar />

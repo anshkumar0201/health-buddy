@@ -87,25 +87,30 @@ export default function Navbar() {
         <nav className="hidden lg:flex items-center gap-2 text-sm font-medium">
           {navItems.map((item, i) => {
             const Icon = item.icon
-            const isActive = location.pathname === item.path
+            const isActive =
+              item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(item.path)
+
 
             return (
-              <div
+              <Link
                 key={i}
-                onClick={() => handleNavigate(item.path)}
+                to={item.path}
+                replace={item.path === "/"}
                 className={`
-                  ml-2 flex items-center gap-1 px-3 py-2 rounded-lg cursor-pointer
-                  transition-colors
-                  ${isActive
-                    ? "bg-blue-100 text-blue-600"
+        flex items-center gap-1 px-3 py-2 rounded-lg transition
+        ${isActive
+                    ? "bg-blue-100 text-blue-600 font-semibold"
                     : "text-gray-600 hover:bg-gray-200"}
-                `}
+      `}
               >
                 <Icon size={16} />
                 <span>{item.label}</span>
-              </div>
+              </Link>
             )
           })}
+
         </nav>
 
         {/* Right side */}
@@ -127,22 +132,29 @@ export default function Navbar() {
           <div className="px-6 py-4 space-y-2">
             {navItems.map((item, i) => {
               const Icon = item.icon
-              const isActive = location.pathname === item.path
+              const isActive =
+                item.path === "/"
+                  ? location.pathname === "/"
+                  : location.pathname.startsWith(item.path)
+
 
               return (
-                <div
+                <Link
                   key={i}
-                  onClick={() => handleNavigate(item.path)}
+                  to={item.path}
+                  replace={item.path === "/"}
+                  onClick={() => setOpen(false)}
                   className={`
-                    flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer
-                    ${isActive
+    flex items-center gap-2 px-3 py-2 rounded-lg
+    ${isActive
                       ? "bg-blue-100 text-blue-600 font-medium"
                       : "text-gray-700 hover:bg-gray-100"}
-                  `}
+  `}
                 >
                   <Icon size={16} />
                   {item.label}
-                </div>
+                </Link>
+
               )
             })}
 
