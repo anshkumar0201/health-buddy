@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Global styles — plain CSS only */
+html, body {
+  background-color: white;
+  color: #111827; /* gray-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
