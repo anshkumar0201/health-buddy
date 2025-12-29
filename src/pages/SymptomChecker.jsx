@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Activity, Search, Info } from "lucide-react";
+import { Link } from "react-router-dom";
 import diseasesData from "@/data/diseases.json";
 
 const categories = [
@@ -105,9 +106,16 @@ export default function SymptomChecker() {
           {filteredDiseases.map((d, i) => (
             <div
               key={i}
-              className="group bg-white rounded-2xl shadow-lg border p-6
+              className="
+    group bg-white rounded-2xl border p-6
+    shadow-lg
     flex flex-col justify-between
-    hover:shadow-xl transition cursor-pointer"
+    cursor-pointer
+    transition-all duration-300 ease-out
+    hover:-translate-y-1
+    hover:shadow-2xl
+    hover:border-blue-400
+  "
             >
               <div>
                 <span
@@ -132,16 +140,19 @@ export default function SymptomChecker() {
                 </p>
               </div>
 
-              <button
-                className="mt-6 w-full py-3 rounded-xl font-medium
+              <Link
+                to={`/assessment/${encodeURIComponent(d.name)}`}
+                className="
+    mt-6 w-full py-3 rounded-xl font-medium
     flex items-center justify-center gap-2
     bg-black text-white
     transition-all duration-200
     group-hover:bg-blue-800
-    group-hover:scale-[1.02]"
+    group-hover:scale-[1.02]
+  "
               >
                 Start Assessment →
-              </button>
+              </Link>
             </div>
           ))}
         </div>

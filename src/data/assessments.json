@@ -1,0 +1,66 @@
+{
+  "Heart Attack (Myocardial Infarction)": {
+    "risk_thresholds": {
+      "low": 0,
+      "moderate": 15,
+      "high": 30
+    },
+    "questions": [
+      {
+        "question": "Are you experiencing chest pain or discomfort?",
+        "options": [
+          { "text": "Severe crushing pain", "score": 10 },
+          { "text": "Moderate pressure/tightness", "score": 6 },
+          { "text": "Mild discomfort", "score": 3 },
+          { "text": "No chest pain", "score": 0 }
+        ]
+      },
+      {
+        "question": "Is the pain radiating to your arm, neck, or jaw?",
+        "options": [
+          { "text": "Yes, significantly", "score": 8 },
+          { "text": "Slightly", "score": 4 },
+          { "text": "No", "score": 0 }
+        ]
+      },
+      {
+        "question": "Are you experiencing shortness of breath?",
+        "options": [
+          { "text": "Severe difficulty breathing", "score": 8 },
+          { "text": "Moderate breathlessness", "score": 5 },
+          { "text": "Mild", "score": 2 },
+          { "text": "No", "score": 0 }
+        ]
+      },
+      {
+        "question": "Do you have cold sweats or nausea?",
+        "options": [
+          { "text": "Yes, both", "score": 6 },
+          { "text": "One of them", "score": 3 },
+          { "text": "No", "score": 0 }
+        ]
+      },
+      {
+        "question": "Do you have a history of heart disease or high blood pressure?",
+        "options": [
+          { "text": "Yes", "score": 5 },
+          { "text": "No", "score": 0 }
+        ]
+      }
+    ],
+    "recommendations": {
+      "low": [
+        "Maintain a healthy lifestyle",
+        "Follow prevention tips"
+      ],
+      "moderate": [
+        "Schedule a doctor appointment",
+        "Monitor symptoms closely"
+      ],
+      "high": [
+        "Consult a healthcare professional immediately",
+        "Visit the nearest clinic or emergency helpline"
+      ]
+    }
+  }
+}
