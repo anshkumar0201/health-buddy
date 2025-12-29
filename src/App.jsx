@@ -9,10 +9,12 @@ import Prevention from "@/pages/Prevention"; // or Prevention.jsx
 import FindClinics from "@/pages/FindClinics"; // or FindClinics.jsx
 import Emergency from "@/pages/Emergency"; // or Emergency.jsx
 import MyAssessments from "@/pages/MyAssessment"; // or MyAssessment.jsx
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
