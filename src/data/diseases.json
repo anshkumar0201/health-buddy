@@ -1,0 +1,1572 @@
+[
+  {
+    "name": "Heart Attack (Myocardial Infarction)",
+    "category": "Cardiovascular",
+    "description": "A heart attack occurs when blood flow to the heart muscle is suddenly blocked, leading to tissue damage. It is a medical emergency.",
+    "symptoms": [
+      "Chest pain or discomfort",
+      "Shortness of breath",
+      "Pain in arms, neck, jaw, or back",
+      "Nausea or vomiting",
+      "Cold sweat"
+    ],
+    "causes": "Blockage of coronary arteries due to plaque buildup or blood clots.",
+    "risk_factors": [
+      "Smoking",
+      "High blood pressure",
+      "High cholesterol",
+      "Diabetes",
+      "Obesity",
+      "Family history of heart disease"
+    ],
+    "prevention_tips": [
+      "Maintain a healthy diet",
+      "Exercise regularly",
+      "Avoid smoking",
+      "Manage stress",
+      "Monitor blood pressure and cholesterol"
+    ],
+    "when_to_seek_help": "Seek immediate emergency medical attention if chest pain or severe discomfort occurs.",
+    "image_url": "/images/heart-attack.png",
+    "assessment_questions": [
+      {
+        "question": "Are you experiencing chest pain or tightness?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Mild", "value": "mild", "score": 2 },
+          { "label": "Severe", "value": "severe", "score": 5 }
+        ]
+      },
+      {
+        "question": "Do you smoke cigarettes?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Occasionally", "value": "occasionally", "score": 1 },
+          { "label": "Regularly", "value": "regularly", "score": 3 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cardiac Arrest",
+    "category": "Cardiovascular",
+    "description": "Cardiac arrest occurs when the heart suddenly stops beating, cutting off blood flow to the brain and other vital organs.",
+    "symptoms": [
+      "Sudden collapse",
+      "Loss of consciousness",
+      "No pulse",
+      "No breathing"
+    ],
+    "causes": "Electrical malfunction of the heart leading to abnormal heart rhythm.",
+    "risk_factors": [
+      "Heart disease",
+      "Previous heart attack",
+      "Arrhythmias",
+      "Drug abuse"
+    ],
+    "prevention_tips": [
+      "Regular heart checkups",
+      "Use of implantable defibrillators if advised",
+      "Avoid substance abuse"
+    ],
+    "when_to_seek_help": "Call emergency services immediately if a person collapses and is unresponsive.",
+    "image_url": "/images/cardiac-arrest.png",
+    "assessment_questions": [
+      {
+        "question": "Have you ever been diagnosed with heart rhythm problems?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Lung Cancer",
+    "category": "Respiratory",
+    "description": "Lung cancer is a disease in which abnormal cells grow uncontrollably in the lungs, often linked to smoking.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Breast Cancer",
+    "category": "Other",
+    "description": "Breast cancer is a disease in which abnormal cells grow uncontrollably in the breast tissue.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Prostate Cancer",
+    "category": "Other",
+    "description": "Prostate cancer is a disease in which abnormal cells grow uncontrollably in the prostate gland.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Skin Cancer (Melanoma)",
+    "category": "Skin",
+    "description": "Skin cancer is a disease in which abnormal cells grow uncontrollably in the skin.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Stomach Cancer (Gastric Cancer)",
+    "category": "Digestive",
+    "description": "Stomach cancer is a disease in which abnormal cells grow uncontrollably in the stomach.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Liver Cancer",
+    "category": "Digestive",
+    "description": "Liver cancer is a disease in which abnormal cells grow uncontrollably in the liver.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Pancreatic Cancer",
+    "category": "Digestive",
+    "description": "Pancreatic cancer is a disease in which abnormal cells grow uncontrollably in the pancreas.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Leukemia",
+    "category": "Other",
+    "description": "Leukemia is a disease in which abnormal cells grow uncontrollably in the blood and bone marrow.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Lymphoma",
+    "category": "Other",
+    "description": "Lymphoma is a disease in which abnormal cells grow uncontrollably in the lymph nodes.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Brain Cancer",
+    "category": "Neurological",
+    "description": "Brain cancer is a disease in which abnormal cells grow uncontrollably in the brain.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ovarian Cancer",
+    "category": "Other",
+    "description": "Ovarian cancer is a disease in which abnormal cells grow uncontrollably in the ovaries.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cervical Cancer",
+    "category": "Other",
+    "description": "Cervical cancer is a disease in which abnormal cells grow uncontrollably in the cervix.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Thyroid Cancer",
+    "category": "Other",
+    "description": "Thyroid cancer is a disease in which abnormal cells grow uncontrollably in the thyroid gland.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Kidney Cancer",
+    "category": "Other",
+    "description": "Kidney cancer is a disease in which abnormal cells grow uncontrollably in the kidneys.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bladder Cancer",
+    "category": "Other",
+    "description": "Bladder cancer is a disease in which abnormal cells grow uncontrollably in the bladder.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Oral Cancer",
+    "category": "Other",
+    "description": "Oral cancer is a disease in which abnormal cells grow uncontrollably in the mouth or throat.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Colorectal Cancer",
+    "category": "Digestive",
+    "description": "Colorectal cancer is a disease in which abnormal cells grow uncontrollably in the colon or rectum.",
+    "symptoms": [
+      "Persistent cough",
+      "Chest pain",
+      "Shortness of breath",
+      "Unexplained weight loss",
+      "Coughing up blood"
+    ],
+    "causes": "Long-term exposure to tobacco smoke or environmental pollutants.",
+    "risk_factors": [
+      "Smoking",
+      "Secondhand smoke",
+      "Air pollution",
+      "Exposure to asbestos"
+    ],
+    "prevention_tips": [
+      "Avoid smoking",
+      "Reduce exposure to pollutants",
+      "Regular health screenings for high-risk individuals"
+    ],
+    "when_to_seek_help": "Consult a doctor if cough persists for more than a few weeks or if blood is present.",
+    "image_url": "/images/lung-cancer.png",
+    "assessment_questions": [
+      {
+        "question": "Do you have a persistent cough lasting more than 3 weeks?",
+        "type": "symptom",
+        "options": [
+          { "label": "No", "value": "no", "score": 0 },
+          { "label": "Yes", "value": "yes", "score": 3 }
+        ]
+      },
+      {
+        "question": "Do you smoke or have you smoked in the past?",
+        "type": "risk_factor",
+        "options": [
+          { "label": "Never", "value": "never", "score": 0 },
+          { "label": "Former smoker", "value": "former", "score": 2 },
+          { "label": "Current smoker", "value": "current", "score": 4 }
+        ]
+      }
+    ]
+  }
+]
