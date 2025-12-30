@@ -1,0 +1,22 @@
+{
+  "rules": [
+    {
+      "keywords": ["chest pain", "shortness of breath", "pressure"],
+      "urgency": "High",
+      "advice": "Seek immediate medical attention. These symptoms may indicate a serious condition.",
+      "conditions": ["Heart Attack", "Angina", "Pulmonary Embolism"]
+    },
+    {
+      "keywords": ["fever", "headache", "body ache", "tired"],
+      "urgency": "Moderate",
+      "advice": "If symptoms persist for more than 48 hours, consult a healthcare professional.",
+      "conditions": ["Viral Fever", "Influenza", "COVID-19"]
+    },
+    {
+      "keywords": ["cough", "cold", "sore throat"],
+      "urgency": "Low",
+      "advice": "Rest, stay hydrated, and monitor symptoms.",
+      "conditions": ["Common Cold", "Allergic Rhinitis", "Mild Infection"]
+    }
+  ]
+}
