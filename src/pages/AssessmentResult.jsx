@@ -7,9 +7,6 @@ import {
   ArrowRight,
   Download,
 } from "lucide-react";
-import { useState } from "react";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import AssessmentReportPDF from "@/components/AssessmentReportPDF";
 
 export default function AssessmentResult() {
   const location = useLocation();
@@ -61,55 +58,9 @@ export default function AssessmentResult() {
 
   const t = themes[theme];
 
-  /* ---------------- FIXED DOWNLOAD FUNCTION ---------------- */
-  // const downloadPDF = async () => {
-  //   if (!reportRef.current || isDownloading) return;
-
-  //   setIsDownloading(true);
-
-  //   try {
-  //     const canvas = await html2canvas(reportRef.current, {
-  //       scale: 2,
-  //       useCORS: true,
-  //       backgroundColor: "#ffffff",
-  //       scrollY: -window.scrollY,
-  //     });
-
-  //     const imgData = canvas.toDataURL("image/png");
-  //     const pdf = new jsPDF({
-  //       unit: "pt",
-  //       format: "a4",
-  //       orientation: "portrait",
-  //     });
-
-  //     const pageWidth = pdf.internal.pageSize.getWidth();
-  //     const imgProps = pdf.getImageProperties(imgData);
-  //     const pdfHeight = (imgProps.height * pageWidth) / imgProps.width;
-
-  //     pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pdfHeight);
-
-  //     // 🔥 SAFARI-SAFE DOWNLOAD
-  //     const blob = pdf.output("blob");
-  //     const url = URL.createObjectURL(blob);
-
-  //     const a = document.createElement("a");
-  //     a.href = url;
-  //     a.download = `${disease.replace(/\s+/g, "_")}_Assessment_Report.pdf`;
-  //     document.body.appendChild(a);
-  //     a.click();
-
-  //     document.body.removeChild(a);
-  //     URL.revokeObjectURL(url);
-  //   } catch (err) {
-  //     console.error("PDF generation failed:", err);
-  //   } finally {
-  //     setIsDownloading(false);
-  //   }
-  // };
-
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-4 print-area">
         <div
           className="
       bg-white
@@ -223,9 +174,9 @@ export default function AssessmentResult() {
             </div>
           </div>
 
-          <p className="mx-10 mt-10 text-xs text-gray-500 text-center">
-            Note: This assessment is for informational purposes only and does
-            not constitute medical advice, diagnosis, or treatment. Always
+          <p className="mx-10 mt-10 text-xs text-gray-500 text-center mb-4">
+            Disclaimer: This assessment is for informational purposes only and
+            does not constitute medical advice, diagnosis, or treatment. Always
             consult a qualified healthcare professional for medical concerns.
           </p>
 
@@ -243,31 +194,18 @@ export default function AssessmentResult() {
               <ArrowLeft className="w-4 h-4" />
               New Assessment
             </button>
-            <PDFDownloadLink
-              className="contents"
-              document={
-                <AssessmentReportPDF
-                  disease={disease}
-                  score={score}
-                  riskLevel={riskLevel}
-                />
-              }
-              fileName={`${disease.replace(/\s+/g, "_")}_Assessment_Report.pdf`}
+            <button
+              onClick={() => window.print()}
+              className="
+    flex items-center justify-center gap-2
+    py-3 rounded-xl border cursor-pointer
+    font-medium transition
+    bg-white hover:bg-gray-200
+  "
             >
-              {({ loading }) => (
-                <button
-                  className="
-        flex items-center justify-center gap-2
-        py-3 rounded-xl border
-        font-medium transition cursor-pointer
-        bg-white hover:bg-gray-200
-      "
-                >
-                  {loading ? "Generating PDF..." : "Download Report as PDF"}
-                  <Download className="w-4 h-4" />
-                </button>
-              )}
-            </PDFDownloadLink>
+              Download Report as PDF
+              <Download className="w-4 h-4" />
+            </button>
 
             <button
               onClick={() => navigate("/clinics")}
