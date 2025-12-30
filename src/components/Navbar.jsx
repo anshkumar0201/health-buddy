@@ -52,7 +52,7 @@ export default function Navbar() {
           to="/"
           replace
           onClick={() => window.scrollTo({ top: 0 })}
-          className="flex items-center gap-3 whitespace-nowrap shrink-0"
+          className="flex items-center gap-3 whitespace-nowrap shrink-0 cursor-pointer [&_*]:cursor-pointer"
         >
           <div
             className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
@@ -79,8 +79,8 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="mx-4 hidden lg:flex items-center flex-shrink-0">
-          <div className="flex items-center gap-2 text-sm font-medium">
+        <nav className="mx-4 hidden lg:flex items-center flex-shrink-0 select-none">
+          <div className="flex items-center gap-2 text-medium font-medium">
             {navItems.map((item, i) => {
               const Icon = item.icon;
               const isActive =
@@ -94,16 +94,17 @@ export default function Navbar() {
                   to={item.path}
                   replace={item.path === "/"}
                   className={`
-    flex items-center gap-2 px-3 py-2 rounded-lg
-    whitespace-nowrap leading-none
-    cursor-pointer select-none
-    transition-all duration-200
-    ${
-      isActive
-        ? "bg-blue-100 text-blue-600 font-semibold"
-        : "text-gray-600 hover:bg-gray-200"
-    }
-  `}
+  flex items-center gap-2 px-3 py-3 rounded-lg
+  whitespace-nowrap leading-none
+cursor-pointer select-none
+[&_*]:cursor-pointer
+  transition-all duration-200
+  ${
+    isActive
+      ? "bg-blue-100 text-blue-600 font-semibold"
+      : "text-gray-600 hover:bg-gray-200"
+  }
+`}
                 >
                   <Icon size={16} className="shrink-0 pointer-events-none" />
                   <span>{item.label}</span>
@@ -144,15 +145,17 @@ export default function Navbar() {
                   replace={item.path === "/"}
                   onClick={() => setOpen(false)}
                   className={`
-    flex items-center gap-2 px-3 py-2 rounded-lg
-    whitespace-nowrap
-+   cursor-pointer select-none
-    ${
-      isActive
-        ? "bg-blue-100 text-blue-600 font-medium"
-        : "text-gray-700 hover:bg-gray-100"
-    }
-  `}
+  flex items-center gap-2 px-3 py-3 rounded-lg
+  whitespace-nowrap leading-none
+  cursor-pointer select-none
+  [&_*]:cursor-pointer
+  transition-all duration-200
+  ${
+    isActive
+      ? "bg-blue-100 text-blue-600 font-semibold"
+      : "text-gray-600 hover:bg-gray-200"
+  }
+`}
                 >
                   <Icon size={16} className="shrink-0 pointer-events-none" />
                   {item.label}

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import {
   Activity,
   BookOpen,
@@ -13,6 +14,7 @@ const features = [
     icon: Activity,
     gradient: "from-blue-500 to-cyan-500",
     action: "Start Assessment",
+    path: "/symptom-checker",
   },
   {
     title: "Disease Library",
@@ -20,6 +22,7 @@ const features = [
     icon: BookOpen,
     gradient: "from-purple-500 to-pink-500",
     action: "Explore",
+    path: "/diseases",
   },
   {
     title: "Prevention Tips",
@@ -27,6 +30,7 @@ const features = [
     icon: Shield,
     gradient: "from-green-500 to-emerald-500",
     action: "View Tips",
+    path: "/prevention",
   },
   {
     title: "Find Clinics",
@@ -34,6 +38,7 @@ const features = [
     icon: MapPin,
     gradient: "from-orange-500 to-red-500",
     action: "Find Now",
+    path: "/clinics",
   },
   {
     title: "Emergency Guide",
@@ -41,14 +46,16 @@ const features = [
     icon: AlertCircle,
     gradient: "from-red-500 to-rose-500",
     action: "View Guide",
+    path: "/emergency",
   },
 ]
 
 export default function Features() {
+  const navigate = useNavigate()
+
   return (
     <section className="py-14 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
-
         {/* Section header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
@@ -71,14 +78,13 @@ export default function Features() {
                   group bg-white rounded-2xl overflow-hidden
                   shadow-lg
                   transform transition-all duration-300 ease-out
-                  hover:-translate-y-3 hover:shadow-3xl cursor-pointer
+                  hover:-translate-y-3 hover:shadow-3xl
                 "
               >
                 {/* Top gradient bar */}
                 <div className={`h-2 bg-gradient-to-r ${feature.gradient}`} />
 
                 <div className="p-8 flex flex-col h-full">
-                  
                   {/* Icon */}
                   <div
                     className={`
@@ -87,10 +93,10 @@ export default function Features() {
                       flex items-center justify-center
                       shadow-md
                       transform transition-transform duration-300 ease-out
-                      group-hover:scale-120
+                      group-hover:scale-110
                     `}
                   >
-                    <Icon className="w-7 h-7 text-white" />
+                    <Icon className="w-7 h-7 text-white pointer-events-none" />
                   </div>
 
                   {/* Content */}
@@ -104,12 +110,16 @@ export default function Features() {
 
                   {/* CTA */}
                   <button
+                    onClick={() => navigate(feature.path)}
                     className="
                       mt-6 w-full
                       bg-blue-600 text-white
                       py-2.5 rounded-lg font-medium
                       transition-all duration-300
-                      hover:bg-blue-800 cursor-pointer
+                      hover:bg-blue-800
+                      active:scale-95
+                      cursor-pointer
+                      select-none
                     "
                   >
                     {feature.action}

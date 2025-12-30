@@ -1,9 +1,11 @@
 import { Activity } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export default function HeroJourney() {
+  const navigate = useNavigate()
+
   return (
     <section className="relative w-full overflow-hidden">
-
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-green-500" />
 
@@ -18,7 +20,6 @@ export default function HeroJourney() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-28 text-center text-white">
-
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/20 text-sm mb-6">
           ✨ AI-Powered Healthcare Companion
@@ -27,9 +28,7 @@ export default function HeroJourney() {
         {/* Heading */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
           Your Health Journey
-          <span className="block text-lime-300 mt-2">
-            Starts Here
-          </span>
+          <span className="block text-lime-300 mt-2">Starts Here</span>
         </h1>
 
         {/* Description */}
@@ -41,15 +40,21 @@ export default function HeroJourney() {
 
         {/* CTA */}
         <div className="mt-10 flex justify-center">
-          <button className="inline-flex items-center gap-2
-    bg-white text-blue-600
-    px-6 py-3 rounded-xl font-bold
-    shadow-lg
-    transform transition-all duration-300 ease-out
-    hover:scale-120 hover:-translate-y-0.5
-    hover:shadow-[0_20px_40px_rgba(37,99,235,0.25)]
-    active:scale-95 cursor-pointer">
-            <Activity className="w-5 h-5" />
+          <button
+            onClick={() => navigate("/symptom-checker")}
+            className="
+              inline-flex items-center gap-2
+              bg-white text-blue-600
+              px-6 py-3 rounded-xl font-bold
+              shadow-lg
+              transform transition-all duration-300 ease-out
+              hover:scale-110 hover:-translate-y-0.5
+              hover:shadow-[0_20px_40px_rgba(37,99,235,0.25)]
+              active:scale-95
+              cursor-pointer
+            "
+          >
+            <Activity className="w-5 h-5 pointer-events-none" />
             Start Health Check
           </button>
         </div>
