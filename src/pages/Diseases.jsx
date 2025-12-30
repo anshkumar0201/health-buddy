@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { BookOpen, Search } from "lucide-react";
+import { Link } from "react-router-dom";
 import diseasesHub from "@/data/diseases1.json";
 
 const categories = [
@@ -18,9 +19,8 @@ const categories = [
 ];
 
 if (!Array.isArray(diseasesHub)) {
-  throw new Error("diseases_hub.json must export an array");
+  throw new Error("diseases1.json must export an array");
 }
-
 
 export default function Diseases() {
   const [activeCategory, setActiveCategory] = useState("All Diseases");
@@ -116,12 +116,26 @@ export default function Diseases() {
           {filteredDiseases.map((d, i) => (
             <div
               key={i}
-              className="group bg-white rounded-2xl shadow-lg border p-6
-              hover:shadow-xl transition flex flex-col justify-between"
+              className="
+                group bg-white rounded-2xl border p-6
+                shadow-sm
+                transition-all duration-300 ease-out
+                hover:-translate-y-1
+                hover:shadow-xl
+                hover:border-blue-500
+                flex flex-col justify-between
+              "
             >
               <div>
                 {/* Category */}
-                <span className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-semibold bg-black text-white">
+                <span
+                  className="
+                    inline-block mb-3 px-3 py-1 rounded-xl text-xs font-semibold
+                    bg-black text-white
+                    transition
+                    group-hover:bg-blue-600
+                  "
+                >
                   {d.category}
                 </span>
 
@@ -162,14 +176,23 @@ export default function Diseases() {
                 )}
               </div>
 
-              {/* Learn more */}
-              <button
-                className="mt-6 flex items-center justify-between text-sm font-medium text-gray-900
-                group-hover:text-blue-600 transition"
+              {/* Learn More */}
+              <Link
+                to={`/diseases/${encodeURIComponent(d.name)}`}
+                className="
+                  mt-6 inline-flex items-center justify-between
+                  w-full px-4 py-2 rounded-lg
+                  text-sm font-medium text-gray-900
+                  transition-all
+                  group-hover:bg-gray-200
+                  group-hover:text-blue-600
+                "
               >
-                Learn More
-                <span className="text-lg">→</span>
-              </button>
+                <span>Learn More</span>
+                <span className="text-lg transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
             </div>
           ))}
         </div>

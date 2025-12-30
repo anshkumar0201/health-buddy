@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Home,
   Activity,
@@ -8,11 +8,10 @@ import {
   Shield,
   MapPin,
   AlertCircle,
-  ClipboardList,
   Globe,
   Menu,
-  X
-} from "lucide-react"
+  X,
+} from "lucide-react";
 
 const navItems = [
   { label: "Home", icon: Home, path: "/" },
@@ -22,19 +21,19 @@ const navItems = [
   { label: "Prevention", icon: Shield, path: "/prevention" },
   { label: "Find Clinics", icon: MapPin, path: "/clinics" },
   { label: "Emergency", icon: AlertCircle, path: "/emergency" },
-  { label: "My Assessments", icon: ClipboardList, path: "/assessments" }
-]
+  // { label: "My Assessments", icon: ClipboardList, path: "/assessments" }
+];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
-  const navigate = useNavigate()
-  const location = useLocation()
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNavigate = (path) => {
-    navigate(path, { replace: true })
-    setOpen(false)
-    window.scrollTo({ top: 0 })
-  }
+    navigate(path, { replace: path === "/" });
+    setOpen(false);
+    window.scrollTo({ top: 0 });
+  };
 
   return (
     <header
@@ -42,18 +41,18 @@ export default function Navbar() {
         sticky top-0 z-50
         bg-white/70 backdrop-blur-md
         supports-[backdrop-filter]:bg-white/60
-        border-b border-white/30
+        border-b border-white/30 shadow-lg
         transition-colors duration-300
+        print-hide
       "
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-
-        {/* Logo */}
+        {/* Logo (unchanged) */}
         <Link
           to="/"
           replace
           onClick={() => window.scrollTo({ top: 0 })}
-          className="flex items-center gap-3 whitespace-nowrap"
+          className="flex items-center gap-3 whitespace-nowrap shrink-0"
         >
           <div
             className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
@@ -74,48 +73,49 @@ export default function Navbar() {
           </div>
 
           <div className="flex flex-col leading-tight">
-            <span className="text-xl font-bold text-blue-600">
-              HealthBuddy
-            </span>
-            <span className="text-sm text-gray-600">
-              Your Health Companion
-            </span>
+            <span className="text-xl font-bold text-blue-600">HealthBuddy</span>
+            <span className="text-sm text-gray-600">Your Health Companion</span>
           </div>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="mx-4 hidden lg:flex items-center gap-2 text-sm font-medium">
-          {navItems.map((item, i) => {
-            const Icon = item.icon
-            const isActive =
-              item.path === "/"
-                ? location.pathname === "/"
-                : location.pathname.startsWith(item.path)
+        {/* Desktop Navigation */}
+        <nav className="mx-4 hidden lg:flex items-center flex-shrink-0">
+          <div className="flex items-center gap-2 text-sm font-medium">
+            {navItems.map((item, i) => {
+              const Icon = item.icon;
+              const isActive =
+                item.path === "/"
+                  ? location.pathname === "/"
+                  : location.pathname.startsWith(item.path);
 
-
-            return (
-              <Link
-                key={i}
-                to={item.path}
-                replace={item.path === "/"}
-                className={`
-        flex items-center gap-1 px-3 py-2 rounded-lg transition
-        ${isActive
-                    ? "bg-blue-100 text-blue-600 font-semibold"
-                    : "text-gray-600 hover:bg-gray-200"}
-      `}
-              >
-                <Icon size={16} />
-                <span>{item.label}</span>
-              </Link>
-            )
-          })}
-
+              return (
+                <Link
+                  key={i}
+                  to={item.path}
+                  replace={item.path === "/"}
+                  className={`
+    flex items-center gap-2 px-3 py-2 rounded-lg
+    whitespace-nowrap leading-none
+    cursor-pointer select-none
+    transition-all duration-200
+    ${
+      isActive
+        ? "bg-blue-100 text-blue-600 font-semibold"
+        : "text-gray-600 hover:bg-gray-200"
+    }
+  `}
+                >
+                  <Icon size={16} className="shrink-0 pointer-events-none" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
         </nav>
 
-        {/* Right side */}
-        <div className="flex items-center gap-3">
-          <button className="hidden sm:flex items-center gap-1 border rounded-lg px-3 py-1.5 text-sm">
+        {/* Right Side */}
+        <div className="flex items-center gap-3 shrink-0">
+          <button className="hidden sm:flex items-center gap-1 border rounded-lg px-3 py-1.5 text-sm whitespace-nowrap">
             <Globe size={14} />
             English
           </button>
@@ -131,12 +131,11 @@ export default function Navbar() {
         <div className="lg:hidden border-t bg-white">
           <div className="px-6 py-4 space-y-2">
             {navItems.map((item, i) => {
-              const Icon = item.icon
+              const Icon = item.icon;
               const isActive =
                 item.path === "/"
                   ? location.pathname === "/"
-                  : location.pathname.startsWith(item.path)
-
+                  : location.pathname.startsWith(item.path);
 
               return (
                 <Link
@@ -146,20 +145,23 @@ export default function Navbar() {
                   onClick={() => setOpen(false)}
                   className={`
     flex items-center gap-2 px-3 py-2 rounded-lg
-    ${isActive
-                      ? "bg-blue-100 text-blue-600 font-medium"
-                      : "text-gray-700 hover:bg-gray-100"}
+    whitespace-nowrap
++   cursor-pointer select-none
+    ${
+      isActive
+        ? "bg-blue-100 text-blue-600 font-medium"
+        : "text-gray-700 hover:bg-gray-100"
+    }
   `}
                 >
-                  <Icon size={16} />
+                  <Icon size={16} className="shrink-0 pointer-events-none" />
                   {item.label}
                 </Link>
-
-              )
+              );
             })}
 
             <div className="pt-4 border-t">
-              <button className="flex items-center gap-2 text-sm">
+              <button className="flex items-center gap-2 text-sm whitespace-nowrap">
                 <Globe size={14} />
                 English
               </button>
@@ -168,5 +170,5 @@ export default function Navbar() {
         </div>
       )}
     </header>
-  )
+  );
 }
