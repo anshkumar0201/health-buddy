@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import { useState } from "react";
 import assessments from "@/data/assessments.json";
@@ -60,6 +60,20 @@ export default function Assessment() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-32">
       <div className="max-w-3xl mx-auto px-4">
+        {/* 🔙 Back to Symptom Checker */}
+        <Link
+          to="/symptom-checker"
+          className={`
+            flex items-center gap-2 text-lg text-gray-500
+            hover:text-gray-900 font-semibold hover:font-bold
+            transition-colors duration-200 mb-6
+            ${isSubmitting ? "pointer-events-none opacity-40" : ""}
+          `}
+        >
+          <ArrowLeft className="w-6 h-6" />
+          Back to Symptom Checker
+        </Link>
+
         {/* Title */}
         <h1 className="text-2xl font-bold mb-4">{decodedDisease}</h1>
 
@@ -94,8 +108,7 @@ export default function Assessment() {
                 onClick={() => handleOptionSelect(opt)}
                 className={`
                   w-full flex items-center gap-3 px-5 py-4 rounded-xl border
-                  text-left text-sm font-medium
-                  transition cursor-pointer
+                  text-left text-sm font-medium transition cursor-pointer
                   ${
                     selectedOption?.text === opt.text
                       ? "border-black bg-gray-50"
@@ -129,9 +142,9 @@ export default function Assessment() {
               onClick={handlePrevious}
               className="
                 flex-1 py-3 rounded-xl border
-                text-sm font-medium text-gray-600 cursor-pointer hover:bg-gray-200
-                flex items-center justify-center gap-2
-                disabled:opacity-40
+                text-sm font-medium text-gray-600
+                hover:bg-gray-200 flex items-center
+                justify-center gap-2 disabled:opacity-40
               "
             >
               <ArrowLeft className="w-4 h-4" />
@@ -142,10 +155,8 @@ export default function Assessment() {
               disabled={!selectedOption || isSubmitting}
               onClick={handleNext}
               className={`
-                flex-1 py-3 rounded-xl
-                text-sm font-medium cursor-pointer
-                flex items-center justify-center gap-2
-                transition
+                flex-1 py-3 rounded-xl text-sm font-medium
+                flex items-center justify-center gap-2 transition
                 ${
                   selectedOption
                     ? "bg-black text-white hover:bg-gray-900"
@@ -181,10 +192,8 @@ export default function Assessment() {
             }}
             className={`
               mt-6 text-center rounded-lg py-2
-              text-sm text-gray-500
-              transition font-semibold
-              hover:bg-gray-300
-              cursor-pointer
+              text-sm text-gray-500 font-semibold
+              hover:bg-gray-300 transition cursor-pointer
               ${isSubmitting ? "opacity-40 cursor-not-allowed" : ""}
             `}
           >
