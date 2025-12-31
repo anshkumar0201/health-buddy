@@ -1,9 +1,0 @@
-{
-  "headache": ["headache"],
-  "vomiting": ["vomiting"],
-  "nausea": ["vomiting"],
-  "fever": ["fever"],
-  "sore throat": ["throat"],
-  "fatigue": ["fatigue"],
-  "body aches": ["aches"]
-}

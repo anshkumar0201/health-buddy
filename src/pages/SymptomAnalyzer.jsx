@@ -9,71 +9,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-/* ---------------- RULES (JSON-STYLE) ---------------- */
-
-const SYMPTOM_RULES = {
-  high: {
-    label: "High",
-    color: "red",
-    keywords: ["fever", "vomiting", "confusion", "stiff neck", "severe"],
-    description:
-      "The combination of your symptoms may indicate a serious condition that requires prompt medical evaluation.",
-    advice:
-      "Monitor your symptoms closely. If they persist, worsen, or you develop new symptoms such as confusion or stiff neck, seek immediate medical attention.",
-  },
-  moderate: {
-    label: "Moderate",
-    color: "yellow",
-    keywords: ["headache", "nausea", "fatigue", "body ache"],
-    description:
-      "Your symptoms suggest a condition that should be monitored and assessed.",
-    advice:
-      "Rest, stay hydrated, and consider consulting a healthcare professional if symptoms persist.",
-  },
-  low: {
-    label: "Low",
-    color: "green",
-    keywords: ["cold", "cough", "runny nose", "sore throat"],
-    description:
-      "Your symptoms appear mild and are often manageable at home.",
-    advice:
-      "Continue monitoring your symptoms and follow general wellness practices.",
-  },
-};
-
-const SUGGESTED_CONDITIONS = [
-  {
-    name: "Viral Infection (e.g., Influenza or COVID-19)",
-    tag: "Infectious Diseases",
-    description:
-      "Common causes of headache and fever, especially during cold and flu season.",
-  },
-  {
-    name: "Bacterial Sinusitis",
-    tag: "Respiratory Conditions",
-    description:
-      "Headache combined with fever could indicate a sinus infection.",
-  },
-  {
-    name: "Meningitis",
-    tag: "Neurological Conditions",
-    description:
-      "Headache with fever can be symptoms of meningitis, requiring urgent care.",
-  },
-  {
-    name: "Tension Headache",
-    tag: "Headaches",
-    description:
-      "Stress-related headaches that may overlap with mild systemic symptoms.",
-  },
-  {
-    name: "Cluster Headache",
-    tag: "Headaches",
-    description:
-      "Severe headache pain that can sometimes be confused with other conditions.",
-  },
-];
+import rules from "@/data/symptomRules.json";
+import suggestedConditions from "@/data/suggestedConditions.json";
 
 /* ---------------- COMPONENT ---------------- */
 
@@ -83,25 +20,35 @@ export default function SymptomAnalyzer() {
   const [result, setResult] = useState(null);
   const navigate = useNavigate();
 
+  const charCount = text.trim().length;
+  const MIN_CHARS = 30;
+
   const analyzeSymptoms = () => {
-    if (!text.trim()) return;
+    if (!text.trim() || charCount < MIN_CHARS) return;
 
     setLoading(true);
     setResult(null);
 
     setTimeout(() => {
       const input = text.toLowerCase();
+      let score = 0;
 
-      let level = "low";
-      if (SYMPTOM_RULES.high.keywords.some(k => input.includes(k))) {
-        level = "high";
-      } else if (
-        SYMPTOM_RULES.moderate.keywords.some(k => input.includes(k))
-      ) {
-        level = "moderate";
-      }
+      Object.entries(rules.symptomScores).forEach(([keyword, value]) => {
+        if (input.includes(keyword)) score += value;
+      });
 
-      setResult(SYMPTOM_RULES[level]);
+      const urgency =
+        score >= rules.urgencyLevels.high.minScore
+          ? "high"
+          : score >= rules.urgencyLevels.moderate.minScore
+          ? "moderate"
+          : "low";
+
+      setResult({
+        ...rules.urgencyLevels[urgency],
+        conditions: suggestedConditions[urgency],
+      });
+
       setLoading(false);
     }, 1500);
   };
@@ -109,7 +56,6 @@ export default function SymptomAnalyzer() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-32">
       <div className="max-w-3xl mx-auto px-4">
-
         {/* Header */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center shadow-lg">
@@ -122,7 +68,8 @@ export default function SymptomAnalyzer() {
         </h1>
 
         <p className="text-center text-gray-600 mt-3 text-lg">
-          Describe how you're feeling and we'll suggest which conditions to check
+          Describe how you're feeling and we'll suggest which conditions to
+          check
         </p>
 
         {/* How it works */}
@@ -151,11 +98,24 @@ export default function SymptomAnalyzer() {
             className="w-full rounded-xl border border-gray-200 p-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none"
             placeholder="Example: headache and fever since last 2 days"
           />
+          <p
+            className={`mt-2 text-sm ${
+              charCount < MIN_CHARS ? "text-red-500" : "text-green-600"
+            }`}
+          >
+            {charCount}/{MIN_CHARS} characters minimum
+          </p>
 
           <button
             onClick={analyzeSymptoms}
-            disabled={loading}
-            className="mt-6 w-full flex items-center justify-center gap-2 bg-purple-600 text-white py-3 rounded-xl font-medium transition-all hover:bg-purple-700 disabled:opacity-60"
+            disabled={loading || charCount < MIN_CHARS}
+            className={`mt-6 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-medium transition-all
+    ${
+      loading || charCount < MIN_CHARS
+        ? "bg-gray-100 cursor-not-allowed text-gray-400"
+        : "bg-purple-600 hover:bg-purple-700 text-white cursor-pointer"
+    }
+  `}
           >
             {loading ? "Analyzing..." : "Analyze My Symptoms"}
             {!loading && <Search className="w-4 h-4" />}
@@ -166,7 +126,8 @@ export default function SymptomAnalyzer() {
         {result && (
           <>
             {/* Urgency */}
-            <div className={`mt-10 rounded-xl border px-5 py-4 flex gap-3
+            <div
+              className={`mt-10 rounded-xl border px-5 py-4 flex gap-3
               ${
                 result.color === "red"
                   ? "bg-red-50 border-red-200 text-red-700"
@@ -177,9 +138,7 @@ export default function SymptomAnalyzer() {
             >
               <AlertCircle className="w-5 h-5 mt-0.5" />
               <div>
-                <p className="font-semibold">
-                  Urgency Level: {result.label}
-                </p>
+                <p className="font-semibold">Urgency Level: {result.label}</p>
                 <p className="text-sm mt-1">{result.description}</p>
               </div>
             </div>
@@ -188,12 +147,8 @@ export default function SymptomAnalyzer() {
             <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-5 py-4 flex gap-3">
               <Lightbulb className="w-5 h-5 text-blue-600 mt-0.5" />
               <div>
-                <p className="font-semibold text-blue-800">
-                  Immediate Advice
-                </p>
-                <p className="text-sm text-blue-700 mt-1">
-                  {result.advice}
-                </p>
+                <p className="font-semibold text-blue-800">Immediate Advice</p>
+                <p className="text-sm text-blue-700 mt-1">{result.advice}</p>
               </div>
             </div>
 
@@ -203,15 +158,15 @@ export default function SymptomAnalyzer() {
             </h3>
 
             <div className="mt-4 space-y-4">
-              {SUGGESTED_CONDITIONS.map((c, i) => (
+              {result.conditions.map((c, i) => (
                 <div
                   key={i}
-                  className="bg-white border rounded-xl p-5 shadow-sm flex justify-between gap-4"
+                  className="bg-white border rounded-xl p-5 shadow-sm flex justify-between gap-4 cursor-pointer hover:shadow-xl transition"
                 >
                   <div>
                     <p className="font-semibold text-gray-900">
                       {c.name}
-                      <span className="ml-2 text-xs px-2 py-0.5 border rounded">
+                      <span className="ml-2 text-xs px-2 py-0.5 border rounded bg-gray-200">
                         {c.tag}
                       </span>
                     </p>
@@ -221,7 +176,7 @@ export default function SymptomAnalyzer() {
                   </div>
                   <button
                     onClick={() => navigate("/symptom-checker")}
-                    className="h-fit flex items-center gap-1 bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-blue-700"
+                    className="h-fit flex items-center gap-1 cursor-pointer bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-blue-700"
                   >
                     Check <ArrowRight size={14} />
                   </button>
@@ -238,13 +193,13 @@ export default function SymptomAnalyzer() {
             <div className="mt-6 flex gap-4">
               <button
                 onClick={() => navigate("/symptom-checker")}
-                className="flex-1 bg-black text-white py-2.5 rounded-lg hover:bg-gray-900"
+                className="flex-1 bg-black text-white py-2.5 rounded-lg hover:bg-gray-900 cursor-pointer"
               >
                 Go to Symptom Checker →
               </button>
               <button
                 onClick={() => navigate("/clinics")}
-                className="flex-1 border py-2.5 rounded-lg hover:bg-gray-100"
+                className="flex-1 border py-2.5 rounded-lg hover:bg-gray-100 cursor-pointer"
               >
                 Find Nearby Clinics
               </button>

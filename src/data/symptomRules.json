@@ -1,22 +1,79 @@
 {
-  "rules": [
-    {
-      "keywords": ["chest pain", "shortness of breath", "pressure"],
-      "urgency": "High",
-      "advice": "Seek immediate medical attention. These symptoms may indicate a serious condition.",
-      "conditions": ["Heart Attack", "Angina", "Pulmonary Embolism"]
+  "urgencyLevels": {
+    "high": {
+      "minScore": 6,
+      "label": "High",
+      "color": "red",
+      "description": "The combination of your symptoms could indicate a serious condition that requires prompt medical evaluation.",
+      "advice": "Monitor your symptoms closely. If they persist, worsen, or you develop new symptoms such as confusion, stiff neck, or severe nausea, seek medical attention immediately."
     },
-    {
-      "keywords": ["fever", "headache", "body ache", "tired"],
-      "urgency": "Moderate",
-      "advice": "If symptoms persist for more than 48 hours, consult a healthcare professional.",
-      "conditions": ["Viral Fever", "Influenza", "COVID-19"]
+    "moderate": {
+      "minScore": 3,
+      "label": "Moderate",
+      "color": "yellow",
+      "description": "Your symptoms suggest a condition that should be monitored and assessed.",
+      "advice": "Rest, stay hydrated, and consult a healthcare professional if symptoms persist or worsen."
     },
-    {
-      "keywords": ["cough", "cold", "sore throat"],
-      "urgency": "Low",
-      "advice": "Rest, stay hydrated, and monitor symptoms.",
-      "conditions": ["Common Cold", "Allergic Rhinitis", "Mild Infection"]
+    "low": {
+      "minScore": 0,
+      "label": "Low",
+      "color": "green",
+      "description": "Your symptoms appear mild and are often manageable at home.",
+      "advice": "Continue monitoring your symptoms and follow general wellness practices."
     }
-  ]
+  },
+
+  "symptomScores": {
+    "fever": 3,
+    "vomiting": 3,
+    "confusion": 4,
+    "stiff neck": 4,
+    "severe": 2,
+    "headache": 2,
+    "nausea": 2,
+    "fatigue": 1,
+    "body ache": 1,
+    "cough": 1,
+    "cold": 1,
+    "sore throat": 1
+  },
+
+  "conditions": {
+    "high": [
+      {
+        "name": "Meningitis",
+        "tag": "Neurological Conditions",
+        "description": "Headache with fever and vomiting can indicate meningitis, a serious condition requiring urgent care."
+      },
+      {
+        "name": "Intracranial Pressure Increase",
+        "tag": "Neurological Conditions",
+        "description": "Persistent headache with vomiting may suggest increased pressure inside the skull."
+      }
+    ],
+    "moderate": [
+      {
+        "name": "Viral Infection (Influenza or COVID-19)",
+        "tag": "Infectious Diseases",
+        "description": "Common causes of headache, fever, and fatigue."
+      },
+      {
+        "name": "Bacterial Sinusitis",
+        "tag": "Respiratory Conditions",
+        "description": "Headache and fever may indicate a sinus infection."
+      }
+    ],
+    "low": [
+      {
+        "name": "Tension Headache",
+        "tag": "Headaches",
+        "description": "Stress-related headaches that are usually not serious."
+      },
+      {
+        "name": "Common Cold",
+        "tag": "Respiratory Conditions",
+        "description": "Mild symptoms such as cough or sore throat."
+      }
+    ]
+  }
 }
