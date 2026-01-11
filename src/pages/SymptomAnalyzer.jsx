@@ -9,12 +9,15 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import rules from "@/data/symptomRules.json";
 import suggestedConditions from "@/data/suggestedConditions.json";
 
 /* ---------------- COMPONENT ---------------- */
 
 export default function SymptomAnalyzer() {
+  const { t } = useTranslation();
+
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -28,7 +31,6 @@ export default function SymptomAnalyzer() {
     const text = input.toLowerCase().trim();
     const words = text.split(/\s+/);
 
-    /* ---------------- BASIC STRUCTURE ---------------- */
     if (words.length < 4) return false;
 
     const medicalKeywords = Object.keys(rules.symptomScores);
@@ -65,49 +67,32 @@ export default function SymptomAnalyzer() {
     let meaningfulWordCount = 0;
 
     for (const word of words) {
-      // Remove punctuation
       const clean = word.replace(/[^a-z]/gi, "");
-
       if (!clean) continue;
 
-      // Count medical keywords
       if (medicalKeywords.some((k) => clean.includes(k))) {
         medicalWordCount++;
         meaningfulWordCount++;
         continue;
       }
 
-      // Ignore stop words
-      if (STOP_WORDS.has(clean)) {
-        continue;
-      }
+      if (STOP_WORDS.has(clean)) continue;
 
-      // Reject long consonant garbage words
       const hasVowel = /[aeiou]/i.test(clean);
       if (!hasVowel && clean.length > 4) {
         unknownWordCount++;
         continue;
       }
 
-      // Count meaningful natural words
       meaningfulWordCount++;
     }
-
-    /* ---------------- RATIO CHECKS ---------------- */
 
     const medicalRatio = medicalWordCount / words.length;
     const unknownRatio = unknownWordCount / words.length;
 
-    /*
-    Thresholds tuned for:
-    - Rural English
-    - Hinglish
-    - Typing mistakes
-  */
-
-    if (medicalRatio < 0.25) return false; // At least 25% medical intent
-    if (unknownRatio > 0.4) return false; // Too much gibberish
-    if (meaningfulWordCount < 2) return false; // Needs at least 2 real words
+    if (medicalRatio < 0.25) return false;
+    if (unknownRatio > 0.4) return false;
+    if (meaningfulWordCount < 2) return false;
 
     return true;
   };
@@ -183,21 +168,21 @@ export default function SymptomAnalyzer() {
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-bold text-center text-gray-900">
-          Symptom Analyzer
+          {t("SymptomAnalyzer.title")}
         </h1>
 
         <p className="text-center text-gray-600 mt-2 text-lg">
-          Describe how you're feeling and we'll suggest which conditions to
-          check
+          {t("SymptomAnalyzer.subtitle")}
         </p>
 
         {/* How it works */}
         <div className="mt-8 rounded-xl border border-blue-200 bg-blue-50 px-5 py-3 flex gap-3">
           <Info className="w-5 h-5 text-blue-600 mt-0.5" />
           <p className="text-blue-800 text-sm">
-            <span className="font-medium block mb-1">How it works</span>
-            Describe your symptoms in your own words. Our system analyzes them
-            and suggests relevant health checks.
+            <span className="font-medium block mb-1">
+              {t("SymptomAnalyzer.howItWorks.title")}
+            </span>
+            {t("SymptomAnalyzer.howItWorks.description")}
           </p>
         </div>
 
@@ -206,7 +191,7 @@ export default function SymptomAnalyzer() {
           <div className="flex items-center gap-2 mb-2">
             <Sparkles className="w-5 h-5 text-purple-500" />
             <h2 className="font-semibold text-gray-900">
-              Describe Your Symptoms
+              {t("SymptomAnalyzer.inputTitle")}
             </h2>
           </div>
 
@@ -217,7 +202,7 @@ export default function SymptomAnalyzer() {
               onChange={handleTextChange}
               onKeyDown={handleKeyDown}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 pr-14 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none overflow-hidden transition"
-              placeholder="Example: Headache and fever since last 2 days"
+              placeholder={t("SymptomAnalyzer.placeholder")}
             />
 
             {charCount >= MIN_CHARS && (
@@ -239,7 +224,7 @@ export default function SymptomAnalyzer() {
               charCount < MIN_CHARS ? "text-red-500" : "text-green-600"
             }`}
           >
-            {charCount}/{MIN_CHARS} characters minimum
+            {charCount}/{MIN_CHARS} {t("SymptomAnalyzer.minChars")}
           </p>
 
           <button
@@ -253,7 +238,7 @@ export default function SymptomAnalyzer() {
               }
             `}
           >
-            {loading ? "Analyzing..." : "Analyze My Symptoms"}
+            {loading ? t("SymptomAnalyzer.loading") : t("SymptomAnalyzer.cta")}
             {!loading && <Search className="w-4 h-4" />}
           </button>
         </div>
