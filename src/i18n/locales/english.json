@@ -135,5 +135,36 @@
     "title": "Take Control of Your Health Today",
     "subtitle": "Start your health assessment in just 2 minutes",
     "cta": "Begin Assessment"
+  },
+  
+  
+  "SymptomAnalyzer": {
+    "title": "Symptom Analyzer",
+    "subtitle": "Describe how you're feeling and we'll suggest which conditions to check",
+
+    "howItWorks": {
+      "title": "How it works",
+      "description": "Describe your symptoms in your own words. Our system analyzes them and suggests relevant health checks."
+    },
+
+    "inputTitle": "Describe Your Symptoms",
+    "placeholder": "Example: headache and fever since last 2 days",
+
+    "minChars": "characters minimum",
+
+    "cta": "Analyze My Symptoms",
+    "loading": "Analyzing...",
+
+    "invalid": {
+      "title": "Input unclear",
+      "message": "We couldn’t understand your symptoms clearly."
+    },
+
+    "actions": {
+      "symptomChecker": "Go to Symptom Checker →",
+      "findClinics": "Find Nearby Clinics"
+    }
   }
+
+
 }

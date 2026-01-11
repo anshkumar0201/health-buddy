@@ -25,24 +25,96 @@ export default function SymptomAnalyzer() {
 
   /* ---------- Production-level input validation ---------- */
   const isMeaningfulInput = (input) => {
-    const words = input.trim().split(/\s+/);
+    const text = input.toLowerCase().trim();
+    const words = text.split(/\s+/);
 
+    /* ---------------- BASIC STRUCTURE ---------------- */
     if (words.length < 4) return false;
 
-    const hasMedicalKeyword = Object.keys(rules.symptomScores).some((k) =>
-      input.includes(k)
-    );
+    const medicalKeywords = Object.keys(rules.symptomScores);
 
-    const onlyLetters = /^[a-z\s]+$/i.test(input);
-    const hasVowels = /[aeiou]/i.test(input);
+    const STOP_WORDS = new Set([
+      "and",
+      "or",
+      "but",
+      "since",
+      "for",
+      "from",
+      "with",
+      "without",
+      "last",
+      "days",
+      "see",
+      "feeling",
+      "having",
+      "pain",
+      "problem",
+      "is",
+      "am",
+      "are",
+      "was",
+      "were",
+      "been",
+      "to",
+      "of",
+      "in",
+    ]);
 
-    return hasMedicalKeyword && hasVowels && onlyLetters;
+    let medicalWordCount = 0;
+    let unknownWordCount = 0;
+    let meaningfulWordCount = 0;
+
+    for (const word of words) {
+      // Remove punctuation
+      const clean = word.replace(/[^a-z]/gi, "");
+
+      if (!clean) continue;
+
+      // Count medical keywords
+      if (medicalKeywords.some((k) => clean.includes(k))) {
+        medicalWordCount++;
+        meaningfulWordCount++;
+        continue;
+      }
+
+      // Ignore stop words
+      if (STOP_WORDS.has(clean)) {
+        continue;
+      }
+
+      // Reject long consonant garbage words
+      const hasVowel = /[aeiou]/i.test(clean);
+      if (!hasVowel && clean.length > 4) {
+        unknownWordCount++;
+        continue;
+      }
+
+      // Count meaningful natural words
+      meaningfulWordCount++;
+    }
+
+    /* ---------------- RATIO CHECKS ---------------- */
+
+    const medicalRatio = medicalWordCount / words.length;
+    const unknownRatio = unknownWordCount / words.length;
+
+    /*
+    Thresholds tuned for:
+    - Rural English
+    - Hinglish
+    - Typing mistakes
+  */
+
+    if (medicalRatio < 0.25) return false; // At least 25% medical intent
+    if (unknownRatio > 0.4) return false; // Too much gibberish
+    if (meaningfulWordCount < 2) return false; // Needs at least 2 real words
+
+    return true;
   };
 
   const analyzeSymptoms = () => {
     if (!text.trim() || charCount < MIN_CHARS) return;
 
-    /* ---------- INVALID INPUT → SIMPLE ORANGE WARNING ---------- */
     if (!isMeaningfulInput(text.toLowerCase())) {
       setResult({
         isInvalidInput: true,
@@ -51,10 +123,6 @@ export default function SymptomAnalyzer() {
         description: "We couldn’t understand your symptoms clearly.",
         conditions: [],
       });
-
-      // 🔐 FAIL-SAFE: clear invalid/random input
-      setText("");
-
       return;
     }
 
@@ -93,7 +161,6 @@ export default function SymptomAnalyzer() {
   };
 
   const handleKeyDown = (e) => {
-    // Desktop: Enter submits when valid
     if (
       e.key === "Enter" &&
       !e.shiftKey &&
@@ -148,12 +215,11 @@ export default function SymptomAnalyzer() {
               rows={2}
               value={text}
               onChange={handleTextChange}
-              onKeyDown={handleKeyDown} // ✅ ADD THIS
+              onKeyDown={handleKeyDown}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 pr-14 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none overflow-hidden transition"
-              placeholder="Example: headache and fever since last 2 days"
+              placeholder="Example: Headache and fever since last 2 days"
             />
 
-            {/* Clear button */}
             {charCount >= MIN_CHARS && (
               <button
                 type="button"
@@ -161,7 +227,7 @@ export default function SymptomAnalyzer() {
                   setText("");
                   setResult(null);
                 }}
-                className="absolute top-2 right-2 px-2 py-1 text-xs rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
+                className="absolute top-2 right-2 px-2 py-1 text-xs rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition cursor-pointer"
               >
                 Clear
               </button>
@@ -195,7 +261,6 @@ export default function SymptomAnalyzer() {
         {/* RESULTS */}
         {result && (
           <>
-            {/* INVALID INPUT → ONLY ORANGE WARNING */}
             {result.isInvalidInput ? (
               <div className="mt-10 rounded-xl border border-yellow-200 bg-yellow-50 px-5 py-4 flex gap-3 text-yellow-700">
                 <AlertCircle className="w-5 h-5 mt-0.5" />
@@ -250,7 +315,16 @@ export default function SymptomAnalyzer() {
                   {result.conditions.map((c, i) => (
                     <div
                       key={i}
-                      className="bg-white border rounded-xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 hover:shadow-xl transition"
+                      className="
+                        bg-white border rounded-xl
+                        p-4 sm:p-5
+                        shadow-sm
+                        flex flex-col sm:flex-row sm:items-center sm:justify-between
+                        gap-4
+                        cursor-pointer
+                        transition-all
+                        hover:shadow-xl hover:border-blue-300
+                      "
                     >
                       <div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -268,9 +342,19 @@ export default function SymptomAnalyzer() {
 
                       <button
                         onClick={() => navigate("/symptom-checker")}
-                        className="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-blue-700"
+                        className="
+                          inline-flex items-center justify-center gap-1.5
+                          h-9 min-w-[88px]
+                          bg-blue-600 text-white
+                          px-4 rounded-lg text-sm font-medium
+                          cursor-pointer
+                          transition
+                          hover:bg-blue-700
+                          active:scale-95
+                        "
                       >
-                        Check <ArrowRight size={14} />
+                        Check
+                        <ArrowRight size={14} />
                       </button>
                     </div>
                   ))}
@@ -286,13 +370,13 @@ export default function SymptomAnalyzer() {
                 <div className="mt-6 flex gap-4">
                   <button
                     onClick={() => navigate("/symptom-checker")}
-                    className="flex-1 bg-black text-white py-2.5 rounded-lg"
+                    className="flex-1 bg-black text-white py-2.5 rounded-lg cursor-pointer hover:bg-gray-900 transition"
                   >
                     Go to Symptom Checker →
                   </button>
                   <button
                     onClick={() => navigate("/clinics")}
-                    className="flex-1 border py-2.5 rounded-lg"
+                    className="flex-1 border py-2.5 rounded-lg cursor-pointer hover:bg-gray-50 transition"
                   >
                     Find Nearby Clinics
                   </button>
