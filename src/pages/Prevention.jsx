@@ -1,5 +1,6 @@
 import diseasesData from "@/data/diseases.json";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Shield,
   Apple,
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 
 export default function Prevention() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("general");
 
   return (
@@ -26,23 +28,28 @@ export default function Prevention() {
 
         {/* Heading */}
         <h1 className="text-3xl sm:text-4xl font-bold text-center text-gray-900">
-          Prevention & Wellness
+          {t("Prevention.title")}
         </h1>
 
         <p className="text-center text-gray-600 mt-3 text-lg">
-          Simple steps for a healthier life and disease prevention
+          {t("Prevention.subtitle")}
         </p>
 
         {/* Tabs */}
         <div className="mt-10 max-w-3xl mx-auto">
-          <div className="relative bg-gray-100 rounded-xl p-1 flex">
+          <div className="relative bg-gray-200 rounded-xl p-1 flex overflow-hidden">
             <div
-              className="absolute top-1 left-1 w-1/2 h-[calc(100%-8px)]
-              bg-white rounded-lg shadow transition-transform duration-300"
+              className="
+                absolute inset-y-1
+                left-1
+                w-[calc(50%-4px)]
+                bg-white rounded-lg shadow
+                transition-transform duration-300
+              "
               style={{
                 transform:
                   activeTab === "general"
-                    ? "translateX(0%)"
+                    ? "translateX(0)"
                     : "translateX(100%)",
               }}
             />
@@ -50,27 +57,27 @@ export default function Prevention() {
             <button
               onClick={() => setActiveTab("general")}
               className={`relative z-10 w-1/2 py-3 text-sm font-medium cursor-pointer transition
-    ${
-      activeTab === "general"
-        ? "text-gray-900"
-        : "text-gray-500 hover:text-gray-700"
-    }
-  `}
+                ${
+                  activeTab === "general"
+                    ? "text-gray-900"
+                    : "text-gray-500 hover:text-gray-700"
+                }
+              `}
             >
-              General Health Tips
+              {t("Prevention.tabs.general")}
             </button>
 
             <button
               onClick={() => setActiveTab("disease")}
               className={`relative z-10 w-1/2 py-3 text-sm font-medium cursor-pointer transition
-    ${
-      activeTab === "disease"
-        ? "text-gray-900"
-        : "text-gray-500 hover:text-gray-700"
-    }
-  `}
+                ${
+                  activeTab === "disease"
+                    ? "text-gray-900"
+                    : "text-gray-500 hover:text-gray-700"
+                }
+              `}
             >
-              Disease-Specific Prevention
+              {t("Prevention.tabs.disease")}
             </button>
           </div>
         </div>
@@ -81,7 +88,7 @@ export default function Prevention() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
               <Card
                 icon={<Apple />}
-                title="Nutrition"
+                title={t("Prevention.generalCards.nutrition")}
                 color="bg-green-500"
                 tips={[
                   "Eat a balanced diet rich in fruits and vegetables",
@@ -95,7 +102,7 @@ export default function Prevention() {
 
               <Card
                 icon={<Activity />}
-                title="Physical Activity"
+                title={t("Prevention.generalCards.physicalActivity")}
                 color="bg-blue-500"
                 tips={[
                   "Aim for at least 30 minutes of exercise daily",
@@ -109,7 +116,7 @@ export default function Prevention() {
 
               <Card
                 icon={<Heart />}
-                title="Mental Health"
+                title={t("Prevention.generalCards.mentalHealth")}
                 color="bg-pink-500"
                 tips={[
                   "Practice stress management techniques",
@@ -123,7 +130,7 @@ export default function Prevention() {
 
               <Card
                 icon={<Droplet />}
-                title="Hygiene"
+                title={t("Prevention.generalCards.hygiene")}
                 color="bg-cyan-500"
                 tips={[
                   "Wash hands frequently with soap for 20 seconds",
@@ -136,7 +143,7 @@ export default function Prevention() {
 
               <Card
                 icon={<Moon />}
-                title="Sleep & Rest"
+                title={t("Prevention.generalCards.sleep")}
                 color="bg-purple-500"
                 tips={[
                   "Maintain a consistent sleep schedule",
@@ -149,7 +156,7 @@ export default function Prevention() {
 
               <Card
                 icon={<Sun />}
-                title="Sun Protection"
+                title={t("Prevention.generalCards.sun")}
                 color="bg-orange-500"
                 tips={[
                   "Use sunscreen with SPF 30 or higher",
@@ -164,7 +171,6 @@ export default function Prevention() {
 
           {activeTab === "disease" && (
             <div className="animate-fade-in space-y-14">
-              {/* Group by category */}
               {Object.entries(
                 diseasesData.reduce((acc, d) => {
                   acc[d.category] = acc[d.category] || [];
@@ -173,43 +179,36 @@ export default function Prevention() {
                 }, {})
               ).map(([category, diseases]) => (
                 <section key={category}>
-                  {/* Category title */}
                   <h2 className="text-xl font-bold text-gray-900 mb-6">
                     {category}
                   </h2>
 
-                  {/* Disease cards */}
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {diseases.map((d, i) => (
                       <div
                         key={i}
                         className="
-                bg-white rounded-2xl border border-gray-200 p-6
-                shadow-sm transition-all duration-300
-                hover:shadow-xl hover:border-green-300 hover:-translate-y-1
-              "
+                          bg-white rounded-2xl border border-gray-200 p-6
+                          shadow-sm transition-all duration-300
+                          hover:shadow-xl hover:border-green-300 hover:-translate-y-1
+                        "
                       >
-                        {/* Header */}
                         <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-bold text-gray-900">
-                            {d.name}
-                          </h3>
+                          <h3 className="font-bold text-gray-900">{d.name}</h3>
                           <span className="text-xs px-2 py-0.5 rounded-2xl bg-gray-200 text-gray-600 font-bold">
                             {d.category}
                           </span>
                         </div>
 
-                        {/* Description */}
                         <p className="text-sm text-gray-600 mb-4">
                           {d.description}
                         </p>
 
-                        {/* Prevention */}
                         {d.prevention_tips?.length > 0 && (
                           <>
                             <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
                               <Shield className="w-4 h-4 text-green-500" />
-                              Prevention Tips
+                              {t("Prevention.disease.preventionTips")}
                             </p>
 
                             <ul className="space-y-2 text-sm text-gray-700">
@@ -226,7 +225,9 @@ export default function Prevention() {
 
                             {d.prevention_tips.length > 5 && (
                               <p className="mt-2 text-xs text-gray-500 italic">
-                                +{d.prevention_tips.length - 5} more tips
+                                {t("Prevention.disease.moreTips", {
+                                  count: d.prevention_tips.length - 5,
+                                })}
                               </p>
                             )}
                           </>
@@ -252,20 +253,20 @@ function Card({ icon, title, tips = [], color }) {
   return (
     <div
       className="bg-white rounded-2xl border border-gray-200 p-6
-    shadow-sm
-    transition-all duration-300
-    hover:shadow-xl
-    hover:border-blue-500
-    hover:-translate-y-1"
+        shadow-sm
+        transition-all duration-300
+        hover:shadow-xl
+        hover:border-blue-500
+        hover:-translate-y-1"
     >
       <div
         className={`w-10 h-10 rounded-xl ${color}
-        flex items-center justify-center text-white mb-4`}
+          flex items-center justify-center text-white mb-4`}
       >
         {icon}
       </div>
 
-      <h3 className="font-semibold text-gray-900 mb-4 ">{title}</h3>
+      <h3 className="font-semibold text-gray-900 mb-4">{title}</h3>
 
       <ul className="space-y-4 text-sm text-gray-600">
         {safeTips.map((tip, i) => (

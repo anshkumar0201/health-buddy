@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   AlertCircle,
   Phone,
@@ -10,11 +11,18 @@ import {
   Wind,
 } from "lucide-react";
 
-/* ---------- Helpers ---------- */
+/* ---------- Icons ---------- */
 
-const toSlug = (title) => title.toLowerCase().replace(/\s+/g, "-");
+const ICONS = {
+  droplet: Droplet,
+  flame: Flame,
+  brain: Brain,
+  heart: HeartPulse,
+  wind: Wind,
+  zap: Zap,
+};
 
-/* ---------- Data ---------- */
+/* ---------- Helplines ---------- */
 
 const helplines = [
   { number: "108", label: "Ambulance" },
@@ -23,93 +31,13 @@ const helplines = [
   { number: "112", label: "National Emergency" },
 ];
 
-const urgencyStyles = {
-  urgent: {
-    base: "bg-orange-100 text-orange-600",
-    hover: "hover:bg-orange-200 hover:text-orange-700",
-  },
-  critical: {
-    base: "bg-red-100 text-red-600",
-    hover: "hover:bg-red-200 hover:text-red-700",
-  },
-};
-
-const emergencies = [
-  {
-    title: "Diabetic Emergency",
-    subtitle: "Hypoglycemia / Hyperglycemia",
-    description:
-      "Low or high blood sugar can cause serious complications. Quick recognition and action is important.",
-    urgency: "urgent",
-    icon: Droplet,
-  },
-  {
-    title: "Burn Emergency",
-    subtitle: "Thermal Burns",
-    description:
-      "Serious burns require immediate cooling and medical attention to prevent complications.",
-    urgency: "urgent",
-    icon: Flame,
-  },
-  {
-    title: "Severe Bleeding Control",
-    subtitle: "Hemorrhage",
-    description:
-      "Severe bleeding can be life-threatening. Quick action to stop bleeding is crucial.",
-    urgency: "urgent",
-    icon: Droplet,
-  },
-  {
-    title: "Seizure Emergency",
-    subtitle: "Epileptic Seizure",
-    description:
-      "During a seizure, the person may shake, lose consciousness, or become confused.",
-    urgency: "urgent",
-    icon: Brain,
-  },
-  {
-    title: "Heart Attack Emergency",
-    subtitle: "Myocardial Infarction",
-    description:
-      "A heart attack occurs when blood flow to the heart is blocked. Every second counts.",
-    urgency: "critical",
-    icon: HeartPulse,
-  },
-  {
-    title: "Stroke Emergency (FAST)",
-    subtitle: "Cerebrovascular Accident",
-    description:
-      "A stroke occurs when blood supply to the brain is interrupted. Time lost is brain lost.",
-    urgency: "critical",
-    icon: Brain,
-  },
-  {
-    title: "CPR (Cardiopulmonary Resuscitation)",
-    subtitle: "Cardiac Arrest",
-    description: "Immediate CPR can double or triple chances of survival.",
-    urgency: "critical",
-    icon: HeartPulse,
-  },
-  {
-    title: "Choking Emergency",
-    subtitle: "Airway Obstruction",
-    description: "Quick action with Heimlich maneuver can save a life.",
-    urgency: "critical",
-    icon: Wind,
-  },
-  {
-    title: "Severe Allergic Reaction (Anaphylaxis)",
-    subtitle: "Anaphylactic Shock",
-    description: "Requires immediate epinephrine injection and emergency care.",
-    urgency: "critical",
-    icon: Zap,
-  },
-];
-
 /* ---------- Component ---------- */
 
 export default function Emergency() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const emergencies = t("Emergency.cards", { returnObjects: true });
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
@@ -123,18 +51,18 @@ export default function Emergency() {
 
         {/* Heading */}
         <h1 className="text-3xl sm:text-4xl font-bold text-center text-gray-900">
-          Emergency Response Guide
+          {t("Emergency.title")}
         </h1>
 
         <p className="text-center text-gray-600 mt-3 text-lg">
-          Critical first-aid procedures and immediate response steps
+          {t("Emergency.subtitle")}
         </p>
 
         {/* Helplines */}
         <div className="mt-10 max-w-4xl mx-auto bg-red-50 border border-red-200 rounded-xl p-5">
           <p className="text-sm font-semibold text-red-700 mb-3 flex items-center gap-2">
             <Phone className="w-4 h-4" />
-            Emergency Helplines — Save These Numbers
+            {t("Emergency.helplinesTitle")}
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -142,7 +70,7 @@ export default function Emergency() {
               <a
                 key={h.number}
                 href={`tel:${h.number}`}
-                className="group bg-red-600 text-white rounded-lg py-3 text-center
+                className="bg-red-600 text-white rounded-lg py-3 text-center
                            shadow transition-all duration-300 cursor-pointer
                            hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5"
               >
@@ -156,53 +84,43 @@ export default function Emergency() {
         {/* Emergency Cards */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {emergencies.map((e) => {
-            const Icon = e.icon;
-            const slug = toSlug(e.title);
+            const Icon = ICONS[e.icon] || AlertCircle;
 
             return (
               <div
-                key={slug}
-                onClick={() => navigate(`/emergency/${slug}`)}
+                key={e.id}
+                onClick={() => navigate(`/emergency/${e.id}`)}
                 className="group bg-white rounded-2xl border border-gray-200
                            shadow-sm transition-all duration-300 cursor-pointer
-                           hover:shadow-xl hover:-translate-y-1
-                           flex flex-col overflow-hidden"
+                           hover:shadow-xl hover:-translate-y-1 overflow-hidden"
               >
                 <div className="h-1 bg-red-600 w-full" />
 
-                <div className="p-6 flex flex-col flex-1">
+                <div className="p-6">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <Icon className="w-5 h-5 text-red-600" />
-                      <h3 className="font-bold text-gray-900 group-hover:text-red-600">
-                        {e.title}
-                      </h3>
+                      <h3 className="font-bold text-gray-900">{e.title}</h3>
                     </div>
 
-                    <span
-                      className={`text-xs px-2 py-0.5 rounded-2xl font-semibold
-                        ${urgencyStyles[e.urgency].base}
-                        ${urgencyStyles[e.urgency].hover}`}
-                    >
-                      {e.urgency}
+                    <span className="text-xs px-2 py-0.5 rounded-2xl font-semibold bg-red-100 text-red-600">
+                      {t(`Emergency.urgency.${e.urgency}`)}
                     </span>
                   </div>
 
                   <p className="text-xs text-gray-500 mb-2">{e.subtitle}</p>
-                  <p className="text-sm text-gray-600 line-clamp-2 mb-6">
-                    {e.description}
-                  </p>
+                  <p className="text-sm text-gray-600 mb-6">{e.description}</p>
 
                   <button
                     onClick={(ev) => {
                       ev.stopPropagation();
-                      navigate(`/emergency/${slug}`);
+                      navigate(`/emergency/${e.id}`);
                     }}
-                    className="mt-auto w-full py-2 rounded-lg text-sm font-medium cursor-pointer
-             border border-gray-200 transition-all duration-300
-             group-hover:bg-red-600 group-hover:text-white"
+                    className="w-full py-2 rounded-lg text-sm font-medium
+                               border border-gray-200 transition-all cursor-pointer
+                               group-hover:bg-red-600 group-hover:text-white"
                   >
-                    View Emergency Guide →
+                    {t("Emergency.viewGuide")}
                   </button>
                 </div>
               </div>

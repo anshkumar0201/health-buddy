@@ -1,21 +1,24 @@
 import { MapPin, Search, ExternalLink } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 /* ---------------- Quick search config ---------------- */
 
 const QUICK_SEARCHES = [
-  { emoji: "🏥", label: "Hospitals Near Me", query: "Hospital" },
-  { emoji: "🩺", label: "Clinics Near Me", query: "Clinic" },
-  { emoji: "🏛️", label: "Government Hospitals", query: "Government hospital" },
-  { emoji: "🏫", label: "Primary Health Centers", query: "Primary health center" },
-  { emoji: "🚑", label: "24/7 Emergency", query: "Emergency hospital" },
-  { emoji: "💊", label: "Pharmacies", query: "Pharmacy" },
-  { emoji: "🔬", label: "Diagnostic Labs", query: "Diagnostic laboratory" },
-  { emoji: "👁️", label: "Eye Clinics", query: "Eye clinic" },
-  { emoji: "🦷", label: "Dental Clinics", query: "Dental clinic" },
-  { emoji: "👶", label: "Maternity Hospitals", query: "Maternity hospital" },
+  { key: "hospitals", emoji: "🏥", query: "Hospital" },
+  { key: "clinics", emoji: "🩺", query: "Clinic" },
+  { key: "govtHospitals", emoji: "🏛️", query: "Government hospital" },
+  { key: "phc", emoji: "🏫", query: "Primary health center" },
+  { key: "emergency247", emoji: "🚑", query: "Emergency hospital" },
+  { key: "pharmacy", emoji: "💊", query: "Pharmacy" },
+  { key: "labs", emoji: "🔬", query: "Diagnostic laboratory" },
+  { key: "eye", emoji: "👁️", query: "Eye clinic" },
+  { key: "dental", emoji: "🦷", query: "Dental clinic" },
+  { key: "maternity", emoji: "👶", query: "Maternity hospital" },
 ];
 
 export default function FindClinics() {
+  const { t } = useTranslation();
+
   const openMaps = (query) => {
     const url = `https://www.google.com/maps/search/${encodeURIComponent(
       `${query} near me`
@@ -26,7 +29,6 @@ export default function FindClinics() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
       <div className="max-w-5xl mx-auto px-4 text-center">
-
         {/* Icon */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-2xl bg-orange-500 flex items-center justify-center shadow-lg">
@@ -36,21 +38,20 @@ export default function FindClinics() {
 
         {/* Heading */}
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-          Find Nearby Clinics
+          {t("FindClinics.title")}
         </h1>
 
         <p className="text-gray-600 mt-3 text-lg">
-          Search for healthcare facilities near your location using Google Maps
+          {t("FindClinics.subtitle")}
         </p>
 
         {/* Location Found */}
         <div className="mt-8 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-left max-w-2xl mx-auto">
           <p className="text-green-800 font-medium flex items-center gap-2">
-            📍 Location Found
+            📍 {t("FindClinics.locationFound.title")}
           </p>
           <p className="text-green-700 text-sm mt-1">
-            Your location has been detected. Click any option below to find
-            nearby facilities.
+            {t("FindClinics.locationFound.description")}
           </p>
         </div>
 
@@ -67,22 +68,22 @@ export default function FindClinics() {
             "
           >
             <Search className="w-5 h-5" />
-            Search All Healthcare Facilities Near Me
+            {t("FindClinics.primaryCTA")}
             <ExternalLink className="w-4 h-4 opacity-80" />
           </button>
         </div>
 
         {/* Quick Search */}
         <h2 className="mt-14 text-lg font-bold text-gray-900">
-          Quick Search
+          {t("FindClinics.quickSearch")}
         </h2>
 
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           {QUICK_SEARCHES.map((item) => (
             <QuickCard
-              key={item.label}
+              key={item.key}
               emoji={item.emoji}
-              label={item.label}
+              label={t(`FindClinics.quick.${item.key}`)}
               onClick={() => openMaps(item.query)}
             />
           ))}
@@ -91,17 +92,26 @@ export default function FindClinics() {
         {/* Emergency */}
         <div className="mt-14 max-w-3xl mx-auto rounded-2xl border border-red-200 bg-red-50 p-6 text-left">
           <div className="flex items-center gap-2 text-red-700 font-semibold mb-4 text-lg">
-            🚨 Emergency Services
+            🚨 {t("FindClinics.emergency.title")}
           </div>
 
           <p className="text-red-700 text-sm mb-4">
-            In case of emergency, call these helplines immediately:
+            {t("FindClinics.emergency.description")}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-            <EmergencyBadge label="108 – Ambulance" phone="108" />
-            <EmergencyBadge label="104 – Health Helpline" phone="104" />
-            <EmergencyBadge label="102 – Emergency" phone="102" />
+            <EmergencyBadge
+              label={t("FindClinics.emergency.ambulance")}
+              phone="108"
+            />
+            <EmergencyBadge
+              label={t("FindClinics.emergency.healthHelpline")}
+              phone="104"
+            />
+            <EmergencyBadge
+              label={t("FindClinics.emergency.emergency")}
+              phone="102"
+            />
           </div>
 
           <button
@@ -114,7 +124,7 @@ export default function FindClinics() {
             "
           >
             <MapPin className="w-4 h-4" />
-            Find Emergency Hospital Near Me
+            {t("FindClinics.emergency.findNearby")}
           </button>
         </div>
       </div>
@@ -139,31 +149,16 @@ function QuickCard({ emoji, label, onClick }) {
         focus:outline-none
       "
     >
-      {/* Emoji Icon */}
-      <div
-        className="
-          text-4xl leading-none
-          transition-transform duration-300
-          group-hover:scale-110 group-hover:-translate-y-1
-        "
-      >
+      <div className="text-4xl leading-none transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1">
         {emoji}
       </div>
 
-      {/* Label */}
-      <span
-        className="
-          text-gray-700 text-center
-          transition-colors duration-300
-          group-hover:text-blue-600
-        "
-      >
+      <span className="text-gray-700 text-center transition-colors duration-300 group-hover:text-blue-600">
         {label}
       </span>
     </button>
   );
 }
-
 
 function EmergencyBadge({ label, phone }) {
   return (
@@ -180,13 +175,7 @@ function EmergencyBadge({ label, phone }) {
         cursor-pointer
       "
     >
-      <span
-        className="
-          text-lg
-          transition-transform duration-300
-          group-hover:scale-110
-        "
-      >
+      <span className="text-lg transition-transform duration-300 group-hover:scale-110">
         📞
       </span>
       {label}
