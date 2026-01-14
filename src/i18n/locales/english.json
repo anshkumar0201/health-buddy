@@ -2472,12 +2472,8 @@
           ]
         }
       },
-      "jaundice":{
-
-      },
-      "food-poisoning":{
-
-      },
+      "jaundice": {},
+      "food-poisoning": {},
 
       "constipation": {
         "title": "Constipation",
@@ -4063,1783 +4059,1734 @@
           ]
         }
       },
-      "depression":{
-
-      },
-      "anxiety-disorder":{
+      "depression": {},
+      "anxiety-disorder": {},
+      "insomnia": {},
+      "acne": {},
+      "eczema": {},
+      "psoriasis": {},
+      "skin-cancer-melanoma": {},
+      "glaucoma": {},
+      "cataracts": {},
+      "conjunctivitis": {},
+      "breast-cancer": {},
+      "colorectal-cancer": {},
+      "prostate-cancer": {},
+      "liver-cancer": {},
+      "pancreatic-cancer": {},
+      "leukemia": {},
+      "lymphoma": {},
+      "brain-cancer": {},
+      "ovarian-cancer": {},
+      "cervical-cancer": {},
+      "thyroid-cancer": {},
+      "kidney-cancer": {},
+      "bladder-cancer": {},
+      "oral-cancer": {},
+      "anemia": {},
+      "urinary-tract-infection": {}
     },
-    "insomnia":{
+    "AssessmentResult": {
+      "assessment": "Assessment",
+      "completedOn": "Completed on",
+      "riskAssessment": "Risk Assessment",
+      "score": "Score:",
+      "recommendations": "Recommendations",
+      "generalAdvice": "Follow general preventive health measures and consult a healthcare professional if symptoms persist.",
 
-    },
-    "acne":{
-    },
-    "eczema":{
-
-    },
-    "psoriasis":{
-
-    },
-    "skin-cancer-melanoma":{
-
-    },
-    "glaucoma":{
-
-    },
-      "cataracts":{
-
+      "riskLevels": {
+        "low": "LOW RISK",
+        "moderate": "MODERATE RISK",
+        "high": "HIGH RISK"
       },
-      "conjunctivitis":{
 
+      "emergency": {
+        "title": "Emergency Symptom Detected",
+        "message": "One or more of your answers indicate a potentially life-threatening condition. Please seek immediate medical attention or contact emergency services."
       },
-      "breast-cancer":{
 
+      "nextSteps": {
+        "emergency": "This is a medical emergency. Please seek immediate care or call emergency services.",
+        "high": "Immediate medical consultation is strongly advised.",
+        "low": "Continue monitoring your health and maintain healthy habits."
       },
-      "colorectal-cancer":{
 
-      },
-      "prostate-cancer":{
+      "disclaimer": "Disclaimer: This assessment is informational only and does not constitute medical advice, diagnosis, or treatment.",
 
-      },
-      "liver-cancer":{
-
-      },
-      "pancreatic-cancer":{
-
-      },
-      "leukemia":{
-
-      },
-      "lymphoma":{
-
-      },
-      "brain-cancer":{
-
-      },
-      "ovarian-cancer":{
-
-      },
-      "cervical-cancer":{
-
-      },
-      "thyroid-cancer":{
-
-      },
-      "kidney-cancer":{
-
-      },
-      "bladder-cancer":{
-
-      },
-      "oral-cancer":{
-
-      },
-      "anemia":{
-
-      },
-      "urinary-tract-infection":{
-
+      "actions": {
+        "newAssessment": "New Assessment",
+        "download": "Download PDF",
+        "findClinics": "Find Clinics"
       }
-  },
-  "AssessmentResult": {
-    "assessment": "Assessment",
-    "completedOn": "Completed on",
-    "riskAssessment": "Risk Assessment",
-    "score": "Score:",
-    "recommendations": "Recommendations",
-    "generalAdvice": "Follow general preventive health measures and consult a healthcare professional if symptoms persist.",
-
-    "riskLevels": {
-      "low": "LOW RISK",
-      "moderate": "MODERATE RISK",
-      "high": "HIGH RISK"
     },
+    "Diseases": {
+      "title": "Disease Information Hub",
+      "subtitle": "Learn about common diseases, their symptoms, causes, and prevention",
+      "searchPlaceholder": "Search diseases...",
+      "commonSymptoms": "Common Symptoms:",
+      "learnMore": "Learn More",
+      "more": "more",
 
-    "emergency": {
-      "title": "Emergency Symptom Detected",
-      "message": "One or more of your answers indicate a potentially life-threatening condition. Please seek immediate medical attention or contact emergency services."
-    },
-
-    "nextSteps": {
-      "emergency": "This is a medical emergency. Please seek immediate care or call emergency services.",
-      "high": "Immediate medical consultation is strongly advised.",
-      "low": "Continue monitoring your health and maintain healthy habits."
-    },
-
-    "disclaimer": "Disclaimer: This assessment is informational only and does not constitute medical advice, diagnosis, or treatment.",
-
-    "actions": {
-      "newAssessment": "New Assessment",
-      "download": "Download PDF",
-      "findClinics": "Find Clinics"
-    }
-  },
-  "Diseases": {
-    "title": "Disease Information Hub",
-    "subtitle": "Learn about common diseases, their symptoms, causes, and prevention",
-    "searchPlaceholder": "Search diseases...",
-    "commonSymptoms": "Common Symptoms:",
-    "learnMore": "Learn More",
-    "more": "more",
-
-    "categories": {
-      "all": "All Diseases",
-      "cardiovascular": "Cardiovascular",
-      "respiratory": "Respiratory",
-      "metabolic": "Metabolic",
-      "musculoskeletal": "Musculoskeletal",
-      "neurological": "Neurological",
-      "infectious": "Infectious",
-      "mentalHealth": "Mental Health",
-      "digestive": "Digestive",
-      "skin": "Skin",
-      "eye": "Eye",
-      "other": "Other"
-    }
-  },
-  "Prevention": {
-    "title": "Prevention & Wellness",
-    "subtitle": "Simple steps for a healthier life and disease prevention",
-
-    "tabs": {
-      "general": "General Health Tips",
-      "disease": "Disease-Specific Prevention"
-    },
-
-    "generalCards": {
-      "nutrition": "Nutrition",
-      "physicalActivity": "Physical Activity",
-      "mentalHealth": "Mental Health",
-      "hygiene": "Hygiene",
-      "sleep": "Sleep & Rest",
-      "sun": "Sun Protection"
-    },
-
-    "disease": {
-      "preventionTips": "Prevention Tips",
-      "moreTips": "+{{count}} more tips"
-    }
-  },
-  "FindClinics": {
-    "title": "Find Nearby Clinics",
-    "subtitle": "Search for healthcare facilities near your location using Google Maps",
-
-    "locationFound": {
-      "title": "Location Found",
-      "description": "Your location has been detected. Click any option below to find nearby facilities."
-    },
-
-    "primaryCTA": "Search All Healthcare Facilities Near Me",
-
-    "quickSearch": "Quick Search",
-    "quick": {
-      "hospitals": "Hospitals Near Me",
-      "clinics": "Clinics Near Me",
-      "govtHospitals": "Government Hospitals",
-      "phc": "Primary Health Centers",
-      "emergency247": "24/7 Emergency",
-      "pharmacy": "Pharmacies",
-      "labs": "Diagnostic Labs",
-      "eye": "Eye Clinics",
-      "dental": "Dental Clinics",
-      "maternity": "Maternity Hospitals"
-    },
-
-    "emergency": {
-      "title": "Emergency Services",
-      "description": "In case of emergency, call these helplines immediately:",
-      "ambulance": "108 – Ambulance",
-      "healthHelpline": "104 – Health Helpline",
-      "emergency": "102 – Emergency",
-      "findNearby": "Find Emergency Hospital Near Me"
-    }
-  },
-
-  "Emergency": {
-    "title": "Emergency Response Guide",
-    "subtitle": "Critical first-aid procedures and immediate response steps",
-
-    "helplinesTitle": "Emergency Helplines — Save These Numbers",
-
-    "urgency": {
-      "urgent": "urgent",
-      "critical": "critical"
-    },
-
-    "viewGuide": "View Emergency Guide →",
-
-    "cards": [
-      {
-        "id": "diabetic-emergency",
-        "title": "Diabetic Emergency",
-        "subtitle": "Hypoglycemia / Hyperglycemia",
-        "description": "Low or high blood sugar can cause serious complications. Quick recognition and action is important.",
-        "urgency": "urgent",
-        "icon": "droplet"
-      },
-      {
-        "id": "burn-emergency",
-        "title": "Burn Emergency",
-        "subtitle": "Thermal Burns",
-        "description": "Serious burns require immediate cooling and medical attention to prevent complications.",
-        "urgency": "urgent",
-        "icon": "flame"
-      },
-      {
-        "id": "seizure-emergency",
-        "title": "Seizure Emergency",
-        "subtitle": "Epileptic Seizure",
-        "description": "During a seizure, the person may shake, lose consciousness, or become confused.",
-        "urgency": "urgent",
-        "icon": "brain"
-      },
-      {
-        "id": "heart-attack",
-        "title": "Heart Attack Emergency",
-        "subtitle": "Myocardial Infarction",
-        "description": "A heart attack occurs when blood flow to the heart is blocked. Every second counts.",
-        "urgency": "critical",
-        "icon": "heart"
-      },
-      {
-        "id": "stroke",
-        "title": "Stroke Emergency (FAST)",
-        "subtitle": "Cerebrovascular Accident",
-        "description": "A stroke occurs when blood supply to the brain is interrupted. Time lost is brain lost.",
-        "urgency": "critical",
-        "icon": "brain"
-      },
-      {
-        "id": "cpr",
-        "title": "CPR (Cardiopulmonary Resuscitation)",
-        "subtitle": "Cardiac Arrest",
-        "description": "Immediate CPR can double or triple chances of survival.",
-        "urgency": "critical",
-        "icon": "heart"
-      },
-      {
-        "id": "choking",
-        "title": "Choking Emergency",
-        "subtitle": "Airway Obstruction",
-        "description": "Quick action with Heimlich maneuver can save a life.",
-        "urgency": "critical",
-        "icon": "wind"
-      },
-      {
-        "id": "anaphylaxis",
-        "title": "Severe Allergic Reaction (Anaphylaxis)",
-        "subtitle": "Anaphylactic Shock",
-        "description": "Requires immediate epinephrine injection and emergency care.",
-        "urgency": "critical",
-        "icon": "zap"
+      "categories": {
+        "all": "All Diseases",
+        "cardiovascular": "Cardiovascular",
+        "respiratory": "Respiratory",
+        "metabolic": "Metabolic",
+        "musculoskeletal": "Musculoskeletal",
+        "neurological": "Neurological",
+        "infectious": "Infectious",
+        "mentalHealth": "Mental Health",
+        "digestive": "Digestive",
+        "skin": "Skin",
+        "eye": "Eye",
+        "other": "Other"
       }
-    ]
-  },
-  "EmergencyDetails": {
-    "EmergencyUI": {
-      "back": "Back to Emergency Guides",
-      "callFirst": "Call Emergency Services First.",
-      "dial": "Dial",
-      "about": "About This Emergency",
-      "recognize": "How to Recognize",
-      "steps": "Immediate Action Steps",
-      "do": "DO",
-      "dont": "DON'T"
     },
-    "diabetic-emergency": {
-      "about": "Low or high blood sugar can cause serious complications. Quick recognition and action is important.",
-      "recognize": [
-        "Confusion or unusual behavior",
-        "Shakiness or trembling",
-        "Excessive sweating",
-        "Weakness or dizziness",
-        "Rapid heartbeat",
-        "Loss of consciousness"
-      ],
-      "steps": [
-        "Check blood sugar if glucometer available",
-        "If LOW sugar: Give sugar immediately (juice, candy, glucose tablets)",
-        "Have person sit or lie down",
-        "Give 15 grams of fast-acting carbs",
-        "Recheck in 15 minutes",
-        "If HIGH sugar: Offer water, call doctor",
-        "Call 108 if unconscious or having seizure"
-      ],
-      "dos": [
-        "Give sugar for low blood sugar",
-        "Have person rest",
-        "Monitor their condition",
-        "Call emergency if unconscious",
-        "Keep them warm"
-      ],
-      "donts": [
-        "Don’t give insulin without guidance",
-        "Don’t give unconscious person food or drink",
-        "Don’t leave them alone",
-        "Don’t assume intoxication — check medical ID"
+    "Prevention": {
+      "title": "Prevention & Wellness",
+      "subtitle": "Simple steps for a healthier life and disease prevention",
+
+      "tabs": {
+        "general": "General Health Tips",
+        "disease": "Disease-Specific Prevention"
+      },
+
+      "generalCards": {
+        "nutrition": "Nutrition",
+        "physicalActivity": "Physical Activity",
+        "mentalHealth": "Mental Health",
+        "hygiene": "Hygiene",
+        "sleep": "Sleep & Rest",
+        "sun": "Sun Protection"
+      },
+
+      "disease": {
+        "preventionTips": "Prevention Tips",
+        "moreTips": "+{{count}} more tips"
+      }
+    },
+    "FindClinics": {
+      "title": "Find Nearby Clinics",
+      "subtitle": "Search for healthcare facilities near your location using Google Maps",
+
+      "locationFound": {
+        "title": "Location Found",
+        "description": "Your location has been detected. Click any option below to find nearby facilities."
+      },
+
+      "primaryCTA": "Search All Healthcare Facilities Near Me",
+
+      "quickSearch": "Quick Search",
+      "quick": {
+        "hospitals": "Hospitals Near Me",
+        "clinics": "Clinics Near Me",
+        "govtHospitals": "Government Hospitals",
+        "phc": "Primary Health Centers",
+        "emergency247": "24/7 Emergency",
+        "pharmacy": "Pharmacies",
+        "labs": "Diagnostic Labs",
+        "eye": "Eye Clinics",
+        "dental": "Dental Clinics",
+        "maternity": "Maternity Hospitals"
+      },
+
+      "emergency": {
+        "title": "Emergency Services",
+        "description": "In case of emergency, call these helplines immediately:",
+        "ambulance": "108 – Ambulance",
+        "healthHelpline": "104 – Health Helpline",
+        "emergency": "102 – Emergency",
+        "findNearby": "Find Emergency Hospital Near Me"
+      }
+    },
+
+    "Emergency": {
+      "title": "Emergency Response Guide",
+      "subtitle": "Critical first-aid procedures and immediate response steps",
+
+      "helplinesTitle": "Emergency Helplines — Save These Numbers",
+
+      "urgency": {
+        "urgent": "urgent",
+        "critical": "critical"
+      },
+
+      "viewGuide": "View Emergency Guide →",
+
+      "cards": [
+        {
+          "id": "diabetic-emergency",
+          "title": "Diabetic Emergency",
+          "subtitle": "Hypoglycemia / Hyperglycemia",
+          "description": "Low or high blood sugar can cause serious complications. Quick recognition and action is important.",
+          "urgency": "urgent",
+          "icon": "droplet"
+        },
+        {
+          "id": "burn-emergency",
+          "title": "Burn Emergency",
+          "subtitle": "Thermal Burns",
+          "description": "Serious burns require immediate cooling and medical attention to prevent complications.",
+          "urgency": "urgent",
+          "icon": "flame"
+        },
+        {
+          "id": "seizure-emergency",
+          "title": "Seizure Emergency",
+          "subtitle": "Epileptic Seizure",
+          "description": "During a seizure, the person may shake, lose consciousness, or become confused.",
+          "urgency": "urgent",
+          "icon": "brain"
+        },
+        {
+          "id": "heart-attack",
+          "title": "Heart Attack Emergency",
+          "subtitle": "Myocardial Infarction",
+          "description": "A heart attack occurs when blood flow to the heart is blocked. Every second counts.",
+          "urgency": "critical",
+          "icon": "heart"
+        },
+        {
+          "id": "stroke",
+          "title": "Stroke Emergency (FAST)",
+          "subtitle": "Cerebrovascular Accident",
+          "description": "A stroke occurs when blood supply to the brain is interrupted. Time lost is brain lost.",
+          "urgency": "critical",
+          "icon": "brain"
+        },
+        {
+          "id": "cpr",
+          "title": "CPR (Cardiopulmonary Resuscitation)",
+          "subtitle": "Cardiac Arrest",
+          "description": "Immediate CPR can double or triple chances of survival.",
+          "urgency": "critical",
+          "icon": "heart"
+        },
+        {
+          "id": "choking",
+          "title": "Choking Emergency",
+          "subtitle": "Airway Obstruction",
+          "description": "Quick action with Heimlich maneuver can save a life.",
+          "urgency": "critical",
+          "icon": "wind"
+        },
+        {
+          "id": "anaphylaxis",
+          "title": "Severe Allergic Reaction (Anaphylaxis)",
+          "subtitle": "Anaphylactic Shock",
+          "description": "Requires immediate epinephrine injection and emergency care.",
+          "urgency": "critical",
+          "icon": "zap"
+        }
       ]
     },
+    "EmergencyDetails": {
+      "EmergencyUI": {
+        "back": "Back to Emergency Guides",
+        "callFirst": "Call Emergency Services First.",
+        "dial": "Dial",
+        "about": "About This Emergency",
+        "recognize": "How to Recognize",
+        "steps": "Immediate Action Steps",
+        "do": "DO",
+        "dont": "DON'T"
+      },
+      "diabetic-emergency": {
+        "about": "Low or high blood sugar can cause serious complications. Quick recognition and action is important.",
+        "recognize": [
+          "Confusion or unusual behavior",
+          "Shakiness or trembling",
+          "Excessive sweating",
+          "Weakness or dizziness",
+          "Rapid heartbeat",
+          "Loss of consciousness"
+        ],
+        "steps": [
+          "Check blood sugar if glucometer available",
+          "If LOW sugar: Give sugar immediately (juice, candy, glucose tablets)",
+          "Have person sit or lie down",
+          "Give 15 grams of fast-acting carbs",
+          "Recheck in 15 minutes",
+          "If HIGH sugar: Offer water, call doctor",
+          "Call 108 if unconscious or having seizure"
+        ],
+        "dos": [
+          "Give sugar for low blood sugar",
+          "Have person rest",
+          "Monitor their condition",
+          "Call emergency if unconscious",
+          "Keep them warm"
+        ],
+        "donts": [
+          "Don’t give insulin without guidance",
+          "Don’t give unconscious person food or drink",
+          "Don’t leave them alone",
+          "Don’t assume intoxication — check medical ID"
+        ]
+      },
 
-    "burn-emergency": {
-      "about": "Serious burns require immediate cooling and medical attention to prevent complications and reduce damage.",
-      "recognize": [
-        "Charred or white skin",
-        "Burns larger than 3 inches",
-        "Burns on face, hands, joints, or genitals",
-        "Deep burns with no pain (nerve damage)",
-        "Blisters covering large area"
-      ],
-      "steps": [
-        "Remove from heat source immediately",
-        "Call 108 for severe burns",
-        "Cool burn with cool (not ice cold) running water for 10–20 minutes",
-        "Remove jewelry and tight clothing before swelling",
-        "Cover with clean, dry cloth",
-        "Do not break blisters",
-        "Elevate burned area if possible",
-        "Treat for shock — keep person warm and lying down"
-      ],
-      "dos": [
-        "Cool the burn immediately",
-        "Cover with clean cloth",
-        "Remove jewelry early",
-        "Give pain relief if needed",
-        "Seek medical care for serious burns"
-      ],
-      "donts": [
-        "Don’t apply ice directly",
-        "Don’t break blisters",
-        "Don’t apply butter, oil, or ointments",
-        "Don’t remove stuck clothing",
-        "Don’t give food or drink if severe"
-      ]
-    },
+      "burn-emergency": {
+        "about": "Serious burns require immediate cooling and medical attention to prevent complications and reduce damage.",
+        "recognize": [
+          "Charred or white skin",
+          "Burns larger than 3 inches",
+          "Burns on face, hands, joints, or genitals",
+          "Deep burns with no pain (nerve damage)",
+          "Blisters covering large area"
+        ],
+        "steps": [
+          "Remove from heat source immediately",
+          "Call 108 for severe burns",
+          "Cool burn with cool (not ice cold) running water for 10–20 minutes",
+          "Remove jewelry and tight clothing before swelling",
+          "Cover with clean, dry cloth",
+          "Do not break blisters",
+          "Elevate burned area if possible",
+          "Treat for shock — keep person warm and lying down"
+        ],
+        "dos": [
+          "Cool the burn immediately",
+          "Cover with clean cloth",
+          "Remove jewelry early",
+          "Give pain relief if needed",
+          "Seek medical care for serious burns"
+        ],
+        "donts": [
+          "Don’t apply ice directly",
+          "Don’t break blisters",
+          "Don’t apply butter, oil, or ointments",
+          "Don’t remove stuck clothing",
+          "Don’t give food or drink if severe"
+        ]
+      },
 
-    "seizure-emergency": {
-      "about": "During a seizure, the person may shake, lose consciousness, or become confused.",
-      "recognize": [
-        "Uncontrollable shaking",
-        "Loss of consciousness",
-        "Foaming at mouth",
-        "Confusion after episode",
-        "Staring spells"
-      ],
-      "steps": [
-        "Stay calm and note time",
-        "Move objects away to prevent injury",
-        "Place person on their side",
-        "Loosen tight clothing",
-        "Do not restrain movements",
-        "Call 108 if seizure lasts more than 5 minutes"
-      ],
-      "dos": [
-        "Protect head",
-        "Keep airway clear",
-        "Stay with them until recovery",
-        "Call emergency if first seizure"
-      ],
-      "donts": [
-        "Don’t put anything in mouth",
-        "Don’t restrain them",
-        "Don’t give food or drink",
-        "Don’t leave them alone"
-      ]
-    },
+      "seizure-emergency": {
+        "about": "During a seizure, the person may shake, lose consciousness, or become confused.",
+        "recognize": [
+          "Uncontrollable shaking",
+          "Loss of consciousness",
+          "Foaming at mouth",
+          "Confusion after episode",
+          "Staring spells"
+        ],
+        "steps": [
+          "Stay calm and note time",
+          "Move objects away to prevent injury",
+          "Place person on their side",
+          "Loosen tight clothing",
+          "Do not restrain movements",
+          "Call 108 if seizure lasts more than 5 minutes"
+        ],
+        "dos": [
+          "Protect head",
+          "Keep airway clear",
+          "Stay with them until recovery",
+          "Call emergency if first seizure"
+        ],
+        "donts": [
+          "Don’t put anything in mouth",
+          "Don’t restrain them",
+          "Don’t give food or drink",
+          "Don’t leave them alone"
+        ]
+      },
 
-    "heart-attack": {
-      "about": "A heart attack occurs when blood flow to the heart is blocked. Every second counts.",
-      "recognize": [
-        "Chest pain or pressure",
-        "Pain in arm, jaw, or back",
-        "Shortness of breath",
-        "Cold sweat",
-        "Nausea or dizziness"
-      ],
-      "steps": [
-        "Call 108 immediately",
-        "Have person sit and rest",
-        "Loosen tight clothing",
-        "Give aspirin if not allergic",
-        "Monitor breathing and pulse",
-        "Prepare for CPR if needed"
-      ],
-      "dos": [
-        "Act immediately",
-        "Keep person calm",
-        "Follow emergency instructions"
-      ],
-      "donts": [
-        "Don’t delay calling emergency",
-        "Don’t let them walk",
-        "Don’t give food or drink"
-      ]
-    },
+      "heart-attack": {
+        "about": "A heart attack occurs when blood flow to the heart is blocked. Every second counts.",
+        "recognize": [
+          "Chest pain or pressure",
+          "Pain in arm, jaw, or back",
+          "Shortness of breath",
+          "Cold sweat",
+          "Nausea or dizziness"
+        ],
+        "steps": [
+          "Call 108 immediately",
+          "Have person sit and rest",
+          "Loosen tight clothing",
+          "Give aspirin if not allergic",
+          "Monitor breathing and pulse",
+          "Prepare for CPR if needed"
+        ],
+        "dos": [
+          "Act immediately",
+          "Keep person calm",
+          "Follow emergency instructions"
+        ],
+        "donts": [
+          "Don’t delay calling emergency",
+          "Don’t let them walk",
+          "Don’t give food or drink"
+        ]
+      },
 
-    "stroke": {
-      "about": "A stroke occurs when blood supply to the brain is interrupted. Time lost is brain lost.",
-      "recognize": [
-        "Face drooping",
-        "Arm weakness",
-        "Speech difficulty",
-        "Sudden confusion",
-        "Vision problems"
-      ],
-      "steps": [
-        "Call 108 immediately",
-        "Note time symptoms started",
-        "Keep person comfortable",
-        "Do not give food or drink",
-        "Monitor breathing"
-      ],
-      "dos": ["Act FAST", "Seek immediate help", "Stay with the person"],
-      "donts": [
-        "Don’t delay treatment",
-        "Don’t give medication",
-        "Don’t let them sleep"
-      ]
-    },
+      "stroke": {
+        "about": "A stroke occurs when blood supply to the brain is interrupted. Time lost is brain lost.",
+        "recognize": [
+          "Face drooping",
+          "Arm weakness",
+          "Speech difficulty",
+          "Sudden confusion",
+          "Vision problems"
+        ],
+        "steps": [
+          "Call 108 immediately",
+          "Note time symptoms started",
+          "Keep person comfortable",
+          "Do not give food or drink",
+          "Monitor breathing"
+        ],
+        "dos": ["Act FAST", "Seek immediate help", "Stay with the person"],
+        "donts": [
+          "Don’t delay treatment",
+          "Don’t give medication",
+          "Don’t let them sleep"
+        ]
+      },
 
-    "cpr": {
-      "about": "Immediate CPR can double or triple chances of survival.",
-      "recognize": [
-        "No breathing",
-        "No pulse",
-        "Unresponsive",
-        "Collapsed suddenly"
-      ],
-      "steps": [
-        "Call 108 immediately",
-        "Begin chest compressions",
-        "Push hard and fast in center of chest",
-        "Allow full chest recoil",
-        "Continue until help arrives"
-      ],
-      "dos": [
-        "Start CPR immediately",
-        "Use AED if available",
-        "Follow dispatcher instructions"
-      ],
-      "donts": [
-        "Don’t stop compressions",
-        "Don’t delay emergency call",
-        "Don’t perform if unsafe"
-      ]
-    },
+      "cpr": {
+        "about": "Immediate CPR can double or triple chances of survival.",
+        "recognize": [
+          "No breathing",
+          "No pulse",
+          "Unresponsive",
+          "Collapsed suddenly"
+        ],
+        "steps": [
+          "Call 108 immediately",
+          "Begin chest compressions",
+          "Push hard and fast in center of chest",
+          "Allow full chest recoil",
+          "Continue until help arrives"
+        ],
+        "dos": [
+          "Start CPR immediately",
+          "Use AED if available",
+          "Follow dispatcher instructions"
+        ],
+        "donts": [
+          "Don’t stop compressions",
+          "Don’t delay emergency call",
+          "Don’t perform if unsafe"
+        ]
+      },
 
-    "choking": {
-      "about": "Quick action with Heimlich maneuver can save a life.",
-      "recognize": [
-        "Inability to speak",
-        "Clutching throat",
-        "Blue lips or face",
-        "No breathing sounds"
-      ],
-      "steps": [
-        "Ask if they are choking",
-        "Perform Heimlich maneuver",
-        "Repeat until object expelled",
-        "Call 108 if unsuccessful",
-        "Begin CPR if unconscious"
-      ],
-      "dos": [
-        "Act quickly",
-        "Use proper technique",
-        "Call emergency if needed"
-      ],
-      "donts": [
-        "Don’t slap back blindly",
-        "Don’t give water",
-        "Don’t delay action"
-      ]
-    },
+      "choking": {
+        "about": "Quick action with Heimlich maneuver can save a life.",
+        "recognize": [
+          "Inability to speak",
+          "Clutching throat",
+          "Blue lips or face",
+          "No breathing sounds"
+        ],
+        "steps": [
+          "Ask if they are choking",
+          "Perform Heimlich maneuver",
+          "Repeat until object expelled",
+          "Call 108 if unsuccessful",
+          "Begin CPR if unconscious"
+        ],
+        "dos": [
+          "Act quickly",
+          "Use proper technique",
+          "Call emergency if needed"
+        ],
+        "donts": [
+          "Don’t slap back blindly",
+          "Don’t give water",
+          "Don’t delay action"
+        ]
+      },
 
-    "anaphylaxis": {
-      "about": "Requires immediate epinephrine injection and emergency care.",
-      "recognize": [
-        "Swelling of face or throat",
-        "Difficulty breathing",
-        "Hives or rash",
-        "Drop in blood pressure",
-        "Dizziness or fainting"
-      ],
-      "steps": [
-        "Call 108 immediately",
-        "Use epinephrine auto-injector",
-        "Lay person flat with legs raised",
-        "Loosen tight clothing",
-        "Monitor breathing"
-      ],
-      "dos": [
-        "Use epinephrine quickly",
-        "Seek emergency care",
-        "Monitor continuously"
-      ],
-      "donts": [
-        "Don’t delay epinephrine",
-        "Don’t give food or drink",
-        "Don’t let them stand"
-      ]
-    },
-    "depression": {
-      "title": "Depression",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you felt persistently sad or hopeless for more than two weeks?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Occasionally", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you lost interest in activities you previously enjoyed?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Sometimes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience changes in sleep or appetite?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you feel fatigued or low on energy most days?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have these symptoms affected your daily functioning?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "anaphylaxis": {
+        "about": "Requires immediate epinephrine injection and emergency care.",
+        "recognize": [
+          "Swelling of face or throat",
+          "Difficulty breathing",
+          "Hives or rash",
+          "Drop in blood pressure",
+          "Dizziness or fainting"
+        ],
+        "steps": [
+          "Call 108 immediately",
+          "Use epinephrine auto-injector",
+          "Lay person flat with legs raised",
+          "Loosen tight clothing",
+          "Monitor breathing"
+        ],
+        "dos": [
+          "Use epinephrine quickly",
+          "Seek emergency care",
+          "Monitor continuously"
+        ],
+        "donts": [
+          "Don’t delay epinephrine",
+          "Don’t give food or drink",
+          "Don’t let them stand"
+        ]
+      },
+      "depression": {
+        "title": "Depression",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you felt persistently sad or hopeless for more than two weeks?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you lost interest in activities you previously enjoyed?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience changes in sleep or appetite?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel fatigued or low on energy most days?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have these symptoms affected your daily functioning?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Self-care and emotional support"],
+          "moderate": ["Consult a mental health professional"],
+          "high": ["Seek professional mental health care urgently"]
         }
-      ],
-      "recommendations": {
-        "low": ["Self-care and emotional support"],
-        "moderate": ["Consult a mental health professional"],
-        "high": ["Seek professional mental health care urgently"]
-      }
-    },
+      },
 
-    "anxiety-disorder": {
-      "title": "Anxiety Disorder",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Do you feel excessive worry or nervousness most days?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience physical symptoms like rapid heartbeat or sweating?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Sometimes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do anxiety symptoms interfere with daily activities?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you find it difficult to control your worries?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have these symptoms lasted for several weeks or more?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "anxiety-disorder": {
+        "title": "Anxiety Disorder",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you feel excessive worry or nervousness most days?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience physical symptoms like rapid heartbeat or sweating?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do anxiety symptoms interfere with daily activities?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you find it difficult to control your worries?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have these symptoms lasted for several weeks or more?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Stress management techniques"],
+          "moderate": ["Consult a mental health professional"],
+          "high": ["Seek professional mental health care"]
         }
-      ],
-      "recommendations": {
-        "low": ["Stress management techniques"],
-        "moderate": ["Consult a mental health professional"],
-        "high": ["Seek professional mental health care"]
-      }
-    },
+      },
 
-    "insomnia": {
-      "title": "Insomnia",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Do you have difficulty falling asleep most nights?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you wake up frequently during the night?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you feel unrefreshed upon waking?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Sometimes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Has your sleep difficulty lasted more than one month?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Does poor sleep affect your daily functioning?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "insomnia": {
+        "title": "Insomnia",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have difficulty falling asleep most nights?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you wake up frequently during the night?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel unrefreshed upon waking?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Has your sleep difficulty lasted more than one month?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Does poor sleep affect your daily functioning?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Improve sleep hygiene"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Seek medical evaluation"]
         }
-      ],
-      "recommendations": {
-        "low": ["Improve sleep hygiene"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Seek medical evaluation"]
-      }
-    },
-    "acne": {
-      "title": "Acne",
-      "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
-      "questions": [
-        {
-          "question": "Do you have frequent pimples or clogged pores?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is acne persistent despite basic skincare?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do breakouts worsen with hormonal changes or stress?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do acne lesions leave scars or dark marks?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you frequently use oily or comedogenic products?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      },
+      "acne": {
+        "title": "Acne",
+        "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
+        "questions": [
+          {
+            "question": "Do you have frequent pimples or clogged pores?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is acne persistent despite basic skincare?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do breakouts worsen with hormonal changes or stress?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do acne lesions leave scars or dark marks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you frequently use oily or comedogenic products?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Basic skincare"],
+          "moderate": ["Consult a dermatologist"],
+          "high": ["Seek dermatology care"]
         }
-      ],
-      "recommendations": {
-        "low": ["Basic skincare"],
-        "moderate": ["Consult a dermatologist"],
-        "high": ["Seek dermatology care"]
-      }
-    },
+      },
 
-    "eczema": {
-      "title": "Eczema",
-      "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
-      "questions": [
-        {
-          "question": "Do you experience itchy, inflamed skin patches?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Mild itching", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is skin dryness persistent or recurring?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do symptoms worsen with allergens or irritants?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there a family history of eczema or allergies?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do flare-ups interfere with daily activities or sleep?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "eczema": {
+        "title": "Eczema",
+        "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
+        "questions": [
+          {
+            "question": "Do you experience itchy, inflamed skin patches?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild itching", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is skin dryness persistent or recurring?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms worsen with allergens or irritants?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there a family history of eczema or allergies?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do flare-ups interfere with daily activities or sleep?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Moisturizing and trigger avoidance"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Seek dermatology care"]
         }
-      ],
-      "recommendations": {
-        "low": ["Moisturizing and trigger avoidance"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Seek dermatology care"]
-      }
-    },
+      },
 
-    "psoriasis": {
-      "title": "Psoriasis",
-      "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
-      "questions": [
-        {
-          "question": "Do you have thick, scaly patches on your skin?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Mild patches", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Are the patches red and itchy?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Sometimes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do symptoms worsen with stress or illness?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there a family history of psoriasis?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do skin symptoms interfere with daily life?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "psoriasis": {
+        "title": "Psoriasis",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Do you have thick, scaly patches on your skin?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild patches", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are the patches red and itchy?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms worsen with stress or illness?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there a family history of psoriasis?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do skin symptoms interfere with daily life?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Skin care and monitoring"],
+          "moderate": ["Consult a dermatologist"],
+          "high": ["Seek specialist dermatology care"]
         }
-      ],
-      "recommendations": {
-        "low": ["Skin care and monitoring"],
-        "moderate": ["Consult a dermatologist"],
-        "high": ["Seek specialist dermatology care"]
-      }
-    },
+      },
 
-    "skin-cancer-melanoma": {
-      "title": "Skin Cancer (Melanoma)",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you noticed a mole changing in size, shape, or color?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Slight change", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Does the lesion have irregular borders or multiple colors?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Not sure", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Has the mole grown rapidly over weeks or months?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Does the lesion bleed or fail to heal?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have a history of excessive sun exposure or sunburns?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "skin-cancer-melanoma": {
+        "title": "Skin Cancer (Melanoma)",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed a mole changing in size, shape, or color?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Slight change", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Does the lesion have irregular borders or multiple colors?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Has the mole grown rapidly over weeks or months?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Does the lesion bleed or fail to heal?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of excessive sun exposure or sunburns?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine skin monitoring"],
+          "moderate": ["Consult a dermatologist"],
+          "high": ["Seek urgent dermatology evaluation"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine skin monitoring"],
-        "moderate": ["Consult a dermatologist"],
-        "high": ["Seek urgent dermatology evaluation"]
-      }
-    },
-    "glaucoma": {
-      "title": "Glaucoma",
-      "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
-      "questions": [
-        {
-          "question": "Have you experienced gradual vision loss or tunnel vision?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Mild changes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience eye pain or pressure?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed halos around lights?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there a family history of glaucoma?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Are you over 40 years of age?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      },
+      "glaucoma": {
+        "title": "Glaucoma",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Have you experienced gradual vision loss or tunnel vision?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild changes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience eye pain or pressure?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed halos around lights?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there a family history of glaucoma?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you over 40 years of age?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine eye exams"],
+          "moderate": ["Consult an ophthalmologist"],
+          "high": ["Urgent eye evaluation recommended"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine eye exams"],
-        "moderate": ["Consult an ophthalmologist"],
-        "high": ["Urgent eye evaluation recommended"]
-      }
-    },
+      },
 
-    "cataracts": {
-      "title": "Cataracts",
-      "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
-      "questions": [
-        {
-          "question": "Do you experience blurred or cloudy vision?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have difficulty seeing at night?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Are you sensitive to bright light or glare?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Sometimes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms gradually worsened over time?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Are you over 60 years of age?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "cataracts": {
+        "title": "Cataracts",
+        "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
+        "questions": [
+          {
+            "question": "Do you experience blurred or cloudy vision?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have difficulty seeing at night?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you sensitive to bright light or glare?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms gradually worsened over time?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you over 60 years of age?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Regular eye monitoring"],
+          "moderate": ["Consult an ophthalmologist"],
+          "high": ["Surgical evaluation recommended"]
         }
-      ],
-      "recommendations": {
-        "low": ["Regular eye monitoring"],
-        "moderate": ["Consult an ophthalmologist"],
-        "high": ["Surgical evaluation recommended"]
-      }
-    },
+      },
 
-    "conjunctivitis": {
-      "title": "Conjunctivitis",
-      "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
-      "questions": [
-        {
-          "question": "Do you have red or irritated eyes?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Mild redness", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there discharge from the eyes?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Watery only", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do your eyes feel itchy or gritty?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Did symptoms start suddenly?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you been in contact with someone with an eye infection?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "conjunctivitis": {
+        "title": "Conjunctivitis",
+        "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
+        "questions": [
+          {
+            "question": "Do you have red or irritated eyes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Mild redness", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there discharge from the eyes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Watery only", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do your eyes feel itchy or gritty?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Did symptoms start suddenly?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you been in contact with someone with an eye infection?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Eye hygiene and rest"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Seek medical evaluation"]
         }
-      ],
-      "recommendations": {
-        "low": ["Eye hygiene and rest"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Seek medical evaluation"]
-      }
-    },
-    "breast-cancer": {
-      "title": "Breast Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you noticed a new lump in the breast or underarm?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Not sure", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed changes in breast shape or skin texture?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there nipple discharge or inversion?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have a family history of breast cancer?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms persisted for several weeks?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      },
+      "breast-cancer": {
+        "title": "Breast Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed a new lump in the breast or underarm?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Not sure", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed changes in breast shape or skin texture?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there nipple discharge or inversion?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of breast cancer?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for several weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine self-exams"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent diagnostic evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine self-exams"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent diagnostic evaluation required"]
-      }
-    },
+      },
 
-    "colorectal-cancer": {
-      "title": "Colorectal Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you noticed blood in your stool?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Occasionally", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you experienced persistent changes in bowel habits?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience unexplained weight loss?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you feel persistent abdominal discomfort or cramping?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Are you over 50 years of age?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "colorectal-cancer": {
+        "title": "Colorectal Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed blood in your stool?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced persistent changes in bowel habits?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel persistent abdominal discomfort or cramping?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you over 50 years of age?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine screening"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent medical evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine screening"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent medical evaluation required"]
-      }
-    },
+      },
 
-    "prostate-cancer": {
-      "title": "Prostate Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
-      "questions": [
-        {
-          "question": "Do you have difficulty or pain during urination?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience weak urine flow or frequent urination at night?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed blood in urine or semen?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there a family history of prostate cancer?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Are you over 50 years of age?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "prostate-cancer": {
+        "title": "Prostate Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Do you have difficulty or pain during urination?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience weak urine flow or frequent urination at night?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed blood in urine or semen?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there a family history of prostate cancer?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you over 50 years of age?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Prompt urology evaluation advised"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Prompt urology evaluation advised"]
-      }
-    },
+      },
 
-    "liver-cancer": {
-      "title": "Liver Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Do you experience persistent upper abdominal pain?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed yellowing of the skin or eyes?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you experienced unexplained weight loss?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have a history of chronic liver disease or hepatitis?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you consume alcohol heavily or regularly?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "liver-cancer": {
+        "title": "Liver Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience persistent upper abdominal pain?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed yellowing of the skin or eyes?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of chronic liver disease or hepatitis?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you consume alcohol heavily or regularly?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent hepatology evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent hepatology evaluation required"]
-      }
-    },
+      },
 
-    "pancreatic-cancer": {
-      "title": "Pancreatic Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Do you have persistent upper abdominal pain radiating to the back?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Occasionally", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you experienced unexplained weight loss or loss of appetite?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed yellowing of the skin or eyes?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have new-onset diabetes or worsening blood sugar control?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have a history of smoking?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "pancreatic-cancer": {
+        "title": "Pancreatic Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have persistent upper abdominal pain radiating to the back?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss or loss of appetite?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed yellowing of the skin or eyes?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have new-onset diabetes or worsening blood sugar control?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of smoking?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine health monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent medical evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine health monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent medical evaluation required"]
-      }
-    },
-    "leukemia": {
-      "title": "Leukemia",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Do you experience persistent fatigue or weakness?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Sometimes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you get frequent infections or fevers?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you bruise or bleed easily?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed unexplained weight loss or night sweats?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do symptoms persist or worsen over weeks?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      },
+      "leukemia": {
+        "title": "Leukemia",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience persistent fatigue or weakness?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you get frequent infections or fevers?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you bruise or bleed easily?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed unexplained weight loss or night sweats?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms persist or worsen over weeks?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine health monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent hematology evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine health monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent hematology evaluation required"]
-      }
-    },
+      },
 
-    "lymphoma": {
-      "title": "Lymphoma",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you noticed painless swelling of lymph nodes?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Not sure", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience persistent fever or night sweats?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you experienced unexplained weight loss?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you feel persistent fatigue or weakness?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms lasted more than a few weeks?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "lymphoma": {
+        "title": "Lymphoma",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed painless swelling of lymph nodes?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Not sure", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience persistent fever or night sweats?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel persistent fatigue or weakness?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than a few weeks?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Observation and routine care"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent medical evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Observation and routine care"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent medical evaluation required"]
-      }
-    },
+      },
 
-    "brain-cancer": {
-      "title": "Brain Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Do you experience persistent or worsening headaches?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you had new-onset seizures?",
-          "options": [
-            { "text": "Yes", "score": 4, "critical": true },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience vision, speech, or balance problems?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed personality or cognitive changes?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Are symptoms progressively worsening?",
-          "options": [
-            { "text": "Yes", "score": 2, "critical": true },
-            { "text": "No", "score": 0 }
-          ]
+      "brain-cancer": {
+        "title": "Brain Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience persistent or worsening headaches?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had new-onset seizures?",
+            "options": [
+              { "text": "Yes", "score": 4, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience vision, speech, or balance problems?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed personality or cognitive changes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are symptoms progressively worsening?",
+            "options": [
+              { "text": "Yes", "score": 2, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Monitor symptoms"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent neurological evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Monitor symptoms"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent neurological evaluation required"]
-      }
-    },
+      },
 
-    "ovarian-cancer": {
-      "title": "Ovarian Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Do you experience persistent abdominal bloating?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience pelvic or abdominal pain?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed early fullness or loss of appetite?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you experienced unexplained weight loss?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms persisted for several weeks?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "ovarian-cancer": {
+        "title": "Ovarian Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience persistent abdominal bloating?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience pelvic or abdominal pain?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed early fullness or loss of appetite?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for several weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine health monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent gynecologic evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine health monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent gynecologic evaluation required"]
-      }
-    },
+      },
 
-    "cervical-cancer": {
-      "title": "Cervical Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you experienced abnormal vaginal bleeding?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Occasionally", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience pelvic pain or discomfort?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there unusual vaginal discharge?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms persisted or worsened?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you missed regular cervical screening?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "cervical-cancer": {
+        "title": "Cervical Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you experienced abnormal vaginal bleeding?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience pelvic pain or discomfort?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there unusual vaginal discharge?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted or worsened?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you missed regular cervical screening?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine screening"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent gynecologic evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine screening"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent gynecologic evaluation required"]
-      }
-    },
+      },
 
-    "thyroid-cancer": {
-      "title": "Thyroid Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
-      "questions": [
-        {
-          "question": "Have you noticed a new lump or swelling in the neck?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Not sure", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience hoarseness or voice changes?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have difficulty swallowing or breathing?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is there a family history of thyroid cancer?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms persisted for several weeks?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "thyroid-cancer": {
+        "title": "Thyroid Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Have you noticed a new lump or swelling in the neck?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Not sure", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience hoarseness or voice changes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have difficulty swallowing or breathing?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there a family history of thyroid cancer?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for several weeks?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Prompt specialist evaluation advised"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Prompt specialist evaluation advised"]
-      }
-    },
+      },
 
-    "kidney-cancer": {
-      "title": "Kidney Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you noticed blood in your urine?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Occasionally", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience persistent lower back or flank pain?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you experienced unexplained weight loss?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience persistent fatigue?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have a history of smoking?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "kidney-cancer": {
+        "title": "Kidney Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed blood in your urine?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience persistent lower back or flank pain?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience persistent fatigue?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of smoking?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent medical evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent medical evaluation required"]
-      }
-    },
+      },
 
-    "bladder-cancer": {
-      "title": "Bladder Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
-      "questions": [
-        {
-          "question": "Have you noticed blood in your urine?",
-          "options": [
-            { "text": "Yes", "score": 4 },
-            { "text": "Occasionally", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience pain or burning during urination?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have frequent or urgent urination?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do symptoms persist despite treatment?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have a history of smoking?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
+      "bladder-cancer": {
+        "title": "Bladder Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed blood in your urine?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience pain or burning during urination?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have frequent or urgent urination?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms persist despite treatment?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of smoking?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Routine monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent urology evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Routine monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent urology evaluation required"]
-      }
-    },
+      },
 
-    "oral-cancer": {
-      "title": "Oral Cancer",
-      "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
-      "questions": [
-        {
-          "question": "Do you have mouth sores that do not heal?",
-          "options": [
-            { "text": "Yes", "score": 3 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience pain or difficulty chewing or swallowing?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed lumps or thickening in the mouth or neck?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you use tobacco or consume alcohol frequently?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms persisted for several weeks?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "oral-cancer": {
+        "title": "Oral Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Do you have mouth sores that do not heal?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience pain or difficulty chewing or swallowing?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed lumps or thickening in the mouth or neck?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you use tobacco or consume alcohol frequently?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for several weeks?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Oral hygiene and monitoring"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Urgent specialist evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Oral hygiene and monitoring"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Urgent specialist evaluation required"]
-      }
-    },
-    "anemia": {
-      "title": "Anemia",
-      "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
-      "questions": [
-        {
-          "question": "Do you feel persistent fatigue or weakness?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Sometimes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience shortness of breath on exertion?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have you noticed pale skin or dizziness?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have heavy menstrual bleeding or recent blood loss?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms lasted more than a few weeks?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      },
+      "anemia": {
+        "title": "Anemia",
+        "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
+        "questions": [
+          {
+            "question": "Do you feel persistent fatigue or weakness?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience shortness of breath on exertion?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed pale skin or dizziness?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have heavy menstrual bleeding or recent blood loss?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than a few weeks?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Maintain balanced diet"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Blood tests and medical evaluation required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Maintain balanced diet"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Blood tests and medical evaluation required"]
-      }
-    },
+      },
 
-    "urinary-tract-infection": {
-      "title": "Urinary Tract Infection (UTI)",
-      "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
-      "questions": [
-        {
-          "question": "Do you feel burning or pain during urination?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Mild discomfort", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you have frequent or urgent urination?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Occasionally", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Is your urine cloudy, foul-smelling, or bloody?",
-          "options": [
-            { "text": "Yes", "score": 2 },
-            { "text": "Not sure", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Do you experience lower abdominal or back pain?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
-        },
-        {
-          "question": "Have symptoms persisted for more than 2 days?",
-          "options": [
-            { "text": "Yes", "score": 1 },
-            { "text": "No", "score": 0 }
-          ]
+      "urinary-tract-infection": {
+        "title": "Urinary Tract Infection (UTI)",
+        "risk_thresholds": { "low": 0, "moderate": 4, "high": 8 },
+        "questions": [
+          {
+            "question": "Do you feel burning or pain during urination?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Mild discomfort", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have frequent or urgent urination?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is your urine cloudy, foul-smelling, or bloody?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience lower abdominal or back pain?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for more than 2 days?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": ["Hydration and hygiene"],
+          "moderate": ["Consult a healthcare provider"],
+          "high": ["Antibiotic treatment may be required"]
         }
-      ],
-      "recommendations": {
-        "low": ["Hydration and hygiene"],
-        "moderate": ["Consult a healthcare provider"],
-        "high": ["Antibiotic treatment may be required"]
       }
     }
   }
