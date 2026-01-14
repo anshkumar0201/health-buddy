@@ -250,9 +250,11 @@ export default function SymptomAnalyzer() {
               <div className="mt-10 rounded-xl border border-yellow-200 bg-yellow-50 px-5 py-4 flex gap-3 text-yellow-700">
                 <AlertCircle className="w-5 h-5 mt-0.5" />
                 <div>
-                  <p className="font-semibold">Input unclear</p>
+                  <p className="font-semibold">
+                    {t("SymptomAnalyzer.invalid.title")}
+                  </p>
                   <p className="text-sm mt-1">
-                    We couldn’t understand your symptoms clearly.
+                    {t("SymptomAnalyzer.invalid.message")}
                   </p>
                 </div>
               </div>
@@ -272,7 +274,7 @@ export default function SymptomAnalyzer() {
                   <AlertCircle className="w-5 h-5 mt-0.5" />
                   <div>
                     <p className="font-semibold">
-                      Urgency Level: {result.label}
+                      {t("SymptomAnalyzer.urgencyLevel")}: {result.label}
                     </p>
                     <p className="text-sm mt-1">{result.description}</p>
                   </div>
@@ -283,7 +285,7 @@ export default function SymptomAnalyzer() {
                   <Lightbulb className="w-5 h-5 text-blue-600 mt-0.5" />
                   <div>
                     <p className="font-semibold text-blue-800">
-                      Immediate Advice
+                      {t("SymptomAnalyzer.immediateAdvice")}
                     </p>
                     <p className="text-sm text-blue-700 mt-1">
                       {result.advice}
@@ -293,7 +295,7 @@ export default function SymptomAnalyzer() {
 
                 {/* Suggested Conditions */}
                 <h3 className="mt-10 font-bold text-lg text-gray-900">
-                  Suggested Conditions to Check
+                  {t("SymptomAnalyzer.suggestedConditions")}
                 </h3>
 
                 <div className="mt-4 space-y-4">
@@ -338,7 +340,7 @@ export default function SymptomAnalyzer() {
                           active:scale-95
                         "
                       >
-                        Check
+                        {t("SymptomAnalyzer.check")}
                         <ArrowRight size={14} />
                       </button>
                     </div>
@@ -348,8 +350,7 @@ export default function SymptomAnalyzer() {
                 {/* Footer */}
                 <div className="mt-6 text-xs text-gray-500 flex items-center gap-2">
                   <Info size={14} />
-                  This is not a diagnosis. Please consult a healthcare
-                  professional.
+                  {t("SymptomAnalyzer.disclaimer")}
                 </div>
 
                 <div className="mt-6 flex gap-4">

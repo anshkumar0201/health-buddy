@@ -156,8 +156,201 @@
     "actions": {
       "symptomChecker": "Go to Symptom Checker →",
       "findClinics": "Find Nearby Clinics"
+    },
+    "urgencyLevel": "Urgency Level",
+    "immediateAdvice": "Immediate Advice",
+    "suggestedConditions": "Suggested Conditions to Check",
+    "check": "Check",
+    "disclaimer": "This is not a diagnosis. Please consult a healthcare professional."
+  },
+  "SymptomChecker": {
+    "title": "Symptom Checker",
+    "subtitle": "Select a condition to start your health assessment",
+
+    "notice": {
+      "title": "Important Notice",
+      "description": "This tool provides general guidance only and is not a substitute for professional medical advice. Always consult a healthcare provider for accurate diagnosis and treatment."
+    },
+
+    "searchPlaceholder": "Search diseases...",
+
+    "categories": {
+      "all": "All",
+      "cardiovascular": "Cardiovascular",
+      "respiratory": "Respiratory",
+      "metabolic": "Metabolic",
+      "musculoskeletal": "Musculoskeletal",
+      "neurological": "Neurological",
+      "infectious": "Infectious",
+      "mentalHealth": "Mental Health",
+      "digestive": "Digestive",
+      "skin": "Skin",
+      "eye": "Eye",
+      "other": "Other"
+    },
+
+    "noDescription": "Description coming soon.",
+    "startAssessment": "Start Assessment"
+  },
+  "Diseases": {
+    "title": "Disease Information Hub",
+    "subtitle": "Learn about common diseases, their symptoms, causes, and prevention",
+    "searchPlaceholder": "Search diseases...",
+    "commonSymptoms": "Common Symptoms:",
+    "learnMore": "Learn More",
+    "more": "more",
+
+    "categories": {
+      "all": "All Diseases",
+      "cardiovascular": "Cardiovascular",
+      "respiratory": "Respiratory",
+      "metabolic": "Metabolic",
+      "musculoskeletal": "Musculoskeletal",
+      "neurological": "Neurological",
+      "infectious": "Infectious",
+      "mentalHealth": "Mental Health",
+      "digestive": "Digestive",
+      "skin": "Skin",
+      "eye": "Eye",
+      "other": "Other"
     }
+  },
+  "Prevention": {
+    "title": "Prevention & Wellness",
+    "subtitle": "Simple steps for a healthier life and disease prevention",
+
+    "tabs": {
+      "general": "General Health Tips",
+      "disease": "Disease-Specific Prevention"
+    },
+
+    "generalCards": {
+      "nutrition": "Nutrition",
+      "physicalActivity": "Physical Activity",
+      "mentalHealth": "Mental Health",
+      "hygiene": "Hygiene",
+      "sleep": "Sleep & Rest",
+      "sun": "Sun Protection"
+    },
+
+    "disease": {
+      "preventionTips": "Prevention Tips",
+      "moreTips": "+{{count}} more tips"
+    }
+  },
+  "FindClinics": {
+    "title": "Find Nearby Clinics",
+    "subtitle": "Search for healthcare facilities near your location using Google Maps",
+
+    "locationFound": {
+      "title": "Location Found",
+      "description": "Your location has been detected. Click any option below to find nearby facilities."
+    },
+
+    "primaryCTA": "Search All Healthcare Facilities Near Me",
+
+    "quickSearch": "Quick Search",
+    "quick": {
+      "hospitals": "Hospitals Near Me",
+      "clinics": "Clinics Near Me",
+      "govtHospitals": "Government Hospitals",
+      "phc": "Primary Health Centers",
+      "emergency247": "24/7 Emergency",
+      "pharmacy": "Pharmacies",
+      "labs": "Diagnostic Labs",
+      "eye": "Eye Clinics",
+      "dental": "Dental Clinics",
+      "maternity": "Maternity Hospitals"
+    },
+
+    "emergency": {
+      "title": "Emergency Services",
+      "description": "In case of emergency, call these helplines immediately:",
+      "ambulance": "108 – Ambulance",
+      "healthHelpline": "104 – Health Helpline",
+      "emergency": "102 – Emergency",
+      "findNearby": "Find Emergency Hospital Near Me"
+    }
+  },
+
+  "Emergency": {
+    "title": "Emergency Response Guide",
+    "subtitle": "Critical first-aid procedures and immediate response steps",
+
+    "helplinesTitle": "Emergency Helplines — Save These Numbers",
+
+    "urgency": {
+      "urgent": "urgent",
+      "critical": "critical"
+    },
+
+    "viewGuide": "View Emergency Guide →",
+
+    "cards": [
+      {
+        "id": "diabetic-emergency",
+        "title": "Diabetic Emergency",
+        "subtitle": "Hypoglycemia / Hyperglycemia",
+        "description": "Low or high blood sugar can cause serious complications. Quick recognition and action is important.",
+        "urgency": "urgent",
+        "icon": "droplet"
+      },
+      {
+        "id": "burn-emergency",
+        "title": "Burn Emergency",
+        "subtitle": "Thermal Burns",
+        "description": "Serious burns require immediate cooling and medical attention to prevent complications.",
+        "urgency": "urgent",
+        "icon": "flame"
+      },
+      {
+        "id": "seizure-emergency",
+        "title": "Seizure Emergency",
+        "subtitle": "Epileptic Seizure",
+        "description": "During a seizure, the person may shake, lose consciousness, or become confused.",
+        "urgency": "urgent",
+        "icon": "brain"
+      },
+      {
+        "id": "heart-attack",
+        "title": "Heart Attack Emergency",
+        "subtitle": "Myocardial Infarction",
+        "description": "A heart attack occurs when blood flow to the heart is blocked. Every second counts.",
+        "urgency": "critical",
+        "icon": "heart"
+      },
+      {
+        "id": "stroke",
+        "title": "Stroke Emergency (FAST)",
+        "subtitle": "Cerebrovascular Accident",
+        "description": "A stroke occurs when blood supply to the brain is interrupted. Time lost is brain lost.",
+        "urgency": "critical",
+        "icon": "brain"
+      },
+      {
+        "id": "cpr",
+        "title": "CPR (Cardiopulmonary Resuscitation)",
+        "subtitle": "Cardiac Arrest",
+        "description": "Immediate CPR can double or triple chances of survival.",
+        "urgency": "critical",
+        "icon": "heart"
+      },
+      {
+        "id": "choking",
+        "title": "Choking Emergency",
+        "subtitle": "Airway Obstruction",
+        "description": "Quick action with Heimlich maneuver can save a life.",
+        "urgency": "critical",
+        "icon": "wind"
+      },
+      {
+        "id": "anaphylaxis",
+        "title": "Severe Allergic Reaction (Anaphylaxis)",
+        "subtitle": "Anaphylactic Shock",
+        "description": "Requires immediate epinephrine injection and emergency care.",
+        "urgency": "critical",
+        "icon": "zap"
+      }
+    ]
   }
-
-
 }

@@ -25,17 +25,26 @@ const navItems = [
 ];
 
 const languages = [
-  { code: "en", label: "English" },
-  { code: "hi", label: "हिन्दी" },
-  { code: "ta", label: "தமிழ்" },
-  { code: "te", label: "తెలుగు" },
-  { code: "bn", label: "বাংলা" },
-  { code: "as", label: "অসমীয়া" },
-  { code: "kn", label: "ಕನ್ನಡ" },
-  { code: "mr", label: "मराठी" },
-  { code: "or", label: "ଓଡ଼ିଆ" },
-  { code: "pa", label: "ਪੰਜਾਬੀ" },
-  { code: "sa", label: "संस्कृतम्" },
+  { code: "as", label: "অসমীয়া" }, // Assamese
+  { code: "bn", label: "বাংলা" }, // Bengali
+  { code: "dg", label: "डोगरी" }, // Dogri
+  { code: "en", label: "English" }, // English
+  { code: "gu", label: "ગુજરાતી" }, // Gujarati
+  { code: "hi", label: "हिन्दी" }, // Hindi
+  { code: "kc", label: "કચ્છી" }, // Kachi
+  { code: "kn", label: "ಕನ್ನಡ" }, // Kannada
+  { code: "ka", label: "کٲشُر" }, // Kashmiri
+  { code: "ko", label: "कोंकणी" }, // Konkani
+  { code: "mt", label: "मैथिली" }, // Maithili
+  { code: "mr", label: "मराठी" }, // Marathi
+  { code: "ne", label: "नेपाली" }, // Nepali
+  { code: "or", label: "ଓଡ଼ିଆ" }, // Odia
+  { code: "pa", label: "ਪੰਜਾਬੀ" }, // Punjabi
+  { code: "sa", label: "संस्कृतम्" }, // Sanskrit
+  { code: "sd", label: "सिंधी" }, // Sindhi (Devanagari)
+  { code: "ta", label: "தமிழ்" }, // Tamil
+  { code: "te", label: "తెలుగు" }, // Telugu
+  { code: "ur", label: "اردو" }, // Urdu
 ];
 
 export default function Navbar() {
@@ -181,7 +190,8 @@ export default function Navbar() {
               aria-haspopup="listbox"
               aria-expanded={langOpen}
             >
-              {languages.find((l) => l.code === i18n.language)?.label}
+              {languages.find((l) => l.code === i18n.language)?.label ||
+                "Language"}
               <ChevronDown
                 size={14}
                 className={`transition-transform ${
@@ -194,31 +204,35 @@ export default function Navbar() {
               <div
                 ref={dropdownRef}
                 className="
-                  absolute right-0 mt-2 w-44
-                  bg-white border border-gray-200
-                  rounded-xl shadow-lg
-                  overflow-hidden z-50
-                "
+      absolute right-0 mt-2 w-44
+      bg-white border border-gray-200
+      rounded-xl shadow-lg
+      z-50
+      overflow-hidden
+    "
               >
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => changeLanguage(lang.code)}
-                    className={`
-                      w-full text-left
-                      px-4 py-2 text-sm cursor-pointer
-                      transition-colors
-                      hover:bg-blue-200 active:bg-blue-100
-                      ${
-                        lang.code === i18n.language
-                          ? "bg-blue-100 font-semibold"
-                          : ""
-                      }
-                    `}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
+                <div
+                  className="
+        max-h-80 overflow-y-auto pr-1
+        scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent
+      "
+                >
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => changeLanguage(lang.code)}
+                      className={`
+            w-full text-left
+            px-4 py-2 text-sm cursor-pointer
+            transition-colors
+            hover:bg-blue-200 active:bg-blue-100
+            ${lang.code === i18n.language ? "bg-blue-100 font-semibold" : ""}
+          `}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
