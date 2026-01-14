@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Check,
   Heart,
@@ -11,23 +12,36 @@ import {
 export default function AssessmentResult() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   if (!location.state) {
-    navigate("/symptom-checker");
+    navigate("/symptom-checker", { replace: true });
     return null;
   }
 
-  const { disease, score } = location.state;
+  const {
+    title,
+    score = 0,
+    maxScore = 1,
+    thresholds = { low: 0, moderate: 0, high: Infinity },
+    recommendations = { low: [], moderate: [], high: [] },
+    criticalHit = false,
+  } = location.state;
 
-  /* ---------------- Risk Logic ---------------- */
-  let riskLevel = "LOW RISK";
+  /* ---------- ROBUST RISK LOGIC ---------- */
+  const percentage = Math.round((score / maxScore) * 100);
+
+  let riskKey = "low";
   let theme = "green";
 
-  if (score >= 30) {
-    riskLevel = "HIGH RISK";
+  if (criticalHit) {
+    riskKey = "high";
     theme = "red";
-  } else if (score >= 15) {
-    riskLevel = "MODERATE RISK";
+  } else if (score >= thresholds.high || percentage >= 70) {
+    riskKey = "high";
+    theme = "red";
+  } else if (score >= thresholds.moderate || percentage >= 40) {
+    riskKey = "moderate";
     theme = "yellow";
   }
 
@@ -55,189 +69,147 @@ export default function AssessmentResult() {
     },
   };
 
-  const t = themes[theme];
+  const themeStyles = themes[theme];
+  const advice = recommendations[riskKey] || [];
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
       <div className="max-w-4xl mx-auto px-4 print-area">
-        <div
-          className="
-            bg-white
-            rounded-2xl
-            border border-gray-300
-            shadow-sm sm:shadow-[0_20px_45px_-15px_rgba(0,0,0,0.25)]
-            overflow-hidden
-          "
-        >
+        <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
           {/* Header */}
           <div
-            className={`${t.bg} border ${t.border} p-4 sm:p-6 flex items-start justify-between`}
+            className={`${themeStyles.bg} border ${themeStyles.border} p-4 sm:p-6 flex items-start justify-between gap-4`}
           >
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                {disease} Assessment
+            <div className="min-w-0">
+              <h1 className="font-bold text-gray-900 text-lg sm:text-xl md:text-2xl leading-snug break-words">
+                {title} {t("AssessmentResult.assessment")}
               </h1>
               <p className="text-sm text-gray-700 mt-1">
-                Completed on {new Date().toLocaleDateString()}
+                {t("AssessmentResult.completedOn")}{" "}
+                {new Date().toLocaleDateString()}
               </p>
             </div>
 
-            <Check className={`w-20 h-20 font-bold sm:w-10 sm:h-10 ${t.icon}`} />
+            <Check className={`w-10 h-10 shrink-0 ${themeStyles.icon}`} />
           </div>
+
+          {/* 🚨 Emergency Banner */}
+          {criticalHit && (
+            <div className="mx-2 sm:mx-6 mt-6 rounded-2xl border border-red-300 bg-red-50 p-5 flex gap-4">
+              <div className="flex-shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6 text-red-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v4m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"
+                  />
+                </svg>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-red-700 text-sm sm:text-base mb-1">
+                  {t("AssessmentResult.emergency.title")}
+                </h3>
+                <p className="text-sm text-red-700 leading-relaxed">
+                  {t("AssessmentResult.emergency.message")}
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Risk Card */}
           <div
-            className={`mx-2 sm:mx-6 mt-6 sm:mt-8 rounded-2xl border ${t.border} ${t.bg} p-4 sm:p-6`}
+            className={`m-6 p-6 rounded-xl border ${themeStyles.border} ${themeStyles.bg}`}
           >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex justify-between items-center">
               <div>
-                <h2 className="font-bold text-lg text-gray-900">
-                  Risk Assessment
+                <h2 className="font-bold">
+                  {t("AssessmentResult.riskAssessment")}
                 </h2>
-                <p className={`${t.text} mt-1 text-sm font-semibold`}>
-                  Score: {score} points
+                <p className={`${themeStyles.text} text-sm`}>
+                  {t("AssessmentResult.score")} {score}/{maxScore} ({percentage}
+                  %)
                 </p>
               </div>
-
               <span
-                className={`inline-block px-4 py-2 rounded-lg text-sm font-semibold ${t.badge} ring-2 ring-offset-2 ${t.border}`}
+                className={`px-4 py-2 rounded-lg font-semibold ${themeStyles.badge}`}
               >
-                {riskLevel}
+                {t(`AssessmentResult.riskLevels.${riskKey}`)}
               </span>
             </div>
           </div>
 
           {/* Recommendations */}
-          <div className="px-4 sm:px-10 mt-8 sm:mt-10">
-            <div className="flex items-center gap-2 mb-4">
+          <div className="px-10 mt-8">
+            <h3 className="font-bold text-lg flex items-center gap-2">
               <Heart className="w-5 h-5 text-blue-600" />
-              <h3 className="font-bold text-lg text-gray-900">
-                Recommendations
-              </h3>
-            </div>
-
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <Check className="w-4 h-4 text-green-600 mt-1" />
-                <span className="text-sm text-gray-800">
-                  Follow the prevention tips for this condition
-                </span>
-              </li>
-
-              {riskLevel !== "LOW RISK" && (
-                <li className="flex items-start gap-3">
-                  <Check className="w-4 h-4 text-green-600 mt-1" />
-                  <span className="text-sm text-gray-800">
-                    Consider scheduling an appointment with a doctor
-                  </span>
-                </li>
-              )}
-
-              <li className="flex items-start gap-3">
-                <Check className="w-4 h-4 text-green-600 mt-1" />
-                <span className="text-sm text-gray-800">
-                  Maintain a healthy lifestyle with proper diet and exercise
-                </span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Prevention Tips */}
-          <div className="px-4 sm:px-10 mt-8 sm:mt-10">
-            <h3 className="font-bold text-lg text-gray-900 mb-4">
-              Prevention Tips
+              {t("AssessmentResult.recommendations")}
             </h3>
 
-            <ul className="space-y-2 text-sm text-gray-800">
-              <li>• Maintain healthy blood pressure</li>
-              <li>• Control cholesterol levels</li>
-              <li>• Quit smoking</li>
-              <li>• Exercise regularly</li>
-              <li>• Eat a heart-healthy diet</li>
+            <ul className="mt-4 space-y-3">
+              {advice.length > 0 ? (
+                advice.map((rec, idx) => (
+                  <li key={idx} className="flex gap-3">
+                    <Check className="w-4 h-4 text-green-600 mt-1" />
+                    <span className="text-sm">{rec}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="text-sm text-gray-600">
+                  {t("AssessmentResult.generalAdvice")}
+                </li>
+              )}
             </ul>
           </div>
 
           {/* Next Steps */}
-          <div className="mx-2 sm:mx-6 mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 flex gap-3">
-            <Info className="w-5 h-5 text-blue-600 mt-0.5" />
-            <div>
-              <p className="font-medium text-blue-700 mb-1">Next Steps</p>
-              <p className="text-sm text-blue-700">
-                {riskLevel === "HIGH RISK"
-                  ? "We strongly recommend consulting a healthcare professional immediately."
-                  : "Continue monitoring your health and maintain healthy habits."}
-              </p>
-            </div>
+          <div className="m-6 p-5 rounded-xl bg-blue-50 border border-blue-200 flex gap-3">
+            <Info className="w-5 h-5 text-blue-600 mt-1" />
+            <p className="text-sm text-blue-700">
+              {criticalHit
+                ? t("AssessmentResult.nextSteps.emergency")
+                : riskKey === "high"
+                ? t("AssessmentResult.nextSteps.high")
+                : t("AssessmentResult.nextSteps.low")}
+            </p>
           </div>
 
           {/* Disclaimer */}
-          <p className="px-4 sm:px-10 mt-8 text-xs text-gray-500 text-center">
-            Disclaimer: This assessment is for informational purposes only and
-            does not constitute medical advice, diagnosis, or treatment.
+          <p className="text-xs text-center text-gray-500 mt-6 px-10">
+            {t("AssessmentResult.disclaimer")}
           </p>
 
           {/* Actions */}
-          {/* Actions */}
-          <div className="px-4 sm:px-8 mt-6 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4 pdf-hide">
-            {/* New Assessment */}
+          <div className="grid sm:grid-cols-3 gap-4 px-8 mt-6 mb-8">
             <button
               onClick={() => navigate("/symptom-checker")}
-              className="
-      min-h-[56px]
-      touch-manipulation
-      flex items-center justify-center gap-2
-      rounded-xl border
-      bg-white
-      font-semibold text-gray-700
-      shadow-md
-      active:scale-[0.97] active:shadow-sm
-      hover:bg-gray-200
-      transition
-    "
+              className="rounded-xl border py-3 cursor-pointer font-semibold"
             >
-              <ArrowLeft className="w-4 h-4" />
-              New Assessment
+              <ArrowLeft className="inline w-4 h-4 mr-2" />
+              {t("AssessmentResult.actions.newAssessment")}
             </button>
 
-            {/* Download PDF */}
             <button
               onClick={() => window.print()}
-              className="
-      min-h-[56px]
-      touch-manipulation
-      flex items-center justify-center gap-2
-      rounded-xl border
-      bg-white
-      font-semibold text-gray-800
-      shadow-md
-      active:scale-[0.97] active:shadow-sm
-      hover:bg-gray-200
-      transition
-    "
+              className="rounded-xl border  cursor-pointer  py-3 font-semibold"
             >
-              Download Report as PDF
-              <Download className="w-4 h-4" />
+              {t("AssessmentResult.actions.download")}
+              <Download className="inline w-4 h-4 ml-2" />
             </button>
 
-            {/* Find Clinics – Primary CTA */}
             <button
               onClick={() => navigate("/clinics")}
-              className="
-      min-h-[56px]
-      touch-manipulation
-      flex items-center justify-center gap-2
-      rounded-xl
-      bg-black text-white
-      font-semibold
-      shadow-lg
-      active:scale-[0.96] active:shadow-md
-      hover:bg-white hover:text-black
-      border border-black
-      transition
-    "
+              className="rounded-xl bg-black text-white py-3 font-semibold cursor-pointer"
             >
-              Find Nearby Clinics
-              <ArrowRight className="w-4 h-4" />
+              {t("AssessmentResult.actions.findClinics")}
+              <ArrowRight className="inline w-4 h-4 ml-2" />
             </button>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { BookOpen, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import diseasesHub from "@/data/diseases1.json";
+import diseasesHub from "@/data/diseasesHub.json";
 
 /* ---------------- Category → Key mapping ---------------- */
 /* DO NOT localize diseases1.json values directly */

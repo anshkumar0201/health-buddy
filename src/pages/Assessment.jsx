@@ -1,28 +1,37 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
+// import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
-import { useState } from "react";
-import assessments from "@/data/assessments.json";
+import { useEffect, useState } from "react";
+import i18n from "@/i18n";
 
 export default function Assessment() {
   const { disease } = useParams();
   const navigate = useNavigate();
-  const decodedDisease = decodeURIComponent(disease);
+  // const { t } = useTranslation();
 
-  const assessment = assessments[decodedDisease];
+  // ✅ Fetch ONLY the current disease assessment
+  const assessment = i18n.getResource(
+    i18n.language,
+    "translation",
+    `assessments.data.${disease}`
+  );
 
-  if (!assessment) {
-    navigate("/symptom-checker");
-    return null;
-  }
+  useEffect(() => {
+    if (!assessment || !assessment.questions) {
+      navigate("/symptom-checker", { replace: true });
+    }
+  }, [assessment, navigate]);
+
+  if (!assessment || !assessment.questions) return null;
 
   const QUESTIONS = assessment.questions;
+  const totalQuestions = QUESTIONS.length;
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState(Array(QUESTIONS.length).fill(null));
+  const [answers, setAnswers] = useState(Array(totalQuestions).fill(null));
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedOption = answers[currentQuestion];
-  const totalQuestions = QUESTIONS.length;
   const isLastQuestion = currentQuestion === totalQuestions - 1;
   const progress = ((currentQuestion + 1) / totalQuestions) * 100;
 
@@ -38,14 +47,26 @@ export default function Assessment() {
 
       const totalScore = answers.reduce((sum, a) => sum + (a?.score || 0), 0);
 
+      const maxPossibleScore = QUESTIONS.reduce((sum, q) => {
+        const maxOptionScore = Math.max(...q.options.map((o) => o.score || 0));
+        return sum + maxOptionScore;
+      }, 0);
+
+      const hasCriticalYes = answers.some((a) => a?.critical === true);
+
       setTimeout(() => {
         navigate("/assessment-result", {
           state: {
-            disease: decodedDisease,
+            disease,
+            title: assessment.title,
             score: totalScore,
+            maxScore: maxPossibleScore,
+            thresholds: assessment.risk_thresholds,
+            recommendations: assessment.recommendations,
+            criticalHit: hasCriticalYes,
           },
         });
-      }, 1500);
+      }, 1000);
     } else {
       setCurrentQuestion((q) => q + 1);
     }
@@ -60,26 +81,20 @@ export default function Assessment() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-32">
       <div className="max-w-3xl mx-auto px-4">
-        {/* 🔙 Back to Symptom Checker */}
         <Link
           to="/symptom-checker"
-          className={`
-            flex items-center gap-2 text-lg text-gray-500
-            hover:text-gray-900 font-semibold hover:font-bold
-            transition-colors duration-200 mb-6
-            ${isSubmitting ? "pointer-events-none opacity-40" : ""}
-          `}
+          className={`flex items-center gap-2 text-lg text-gray-500
+            hover:text-gray-900 font-semibold transition mb-6
+            ${isSubmitting ? "pointer-events-none opacity-40" : ""}`}
         >
           <ArrowLeft className="w-6 h-6" />
           Back to Symptom Checker
         </Link>
 
-        {/* Title */}
-        <h1 className="text-2xl font-bold mb-4">{decodedDisease}</h1>
+        <h1 className="text-2xl font-bold mb-6">{assessment.title}</h1>
 
-        {/* Progress */}
         <div className="mb-8">
-          <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+          <div className="flex justify-between text-sm text-gray-600 mb-2">
             <span />
             <span>
               Question {currentQuestion + 1} of {totalQuestions}
@@ -94,37 +109,32 @@ export default function Assessment() {
           </div>
         </div>
 
-        {/* Question Card */}
         <div className="bg-white rounded-2xl shadow-lg border p-8">
           <h2 className="text-lg font-semibold mb-6">
             {QUESTIONS[currentQuestion].question}
           </h2>
 
-          {/* Options */}
           <div className="space-y-4">
             {QUESTIONS[currentQuestion].options.map((opt, idx) => (
               <button
                 key={idx}
                 onClick={() => handleOptionSelect(opt)}
-                className={`
-                  w-full flex items-center gap-3 px-5 py-4 rounded-xl border
-                  text-left text-sm font-medium transition cursor-pointer
+                className={`w-full flex items-center gap-3 px-5 py-4
+                  rounded-xl border text-left text-sm font-medium transition
+                  cursor-pointer
                   ${
                     selectedOption?.text === opt.text
                       ? "border-black bg-gray-50"
                       : "hover:bg-gray-50"
-                  }
-                `}
+                  }`}
               >
                 <span
-                  className={`
-                    w-4 h-4 rounded-full border flex items-center justify-center
+                  className={`w-4 h-4 rounded-full border flex items-center justify-center
                     ${
                       selectedOption?.text === opt.text
                         ? "border-black"
                         : "border-gray-400"
-                    }
-                  `}
+                    }`}
                 >
                   {selectedOption?.text === opt.text && (
                     <span className="w-2 h-2 bg-black rounded-full" />
@@ -135,17 +145,17 @@ export default function Assessment() {
             ))}
           </div>
 
-          {/* Navigation */}
-          <div className="mt-8 flex items-center gap-4">
+          {/* Navigation Buttons */}
+          <div className="mt-8 flex gap-4">
             <button
               disabled={currentQuestion === 0 || isSubmitting}
               onClick={handlePrevious}
-              className="
-                flex-1 py-3 rounded-xl border
+              className="flex-1 py-3 rounded-xl border
                 text-sm font-medium text-gray-600
-                hover:bg-gray-200 flex items-center
-                justify-center gap-2 disabled:opacity-40
-              "
+                hover:bg-gray-200
+                disabled:opacity-40 cursor-pointer
+                transition
+                flex items-center justify-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
               Previous
@@ -154,15 +164,14 @@ export default function Assessment() {
             <button
               disabled={!selectedOption || isSubmitting}
               onClick={handleNext}
-              className={`
-                flex-1 py-3 rounded-xl text-sm font-medium
-                flex items-center justify-center gap-2 transition
+              className={`flex-1 py-3 rounded-xl text-sm font-medium
+                flex items-center justify-center gap-2 cursor-pointer
+                transition
                 ${
                   selectedOption
                     ? "bg-black text-white hover:bg-gray-900"
                     : "bg-gray-300 text-white"
-                }
-              `}
+                }`}
             >
               {isSubmitting ? (
                 <>
@@ -183,22 +192,20 @@ export default function Assessment() {
             </button>
           </div>
 
-          {/* Cancel Assessment */}
-          <div
-            onClick={() => {
-              if (!isSubmitting) {
-                navigate("/symptom-checker");
-              }
-            }}
-            className={`
-              mt-6 text-center rounded-lg py-2
-              text-sm text-gray-500 font-semibold
-              hover:bg-gray-300 transition cursor-pointer
-              ${isSubmitting ? "opacity-40 cursor-not-allowed" : ""}
-            `}
+          {/* ✅ Cancel Button */}
+          <button
+            onClick={() => navigate("/symptom-checker")}
+            className="
+              mt-4 w-full py-3 rounded-xl
+              bg-black text-white text-sm font-medium
+              flex items-center justify-center gap-2
+              transition cursor-pointer
+              hover:bg-gray-900
+              active:scale-[0.98]
+            "
           >
             Cancel Assessment
-          </div>
+          </button>
         </div>
       </div>
     </main>

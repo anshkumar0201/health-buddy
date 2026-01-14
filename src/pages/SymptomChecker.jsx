@@ -1,46 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Activity, Search, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import diseasesData from "@/data/diseases.json";
 
 export default function SymptomChecker() {
   const { t } = useTranslation();
 
   const categories = [
-    { key: "all", value: "All" },
-    { key: "cardiovascular", value: "Cardiovascular" },
-    { key: "respiratory", value: "Respiratory" },
-    { key: "metabolic", value: "Metabolic" },
-    { key: "musculoskeletal", value: "Musculoskeletal" },
-    { key: "neurological", value: "Neurological" },
-    { key: "infectious", value: "Infectious" },
-    { key: "mentalHealth", value: "Mental Health" },
-    { key: "digestive", value: "Digestive" },
-    { key: "skin", value: "Skin" },
-    { key: "eye", value: "Eye" },
-    { key: "other", value: "Other" },
+    "all",
+    "cardiovascular",
+    "respiratory",
+    "metabolic",
+    "musculoskeletal",
+    "neurological",
+    "infectious",
+    "mentalHealth",
+    "digestive",
+    "skin",
+    "eye",
+    "other",
   ];
 
-
   const [activeCategory, setActiveCategory] = useState("all");
-
   const [search, setSearch] = useState("");
-  const [diseases, setDiseases] = useState([]);
 
-  useEffect(() => {
-    if (Array.isArray(diseasesData)) {
-      setDiseases(diseasesData);
-    } else {
-      console.error("diseases.json must be an array");
-    }
-  }, []);
+  const diseases = useMemo(() => {
+    const data = t("SymptomChecker.data", { returnObjects: true });
+    return Object.entries(data).map(([id, value]) => ({
+      id,
+      ...value,
+    }));
+  }, [t]);
 
   const filteredDiseases = diseases.filter(
     (d) =>
-      (activeCategory === "all" ||
-        d.category ===
-          categories.find((c) => c.key === activeCategory)?.value) &&
+      (activeCategory === "all" || d.category === activeCategory) &&
       d.name.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -82,25 +76,35 @@ export default function SymptomChecker() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("SymptomChecker.searchPlaceholder")}
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
+              className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-400"
             />
           </div>
         </div>
 
         {/* Categories */}
         <div className="mt-8">
-          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-3 sm:overflow-visible">
+          <div
+            className="
+              flex gap-2 overflow-x-auto pb-2
+              -mx-4 px-4
+              sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6
+              sm:gap-3 sm:overflow-visible
+            "
+          >
             {categories.map((cat) => (
               <button
-                key={cat.key}
-                onClick={() => setActiveCategory(cat.key)}
-                className={`whitespace-nowrap shrink-0 px-4 py-2 rounded-xl cursor-pointer text-sm font-medium transition ${
-                  activeCategory === cat.key
-                    ? "bg-black text-white shadow-sm"
-                    : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-100"
-                }`}
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`whitespace-nowrap shrink-0
+                    px-4 py-2 rounded-xl cursor-pointer
+                    text-sm font-medium flex items-center gap-2
+                    transition ${
+                      activeCategory === cat
+                        ? "bg-black text-white shadow-sm"
+                        : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-100"
+                    }`}
               >
-                {t(`SymptomChecker.categories.${cat.key}`)}
+                {t(`SymptomChecker.categories.${cat}`)}
               </button>
             ))}
           </div>
@@ -108,19 +112,17 @@ export default function SymptomChecker() {
 
         {/* Cards */}
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredDiseases.map((d, i) => (
+          {filteredDiseases.map((d) => (
             <div
-              key={i}
-              className="group bg-white rounded-2xl border p-6 shadow-lg flex flex-col justify-between cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-blue-400"
+              key={d.id}
+              className="bg-white rounded-2xl border p-6 shadow-lg flex flex-col justify-between"
             >
               <div>
-                <span className="inline-flex items-center mb-3 px-3.5 py-1.5 rounded-2xl text-xs font-semibold bg-black text-white">
-                  {d.category}
+                <span className="inline-block mb-3 px-3 py-1 rounded-xl text-xs bg-black text-white">
+                  {t(`SymptomChecker.categories.${d.category}`)}
                 </span>
 
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  {d.name}
-                </h3>
+                <h3 className="text-lg font-bold mb-2">{d.name}</h3>
 
                 <p className="text-sm text-gray-600">
                   {d.description || t("SymptomChecker.noDescription")}
@@ -128,8 +130,8 @@ export default function SymptomChecker() {
               </div>
 
               <Link
-                to={`/assessment/${encodeURIComponent(d.name)}`}
-                className="mt-6 w-full py-3 rounded-xl font-medium flex items-center justify-center gap-2 bg-black text-white transition-all group-hover:bg-blue-800 group-hover:scale-[1.02]"
+                to={`/assessment/${d.id}`}
+                className="mt-6 w-full py-3 rounded-xl text-center bg-black text-white"
               >
                 {t("SymptomChecker.startAssessment")} →
               </Link>
