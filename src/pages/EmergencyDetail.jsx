@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { ArrowLeft, AlertTriangle, Phone } from "lucide-react";
 import { CheckCircle2, XCircle } from "lucide-react";
-import emergencyData from "../data/emergencies.json";
+import { useTranslation } from "react-i18next";
 
 /* ---------- Icons ---------- */
 
@@ -27,214 +27,176 @@ function AlertIcon({ className = "" }) {
 export default function EmergencyDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const data =
-  emergencyData?.[slug] ||
-  Object.entries(emergencyData).find(([key]) => key.startsWith(slug))?.[1] ||
-  Object.entries(emergencyData).find(([key]) => key.includes(slug))?.[1] ||
-  Object.values(emergencyData).find(
-    (item) =>
-      item.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "") === slug
-  );
+  const { t } = useTranslation();
 
+  const cards = t("Emergency.cards", { returnObjects: true }) || [];
+  const card = cards.find((c) => c.id === slug);
+
+  const details = t(`EmergencyDetails.${slug}`, {
+    returnObjects: true,
+    defaultValue: null,
+  });
+
+  if (process.env.NODE_ENV === "development") {
+    if (!details || !details.steps?.length) {
+      console.warn("Missing EmergencyDetails for:", slug);
+    }
+  }
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
-  }, []);
+  }, [slug]);
+
+  if (!card || !details) {
+    return (
+      <main className="min-h-screen bg-slate-50 pt-24 px-4">
+        <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg text-center">
+          <AlertTriangle className="w-10 h-10 text-orange-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold mb-2">
+            {t("Emergency.comingSoon", "Emergency Guide Coming Soon")}
+          </h2>
+          <p className="text-gray-600 mb-6">
+            {t(
+              "Emergency.notAvailable",
+              "This emergency guide is not available yet."
+            )}
+          </p>
+          <button
+            onClick={() => navigate("/emergency")}
+            className="text-blue-600 font-semibold"
+          >
+            ← {t("Emergency.back", "Back to Emergency Guides")}
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-slate-50 pt-20 sm:pt-24 pb-24 sm:pb-32">
+    <main className="min-h-screen bg-slate-50 pt-20 sm:pt-24 pb-24">
       <div className="max-w-5xl mx-auto px-4">
         {/* Back button */}
         <button
           onClick={() => navigate("/emergency")}
-          className="flex items-center gap-2 text-sm sm:text-lg font-semibold cursor-pointer transition-colors duration-200
-                     text-gray-600 hover:text-gray-900 mb-4 sm:mb-6"
+          className="flex items-center gap-2 text-sm cursor-pointer sm:text-lg font-semibold text-gray-600 hover:text-gray-900 mb-6"
         >
-          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-          Back to Emergency Guides
+          <ArrowLeft className="w-5 h-5" />
+          {t("EmergencyDetails.EmergencyUI.back")}
         </button>
 
-        {!data ? (
-          /* ---------- FALLBACK ---------- */
-          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-12 text-center">
-            <AlertTriangle className="w-8 h-8 sm:w-10 sm:h-10 text-orange-500 mx-auto mb-4" />
-            <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-2">
-              Emergency Guide Coming Soon
-            </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto">
-              This emergency guide is not available yet.
-            </p>
-          </div>
-        ) : (
-          /* ---------- MAIN CONTENT ---------- */
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="h-1.5 sm:h-2 bg-orange-500" />
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="h-2 bg-orange-500" />
 
-            <div className="p-4 sm:p-6 lg:p-8">
-              {/* Urgency badge */}
-              <span
-                className={`inline-flex items-center gap-2 mb-2 px-3 py-1 rounded-2xl
-                  font-semibold text-xs sm:text-sm
-                  ${
-                    data.urgency === "critical"
-                      ? "bg-red-100 text-red-600"
-                      : "bg-orange-100 text-orange-600"
-                  }
-                `}
-              >
-                {data.urgency.toUpperCase()}
-              </span>
+          <div className="p-4 sm:p-6 lg:p-8">
+            {/* Urgency */}
+            <span
+              className={`inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm font-semibold mb-3 ${
+                card.urgency === "critical"
+                  ? "bg-red-100 text-red-600"
+                  : "bg-orange-100 text-orange-600"
+              }`}
+            >
+              {t(`Emergency.urgency.${card.urgency}`, card.urgency)}
+            </span>
 
-              {/* Title */}
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-                {data.title}
-              </h1>
+            {/* Title */}
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              {card.title}
+            </h1>
+            <p className="text-gray-500 mb-4">{card.subtitle}</p>
 
-              <p className="text-sm sm:text-base text-gray-500 mb-4">
-                {data.subtitle}
+            {/* Emergency Callout */}
+            <div className="flex gap-3 bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+              <AlertTriangle className="w-5 h-5 text-red-600 mt-1" />
+              <p className="text-red-800 text-sm sm:text-base">
+                <strong>{t("EmergencyDetails.EmergencyUI.callFirst")}</strong>
+                <br />
+                {t("EmergencyDetails.EmergencyUI.dial")} <strong>108</strong> /{" "}
+                <strong>112</strong>
               </p>
+            </div>
 
-              {/* Emergency Callout */}
-              <div className="flex gap-3 bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 mb-6">
-                <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mt-0.5" />
-                <p className="text-sm sm:text-base text-red-800">
-                  <strong>Call Emergency Services First.</strong>
-                  <br />
-                  Dial <strong>108</strong> or <strong>112</strong> immediately.
-                </p>
-              </div>
+            {/* About */}
+            <Section title={t("EmergencyDetails.EmergencyUI.about")}>
+              {details.about}
+            </Section>
 
-              {/* About */}
-              <Section title="About This Emergency">{data.about}</Section>
+            {/* Recognize */}
+            <h3 className="text-xl font-semibold mt-8 mb-3 flex items-center gap-2">
+              <AlertIcon />
+              {t("EmergencyDetails.EmergencyUI.recognize", "How to Recognize")}
+            </h3>
 
-              {/* Recognize */}
-              <h3 className="text-lg sm:text-xl font-semibold mt-6 sm:mt-8 mb-3 flex items-center gap-2">
-                <AlertIcon />
-                How to Recognize
+            <ul className="space-y-3">
+              {details.recognize?.map((item, i) => (
+                <li
+                  key={i}
+                  className="flex gap-3 bg-orange-50 border border-orange-100 p-3 rounded-xl"
+                >
+                  <AlertIcon />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Steps */}
+            <div className="bg-blue-50 border-2 border-blue-200 p-6 rounded-xl mt-8">
+              <h3 className="text-2xl font-bold text-blue-900 mb-4">
+                ⚡{" "}
+                {t(
+                  "EmergencyDetails.EmergencyUI.steps",
+                  "Immediate Action Steps"
+                )}
               </h3>
 
-              <ul className="space-y-3">
-                {data.recognize.map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-3 bg-orange-50 border border-orange-100 p-3 rounded-xl text-sm sm:text-base"
-                  >
-                    <AlertIcon />
-                    <span>{item}</span>
+              <ol className="space-y-3">
+                {details.steps?.map((step, i) => (
+                  <li key={i} className="flex gap-3">
+                    <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">
+                      {i + 1}
+                    </div>
+                    <p>{step}</p>
                   </li>
                 ))}
-              </ul>
+              </ol>
+            </div>
 
-              {/* Steps */}
-              <div className="bg-blue-50 border-2 border-blue-200 p-4 sm:p-6 rounded-xl mt-6 sm:mt-8">
-                <h3 className="text-lg sm:text-2xl font-bold text-blue-900 mb-4">
-                  ⚡ Immediate Action Steps
-                </h3>
+            {/* DO / DON'T */}
+            <div className="grid sm:grid-cols-2 gap-6 mt-8">
+              <Checklist
+                title={t("EmergencyDetails.EmergencyUI.do", "DO")}
+                items={details.dos}
+                type="do"
+              />
+              <Checklist
+                title={t("EmergencyDetails.EmergencyUI.dont", "DON'T")}
+                items={details.donts}
+                type="dont"
+              />
+            </div>
 
-                <ol className="space-y-3 leading-none">
-                  {data.steps.map((step, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-3 text-sm sm:text-base"
-                    >
-                      <div
-                        className="
-    w-5 sm:w-6
-    aspect-square
-    shrink-0
-    rounded-full
-    bg-blue-600 text-white
-    flex items-center justify-center
-    text-[10px] sm:text-xs
-    font-bold
-  "
-                      >
-                        {i + 1}
-                      </div>
-
-                      <p className="text-[13px] sm:text-base leading-relaxed">
-                        {step}
-                      </p>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-
-              {/* DO / DON'T */}
-              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
-                <Checklist title="DO" items={data.dos} type="do" />
-                <Checklist title="DON'T" items={data.donts} type="dont" />
-              </div>
-              <p className="text-center text-sm font-semibold text-red-700 mb-3 animate-pulse mt-8 sm:hidden">
-                Tap a number to call immediately
+            {/* Helplines */}
+            <div className="mt-8 bg-red-50 border border-red-200 rounded-xl p-5">
+              <p className="flex items-center gap-2 font-semibold text-red-700 mb-4">
+                <Phone className="w-5 h-5" />
+                {t("Emergency.helplinesTitle", "Emergency Helplines")}
               </p>
 
-              {/* Helplines */}
-              <div className="mt-2 sm:mt-8 bg-red-50 border border-red-200 rounded-xl p-4 sm:p-5">
-                <p className="flex items-center gap-2 font-semibold text-sm sm:text-base text-red-700 mb-4">
-                  <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
-                  Emergency Helplines
-                </p>
-
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  {[
-                    { n: "108", l: "Ambulance" },
-                    { n: "104", l: "Health Helpline" },
-                    { n: "102", l: "Medical Emergency" },
-                    { n: "112", l: "National Emergency" },
-                  ].map((h) => (
-                    <a
-                      key={h.n}
-                      href={`tel:${h.n}`}
-                      className="
-    relative
-    bg-red-600
-    text-white
-    rounded-2xl
-    py-4
-    flex flex-col items-center justify-center
-    font-extrabold
-    text-lg
-    text-center
-    shadow-2xl
-    transition-all duration-150
-    active:scale-95
-    active:bg-red-700
-    hover:bg-red-700
-  "
-                    >
-                      <Phone className="w-6 h-6 mb-1" />
-                      <span className="text-xl">{h.n}</span>
-                      <span className="text-xs font-semibold tracking-wide opacity-90">
-                        CALL {h.l.toUpperCase()}
-                      </span>
-                    </a>
-                  ))}
-                </div>
+              <div className="grid grid-cols-2 gap-4">
+                {["108", "104", "102", "112"].map((n) => (
+                  <a
+                    key={n}
+                    href={`tel:${n}`}
+                    className="bg-red-600 text-white rounded-2xl py-4 text-center font-extrabold hover:bg-red-700 active:scale-95 transition"
+                  >
+                    <Phone className="mx-auto mb-1" />
+                    {n}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
-        )}
-      </div>
-      {/* Sticky Emergency Call Bar (Mobile Only) */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 sm:hidden">
-        <a
-          href="tel:108"
-          className="
-      flex items-center justify-center gap-3
-      bg-red-600 text-white
-      py-4
-      font-extrabold text-lg
-      shadow-2xl
-      active:bg-red-700
-    "
-        >
-          <Phone className="w-6 h-6" />
-          CALL 108 AMBULANCE NOW
-        </a>
+        </div>
       </div>
     </main>
   );
@@ -245,29 +207,23 @@ export default function EmergencyDetail() {
 function Section({ title, children }) {
   return (
     <div className="mt-6">
-      <h3 className="font-semibold text-sm sm:text-base mb-2">{title}</h3>
-      <p className="text-sm sm:text-base text-gray-700">{children}</p>
+      <h3 className="font-semibold mb-2">{title}</h3>
+      <p className="text-gray-700">{children}</p>
     </div>
   );
 }
 
-function Checklist({ title, items, type }) {
+function Checklist({ title, items = [], type }) {
   const Icon = type === "do" ? CheckCircle2 : XCircle;
   const color = type === "do" ? "green" : "red";
 
   return (
     <div className="bg-gray-50 border rounded-xl p-4">
-      <h4
-        className={`text-${color}-700 text-sm sm:text-base font-semibold mb-3`}
-      >
-        {title}
-      </h4>
+      <h4 className={`text-${color}-700 font-semibold mb-3`}>{title}</h4>
       <ul className="space-y-2">
         {items.map((item, i) => (
-          <li key={i} className="flex gap-2 text-sm sm:text-base">
-            <Icon
-              className={`w-4 h-4 sm:w-5 sm:h-5 text-${color}-600 mt-0.5`}
-            />
+          <li key={i} className="flex gap-2">
+            <Icon className={`w-5 h-5 text-${color}-600`} />
             <span>{item}</span>
           </li>
         ))}
