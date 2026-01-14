@@ -1,0 +1,2674 @@
+{
+"assessments": {
+    "data": {
+      "heart-attack": {
+        "title": "Heart Attack (Myocardial Infarction)",
+        "risk_thresholds": { "low": 0, "moderate": 15, "high": 30 },
+        "questions": [
+          {
+            "question": "Are you experiencing chest pain or discomfort?",
+            "options": [
+              { "text": "Severe crushing pain", "score": 10, "critical": true },
+              { "text": "Moderate pressure", "score": 6 },
+              { "text": "Mild discomfort", "score": 3 },
+              { "text": "No pain", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is the pain spreading to your arm, neck, or jaw?",
+            "options": [
+              { "text": "Yes, clearly", "score": 8, "critical": true },
+              { "text": "Slightly", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel shortness of breath?",
+            "options": [
+              { "text": "Severe", "score": 8, "critical": true },
+              { "text": "Moderate", "score": 5 },
+              { "text": "Mild", "score": 2 },
+              { "text": "None", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel nauseous or have cold sweats?",
+            "options": [
+              { "text": "Yes, both", "score": 6 },
+              { "text": "One of them", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of heart disease or high blood pressure?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain a heart-healthy lifestyle",
+            "Monitor blood pressure regularly",
+            "Avoid smoking and excessive alcohol",
+            "Exercise as advised by your doctor",
+            "Schedule routine cardiac checkups"
+          ],
+          "moderate": [
+            "Consult a cardiologist promptly",
+            "Avoid physical exertion",
+            "Monitor symptoms closely",
+            "Follow prescribed medications",
+            "Seek medical advice if symptoms worsen"
+          ],
+          "high": [
+            "Seek immediate medical attention",
+            "Call emergency services immediately",
+            "Do not delay professional care",
+            "Avoid physical activity",
+            "Ensure someone stays with you until help arrives"
+          ]
+        }
+      },
+
+      "cardiac-arrest": {
+        "title": "Cardiac Arrest",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 20 },
+        "questions": [
+          {
+            "question": "Have you experienced sudden collapse or loss of consciousness?",
+            "options": [
+              { "text": "Yes, suddenly", "score": 10, "critical": true },
+              { "text": "Brief dizziness only", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Did the episode involve no breathing or gasping?",
+            "options": [
+              { "text": "Yes", "score": 10, "critical": true },
+              { "text": "Uncertain", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a known history of heart rhythm problems?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Not sure", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had a previous heart attack?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Did this event occur during physical exertion?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain regular cardiac checkups",
+            "Adopt a heart-healthy diet",
+            "Engage in doctor-approved physical activity",
+            "Avoid smoking and substance use",
+            "Manage stress and sleep adequately"
+          ],
+          "moderate": [
+            "Seek urgent cardiac evaluation",
+            "Avoid strenuous physical activity",
+            "Monitor for warning symptoms such as dizziness or palpitations",
+            "Follow medical advice and prescribed tests",
+            "Seek immediate care if symptoms recur or worsen"
+          ],
+          "high": [
+            "Call emergency services immediately",
+            "Begin CPR if trained and safe to do so",
+            "Use an AED if available",
+            "Do not leave the person unattended",
+            "Follow emergency operator instructions until help arrives"
+          ]
+        }
+      },
+
+      "heart-failure": {
+        "title": "Heart Failure",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 20 },
+        "questions": [
+          {
+            "question": "Do you experience shortness of breath during routine activities?",
+            "options": [
+              { "text": "Often", "score": 6 },
+              { "text": "Sometimes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel breathless when lying flat?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Occasionally", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed swelling in your legs or ankles?",
+            "options": [
+              { "text": "Significant swelling", "score": 5 },
+              { "text": "Mild swelling", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel unusually fatigued most days?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of heart disease or hypertension?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Continue heart-healthy habits",
+            "Maintain a balanced, low-sodium diet",
+            "Exercise as advised by your healthcare provider",
+            "Monitor weight and symptoms regularly",
+            "Attend routine follow-up appointments"
+          ],
+          "moderate": [
+            "Schedule a cardiology consultation",
+            "Limit physical exertion",
+            "Monitor swelling, breathing, and fatigue closely",
+            "Follow prescribed medications strictly",
+            "Seek medical advice if symptoms worsen"
+          ],
+          "high": [
+            "Seek urgent medical evaluation",
+            "Visit the nearest emergency department",
+            "Avoid physical activity",
+            "Do not delay professional care",
+            "Ensure someone is available to assist you if needed"
+          ]
+        }
+      },
+
+      "hypertension": {
+        "title": "Hypertension",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Have you been told you have high blood pressure before?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience frequent headaches or dizziness?",
+            "options": [
+              { "text": "Often", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you consume a high-salt or processed-food diet?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of high blood pressure?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you exercise less than 3 times a week?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain a healthy lifestyle",
+            "Follow a balanced, low-salt diet",
+            "Exercise regularly",
+            "Manage stress effectively",
+            "Check blood pressure periodically",
+            "Practice meditation or yoga"
+          ],
+          "moderate": [
+            "Monitor blood pressure regularly",
+            "Reduce salt and processed food intake",
+            "Increase physical activity gradually",
+            "Limit alcohol and caffeine",
+            "Consult a healthcare provider for guidance",
+            "Practice meditation or yoga"
+          ],
+          "high": [
+            "Consult a healthcare provider promptly",
+            "Begin or adjust medications as prescribed",
+            "Monitor blood pressure daily",
+            "Avoid unmanaged stress and physical strain",
+            "Seek urgent care if severe symptoms occur",
+            "Practice meditation or yoga"
+          ]
+        }
+      },
+
+      "coronary-artery-disease": {
+        "title": "Coronary Artery Disease",
+        "risk_thresholds": { "low": 0, "moderate": 12, "high": 24 },
+        "questions": [
+          {
+            "question": "Do you experience chest discomfort during physical activity?",
+            "options": [
+              { "text": "Yes", "score": 8, "critical": true },
+              { "text": "Occasionally", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Does the discomfort improve with rest?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have high cholesterol?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Not sure", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you smoke or have you smoked previously?",
+            "options": [
+              { "text": "Current smoker", "score": 5, "critical": true },
+              { "text": "Former smoker", "score": 3 },
+              { "text": "Never", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have diabetes?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain a heart-healthy lifestyle",
+            "Follow a balanced, low-fat and low-cholesterol diet",
+            "Engage in regular, doctor-approved physical activity",
+            "Avoid smoking and secondhand smoke",
+            "Monitor blood pressure and cholesterol levels"
+          ],
+          "moderate": [
+            "Consult a cardiologist",
+            "Limit strenuous physical activity",
+            "Monitor chest discomfort and related symptoms",
+            "Follow prescribed medications and lifestyle advice",
+            "Seek medical attention if symptoms increase or occur at rest"
+          ],
+          "high": [
+            "Seek urgent cardiac evaluation",
+            "Visit the nearest medical facility promptly",
+            "Avoid physical exertion",
+            "Do not delay professional care",
+            "Ensure someone is available to assist you if symptoms worsen"
+          ]
+        }
+      },
+
+      "lung-cancer": {
+        "title": "Lung Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 20 },
+        "questions": [
+          {
+            "question": "Do you have a persistent cough lasting more than 3 weeks?",
+            "options": [
+              { "text": "Yes", "score": 6, "critical": true },
+              { "text": "Occasionally", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you coughed up blood?",
+            "options": [
+              { "text": "Yes", "score": 10, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you currently smoke or have a long smoking history?",
+            "options": [
+              { "text": "Current smoker", "score": 6, "critical": true },
+              { "text": "Former smoker", "score": 3 },
+              { "text": "Never", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have persistent chest pain?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Avoid smoking and exposure to secondhand smoke",
+            "Monitor respiratory symptoms regularly",
+            "Maintain a healthy lifestyle and balanced diet",
+            "Avoid exposure to environmental pollutants when possible",
+            "Schedule routine health checkups if at risk"
+          ],
+          "moderate": [
+            "Schedule a medical evaluation",
+            "Discuss symptoms and risk factors with a healthcare provider",
+            "Undergo recommended imaging or diagnostic tests",
+            "Avoid smoking and lung irritants",
+            "Seek medical advice if symptoms persist or worsen"
+          ],
+          "high": [
+            "Seek urgent diagnostic assessment",
+            "Consult a specialist promptly",
+            "Follow medical guidance for further testing",
+            "Do not delay evaluation of serious symptoms",
+            "Ensure emotional and family support during evaluation"
+          ]
+        }
+      },
+
+      "asthma": {
+        "title": "Asthma",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 16 },
+        "questions": [
+          {
+            "question": "Do you experience wheezing or whistling sounds while breathing?",
+            "options": [
+              { "text": "Frequently", "score": 5 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel shortness of breath during exercise or at night?",
+            "options": [
+              { "text": "Yes, often", "score": 5, "critical": true },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do your symptoms worsen with allergens, dust, or cold air?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a personal or family history of asthma or allergies?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you needed an inhaler or urgent care for breathing issues?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Avoid known asthma triggers",
+            "Maintain good indoor air quality",
+            "Follow a regular exercise routine as tolerated",
+            "Monitor breathing symptoms",
+            "Keep prescribed inhalers accessible if advised"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Review and adjust asthma action plan if needed",
+            "Use medications as prescribed",
+            "Avoid allergens and respiratory irritants",
+            "Seek medical advice if symptoms become more frequent"
+          ],
+          "high": [
+            "Seek urgent medical care",
+            "Use rescue inhaler immediately if prescribed",
+            "Visit the nearest emergency facility",
+            "Avoid physical exertion during symptoms",
+            "Do not delay treatment for severe breathing difficulty"
+          ]
+        }
+      },
+
+      "bronchitis": {
+        "title": "Bronchitis",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Have you had a cough lasting more than 2 weeks?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Less than 2 weeks", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you coughing up mucus or phlegm?",
+            "options": [
+              { "text": "Yes, frequently", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience chest tightness or discomfort?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had a recent cold or respiratory infection?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you smoke or are you exposed to air pollution?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Rest adequately and stay well hydrated",
+            "Avoid smoking and secondhand smoke",
+            "Use humidified air to ease coughing",
+            "Monitor cough and mucus changes",
+            "Avoid exposure to air pollutants"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow medical advice for symptom relief",
+            "Avoid strenuous physical activity",
+            "Monitor for fever or worsening cough",
+            "Seek care if symptoms persist beyond expected duration"
+          ],
+          "high": [
+            "Seek medical evaluation promptly",
+            "Visit a healthcare facility if breathing worsens",
+            "Avoid physical exertion",
+            "Follow prescribed medications strictly",
+            "Seek urgent care if high fever or shortness of breath develops"
+          ]
+        }
+      },
+
+      "pneumonia": {
+        "title": "Pneumonia",
+        "risk_thresholds": { "low": 0, "moderate": 12, "high": 22 },
+        "questions": [
+          {
+            "question": "Do you have a high fever with chills?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Mild fever", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you experiencing chest pain while breathing or coughing?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Mild discomfort", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have shortness of breath at rest?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Only with activity", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you coughing up yellow, green, or bloody mucus?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you over 65 or immunocompromised?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor symptoms closely",
+            "Rest and maintain adequate hydration",
+            "Follow supportive home care measures",
+            "Avoid smoking and respiratory irritants",
+            "Seek medical advice if symptoms worsen"
+          ],
+          "moderate": [
+            "Seek prompt medical care",
+            "Undergo recommended diagnostic tests",
+            "Follow prescribed medications carefully",
+            "Limit physical activity during recovery",
+            "Monitor breathing and fever closely"
+          ],
+          "high": [
+            "Seek emergency medical attention",
+            "Visit the nearest emergency department immediately",
+            "Do not delay professional treatment",
+            "Avoid physical exertion",
+            "Ensure assistance is available if condition deteriorates"
+          ]
+        }
+      },
+
+      "sinusitis": {
+        "title": "Sinusitis",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have facial pain or pressure around the nose or eyes?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have nasal congestion or blocked nose lasting over 10 days?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Less than 10 days", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have thick yellow or green nasal discharge?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do your symptoms worsen when bending forward?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you recently had a cold or allergies?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Practice home care and maintain hydration",
+            "Use steam inhalation or saline rinses",
+            "Rest adequately",
+            "Avoid allergens and irritants",
+            "Monitor symptom duration and severity"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow prescribed treatments if advised",
+            "Avoid sudden temperature changes",
+            "Monitor for fever or worsening facial pain",
+            "Seek care if symptoms persist beyond 10 days"
+          ],
+          "high": [
+            "Seek medical treatment promptly",
+            "Follow prescribed medications carefully",
+            "Avoid delaying professional care",
+            "Monitor for complications such as swelling or severe pain",
+            "Ensure follow-up with a healthcare provider"
+          ]
+        }
+      },
+
+      "copd": {
+        "title": "COPD",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have chronic cough lasting several months each year?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience breathlessness during daily activities?",
+            "options": [
+              { "text": "Yes", "score": 5, "critical": true },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you smoked for more than 10 years?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Former smoker", "score": 3 },
+              { "text": "Never", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you frequently produce mucus or phlegm?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had frequent respiratory infections?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Avoid smoking and environmental pollutants",
+            "Maintain regular physical activity as tolerated",
+            "Stay up to date with vaccinations",
+            "Monitor breathing symptoms",
+            "Attend routine medical checkups"
+          ],
+          "moderate": [
+            "Consult a pulmonologist",
+            "Follow prescribed inhaler or medication regimen",
+            "Avoid respiratory irritants",
+            "Monitor for worsening breathlessness or infections",
+            "Seek medical advice if daily activities become difficult"
+          ],
+          "high": [
+            "Seek urgent respiratory care",
+            "Visit the nearest medical facility promptly",
+            "Use prescribed rescue medications immediately",
+            "Avoid physical exertion",
+            "Do not delay care during severe breathing difficulty"
+          ]
+        }
+      },
+
+      "allergic-rhinitis": {
+        "title": "Allergic Rhinitis",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Do you have frequent sneezing, runny or itchy nose?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do your symptoms worsen during certain seasons?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have itchy or watery eyes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a personal or family history of allergies?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do antihistamines improve your symptoms?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Avoid known allergens",
+            "Maintain clean indoor air",
+            "Practice regular nasal hygiene if advised",
+            "Monitor symptom patterns",
+            "Use protective measures during high-allergen seasons"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow recommended allergy treatments",
+            "Limit exposure to triggers",
+            "Monitor response to medications",
+            "Seek medical advice if symptoms persist"
+          ],
+          "high": [
+            "Seek allergy specialist care",
+            "Undergo further evaluation if advised",
+            "Follow prescribed long-term management plans",
+            "Avoid known severe allergens strictly",
+            "Ensure proper follow-up and symptom control"
+          ]
+        }
+      },
+      "acid-reflux-gerd": {
+        "title": "Acid Reflux (GERD)",
+        "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
+        "questions": [
+          {
+            "question": "Do you experience burning sensation in the chest after meals?",
+            "options": [
+              { "text": "Frequently", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms worsen when lying down?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience sour taste or regurgitation?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you frequently eat large or spicy meals?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for more than 3 months?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Follow diet and lifestyle modifications",
+            "Avoid spicy, fatty, and late-night meals",
+            "Eat smaller, more frequent meals",
+            "Avoid lying down immediately after eating",
+            "Maintain a healthy body weight"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Review diet and symptom triggers",
+            "Use medications only as advised",
+            "Elevate head while sleeping",
+            "Seek care if symptoms persist or worsen"
+          ],
+          "high": [
+            "Seek medical evaluation",
+            "Undergo further assessment if advised",
+            "Avoid self-medication",
+            "Follow prescribed treatment strictly",
+            "Seek urgent care if chest pain is severe or unusual"
+          ]
+        }
+      },
+
+      "gastritis": {
+        "title": "Gastritis",
+        "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
+        "questions": [
+          {
+            "question": "Do you experience upper abdominal pain or burning?",
+            "options": [
+              { "text": "Frequently", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel nauseous or vomit after eating?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you regularly consume alcohol?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you frequently use painkillers (NSAIDs)?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than 2 weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Modify diet and avoid irritating foods",
+            "Limit alcohol consumption",
+            "Avoid unnecessary painkiller use",
+            "Eat light and regular meals",
+            "Ensure adequate rest"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow dietary and medication advice",
+            "Avoid alcohol and smoking",
+            "Monitor pain and digestive symptoms",
+            "Seek care if symptoms persist"
+          ],
+          "high": [
+            "Seek medical evaluation",
+            "Undergo recommended tests if advised",
+            "Avoid alcohol and NSAIDs completely",
+            "Follow prescribed treatment carefully",
+            "Seek urgent care if vomiting or bleeding occurs"
+          ]
+        }
+      },
+
+      "peptic-ulcer": {
+        "title": "Peptic Ulcer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you experience burning stomach pain that improves or worsens with meals?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Not sure", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed black stools or vomiting blood?",
+            "options": [
+              { "text": "Yes", "score": 10, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you use painkillers frequently?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you smoke or consume alcohol regularly?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for several weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor symptoms closely",
+            "Avoid smoking and alcohol",
+            "Eat balanced meals at regular intervals",
+            "Avoid unnecessary painkiller use",
+            "Seek medical advice if pain persists"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo evaluation for ulcer causes",
+            "Follow prescribed medications strictly",
+            "Avoid irritating foods and substances",
+            "Monitor for warning symptoms"
+          ],
+          "high": [
+            "Seek urgent medical care",
+            "Visit the nearest emergency facility",
+            "Do not delay treatment for bleeding symptoms",
+            "Avoid food or medications unless advised",
+            "Ensure immediate medical supervision"
+          ]
+        }
+      },
+
+      "irritable-bowel-syndrome": {
+        "title": "Irritable Bowel Syndrome (IBS)",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience recurrent abdominal pain?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are your symptoms associated with changes in bowel habits?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms improve after a bowel movement?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms been present for more than 3 months?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do stress or certain foods worsen symptoms?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Manage diet and lifestyle factors",
+            "Identify and avoid trigger foods",
+            "Maintain regular meal timings",
+            "Practice stress management techniques",
+            "Monitor bowel patterns"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Review dietary plans such as fiber intake",
+            "Manage stress and sleep habits",
+            "Use medications only as prescribed",
+            "Seek care if symptoms interfere with daily life"
+          ],
+          "high": [
+            "Seek specialist evaluation",
+            "Undergo further assessment if advised",
+            "Follow long-term management plans",
+            "Rule out other underlying conditions",
+            "Ensure regular follow-up care"
+          ]
+        }
+      },
+
+      "constipation": {
+        "title": "Constipation",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Do you have fewer than three bowel movements per week?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you pass hard or difficult-to-pass stools?",
+            "options": [
+              { "text": "Frequently", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel incomplete bowel emptying?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you consume a low-fiber diet or inadequate fluids?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for more than two weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Increase fiber and fluid intake",
+            "Maintain regular physical activity",
+            "Establish consistent bowel habits",
+            "Avoid delaying bowel movements",
+            "Monitor stool patterns"
+          ],
+          "moderate": [
+            "Adopt structured lifestyle modifications",
+            "Review diet and hydration habits",
+            "Use remedies only as advised",
+            "Increase physical activity gradually",
+            "Consult a provider if symptoms persist"
+          ],
+          "high": [
+            "Consult a healthcare provider",
+            "Undergo further evaluation if advised",
+            "Avoid self-treatment for prolonged symptoms",
+            "Seek care if pain or bleeding occurs",
+            "Follow prescribed treatment carefully"
+          ]
+        }
+      },
+
+      "stroke": {
+        "title": "Stroke",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 20 },
+        "questions": [
+          {
+            "question": "Have you experienced sudden weakness or numbness on one side of the body?",
+            "options": [
+              { "text": "Yes", "score": 8, "critical": true },
+              { "text": "Briefly", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have sudden difficulty speaking or understanding speech?",
+            "options": [
+              { "text": "Yes", "score": 8, "critical": true },
+              { "text": "Mild difficulty", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced sudden vision loss or blurred vision?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Did symptoms begin suddenly?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Gradual onset", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have high blood pressure or diabetes?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain a healthy lifestyle",
+            "Control blood pressure and blood sugar",
+            "Exercise regularly as advised",
+            "Avoid smoking and excessive alcohol",
+            "Attend routine health checkups"
+          ],
+          "moderate": [
+            "Seek urgent medical evaluation",
+            "Visit a healthcare facility promptly",
+            "Monitor symptoms closely",
+            "Follow medical advice carefully",
+            "Do not ignore recurring symptoms"
+          ],
+          "high": [
+            "Call emergency services immediately",
+            "Seek emergency medical attention",
+            "Do not delay treatment",
+            "Avoid food or drink unless advised",
+            "Follow emergency instructions until help arrives"
+          ]
+        }
+      },
+
+      "migraine": {
+        "title": "Migraine",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience recurring throbbing headaches?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are headaches associated with nausea or vomiting?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience sensitivity to light or sound during headaches?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do headaches worsen with physical activity?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do headaches last longer than 4 hours?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor headache triggers",
+            "Maintain regular sleep patterns",
+            "Stay well hydrated",
+            "Manage stress effectively",
+            "Avoid known trigger foods"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Review headache patterns and triggers",
+            "Use medications only as prescribed",
+            "Limit screen exposure during headaches",
+            "Seek care if headaches become frequent"
+          ],
+          "high": [
+            "Seek neurological evaluation",
+            "Undergo further assessment if advised",
+            "Avoid self-medication",
+            "Follow prescribed migraine management plans",
+            "Seek urgent care for severe or unusual headaches"
+          ]
+        }
+      },
+
+      "epilepsy": {
+        "title": "Epilepsy",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 16 },
+        "questions": [
+          {
+            "question": "Have you experienced repeated seizure episodes?",
+            "options": [
+              { "text": "Yes", "score": 6, "critical": true },
+              { "text": "Once", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience loss of consciousness during episodes?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have others observed shaking or jerking movements?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience confusion after episodes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of head injury or brain infection?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor symptoms carefully",
+            "Avoid known seizure triggers",
+            "Ensure adequate sleep",
+            "Maintain medication adherence if prescribed",
+            "Avoid hazardous activities without supervision"
+          ],
+          "moderate": [
+            "Consult a neurologist",
+            "Undergo recommended neurological evaluation",
+            "Review seizure frequency and triggers",
+            "Follow prescribed treatment strictly",
+            "Seek care if seizures increase"
+          ],
+          "high": [
+            "Seek urgent neurological care",
+            "Visit the nearest emergency facility",
+            "Ensure safety during seizures",
+            "Do not delay medical evaluation",
+            "Follow emergency instructions if seizures persist"
+          ]
+        }
+      },
+
+      "parkinsons-disease": {
+        "title": "Parkinson’s Disease",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience resting tremors in hands or fingers?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel muscle stiffness or rigidity?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have your movements become slower over time?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience balance or walking difficulties?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms gradually worsened over months or years?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor symptoms over time",
+            "Maintain regular physical activity",
+            "Engage in balance and mobility exercises",
+            "Maintain a healthy diet",
+            "Attend routine medical follow-ups"
+          ],
+          "moderate": [
+            "Consult a neurologist",
+            "Undergo neurological evaluation",
+            "Review treatment and therapy options",
+            "Engage in physical and occupational therapy",
+            "Monitor symptom progression"
+          ],
+          "high": [
+            "Seek specialist evaluation",
+            "Follow advanced care plans if advised",
+            "Ensure regular medical supervision",
+            "Address mobility and safety concerns",
+            "Seek support services as needed"
+          ]
+        }
+      },
+
+      "alzheimers-disease": {
+        "title": "Alzheimer’s Disease",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed progressive memory loss?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have difficulty performing familiar tasks?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience confusion about time or place?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have family members noticed behavioral changes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are symptoms progressively worsening?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Encourage mental stimulation and social interaction",
+            "Maintain a structured daily routine",
+            "Engage in regular physical activity",
+            "Ensure adequate sleep and nutrition",
+            "Monitor memory and behavior changes"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo cognitive assessment if advised",
+            "Review medications and lifestyle factors",
+            "Ensure family or caregiver support",
+            "Plan follow-up evaluations"
+          ],
+          "high": [
+            "Seek specialist care",
+            "Consult a neurologist or memory clinic",
+            "Begin structured care planning",
+            "Ensure safety and supervision",
+            "Access caregiver support resources"
+          ]
+        }
+      },
+
+      "vertigo": {
+        "title": "Vertigo",
+        "risk_thresholds": { "low": 0, "moderate": 5, "high": 10 },
+        "questions": [
+          {
+            "question": "Do you experience spinning sensation or dizziness?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are symptoms triggered by head movement?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience nausea or vomiting?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have hearing changes or ringing in ears?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted more than a week?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Avoid sudden head movements",
+            "Rest during dizzy episodes",
+            "Stay well hydrated",
+            "Maintain balance precautions",
+            "Monitor symptom patterns"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo evaluation for underlying causes",
+            "Follow prescribed exercises or medications",
+            "Avoid driving during active symptoms",
+            "Seek care if symptoms persist"
+          ],
+          "high": [
+            "Seek specialist evaluation",
+            "Consult an ENT or neurologist if advised",
+            "Undergo further diagnostic tests",
+            "Avoid unsafe activities",
+            "Ensure supervision during severe episodes"
+          ]
+        }
+      },
+
+      "dengue": {
+        "title": "Dengue",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 20 },
+        "questions": [
+          {
+            "question": "Do you have a sudden high fever?",
+            "options": [
+              { "text": "Yes", "score": 6, "critical": true },
+              { "text": "Mild fever", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience severe joint or muscle pain?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild pain", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed skin rash or bleeding gums?",
+            "options": [
+              { "text": "Yes", "score": 5, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you recently been bitten by mosquitoes?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have nausea or vomiting?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Ensure adequate hydration and rest",
+            "Use mosquito protection measures",
+            "Monitor fever and body pain",
+            "Avoid NSAIDs unless prescribed",
+            "Seek care if symptoms worsen"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Get blood tests if advised",
+            "Monitor platelet count if recommended",
+            "Avoid strenuous activity",
+            "Seek care if bleeding symptoms appear"
+          ],
+          "high": [
+            "Seek immediate medical care",
+            "Visit a hospital promptly",
+            "Do not delay evaluation",
+            "Follow medical instructions strictly",
+            "Ensure close monitoring"
+          ]
+        }
+      },
+
+      "malaria": {
+        "title": "Malaria",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have recurring fever with chills and sweating?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Occasionally", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you traveled to or live in a malaria-prone area?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience headache or body aches?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than 2 days?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have nausea or vomiting?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor symptoms carefully",
+            "Rest and maintain hydration",
+            "Use mosquito protection measures",
+            "Seek testing if fever persists",
+            "Avoid self-medication"
+          ],
+          "moderate": [
+            "Get blood tests and treatment",
+            "Follow prescribed antimalarial medications",
+            "Monitor fever patterns",
+            "Avoid strenuous activity",
+            "Seek care if symptoms worsen"
+          ],
+          "high": [
+            "Seek urgent medical care",
+            "Visit the nearest healthcare facility",
+            "Do not delay treatment",
+            "Ensure close medical supervision",
+            "Follow treatment plan strictly"
+          ]
+        }
+      },
+
+      "tuberculosis": {
+        "title": "Tuberculosis",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have a cough lasting more than 2 weeks?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Less than 2 weeks", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience weight loss or loss of appetite?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have night sweats or fever?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you coughed up blood?",
+            "options": [
+              { "text": "Yes", "score": 8, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you been in close contact with a TB patient?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor respiratory symptoms",
+            "Maintain good nutrition",
+            "Avoid close contact if coughing persists",
+            "Seek testing if symptoms continue",
+            "Practice respiratory hygiene"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo TB testing if advised",
+            "Follow diagnostic and treatment guidance",
+            "Avoid spreading infection",
+            "Ensure follow-up visits"
+          ],
+          "high": [
+            "Seek immediate medical evaluation",
+            "Begin treatment promptly if diagnosed",
+            "Follow full treatment course strictly",
+            "Avoid missing medications",
+            "Ensure public health follow-up"
+          ]
+        }
+      },
+
+      "typhoid-fever": {
+        "title": "Typhoid Fever",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Do you have persistent high fever?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild fever", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience abdominal pain or diarrhea?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you consumed contaminated food or water recently?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel extreme weakness or fatigue?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than 3 days?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain hydration and rest",
+            "Consume safe food and water",
+            "Monitor fever closely",
+            "Avoid strenuous activity",
+            "Seek care if symptoms persist"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo recommended tests",
+            "Follow prescribed antibiotics if advised",
+            "Maintain strict hygiene",
+            "Monitor for complications"
+          ],
+          "high": [
+            "Seek medical treatment immediately",
+            "Visit a healthcare facility promptly",
+            "Do not delay antibiotic therapy",
+            "Ensure proper hydration",
+            "Follow medical advice strictly"
+          ]
+        }
+      },
+
+      "cholera": {
+        "title": "Cholera",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 16 },
+        "questions": [
+          {
+            "question": "Do you have sudden severe watery diarrhea?",
+            "options": [
+              { "text": "Yes", "score": 6, "critical": true },
+              { "text": "Mild diarrhea", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you experiencing signs of dehydration?",
+            "options": [
+              { "text": "Yes", "score": 6, "critical": true },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you consumed unsafe water recently?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have vomiting?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Begin oral rehydration immediately",
+            "Maintain strict hygiene",
+            "Consume safe drinking water",
+            "Monitor stool frequency",
+            "Seek care if dehydration signs appear"
+          ],
+          "moderate": [
+            "Seek medical care",
+            "Continue aggressive rehydration",
+            "Follow prescribed treatment",
+            "Avoid contaminated food and water",
+            "Monitor hydration status closely"
+          ],
+          "high": [
+            "Emergency medical treatment required",
+            "Visit the nearest hospital immediately",
+            "Begin IV fluids if advised",
+            "Do not delay care",
+            "Ensure continuous medical monitoring"
+          ]
+        }
+      },
+
+      "hepatitis-b": {
+        "title": "Hepatitis B",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Do you feel persistent fatigue or weakness?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed yellowing of skin or eyes?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have abdominal pain or nausea?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had unprotected sex or needle exposure?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than 2 weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor liver health",
+            "Avoid alcohol consumption",
+            "Maintain a balanced diet",
+            "Follow safe hygiene practices",
+            "Attend routine health checkups"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo liver function tests if advised",
+            "Avoid alcohol and hepatotoxic drugs",
+            "Monitor symptoms closely",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek specialist care",
+            "Consult a hepatologist or infectious disease specialist",
+            "Follow long-term monitoring plans",
+            "Adhere strictly to prescribed treatment",
+            "Ensure regular follow-up"
+          ]
+        }
+      },
+
+      "hiv-aids": {
+        "title": "HIV/AIDS",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have recurrent infections or prolonged fever?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you engaged in unprotected sex or shared needles?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience persistent diarrhea?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for months?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Consider HIV testing",
+            "Practice safe sex",
+            "Avoid sharing needles",
+            "Monitor general health",
+            "Seek counseling if needed"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo confirmatory testing",
+            "Receive counseling and guidance",
+            "Begin treatment if advised",
+            "Ensure follow-up care"
+          ],
+          "high": [
+            "Seek specialist care immediately",
+            "Begin antiretroviral therapy promptly",
+            "Follow treatment strictly",
+            "Monitor immune status regularly",
+            "Access support services"
+          ]
+        }
+      },
+
+      "chickenpox": {
+        "title": "Chickenpox",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have an itchy blister-like rash?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild rash", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have fever with fatigue?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you been in contact with someone with chickenpox?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you unvaccinated?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Practice home care and isolation",
+            "Avoid scratching blisters",
+            "Maintain good hygiene",
+            "Rest and stay hydrated",
+            "Monitor fever and rash progression"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Use medications as advised",
+            "Avoid contact with vulnerable individuals",
+            "Monitor for complications",
+            "Seek care if symptoms worsen"
+          ],
+          "high": [
+            "Seek medical care for complications",
+            "Visit a healthcare facility promptly",
+            "Follow prescribed treatment",
+            "Monitor for breathing or neurological symptoms",
+            "Ensure close supervision"
+          ]
+        }
+      },
+      "back-pain": {
+        "title": "Back Pain",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience persistent back pain?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Does the pain limit your daily activities?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Did the pain start after injury or heavy lifting?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel stiffness in the morning?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Has the pain lasted more than 4 weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Correct posture and body mechanics",
+            "Engage in gentle stretching exercises",
+            "Maintain regular physical activity",
+            "Apply heat or cold as needed",
+            "Monitor pain duration"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow physical therapy recommendations",
+            "Avoid heavy lifting",
+            "Use pain relief measures as advised",
+            "Seek care if pain persists"
+          ],
+          "high": [
+            "Seek specialist evaluation",
+            "Undergo imaging if advised",
+            "Follow structured treatment plans",
+            "Address neurological symptoms promptly",
+            "Ensure activity modification"
+          ]
+        }
+      },
+
+      "sciatica": {
+        "title": "Sciatica",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Does pain radiate from the lower back down the leg?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild radiation", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience tingling or numbness in the leg?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Does pain worsen when sitting or bending?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have weakness in the affected leg?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Has the pain lasted more than 2 weeks?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Practice stretching and posture care",
+            "Avoid prolonged sitting",
+            "Engage in gentle mobility exercises",
+            "Apply heat or cold therapy",
+            "Monitor symptom progression"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow prescribed physical therapy",
+            "Avoid aggravating movements",
+            "Use medications only as advised",
+            "Seek care if weakness develops"
+          ],
+          "high": [
+            "Seek neurological evaluation",
+            "Undergo imaging if recommended",
+            "Avoid activities worsening symptoms",
+            "Follow specialist treatment plans",
+            "Ensure close follow-up"
+          ]
+        }
+      },
+
+      "arthritis": {
+        "title": "Arthritis",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you experience joint pain or stiffness?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is stiffness worse in the morning?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do joints appear swollen or warm?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Has pain lasted for several months?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have reduced joint mobility?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Practice joint care and regular low-impact exercise",
+            "Maintain a healthy body weight",
+            "Use heat or cold therapy for stiffness",
+            "Maintain proper posture and ergonomics",
+            "Monitor joint pain and mobility"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow recommended exercise or physical therapy plans",
+            "Use medications only as advised",
+            "Avoid activities that worsen joint pain",
+            "Seek care if swelling or stiffness increases"
+          ],
+          "high": [
+            "Seek specialist care",
+            "Consult a rheumatologist or orthopedic specialist",
+            "Undergo further evaluation if advised",
+            "Follow long-term joint management plans",
+            "Ensure regular medical follow-up"
+          ]
+        }
+      },
+
+      "osteoporosis": {
+        "title": "Osteoporosis",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you had fractures from minor injuries?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed loss of height or posture changes?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you postmenopausal or above age 60?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have low calcium or vitamin D intake?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of osteoporosis?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain bone health through diet and exercise",
+            "Ensure adequate calcium and vitamin D intake",
+            "Engage in weight-bearing exercises",
+            "Avoid smoking and excessive alcohol",
+            "Prevent falls and injuries"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo bone density testing if advised",
+            "Review nutritional intake and supplements",
+            "Adopt fall-prevention strategies",
+            "Monitor bone health regularly"
+          ],
+          "high": [
+            "Seek specialist evaluation",
+            "Consult an endocrinologist or orthopedic specialist",
+            "Begin structured treatment if advised",
+            "Prevent fractures through safety planning",
+            "Ensure ongoing medical monitoring"
+          ]
+        }
+      },
+
+      "gout": {
+        "title": "Gout",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you had sudden severe joint pain, especially in the big toe?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild pain", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is the joint swollen, red, and warm?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild swelling", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Did the pain start suddenly at night?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you consume alcohol or high-purine foods frequently?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had similar attacks before?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Adopt lifestyle and dietary modifications",
+            "Limit alcohol and high-purine foods",
+            "Stay well hydrated",
+            "Maintain a healthy body weight",
+            "Monitor joint symptoms"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Follow prescribed medications if advised",
+            "Avoid foods that trigger attacks",
+            "Rest the affected joint during flare-ups",
+            "Seek care if attacks become frequent"
+          ],
+          "high": [
+            "Seek medical treatment promptly",
+            "Visit a healthcare facility for severe pain",
+            "Follow prescribed therapy strictly",
+            "Avoid self-medication",
+            "Ensure follow-up to prevent complications"
+          ]
+        }
+      },
+
+      "fibromyalgia": {
+        "title": "Fibromyalgia",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have widespread body pain for more than 3 months?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel persistent fatigue despite rest?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have sleep disturbances?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms worsen with stress or exertion?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for several months?",
+            "options": [
+              { "text": "Yes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Focus on lifestyle and stress management",
+            "Maintain regular sleep routines",
+            "Engage in gentle physical activity",
+            "Practice relaxation techniques",
+            "Monitor symptom patterns"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Review pain management strategies",
+            "Address sleep and fatigue issues",
+            "Engage in physical or behavioral therapy if advised",
+            "Seek care if symptoms affect daily life"
+          ],
+          "high": [
+            "Seek specialist evaluation",
+            "Consult a rheumatologist or pain specialist",
+            "Follow multidisciplinary treatment plans",
+            "Ensure mental health support if needed",
+            "Maintain regular medical follow-up"
+          ]
+        }
+      },
+      "type-2-diabetes": {
+        "title": "Type 2 Diabetes",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 16 },
+        "questions": [
+          {
+            "question": "Do you experience frequent urination and excessive thirst?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained fatigue?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of diabetes?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed slow wound healing or frequent infections?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you overweight or physically inactive?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain a healthy lifestyle",
+            "Follow a balanced diet",
+            "Engage in regular physical activity",
+            "Monitor weight and energy levels",
+            "Attend routine health screenings"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo blood sugar testing if advised",
+            "Adopt dietary and exercise plans",
+            "Monitor symptoms closely",
+            "Follow medical guidance carefully"
+          ],
+          "high": [
+            "Seek medical evaluation urgently",
+            "Begin treatment as prescribed",
+            "Monitor blood sugar regularly",
+            "Prevent complications through strict management",
+            "Ensure regular follow-up care"
+          ]
+        }
+      },
+
+      "obesity": {
+        "title": "Obesity",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you experienced significant weight gain recently?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild gain", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel breathless with minimal physical activity?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is physical activity limited in your daily routine?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Somewhat", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you consume high-calorie or processed foods frequently?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have obesity-related conditions like diabetes or hypertension?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Adopt healthy lifestyle improvements",
+            "Follow balanced nutrition",
+            "Increase daily physical activity",
+            "Reduce intake of processed foods",
+            "Monitor weight changes"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Develop a structured diet and activity plan",
+            "Address underlying lifestyle factors",
+            "Monitor for obesity-related conditions",
+            "Seek guidance if weight continues to increase"
+          ],
+          "high": [
+            "Seek structured medical weight management",
+            "Consult a specialist if advised",
+            "Follow supervised weight loss programs",
+            "Address related medical conditions",
+            "Ensure long-term follow-up and support"
+          ]
+        }
+      },
+
+      "thyroid-disorders": {
+        "title": "Thyroid Disorders",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Have you noticed unexplained weight changes?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild change", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience persistent fatigue or weakness?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you unusually sensitive to heat or cold?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed hair loss or skin changes?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there a family history of thyroid disease?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Continue routine monitoring",
+            "Maintain a balanced diet",
+            "Monitor weight and energy levels",
+            "Avoid unnecessary supplements",
+            "Attend periodic health checkups"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo thyroid function testing",
+            "Follow prescribed medications if advised",
+            "Monitor symptom changes",
+            "Seek care if symptoms progress"
+          ],
+          "high": [
+            "Seek endocrinology evaluation",
+            "Begin structured treatment if recommended",
+            "Monitor hormone levels regularly",
+            "Avoid discontinuing medications abruptly",
+            "Ensure ongoing specialist follow-up"
+          ]
+        }
+      }
+    }
+  }
+}
