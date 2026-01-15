@@ -108,7 +108,7 @@ export default function Diseases() {
 
         {/* Categories */}
         <div className="mt-8">
-          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-3 sm:overflow-visible">
+          <div className="flex gap-2 overflow-x-auto pb-2  -mx-4 px-4 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-3 sm:overflow-visible">
             {CATEGORY_ORDER.map((key) => {
               const count =
                 key === "all" ? diseases.length : categoryCounts[key] || 0;
@@ -117,14 +117,14 @@ export default function Diseases() {
                 <button
                   key={key}
                   onClick={() => setActiveCategory(key)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 transition ${
+                  className={`px-4 py-2 rounded-xl text-sm font-medium cursor-pointer flex items-center gap-2 transition border border-gray-300 ${
                     activeCategory === key
                       ? "bg-black text-white"
                       : "bg-white text-gray-700 border hover:bg-gray-100"
                   }`}
                 >
                   <span>{t(`Diseases.categories.${key}`)}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200">
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 text-black">
                     {count}
                   </span>
                 </button>

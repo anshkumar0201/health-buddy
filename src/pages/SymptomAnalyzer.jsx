@@ -219,15 +219,30 @@ export default function SymptomAnalyzer() {
               {t("SymptomAnalyzer.inputTitle")}
             </h2>
           </div>
+          <div className="relative">
+            <textarea
+              rows={2}
+              value={text}
+              onChange={handleTextChange}
+              onKeyDown={handleKeyDown}
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none"
+              placeholder={t("SymptomAnalyzer.placeholder")}
+            />
 
-          <textarea
-            rows={2}
-            value={text}
-            onChange={handleTextChange}
-            onKeyDown={handleKeyDown}
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none"
-            placeholder={t("SymptomAnalyzer.placeholder")}
-          />
+            {charCount >= MIN_CHARS && (
+              <button
+                type="button"
+                onClick={() => {
+                  setText("");
+                  setResult({ status: "idle" });
+                }}
+                className="absolute top-2 right-2 w-6 h-6 rounded-full bg-purple-500 font-semibold cursor-pointer text-black hover:bg-gray-300 flex items-center justify-center"
+                aria-label="Clear text"
+              >
+                ✕
+              </button>
+            )}
+          </div>
 
           <p
             className={`mt-1 text-xs ${
@@ -312,7 +327,7 @@ export default function SymptomAnalyzer() {
               {t("SymptomAnalyzer.suggestedConditions")}
             </h3>
 
-            <div className="mt-4 space-y-4">
+            <div className="mt-2 space-y-4">
               {result.conditions.map((c, i) => (
                 <div
                   key={i}
