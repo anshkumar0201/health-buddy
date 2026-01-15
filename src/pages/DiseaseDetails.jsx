@@ -41,7 +41,7 @@ export default function DiseaseDetails() {
           Back to Diseases
         </button>
 
-        <div className="border border-gray-200 rounded-2xl px-6 py-6 w-full bg-linear-to-r shadow-lg">
+        <div className="border border-gray-200 rounded-2xl px-8 py-8 w-full bg-linear-to-r shadow-lg">
           {/* Hero Image */}
           {disease.image_url && (
             <div className="w-full h-56 rounded-2xl  overflow-hidden mb-8 shadow-md hover:shadow-xl transition-all duration-300 ease-out">

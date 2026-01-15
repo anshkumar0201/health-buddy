@@ -1,65 +1,107 @@
 {
-  "Diseases": {
-    "title": "Disease Information Hub",
-    "subtitle": "Learn about common diseases, their symptoms, causes, and prevention",
-    "searchPlaceholder": "Search diseases...",
-    "commonSymptoms": "Common Symptoms:",
-    "learnMore": "Learn More",
-    "more": "more",
-
-    "categories": {
-      "all": "All Diseases",
-      "cardiovascular": "Cardiovascular",
-      "respiratory": "Respiratory",
-      "metabolic": "Metabolic",
-      "musculoskeletal": "Musculoskeletal",
-      "neurological": "Neurological",
-      "infectious": "Infectious",
-      "mentalHealth": "Mental Health",
-      "digestive": "Digestive",
-      "skin": "Skin",
-      "eye": "Eye",
-      "other": "Other"
+  "SymptomAnalyzer": {
+    "title": "Symptom Analyzer",
+    "subtitle": "Describe how you're feeling and we'll suggest which conditions to check",
+    "howItWorks": {
+      "title": "How it works",
+      "description": "Describe your symptoms in your own words. Our system analyzes them and suggests relevant health checks."
     },
-    "items": {
-      "acidReflux": {
-        "id": "acidReflux",
-        "category": "digestive",
-        "name": "Acid Reflux (GERD)",
-        "description": "A digestive disorder where stomach acid frequently flows back into the food pipe, causing irritation.",
-        "symptoms": [
-          "Burning sensation in chest (heartburn)",
-          "Chest pain",
-          "Difficulty swallowing",
-          "Regurgitation of food or sour liquid"
-        ]
+    "inputTitle": "Describe Your Symptoms",
+    "placeholder": "Example: headache and fever since last 2 days",
+    "minChars": "characters minimum",
+    "cta": "Analyze My Symptoms",
+    "loading": "Analyzing...",
+    "invalid": {
+      "title": "Input unclear",
+      "message": "We couldn’t understand your symptoms clearly."
+    },
+    "actions": {
+      "symptomChecker": "Go to Symptom Checker →",
+      "findClinics": "Find Nearby Clinics"
+    },
+    "urgencyLevel": "Urgency Level",
+    "immediateAdvice": "Immediate Advice",
+    "suggestedConditions": "Suggested Conditions to Check",
+    "check": "Check",
+    "disclaimer": "This is not a diagnosis. Please consult a healthcare professional.",
+    "config": {
+      "minCharCount": 30,
+      "symptomScores": {
+        "chest pain": 10,
+        "shortness of breath": 8,
+        "breathing difficulty": 8,
+        "fever": 5,
+        "high fever": 7,
+        "headache": 3,
+        "dizziness": 4,
+        "vomiting": 4,
+        "nausea": 3,
+        "abdominal pain": 5,
+        "weakness": 3,
+        "fatigue": 2
       },
-
-      "acne": {
-        "id": "acne",
-        "category": "skin",
-        "name": "Acne",
-        "description": "A skin condition that occurs when hair follicles become clogged with oil and dead skin cells.",
-        "symptoms": [
-          "Whiteheads",
-          "Blackheads",
-          "Small red bumps",
-          "Painful pimples"
-        ]
-      },
-
-      "alzheimer": {
-        "id": "alzheimer",
-        "category": "neurological",
-        "name": "Alzheimer's Disease",
-        "description": "A progressive neurological disorder that causes memory loss and cognitive decline.",
-        "symptoms": [
-          "Memory loss affecting daily life",
-          "Confusion",
-          "Difficulty solving problems",
-          "Disorientation"
-        ]
+      "urgencyThresholds": {
+        "high": 20,
+        "moderate": 10
       }
+    },
+    "urgency": {
+      "high": {
+        "color": "red",
+        "label": "High Urgency",
+        "description": "Your symptoms may indicate a serious or life-threatening condition.",
+        "advice": "Seek emergency medical care immediately."
+      },
+      "moderate": {
+        "color": "yellow",
+        "label": "Moderate Urgency",
+        "description": "Your symptoms need timely medical attention.",
+        "advice": "Consult a doctor as soon as possible."
+      },
+      "low": {
+        "color": "green",
+        "label": "Low Urgency",
+        "description": "Your symptoms appear mild.",
+        "advice": "Monitor your condition and take rest."
+      }
+    },
+    "conditions": {
+      "high": [
+        {
+          "name": "Heart Attack",
+          "tag": "Emergency",
+          "description": "A serious condition caused by blocked blood flow to the heart."
+        },
+        {
+          "name": "Stroke",
+          "tag": "Emergency",
+          "description": "A medical emergency caused by interrupted blood supply to the brain."
+        }
+      ],
+      "moderate": [
+        {
+          "name": "Hypertension",
+          "tag": "Chronic",
+          "description": "Elevated blood pressure that requires monitoring and treatment."
+        },
+        {
+          "name": "Migraine",
+          "tag": "Neurological",
+          "description": "Recurring headaches often accompanied by nausea or light sensitivity."
+        }
+      ],
+      "low": [
+        {
+          "name": "Common Cold",
+          "tag": "Mild",
+          "description": "A viral infection of the upper respiratory tract."
+        },
+        {
+          "name": "Indigestion",
+          "tag": "Digestive",
+          "description": "Discomfort caused by difficulty in digesting food."
+        }
+      ]
     }
   }
 }
