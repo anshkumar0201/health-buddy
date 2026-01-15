@@ -24,12 +24,7 @@ const ICONS = {
 
 /* ---------- Helplines ---------- */
 
-const helplines = [
-  { number: "108", label: "Ambulance" },
-  { number: "104", label: "Health Helpline" },
-  { number: "102", label: "Medical Emergency" },
-  { number: "112", label: "National Emergency" },
-];
+const helplines = ["108", "104", "102", "112"];
 
 /* ---------- Component ---------- */
 
@@ -37,7 +32,10 @@ export default function Emergency() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const emergencies = t("Emergency.cards", { returnObjects: true });
+  const emergencies = t("Emergency.cards", {
+    returnObjects: true,
+    defaultValue: [],
+  });
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
@@ -66,16 +64,18 @@ export default function Emergency() {
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {helplines.map((h) => (
+            {helplines.map((number) => (
               <a
-                key={h.number}
-                href={`tel:${h.number}`}
+                key={number}
+                href={`tel:${number}`}
                 className="bg-red-600 text-white rounded-lg py-3 text-center
-                           shadow transition-all duration-300 cursor-pointer
-                           hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5"
+               shadow transition-all duration-300 cursor-pointer
+               hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5"
               >
-                <p className="text-lg font-bold">{h.number}</p>
-                <p className="text-xs opacity-90">{h.label}</p>
+                <p className="text-lg font-bold">{number}</p>
+                <p className="text-xs opacity-90">
+                  {t(`Emergency.helplines.${number}`)}
+                </p>
               </a>
             ))}
           </div>
@@ -83,49 +83,52 @@ export default function Emergency() {
 
         {/* Emergency Cards */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {emergencies.map((e) => {
-            const Icon = ICONS[e.icon] || AlertCircle;
+          {Array.isArray(emergencies) &&
+            emergencies.map((e) => {
+              const Icon = ICONS[e.icon] || AlertCircle;
 
-            return (
-              <div
-                key={e.id}
-                onClick={() => navigate(`/emergency/${e.id}`)}
-                className="group bg-white rounded-2xl border border-gray-200
+              return (
+                <div
+                  key={e.id}
+                  onClick={() => navigate(`/emergency/${e.id}`)}
+                  className="group bg-white rounded-2xl border border-gray-200
                            shadow-sm transition-all duration-300 cursor-pointer
                            hover:shadow-xl hover:-translate-y-1 overflow-hidden"
-              >
-                <div className="h-1 bg-red-600 w-full" />
+                >
+                  <div className="h-1 bg-red-600 w-full" />
 
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <Icon className="w-5 h-5 text-red-600" />
-                      <h3 className="font-bold text-gray-900">{e.title}</h3>
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <Icon className="w-5 h-5 text-red-600" />
+                        <h3 className="font-bold text-gray-900">{e.title}</h3>
+                      </div>
+
+                      <span className="text-xs px-2 py-0.5 rounded-2xl font-semibold bg-red-100 text-red-600">
+                        {t(`Emergency.urgency.${e.urgency}`)}
+                      </span>
                     </div>
 
-                    <span className="text-xs px-2 py-0.5 rounded-2xl font-semibold bg-red-100 text-red-600">
-                      {t(`Emergency.urgency.${e.urgency}`)}
-                    </span>
-                  </div>
+                    <p className="text-xs text-gray-500 mb-2">{e.subtitle}</p>
+                    <p className="text-sm text-gray-600 mb-6">
+                      {e.description}
+                    </p>
 
-                  <p className="text-xs text-gray-500 mb-2">{e.subtitle}</p>
-                  <p className="text-sm text-gray-600 mb-6">{e.description}</p>
-
-                  <button
-                    onClick={(ev) => {
-                      ev.stopPropagation();
-                      navigate(`/emergency/${e.id}`);
-                    }}
-                    className="w-full py-2 rounded-lg text-sm font-medium
+                    <button
+                      onClick={(ev) => {
+                        ev.stopPropagation();
+                        navigate(`/emergency/${e.id}`);
+                      }}
+                      className="w-full py-2 rounded-lg text-sm font-medium
                                border border-gray-200 transition-all cursor-pointer
                                group-hover:bg-red-600 group-hover:text-white"
-                  >
-                    {t("Emergency.viewGuide")}
-                  </button>
+                    >
+                      {t("Emergency.viewGuide")}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </main>

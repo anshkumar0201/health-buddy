@@ -1,4 +1,3 @@
-import diseasesData from "@/data/diseases.json";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,9 +11,34 @@ import {
   CheckCircle,
 } from "lucide-react";
 
+const GENERAL_CARD_ICONS = {
+  nutrition: <Apple />,
+  physicalActivity: <Activity />,
+  mentalHealth: <Heart />,
+  hygiene: <Droplet />,
+  sleep: <Moon />,
+  sun: <Sun />,
+};
+
+const GENERAL_CARD_COLORS = {
+  nutrition: "bg-green-500",
+  physicalActivity: "bg-blue-500",
+  mentalHealth: "bg-pink-500",
+  hygiene: "bg-cyan-500",
+  sleep: "bg-purple-500",
+  sun: "bg-orange-500",
+};
+
 export default function Prevention() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("general");
+
+  const diseaseCategories =
+    t("Prevention.disease.categories", { returnObjects: true }) || {};
+
+
+  // OPTIONAL sanity log (remove later)
+  console.log("Disease categories:", diseaseCategories);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
@@ -86,157 +110,95 @@ export default function Prevention() {
         <div className="mt-12">
           {activeTab === "general" && (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
-              <Card
-                icon={<Apple />}
-                title={t("Prevention.generalCards.nutrition")}
-                color="bg-green-500"
-                tips={[
-                  "Eat a balanced diet rich in fruits and vegetables",
-                  "Limit processed foods and added sugars",
-                  "Stay hydrated — drink 8–10 glasses of water daily",
-                  "Include whole grains, lean proteins, and healthy fats",
-                  "Reduce salt intake to prevent hypertension",
-                  "Avoid excessive caffeine and alcohol",
-                ]}
-              />
-
-              <Card
-                icon={<Activity />}
-                title={t("Prevention.generalCards.physicalActivity")}
-                color="bg-blue-500"
-                tips={[
-                  "Aim for at least 30 minutes of exercise daily",
-                  "Take regular breaks from sitting every hour",
-                  "Include strength training 2–3 times per week",
-                  "Practice stretching and flexibility exercises",
-                  "Walk or cycle instead of driving when possible",
-                  "Use stairs instead of elevators",
-                ]}
-              />
-
-              <Card
-                icon={<Heart />}
-                title={t("Prevention.generalCards.mentalHealth")}
-                color="bg-pink-500"
-                tips={[
-                  "Practice stress management techniques",
-                  "Get adequate sleep (7–9 hours per night)",
-                  "Maintain social connections and relationships",
-                  "Practice mindfulness or meditation",
-                  "Seek help when feeling overwhelmed",
-                  "Engage in hobbies and activities you enjoy",
-                ]}
-              />
-
-              <Card
-                icon={<Droplet />}
-                title={t("Prevention.generalCards.hygiene")}
-                color="bg-cyan-500"
-                tips={[
-                  "Wash hands frequently with soap for 20 seconds",
-                  "Cover mouth and nose when coughing or sneezing",
-                  "Keep living and working spaces clean",
-                  "Avoid touching your face frequently",
-                  "Maintain proper personal hygiene habits",
-                ]}
-              />
-
-              <Card
-                icon={<Moon />}
-                title={t("Prevention.generalCards.sleep")}
-                color="bg-purple-500"
-                tips={[
-                  "Maintain a consistent sleep schedule",
-                  "Create a relaxing bedtime routine",
-                  "Keep your bedroom cool, dark, and quiet",
-                  "Avoid screens at least 1 hour before bedtime",
-                  "Limit caffeine intake in the evening",
-                ]}
-              />
-
-              <Card
-                icon={<Sun />}
-                title={t("Prevention.generalCards.sun")}
-                color="bg-orange-500"
-                tips={[
-                  "Use sunscreen with SPF 30 or higher",
-                  "Wear protective clothing in strong sun",
-                  "Avoid peak sun hours (10 AM – 4 PM)",
-                  "Wear sunglasses to protect your eyes",
-                  "Reapply sunscreen every 2 hours outdoors",
-                ]}
-              />
+              {Object.entries(
+                t("Prevention.generalCardsData", {
+                  returnObjects: true,
+                  defaultValue: {},
+                })
+              ).map(([key, card]) => (
+                <Card
+                  key={key}
+                  icon={GENERAL_CARD_ICONS[key]}
+                  title={card.title}
+                  color={GENERAL_CARD_COLORS[key]}
+                  tips={Array.isArray(card.tips) ? card.tips : []}
+                />
+              ))}
             </div>
           )}
 
           {activeTab === "disease" && (
             <div className="animate-fade-in space-y-14">
-              {Object.entries(
-                diseasesData.reduce((acc, d) => {
-                  acc[d.category] = acc[d.category] || [];
-                  acc[d.category].push(d);
-                  return acc;
-                }, {})
-              ).map(([category, diseases]) => (
-                <section key={category}>
-                  <h2 className="text-xl font-bold text-gray-900 mb-6">
-                    {category}
-                  </h2>
+              {Object.entries(diseaseCategories).map(
+                ([categoryKey, category]) => (
+                  <section key={categoryKey}>
+                    <h2 className="text-xl font-bold text-gray-900 mb-6">
+                      {category.title}
+                    </h2>
 
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {diseases.map((d, i) => (
-                      <div
-                        key={i}
-                        className="
-                          bg-white rounded-2xl border border-gray-200 p-6
-                          shadow-sm transition-all duration-300
-                          hover:shadow-xl hover:border-green-300 hover:-translate-y-1
-                        "
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-bold text-gray-900">{d.name}</h3>
-                          <span className="text-xs px-2 py-0.5 rounded-2xl bg-gray-200 text-gray-600 font-bold">
-                            {d.category}
-                          </span>
-                        </div>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {Object.entries(category.items || {}).map(
+                        ([diseaseKey, disease]) => (
+                          <div
+                            key={diseaseKey}
+                            className="
+                    bg-white rounded-2xl border border-gray-200 p-6
+                    shadow-sm transition-all duration-300
+                    hover:shadow-xl hover:border-green-300 hover:-translate-y-1
+                  "
+                          >
+                            <div className="flex items-start justify-between mb-2">
+                              <h3 className="font-bold text-gray-900">
+                                {disease.name}
+                              </h3>
+                              <span className="text-xs px-2 py-0.5 rounded-2xl bg-gray-200 text-gray-600 font-bold">
+                                {category.title}
+                              </span>
+                            </div>
 
-                        <p className="text-sm text-gray-600 mb-4">
-                          {d.description}
-                        </p>
-
-                        {d.prevention_tips?.length > 0 && (
-                          <>
-                            <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                              <Shield className="w-4 h-4 text-green-500" />
-                              {t("Prevention.disease.preventionTips")}
+                            <p className="text-sm text-gray-600 mb-4">
+                              {disease.description}
                             </p>
 
-                            <ul className="space-y-2 text-sm text-gray-700">
-                              {d.prevention_tips.slice(0, 5).map((tip, idx) => (
-                                <li
-                                  key={idx}
-                                  className="flex gap-2 items-start"
-                                >
-                                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
-                                  <span>{tip}</span>
-                                </li>
-                              ))}
-                            </ul>
+                            {Array.isArray(disease.prevention_tips) &&
+                              disease.prevention_tips.length > 0 && (
+                                <>
+                                  <p className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                    <Shield className="w-4 h-4 text-green-500" />
+                                    {t("Prevention.disease.preventionTips")}
+                                  </p>
 
-                            {d.prevention_tips.length > 5 && (
-                              <p className="mt-2 text-xs text-gray-500 italic">
-                                {t("Prevention.disease.moreTips", {
-                                  count: d.prevention_tips.length - 5,
-                                })}
-                              </p>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              ))}
+                                  <ul className="space-y-2 text-sm text-gray-700">
+                                    {disease.prevention_tips
+                                      .slice(0, 5)
+                                      .map((tip, idx) => (
+                                        <li
+                                          key={idx}
+                                          className="flex gap-2 items-start"
+                                        >
+                                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                                          <span>{tip}</span>
+                                        </li>
+                                      ))}
+                                  </ul>
+
+                                  {disease.prevention_tips.length > 5 && (
+                                    <p className="mt-2 text-xs text-gray-500 italic">
+                                      {t("Prevention.disease.moreTips", {
+                                        count:
+                                          disease.prevention_tips.length - 5,
+                                      })}
+                                    </p>
+                                  )}
+                                </>
+                              )}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </section>
+                )
+              )}
             </div>
           )}
         </div>
