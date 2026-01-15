@@ -34,7 +34,6 @@ export default function SymptomChecker() {
     }
   }, []);
 
-
   const diseases = useMemo(() => {
     const data = t("SymptomChecker.data", { returnObjects: true });
     return Object.entries(data).map(([id, value]) => ({
@@ -126,7 +125,11 @@ export default function SymptomChecker() {
           {filteredDiseases.map((d) => (
             <div
               key={d.id}
-              className="bg-white rounded-2xl border p-6 shadow-lg flex flex-col justify-between"
+              className="group bg-white rounded-2xl border p-6
+                  shadow-sm
+                  transition-all duration-300 ease-out
+                  hover:-translate-y-1 hover:shadow-xl hover:border-blue-500
+                  flex flex-col justify-between"
             >
               <div>
                 <span className="inline-block mb-3 px-3 py-1 rounded-xl text-xs bg-black text-white">
@@ -145,7 +148,7 @@ export default function SymptomChecker() {
                 onClick={() => {
                   sessionStorage.setItem("symptomScroll", window.scrollY);
                 }}
-                className="mt-6 w-full py-3 rounded-xl text-center bg-black text-white"
+                className="mt-6 w-full py-3 rounded-xl text-center bg-gray-300 text-black group-hover:bg-black group-hover:text-white transition font-medium cursor-pointer"
               >
                 {t("SymptomChecker.startAssessment")} →
               </Link>
