@@ -81,15 +81,15 @@ export default function Assessment() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-32">
       <div className="max-w-3xl mx-auto px-4">
-        <Link
-          to="/symptom-checker"
+        <button
+          onClick={() => navigate(-1)}
           className={`flex items-center gap-2 text-lg text-gray-500
             hover:text-gray-900 font-semibold transition mb-6
             ${isSubmitting ? "pointer-events-none opacity-40" : ""}`}
         >
           <ArrowLeft className="w-6 h-6" />
           Back to Symptom Checker
-        </Link>
+        </button>
 
         <h1 className="text-2xl font-bold mb-6">{assessment.title}</h1>
 
@@ -194,7 +194,7 @@ export default function Assessment() {
 
           {/* ✅ Cancel Button */}
           <button
-            onClick={() => navigate("/symptom-checker")}
+            onClick={() => navigate(-1)}
             className="
               mt-4 w-full py-3 rounded-xl
               bg-black text-white text-sm font-medium

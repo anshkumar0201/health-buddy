@@ -1,0 +1,65 @@
+{
+  "Diseases": {
+    "title": "Disease Information Hub",
+    "subtitle": "Learn about common diseases, their symptoms, causes, and prevention",
+    "searchPlaceholder": "Search diseases...",
+    "commonSymptoms": "Common Symptoms:",
+    "learnMore": "Learn More",
+    "more": "more",
+
+    "categories": {
+      "all": "All Diseases",
+      "cardiovascular": "Cardiovascular",
+      "respiratory": "Respiratory",
+      "metabolic": "Metabolic",
+      "musculoskeletal": "Musculoskeletal",
+      "neurological": "Neurological",
+      "infectious": "Infectious",
+      "mentalHealth": "Mental Health",
+      "digestive": "Digestive",
+      "skin": "Skin",
+      "eye": "Eye",
+      "other": "Other"
+    },
+    "items": {
+      "acidReflux": {
+        "id": "acidReflux",
+        "category": "digestive",
+        "name": "Acid Reflux (GERD)",
+        "description": "A digestive disorder where stomach acid frequently flows back into the food pipe, causing irritation.",
+        "symptoms": [
+          "Burning sensation in chest (heartburn)",
+          "Chest pain",
+          "Difficulty swallowing",
+          "Regurgitation of food or sour liquid"
+        ]
+      },
+
+      "acne": {
+        "id": "acne",
+        "category": "skin",
+        "name": "Acne",
+        "description": "A skin condition that occurs when hair follicles become clogged with oil and dead skin cells.",
+        "symptoms": [
+          "Whiteheads",
+          "Blackheads",
+          "Small red bumps",
+          "Painful pimples"
+        ]
+      },
+
+      "alzheimer": {
+        "id": "alzheimer",
+        "category": "neurological",
+        "name": "Alzheimer's Disease",
+        "description": "A progressive neurological disorder that causes memory loss and cognitive decline.",
+        "symptoms": [
+          "Memory loss affecting daily life",
+          "Confusion",
+          "Difficulty solving problems",
+          "Disorientation"
+        ]
+      }
+    }
+  }
+}
