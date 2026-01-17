@@ -13,8 +13,13 @@ app.use(express.json());
 
 app.use("/api/analyze-symptoms", analyzeRoutes);
 
-app.get("/", (req, res) => res.send("Backend is running mate!"));
+app.get("/", (req, res) => res.send("OK"));
 
-app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+    app.listen(PORT, () => {
+        console.log(`Server listening on http://localhost:${PORT}`);
+    });
+}
+else {
+    app.listen(PORT);
+}

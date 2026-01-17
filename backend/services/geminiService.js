@@ -1,14 +1,14 @@
 const { GoogleGenAI } = require("@google/genai");
 
 const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
+  apiKey: process.env.GEMINI_API_KEY,
 });
 
 /* ======================================================
    PROMPT (STRICT, RULE-ALIGNED)
    ====================================================== */
 function buildPrompt(text, locale = "en") {
-    return `
+  return `
 You are a medical symptom analysis engine used inside a health application.
 
 Your task:
@@ -116,30 +116,30 @@ Return ONLY the JSON.
    INTERNAL GEMINI CALL (JSON-ENFORCED)
    ====================================================== */
 async function callGemini(prompt) {
-    const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-lite",
-        contents: prompt,
-        generationConfig: {
-            temperature: 0,
-            responseMimeType: "application/json",
-        },
-    });
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash-lite",
+    contents: prompt,
+    generationConfig: {
+      temperature: 0,
+      responseMimeType: "application/json",
+    },
+  });
 
-    return response.candidates?.[0]?.content?.parts?.[0]?.text;
+  return response.candidates?.[0]?.content?.parts?.[0]?.text;
 }
 
 function extractJson(text) {
-    if (!text || typeof text !== "string") return null;
+  if (!text || typeof text !== "string") return null;
 
-    // Remove BOM and trim
-    const cleaned = text.replace(/^\uFEFF/, "").trim();
+  // Remove BOM and trim
+  const cleaned = text.replace(/^\uFEFF/, "").trim();
 
-    const firstBrace = cleaned.indexOf("{");
-    const lastBrace = cleaned.lastIndexOf("}");
+  const firstBrace = cleaned.indexOf("{");
+  const lastBrace = cleaned.lastIndexOf("}");
 
-    if (firstBrace === -1 || lastBrace === -1) return null;
+  if (firstBrace === -1 || lastBrace === -1) return null;
 
-    return cleaned.slice(firstBrace, lastBrace + 1);
+  return cleaned.slice(firstBrace, lastBrace + 1);
 }
 
 
@@ -147,53 +147,49 @@ function extractJson(text) {
    MAIN GEMINI CALL
    ====================================================== */
 async function analyzeSymptomsWithGemini(text, locale = "en") {
-    console.log("🚀 Calling Gemini SDK...");
-    console.log("🔑 API key present:", !!process.env.GEMINI_API_KEY);
+  // ---- helper to parse safely ----
+  const parseGeminiJson = (rawText) => {
+    const extracted = extractJson(rawText);
 
-    // ---- helper to parse safely ----
-    const parseGeminiJson = (rawText) => {
-        const extracted = extractJson(rawText);
+    if (!extracted) {
+      throw new Error("Could not extract JSON");
+    }
 
-        if (!extracted) {
-            throw new Error("Could not extract JSON");
-        }
+    return JSON.parse(extracted);
+  };
 
-        return JSON.parse(extracted);
-    };
+  let rawText;
+  let parsed;
 
-    let rawText;
-    let parsed;
+  // -------- FIRST ATTEMPT --------
+  try {
+    rawText = await callGemini(buildPrompt(text, locale));
+    parsed = parseGeminiJson(rawText);
+  } catch (err) {
+    console.warn("⚠️ Gemini JSON parse failed, retrying once...");
+  }
 
-    // -------- FIRST ATTEMPT --------
+  // -------- ONE RETRY (STRICTER) --------
+  if (!parsed) {
     try {
-        rawText = await callGemini(buildPrompt(text, locale));
-        parsed = parseGeminiJson(rawText);
+      rawText = await callGemini(
+        buildPrompt(text, locale) +
+        "\n\nREMINDER: Output MUST be valid JSON ONLY. No prose."
+      );
+
+      parsed = parseGeminiJson(rawText);
     } catch (err) {
-        console.warn("⚠️ Gemini JSON parse failed, retrying once...");
+      console.error("❌ Gemini returned invalid JSON twice");
+      throw new Error("Gemini returned invalid JSON");
     }
+  }
 
-    // -------- ONE RETRY (STRICTER) --------
-    if (!parsed) {
-        try {
-            rawText = await callGemini(
-                buildPrompt(text, locale) +
-                "\n\nREMINDER: Output MUST be valid JSON ONLY. No prose."
-            );
+  // -------- SCHEMA VALIDATION --------
+  if (!validateAnalyzerSchema(parsed)) {
+    throw new Error("Gemini response failed schema validation");
+  }
 
-            parsed = parseGeminiJson(rawText);
-        } catch (err) {
-            console.error("❌ Gemini failed JSON twice");
-            console.error(rawText);
-            throw new Error("Gemini returned invalid JSON");
-        }
-    }
-
-    // -------- SCHEMA VALIDATION --------
-    if (!validateAnalyzerSchema(parsed)) {
-        throw new Error("Gemini response failed schema validation");
-    }
-
-    return enforceInvariants(parsed);
+  return enforceInvariants(parsed);
 }
 
 
@@ -201,48 +197,48 @@ async function analyzeSymptomsWithGemini(text, locale = "en") {
    SCHEMA VALIDATION (STRUCTURE ONLY)
    ====================================================== */
 function validateAnalyzerSchema(data) {
-    if (!data || typeof data !== "object") return false;
-    if (!data.config || !data.urgency || !data.conditions) return false;
+  if (!data || typeof data !== "object") return false;
+  if (!data.config || !data.urgency || !data.conditions) return false;
 
-    if (data.config.minCharCount !== 30) return false;
-    if (typeof data.config.symptomScores !== "object") return false;
+  if (data.config.minCharCount !== 30) return false;
+  if (typeof data.config.symptomScores !== "object") return false;
 
-    if (
-        typeof data.config.urgencyThresholds?.high !== "number" ||
-        typeof data.config.urgencyThresholds?.moderate !== "number"
-    ) {
-        return false;
-    }
+  if (
+    typeof data.config.urgencyThresholds?.high !== "number" ||
+    typeof data.config.urgencyThresholds?.moderate !== "number"
+  ) {
+    return false;
+  }
 
-    for (const level of ["high", "moderate", "low"]) {
-        if (!data.urgency[level]) return false;
-        if (!Array.isArray(data.conditions[level])) return false;
-    }
+  for (const level of ["high", "moderate", "low"]) {
+    if (!data.urgency[level]) return false;
+    if (!Array.isArray(data.conditions[level])) return false;
+  }
 
-    return true;
+  return true;
 }
 
 /* ======================================================
    INVARIANT ENFORCEMENT (HARD LOCKS)
    ====================================================== */
 function enforceInvariants(aiData) {
-    aiData.config.minCharCount = 30;
+  aiData.config.minCharCount = 30;
 
-    aiData.urgency.high.color = "red";
-    aiData.urgency.high.label = "High Urgency";
+  aiData.urgency.high.color = "red";
+  aiData.urgency.high.label = "High Urgency";
 
-    aiData.urgency.moderate.color = "yellow";
-    aiData.urgency.moderate.label = "Moderate Urgency";
+  aiData.urgency.moderate.color = "yellow";
+  aiData.urgency.moderate.label = "Moderate Urgency";
 
-    aiData.urgency.low.color = "green";
-    aiData.urgency.low.label = "Low Urgency";
+  aiData.urgency.low.color = "green";
+  aiData.urgency.low.label = "Low Urgency";
 
-    return aiData;
+  return aiData;
 }
 
 /* ======================================================
    EXPORT
    ====================================================== */
 module.exports = {
-    analyzeSymptomsWithGemini
+  analyzeSymptomsWithGemini
 };
