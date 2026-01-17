@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Download,
+  Stethoscope,
 } from "lucide-react";
 
 export default function AssessmentResult() {
@@ -45,43 +46,63 @@ export default function AssessmentResult() {
     theme = "yellow";
   }
 
+  const showEmergencyBanner = criticalHit || riskKey === "high";
+
   const themes = {
     green: {
-      bg: "bg-green-100",
-      border: "border-green-200",
+      bg: "bg-green-200",
+      border: "border-green-300",
       text: "text-green-700",
-      badge: "bg-green-100 text-green-700",
-      icon: "text-green-600",
+      badge: "bg-green-300 text-green-900",
+      icon: "text-green-700",
     },
     yellow: {
-      bg: "bg-yellow-100",
-      border: "border-yellow-200",
+      bg: "bg-yellow-200",
+      border: "border-yellow-300",
       text: "text-yellow-700",
-      badge: "bg-yellow-100 text-yellow-700",
-      icon: "text-yellow-600",
+      badge: "bg-yellow-300 text-yellow-900",
+      icon: "text-yellow-700",
     },
     red: {
-      bg: "bg-red-100",
-      border: "border-red-200",
+      bg: "bg-red-200",
+      border: "border-red-300",
       text: "text-red-700",
-      badge: "bg-red-100 text-red-700",
-      icon: "text-red-600",
+      badge: "bg-red-300 text-red-900",
+      icon: "text-red-700",
     },
   };
 
   const themeStyles = themes[theme];
   const advice = recommendations[riskKey] || [];
+  const rawNextSteps = t(
+    `AssessmentResult.nextSteps.${criticalHit ? "emergency" : riskKey}`,
+    { returnObjects: true }
+  );
+
+  const nextSteps = Array.isArray(rawNextSteps) ? rawNextSteps : [];
+
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-16 pb-32">
       <div className="max-w-4xl mx-auto px-4 print-area">
-        <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+        {/* Home Button */}
+        <button
+          onClick={() => navigate("/symptom-checker")}
+          className="flex items-center gap-2 text-lg text-gray-500
+            hover:text-gray-950 font-semibold transition mb-6 cursor-pointer"
+          aria-label="Go to Home"
+        >
+          <Stethoscope className="w-6 h-6 text-gray-700" />
+          {t("AssessmentResult.backToSymptomChecker")}
+        </button>
+
+        <div className="bg-white rounded-2xl border overflow-hidden shadow-2xl">
           {/* Header */}
           <div
             className={`${themeStyles.bg} border ${themeStyles.border} p-4 sm:p-6 flex items-start justify-between gap-4`}
           >
             <div className="min-w-0">
-              <h1 className="font-bold text-gray-900 text-lg sm:text-xl md:text-2xl leading-snug break-words">
+              <h1 className="font-bold text-gray-900 text-lg sm:text-xl md:text-2xl leading-snug wrap-break-word">
                 {title} {t("AssessmentResult.assessment")}
               </h1>
               <p className="text-sm text-gray-700 mt-1">
@@ -90,13 +111,15 @@ export default function AssessmentResult() {
               </p>
             </div>
 
-            <Check className={`w-10 h-10 shrink-0 ${themeStyles.icon}`} />
+            <Check
+              className={`w-10 font-bold h-10 shrink-0 ${themeStyles.icon}`}
+            />
           </div>
 
           {/* 🚨 Emergency Banner */}
-          {criticalHit && (
+          {showEmergencyBanner && (
             <div className="mx-2 sm:mx-6 mt-6 rounded-2xl border border-red-300 bg-red-50 p-5 flex gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="w-6 h-6 text-red-600"
@@ -115,10 +138,21 @@ export default function AssessmentResult() {
 
               <div>
                 <h3 className="font-bold text-red-700 text-sm sm:text-base mb-1">
-                  {t("AssessmentResult.emergency.title")}
+                  {criticalHit
+                    ? t("AssessmentResult.emergency.title")
+                    : t(
+                        "AssessmentResult.highRisk.title",
+                        "High Risk Detected"
+                      )}
                 </h3>
+
                 <p className="text-sm text-red-700 leading-relaxed">
-                  {t("AssessmentResult.emergency.message")}
+                  {criticalHit
+                    ? t("AssessmentResult.emergency.message")
+                    : t(
+                        "AssessmentResult.highRisk.message",
+                        "Your responses indicate a high health risk. Prompt medical consultation is strongly advised."
+                      )}
                 </p>
               </div>
             </div>
@@ -139,7 +173,7 @@ export default function AssessmentResult() {
                 </p>
               </div>
               <span
-                className={`px-4 py-2 rounded-lg font-semibold ${themeStyles.badge}`}
+                className={`px-4 py-2 rounded-lg font-bold ${themeStyles.badge}`}
               >
                 {t(`AssessmentResult.riskLevels.${riskKey}`)}
               </span>
@@ -170,15 +204,27 @@ export default function AssessmentResult() {
           </div>
 
           {/* Next Steps */}
-          <div className="m-6 p-5 rounded-xl bg-blue-50 border border-blue-200 flex gap-3">
-            <Info className="w-5 h-5 text-blue-600 mt-1" />
-            <p className="text-sm text-blue-700">
-              {criticalHit
-                ? t("AssessmentResult.nextSteps.emergency")
-                : riskKey === "high"
-                ? t("AssessmentResult.nextSteps.high")
-                : t("AssessmentResult.nextSteps.low")}
-            </p>
+          <div className="m-6 p-5 rounded-xl bg-blue-50 border border-blue-200">
+            <div className="flex gap-3 mb-3">
+              <Info className="w-5 h-5 text-blue-600 mt-1 shrink-0" />
+              <h3 className="font-semibold text-blue-800">
+                {t("AssessmentResult.nextStepsTitle", "Next Steps")}
+              </h3>
+            </div>
+
+            <ul className="space-y-3 pl-8">
+              {nextSteps.map((step, idx) => (
+                <li
+                  key={idx}
+                  className="flex gap-3 items-start text-sm text-blue-700"
+                >
+                  <span className="mt-0.5 w-5 h-5 flex items-center justify-center shrink-0">
+                    <Check className="w-4 h-4 text-blue-600" />
+                  </span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Disclaimer */}

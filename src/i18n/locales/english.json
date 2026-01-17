@@ -145,7 +145,6 @@
   "SymptomAnalyzer": {
     "title": "Symptom Analyzer",
     "subtitle": "Describe how you're feeling and we'll suggest which conditions to check",
-
     "howItWorks": {
       "title": "How it works",
       "description": "Describe your symptoms in your own words. Our system analyzes them and suggests relevant health checks."
@@ -153,6 +152,7 @@
     "inputTitle": "Describe Your Symptoms",
     "placeholder": "Example: headache and fever since last 2 days",
     "minChars": "characters minimum",
+    "tip": "Tip: Adding duration or severity improves accuracy.",
     "cta": "Analyze My Symptoms",
     "loading": "Analyzing...",
     "invalid": {
@@ -167,7 +167,86 @@
     "immediateAdvice": "Immediate Advice",
     "suggestedConditions": "Suggested Conditions to Check",
     "check": "Check",
-    "disclaimer": "This is not a diagnosis. Please consult a healthcare professional."
+    "disclaimer": "This information is provided to informational purposes only and should not considered a diagnosis. Please consult a healthcare professional for personalized medical advice.",
+    "config": {
+      "minCharCount": 30,
+      "symptomScores": {
+        "chest pain": 10,
+        "shortness of breath": 8,
+        "breathing difficulty": 8,
+        "fever": 5,
+        "high fever": 7,
+        "headache": 3,
+        "dizziness": 4,
+        "vomiting": 4,
+        "nausea": 3,
+        "abdominal pain": 5,
+        "weakness": 3,
+        "fatigue": 2
+      },
+      "urgencyThresholds": {
+        "high": 20,
+        "moderate": 10
+      }
+    },
+    "urgency": {
+      "high": {
+        "color": "red",
+        "label": "High Urgency",
+        "description": "Your symptoms may indicate a serious or life-threatening condition.",
+        "advice": "Seek emergency medical care immediately."
+      },
+      "moderate": {
+        "color": "yellow",
+        "label": "Moderate Urgency",
+        "description": "Your symptoms need timely medical attention.",
+        "advice": "Consult a doctor as soon as possible."
+      },
+      "low": {
+        "color": "green",
+        "label": "Low Urgency",
+        "description": "Your symptoms appear mild.",
+        "advice": "Monitor your condition and take rest."
+      }
+    },
+    "conditions": {
+      "high": [
+        {
+          "name": "Heart Attack",
+          "tag": "Emergency",
+          "description": "A serious condition caused by blocked blood flow to the heart."
+        },
+        {
+          "name": "Stroke",
+          "tag": "Emergency",
+          "description": "A medical emergency caused by interrupted blood supply to the brain."
+        }
+      ],
+      "moderate": [
+        {
+          "name": "Hypertension",
+          "tag": "Chronic",
+          "description": "Elevated blood pressure that requires monitoring and treatment."
+        },
+        {
+          "name": "Migraine",
+          "tag": "Neurological",
+          "description": "Recurring headaches often accompanied by nausea or light sensitivity."
+        }
+      ],
+      "low": [
+        {
+          "name": "Common Cold",
+          "tag": "Mild",
+          "description": "A viral infection of the upper respiratory tract."
+        },
+        {
+          "name": "Indigestion",
+          "tag": "Digestive",
+          "description": "Discomfort caused by difficulty in digesting food."
+        }
+      ]
+    }
   },
 
   "SymptomChecker": {
@@ -2213,6 +2292,7 @@
           ]
         }
       },
+
       "acid-reflux-gerd": {
         "title": "Acid Reflux (GERD)",
         "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
@@ -2479,8 +2559,143 @@
           ]
         }
       },
-      "jaundice": {},
-      "food-poisoning": {},
+
+      "jaundice": {
+        "title": "Jaundice",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Have you noticed yellowing of your eyes or skin?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild yellowing", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is your urine dark in color or stools pale?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Not sure", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have itching, fatigue, or loss of appetite?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had fever, abdominal pain, or nausea?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild symptoms", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a history of liver disease, hepatitis, or heavy alcohol use?",
+            "options": [
+              { "text": "Yes", "score": 5, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Stay well hydrated",
+            "Eat a balanced and light diet",
+            "Avoid alcohol",
+            "Monitor skin and eye color",
+            "Get adequate rest"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Undergo liver function tests if advised",
+            "Avoid medications not prescribed",
+            "Maintain a liver-friendly diet",
+            "Monitor symptoms closely"
+          ],
+          "high": [
+            "Seek urgent medical care",
+            "Get immediate evaluation of liver function",
+            "Do not consume alcohol or non-prescribed drugs",
+            "Follow hospital care instructions strictly",
+            "Ensure continuous medical supervision"
+          ]
+        }
+      },
+
+      "food-poisoning": {
+        "title": "Food Poisoning",
+        "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
+        "questions": [
+          {
+            "question": "Do you have diarrhea or vomiting after eating suspicious food?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild symptoms", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are you experiencing abdominal cramps or stomach pain?",
+            "options": [
+              { "text": "Severe", "score": 3 },
+              { "text": "Mild", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have fever, chills, or weakness?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there blood in your stool or vomit?",
+            "options": [
+              { "text": "Yes", "score": 10, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than 24 hours?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Drink oral rehydration fluids",
+            "Rest and avoid solid food temporarily",
+            "Avoid greasy or spicy foods",
+            "Monitor symptoms",
+            "Resume light meals gradually"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Use oral rehydration salts",
+            "Avoid anti-diarrheal drugs unless prescribed",
+            "Eat bland foods",
+            "Watch for dehydration signs"
+          ],
+          "high": [
+            "Seek urgent medical care",
+            "Go to the nearest emergency facility",
+            "Get IV fluids if dehydrated",
+            "Avoid food until medically evaluated",
+            "Follow hospital treatment plan strictly"
+          ]
+        }
+      },
 
       "constipation": {
         "title": "Constipation",
@@ -3466,6 +3681,7 @@
           ]
         }
       },
+
       "back-pain": {
         "title": "Back Pain",
         "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
@@ -3864,6 +4080,7 @@
           ]
         }
       },
+
       "type-2-diabetes": {
         "title": "Type 2 Diabetes",
         "risk_thresholds": { "low": 0, "moderate": 8, "high": 16 },
@@ -4066,32 +4283,1596 @@
           ]
         }
       },
-      "depression": {},
-      "anxiety-disorder": {},
-      "insomnia": {},
-      "acne": {},
-      "eczema": {},
-      "psoriasis": {},
-      "skin-cancer-melanoma": {},
-      "glaucoma": {},
-      "cataracts": {},
-      "conjunctivitis": {},
-      "breast-cancer": {},
-      "colorectal-cancer": {},
-      "prostate-cancer": {},
-      "liver-cancer": {},
-      "pancreatic-cancer": {},
-      "leukemia": {},
-      "lymphoma": {},
-      "brain-cancer": {},
-      "ovarian-cancer": {},
-      "cervical-cancer": {},
-      "thyroid-cancer": {},
-      "kidney-cancer": {},
-      "bladder-cancer": {},
-      "oral-cancer": {},
-      "anemia": {},
-      "urinary-tract-infection": {}
+
+      "depression": {
+        "title": "Depression",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Have you felt sad, empty, or hopeless most of the day?",
+            "options": [
+              { "text": "Nearly every day", "score": 5 },
+              { "text": "Several days", "score": 3 },
+              { "text": "Rarely", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you lost interest or pleasure in activities you used to enjoy?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience fatigue, low energy, or slowed thinking?",
+            "options": [
+              { "text": "Most days", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have trouble concentrating or making decisions?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had thoughts of harming yourself or not wanting to live?",
+            "options": [
+              { "text": "Yes", "score": 10, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain a daily routine",
+            "Exercise and stay socially connected",
+            "Get adequate sleep",
+            "Practice relaxation techniques",
+            "Monitor mood changes"
+          ],
+          "moderate": [
+            "Consult a mental health professional",
+            "Consider counseling or therapy",
+            "Avoid alcohol and substance use",
+            "Follow structured daily activities",
+            "Seek support from trusted people"
+          ],
+          "high": [
+            "Seek immediate professional help",
+            "Contact a mental health crisis service",
+            "Do not stay alone if unsafe",
+            "Follow emergency care instructions",
+            "Ensure continuous supervision"
+          ]
+        }
+      },
+
+      "anxiety-disorder": {
+        "title": "Anxiety Disorder",
+        "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
+        "questions": [
+          {
+            "question": "Do you feel excessive worry or fear that is difficult to control?",
+            "options": [
+              { "text": "Most days", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "Rarely", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience restlessness, rapid heartbeat, or sweating?",
+            "options": [
+              { "text": "Frequently", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do anxiety symptoms interfere with work, school, or relationships?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you avoid situations because of fear or panic?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience panic attacks?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Practice breathing and relaxation exercises",
+            "Limit caffeine",
+            "Maintain regular sleep",
+            "Exercise regularly",
+            "Monitor stress triggers"
+          ],
+          "moderate": [
+            "Seek counseling or therapy",
+            "Practice structured stress management",
+            "Avoid alcohol or recreational drugs",
+            "Use medications only if prescribed",
+            "Build a support system"
+          ],
+          "high": [
+            "Consult a mental health specialist",
+            "Seek urgent care if panic is severe",
+            "Avoid isolation",
+            "Follow medical guidance",
+            "Ensure emotional support"
+          ]
+        }
+      },
+
+      "insomnia": {
+        "title": "Insomnia",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have difficulty falling asleep or staying asleep?",
+            "options": [
+              { "text": "Most nights", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you wake up feeling unrefreshed or tired?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do sleep problems affect your daily functioning?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mildly", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than 2 weeks?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain consistent sleep schedule",
+            "Limit screen time before bed",
+            "Avoid caffeine late in the day",
+            "Practice relaxation",
+            "Create a comfortable sleep environment"
+          ],
+          "moderate": [
+            "Consult a healthcare provider",
+            "Improve sleep hygiene",
+            "Limit naps",
+            "Use therapy or techniques if advised",
+            "Monitor sleep patterns"
+          ],
+          "high": [
+            "Seek medical evaluation",
+            "Assess for underlying conditions",
+            "Avoid self-medicating",
+            "Follow prescribed treatments",
+            "Ensure adequate rest support"
+          ]
+        }
+      },
+
+      "acne": {
+        "title": "Acne",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have pimples, blackheads, or whiteheads on your face or body?",
+            "options": [
+              { "text": "Many", "score": 4 },
+              { "text": "A few", "score": 2 },
+              { "text": "None", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have painful or deep cystic acne?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are breakouts leaving scars or dark marks?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild marks", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms persisted for more than 2 months?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Keep skin clean",
+            "Avoid touching face frequently",
+            "Use non-comedogenic products",
+            "Maintain healthy diet",
+            "Monitor skin changes"
+          ],
+          "moderate": [
+            "Use dermatologist-approved products",
+            "Avoid squeezing pimples",
+            "Limit oily cosmetics",
+            "Maintain consistent skincare routine",
+            "Consult a provider if not improving"
+          ],
+          "high": [
+            "Consult a dermatologist",
+            "Consider prescription treatment",
+            "Treat scarring early",
+            "Avoid harsh products",
+            "Follow medical advice carefully"
+          ]
+        }
+      },
+
+      "eczema": {
+        "title": "Eczema (Atopic Dermatitis)",
+        "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
+        "questions": [
+          {
+            "question": "Do you have itchy, red, or inflamed skin patches?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is your skin dry, cracked, or scaly?",
+            "options": [
+              { "text": "Severe", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do symptoms worsen with stress or allergens?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have oozing, bleeding, or infected skin?",
+            "options": [
+              { "text": "Yes", "score": 5, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Moisturize daily",
+            "Avoid harsh soaps",
+            "Use mild detergents",
+            "Avoid scratching",
+            "Keep skin hydrated"
+          ],
+          "moderate": [
+            "Use medicated creams if prescribed",
+            "Avoid known triggers",
+            "Use gentle skincare products",
+            "Monitor flare-ups",
+            "Consult a provider"
+          ],
+          "high": [
+            "Seek dermatology care",
+            "Treat infections promptly",
+            "Use prescription therapy",
+            "Avoid irritants completely",
+            "Follow medical guidance"
+          ]
+        }
+      },
+
+      "psoriasis": {
+        "title": "Psoriasis",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Do you have thick, red patches covered with silvery scales?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild patches", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience itching, burning, or soreness?",
+            "options": [
+              { "text": "Frequently", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are joints painful or stiff?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms lasted more than 3 months?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Use moisturizers",
+            "Avoid triggers",
+            "Maintain healthy lifestyle",
+            "Limit alcohol",
+            "Protect skin"
+          ],
+          "moderate": [
+            "Use prescribed topical treatments",
+            "Avoid smoking",
+            "Manage stress",
+            "Monitor flare-ups",
+            "Consult a dermatologist"
+          ],
+          "high": [
+            "Seek specialist care",
+            "Consider systemic therapy",
+            "Monitor joint symptoms",
+            "Follow treatment plan",
+            "Regular follow-up"
+          ]
+        }
+      },
+
+      "skin-cancer-melanoma": {
+        "title": "Skin Cancer (Melanoma)",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have a mole that has changed in size, shape, or color?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Slight changes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is the mole bleeding, itching, or not healing?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have multiple irregular or dark moles?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "A few", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had significant sun exposure or tanning?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Some", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Use sunscreen",
+            "Monitor moles",
+            "Avoid tanning beds",
+            "Protect skin from sun",
+            "Perform regular skin checks"
+          ],
+          "moderate": [
+            "See a dermatologist",
+            "Get suspicious moles evaluated",
+            "Limit sun exposure",
+            "Use protective clothing",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent dermatologic evaluation",
+            "Biopsy suspicious lesions",
+            "Do not delay treatment",
+            "Follow oncology referral",
+            "Ensure continuous care"
+          ]
+        }
+      },
+
+      "glaucoma": {
+        "title": "Glaucoma",
+        "risk_thresholds": { "low": 0, "moderate": 8, "high": 15 },
+        "questions": [
+          {
+            "question": "Do you experience loss of peripheral (side) vision?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Some difficulty", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have eye pain, pressure, or headaches?",
+            "options": [
+              { "text": "Frequently", "score": 4 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you see halos around lights or blurred vision?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of glaucoma?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Get regular eye checkups",
+            "Protect eyes from injury",
+            "Maintain healthy blood pressure",
+            "Avoid smoking",
+            "Monitor vision changes"
+          ],
+          "moderate": [
+            "Consult an eye specialist",
+            "Undergo eye pressure testing",
+            "Use prescribed eye drops",
+            "Avoid eye strain",
+            "Follow follow-up schedules"
+          ],
+          "high": [
+            "Seek urgent ophthalmology care",
+            "Prevent further vision loss",
+            "Follow treatment strictly",
+            "Do not miss appointments",
+            "Ensure continuous eye monitoring"
+          ]
+        }
+      },
+
+      "cataracts": {
+        "title": "Cataracts",
+        "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
+        "questions": [
+          {
+            "question": "Do you have cloudy or blurry vision?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have difficulty seeing at night?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Are colors appearing faded or yellowed?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Slightly", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have symptoms worsened over months?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Use adequate lighting",
+            "Wear sunglasses",
+            "Get routine eye exams",
+            "Maintain eye hygiene",
+            "Monitor vision changes"
+          ],
+          "moderate": [
+            "Consult an ophthalmologist",
+            "Update glasses if needed",
+            "Avoid glare",
+            "Assess need for surgery",
+            "Follow doctor advice"
+          ],
+          "high": [
+            "Schedule cataract surgery",
+            "Avoid driving if vision is poor",
+            "Prevent falls",
+            "Follow surgical plan",
+            "Ensure postoperative care"
+          ]
+        }
+      },
+
+      "conjunctivitis": {
+        "title": "Conjunctivitis (Pink Eye)",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have red or pink eyes?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild redness", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have eye discharge or crusting?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do your eyes itch, burn, or feel gritty?",
+            "options": [
+              { "text": "Frequently", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is vision blurred or painful?",
+            "options": [
+              { "text": "Yes", "score": 5, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Wash hands frequently",
+            "Avoid touching eyes",
+            "Use clean towels",
+            "Apply cold compress",
+            "Monitor symptoms"
+          ],
+          "moderate": [
+            "Use prescribed eye drops",
+            "Avoid contact lenses",
+            "Clean eyelids",
+            "Avoid sharing personal items",
+            "Consult an eye doctor"
+          ],
+          "high": [
+            "Seek urgent eye care",
+            "Prevent vision damage",
+            "Follow prescribed treatment",
+            "Avoid eye strain",
+            "Ensure infection control"
+          ]
+        }
+      },
+
+      "breast-cancer": {
+        "title": "Breast Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you feel a lump or thickening in the breast or underarm?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Not sure", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there nipple discharge, inversion, or skin dimpling?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Mild change", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Has the breast changed in size, shape, or appearance?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Slight change", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of breast cancer?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Not sure", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Perform regular self-exams",
+            "Attend routine screenings",
+            "Maintain healthy lifestyle",
+            "Monitor changes",
+            "Follow screening guidelines"
+          ],
+          "moderate": [
+            "Consult a doctor",
+            "Get imaging or mammogram",
+            "Avoid delaying evaluation",
+            "Monitor breast changes",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent specialist evaluation",
+            "Get biopsy if recommended",
+            "Do not delay diagnosis",
+            "Begin treatment promptly",
+            "Ensure oncology care"
+          ]
+        }
+      },
+
+      "colorectal-cancer": {
+        "title": "Colorectal Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have blood in stool or rectal bleeding?",
+            "options": [
+              { "text": "Yes", "score": 7 },
+              { "text": "Occasionally", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you had persistent change in bowel habits?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience unexplained weight loss or fatigue?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of colon cancer?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Eat high-fiber diet",
+            "Get regular screening",
+            "Exercise regularly",
+            "Monitor bowel habits",
+            "Avoid smoking"
+          ],
+          "moderate": [
+            "Consult a doctor",
+            "Schedule colonoscopy",
+            "Monitor symptoms",
+            "Avoid delay in evaluation",
+            "Follow clinical advice"
+          ],
+          "high": [
+            "Seek urgent gastroenterology care",
+            "Undergo diagnostic tests",
+            "Do not ignore bleeding",
+            "Start oncology referral",
+            "Ensure continuous care"
+          ]
+        }
+      },
+
+      "prostate-cancer": {
+        "title": "Prostate Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 9, "high": 16 },
+        "questions": [
+          {
+            "question": "Do you have difficulty urinating or weak urine flow?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you wake frequently at night to urinate?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there blood in urine or semen?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have pelvic or lower back pain?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Regular PSA screening",
+            "Healthy diet",
+            "Exercise",
+            "Monitor urinary symptoms",
+            "Avoid smoking"
+          ],
+          "moderate": [
+            "Consult urologist",
+            "Undergo prostate evaluation",
+            "Follow test results",
+            "Monitor progression",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent specialist care",
+            "Get biopsy if recommended",
+            "Begin cancer staging",
+            "Do not delay treatment",
+            "Ensure oncology care"
+          ]
+        }
+      },
+
+      "liver-cancer": {
+        "title": "Liver Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have unexplained weight loss or loss of appetite?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel pain or swelling in the upper right abdomen?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have jaundice or dark urine?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have chronic hepatitis or liver disease?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Avoid alcohol",
+            "Get regular liver tests",
+            "Healthy diet",
+            "Vaccinate for hepatitis",
+            "Monitor symptoms"
+          ],
+          "moderate": [
+            "Consult a specialist",
+            "Get imaging tests",
+            "Monitor liver function",
+            "Avoid harmful drugs",
+            "Follow medical guidance"
+          ],
+          "high": [
+            "Seek urgent oncology care",
+            "Begin cancer staging",
+            "Follow treatment plan",
+            "Avoid delays",
+            "Ensure close monitoring"
+          ]
+        }
+      },
+
+      "pancreatic-cancer": {
+        "title": "Pancreatic Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have persistent upper abdominal or back pain?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you experienced unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have jaundice or pale stools?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have diabetes or smoking history?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain healthy weight",
+            "Avoid smoking",
+            "Monitor digestive health",
+            "Get routine checkups",
+            "Healthy diet"
+          ],
+          "moderate": [
+            "Consult a gastroenterologist",
+            "Get imaging tests",
+            "Monitor symptoms",
+            "Avoid delays",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent oncology care",
+            "Begin staging",
+            "Do not delay diagnosis",
+            "Start treatment promptly",
+            "Ensure full medical supervision"
+          ]
+        }
+      },
+
+      "leukemia": {
+        "title": "Leukemia",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you feel extreme fatigue or weakness?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have frequent infections or fevers?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Occasionally", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have easy bruising or bleeding?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you noticed swollen lymph nodes or bone pain?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain balanced nutrition",
+            "Get routine blood tests",
+            "Monitor energy levels",
+            "Avoid infections",
+            "Regular checkups"
+          ],
+          "moderate": [
+            "Consult a hematologist",
+            "Get blood investigations",
+            "Monitor symptoms",
+            "Avoid delays",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent hematology care",
+            "Begin diagnostic workup",
+            "Start treatment promptly",
+            "Avoid exposure to infections",
+            "Ensure continuous care"
+          ]
+        }
+      },
+
+      "lymphoma": {
+        "title": "Lymphoma",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have painless swollen lymph nodes?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Not sure", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience night sweats or fever?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you lost weight without trying?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel persistent fatigue?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor lymph nodes",
+            "Maintain immunity",
+            "Healthy lifestyle",
+            "Regular checkups",
+            "Avoid infections"
+          ],
+          "moderate": [
+            "Consult an oncologist",
+            "Get imaging and biopsy",
+            "Monitor progression",
+            "Follow medical advice",
+            "Do not delay tests"
+          ],
+          "high": [
+            "Seek urgent cancer care",
+            "Begin staging",
+            "Start therapy promptly",
+            "Ensure oncology supervision",
+            "Follow treatment plan"
+          ]
+        }
+      },
+
+      "brain-cancer": {
+        "title": "Brain Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 12, "high": 20 },
+        "questions": [
+          {
+            "question": "Do you have persistent or worsening headaches?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have seizures or fainting episodes?",
+            "options": [
+              { "text": "Yes", "score": 10, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you experience vision, speech, or memory problems?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have weakness or numbness on one side?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor neurological symptoms",
+            "Maintain healthy lifestyle",
+            "Get routine checkups",
+            "Avoid head injury",
+            "Track headaches"
+          ],
+          "moderate": [
+            "Consult neurologist",
+            "Get brain imaging",
+            "Monitor symptoms",
+            "Follow medical guidance",
+            "Avoid delays"
+          ],
+          "high": [
+            "Seek urgent neurological care",
+            "Hospital evaluation",
+            "Begin diagnostic workup",
+            "Ensure continuous supervision",
+            "Follow emergency protocols"
+          ]
+        }
+      },
+
+      "ovarian-cancer": {
+        "title": "Ovarian Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have persistent bloating or pelvic discomfort?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel full quickly when eating?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have urinary urgency or frequency?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is there a family history of ovarian or breast cancer?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Routine gynecologic checkups",
+            "Healthy diet",
+            "Monitor abdominal symptoms",
+            "Regular exercise",
+            "Know family history"
+          ],
+          "moderate": [
+            "Consult gynecologist",
+            "Get pelvic ultrasound",
+            "Monitor symptoms",
+            "Follow medical advice",
+            "Avoid delays"
+          ],
+          "high": [
+            "Seek urgent oncology evaluation",
+            "Get imaging and biopsy",
+            "Begin staging",
+            "Start treatment promptly",
+            "Ensure specialized care"
+          ]
+        }
+      },
+
+      "cervical-cancer": {
+        "title": "Cervical Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have abnormal vaginal bleeding?",
+            "options": [
+              { "text": "Yes", "score": 6 },
+              { "text": "Occasionally", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have pelvic pain or pain during intercourse?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have unusual vaginal discharge?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Have you skipped regular Pap smears?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Regular Pap smear",
+            "HPV vaccination",
+            "Safe sexual practices",
+            "Monitor symptoms",
+            "Healthy lifestyle"
+          ],
+          "moderate": [
+            "Consult gynecologist",
+            "Get screening tests",
+            "Follow up promptly",
+            "Avoid delays",
+            "Monitor symptoms"
+          ],
+          "high": [
+            "Seek urgent oncology care",
+            "Get biopsy and imaging",
+            "Begin treatment",
+            "Follow specialist advice",
+            "Ensure continuous care"
+          ]
+        }
+      },
+
+      "thyroid-cancer": {
+        "title": "Thyroid Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 9, "high": 16 },
+        "questions": [
+          {
+            "question": "Do you have a lump or swelling in the neck?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Small lump", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have hoarseness or difficulty swallowing?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is the lump growing or painful?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a family history of thyroid cancer?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Monitor neck lumps",
+            "Routine checkups",
+            "Healthy lifestyle",
+            "Avoid radiation exposure",
+            "Track changes"
+          ],
+          "moderate": [
+            "Consult endocrinologist",
+            "Get thyroid ultrasound",
+            "Monitor nodules",
+            "Follow medical advice",
+            "Avoid delays"
+          ],
+          "high": [
+            "Seek urgent specialist care",
+            "Get biopsy",
+            "Begin cancer staging",
+            "Start treatment promptly",
+            "Ensure oncology care"
+          ]
+        }
+      },
+
+      "kidney-cancer": {
+        "title": "Kidney Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have blood in your urine?",
+            "options": [
+              { "text": "Yes", "score": 7 },
+              { "text": "Occasionally", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have persistent lower back or side pain?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel fatigued or have unexplained weight loss?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have high blood pressure or smoking history?",
+            "options": [
+              { "text": "Yes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Stay hydrated",
+            "Avoid smoking",
+            "Monitor urinary symptoms",
+            "Regular health checkups",
+            "Maintain healthy weight"
+          ],
+          "moderate": [
+            "Consult a urologist",
+            "Get imaging studies",
+            "Monitor symptoms",
+            "Avoid delays",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent oncology care",
+            "Get CT or MRI scan",
+            "Begin staging",
+            "Do not delay diagnosis",
+            "Ensure specialist care"
+          ]
+        }
+      },
+
+      "bladder-cancer": {
+        "title": "Bladder Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 10, "high": 18 },
+        "questions": [
+          {
+            "question": "Do you have blood in your urine?",
+            "options": [
+              { "text": "Yes", "score": 7 },
+              { "text": "Sometimes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel pain or burning while urinating?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you need to urinate frequently or urgently?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a smoking or chemical exposure history?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Avoid smoking",
+            "Stay hydrated",
+            "Monitor urinary symptoms",
+            "Routine checkups",
+            "Healthy lifestyle"
+          ],
+          "moderate": [
+            "Consult a urologist",
+            "Get urine tests",
+            "Schedule cystoscopy",
+            "Monitor symptoms",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent specialist care",
+            "Get biopsy and imaging",
+            "Begin treatment",
+            "Avoid delays",
+            "Ensure oncology care"
+          ]
+        }
+      },
+
+      "oral-cancer": {
+        "title": "Oral Cancer",
+        "risk_thresholds": { "low": 0, "moderate": 9, "high": 16 },
+        "questions": [
+          {
+            "question": "Do you have a non-healing mouth ulcer or sore?",
+            "options": [
+              { "text": "Yes", "score": 5 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have difficulty chewing or swallowing?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have a lump in the mouth or neck?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you smoke, chew tobacco, or drink alcohol?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Maintain oral hygiene",
+            "Avoid tobacco",
+            "Regular dental checkups",
+            "Healthy diet",
+            "Monitor mouth changes"
+          ],
+          "moderate": [
+            "Consult a dentist or ENT",
+            "Get oral examination",
+            "Monitor lesions",
+            "Avoid risk factors",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek urgent oncology care",
+            "Get biopsy",
+            "Begin staging",
+            "Start treatment",
+            "Ensure specialist supervision"
+          ]
+        }
+      },
+
+      "anemia": {
+        "title": "Anemia",
+        "risk_thresholds": { "low": 0, "moderate": 7, "high": 14 },
+        "questions": [
+          {
+            "question": "Do you feel tired, weak, or short of breath?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Sometimes", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you feel dizzy or have headaches?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Occasionally", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is your skin pale or yellowish?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Mild", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have heavy bleeding or poor diet?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Eat iron-rich foods",
+            "Stay hydrated",
+            "Get adequate rest",
+            "Monitor energy",
+            "Healthy diet"
+          ],
+          "moderate": [
+            "Consult a doctor",
+            "Get blood tests",
+            "Take supplements if prescribed",
+            "Monitor symptoms",
+            "Follow medical advice"
+          ],
+          "high": [
+            "Seek medical evaluation",
+            "Identify bleeding or deficiency cause",
+            "Follow treatment plan",
+            "Avoid delays",
+            "Ensure follow-up"
+          ]
+        }
+      },
+
+      "urinary-tract-infection": {
+        "title": "Urinary Tract Infection (UTI)",
+        "risk_thresholds": { "low": 0, "moderate": 6, "high": 12 },
+        "questions": [
+          {
+            "question": "Do you have burning or pain during urination?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you urinate frequently or urgently?",
+            "options": [
+              { "text": "Yes", "score": 3 },
+              { "text": "Sometimes", "score": 1 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Is your urine cloudy, foul-smelling, or bloody?",
+            "options": [
+              { "text": "Yes", "score": 4 },
+              { "text": "Mild change", "score": 2 },
+              { "text": "No", "score": 0 }
+            ]
+          },
+          {
+            "question": "Do you have fever or back pain?",
+            "options": [
+              { "text": "Yes", "score": 6, "critical": true },
+              { "text": "No", "score": 0 }
+            ]
+          }
+        ],
+        "recommendations": {
+          "low": [
+            "Drink plenty of fluids",
+            "Maintain hygiene",
+            "Urinate regularly",
+            "Avoid holding urine",
+            "Monitor symptoms"
+          ],
+          "moderate": [
+            "Consult a doctor",
+            "Get urine test",
+            "Take antibiotics if prescribed",
+            "Increase fluids",
+            "Monitor fever"
+          ],
+          "high": [
+            "Seek urgent medical care",
+            "Prevent kidney infection",
+            "Start antibiotics immediately",
+            "Follow treatment strictly",
+            "Ensure medical supervision"
+          ]
+        }
+      }
     }
   },
 
@@ -4102,7 +5883,7 @@
     "score": "Score:",
     "recommendations": "Recommendations",
     "generalAdvice": "Follow general preventive health measures and consult a healthcare professional if symptoms persist.",
-
+    "backToSymptomChecker": "Back to Symptom Checker",
     "riskLevels": {
       "low": "LOW RISK",
       "moderate": "MODERATE RISK",
@@ -4113,13 +5894,39 @@
       "title": "Emergency Symptom Detected",
       "message": "One or more of your answers indicate a potentially life-threatening condition. Please seek immediate medical attention or contact emergency services."
     },
-
+    "nextStepsTitle": "Recommended Next Steps",
     "nextSteps": {
-      "emergency": "This is a medical emergency. Please seek immediate care or call emergency services.",
-      "high": "Immediate medical consultation is strongly advised.",
-      "low": "Continue monitoring your health and maintain healthy habits."
-    },
+      "emergency": [
+        "Seek immediate medical attention. If possible, go to the nearest emergency department or call local emergency services.",
+        "Do not delay care or attempt to self-treat potentially life-threatening symptoms.",
+        "If symptoms worsen suddenly (such as chest pain, breathing difficulty, loss of consciousness, or severe bleeding), treat this as urgent.",
+        "If available, have someone accompany you and share this assessment with medical staff.",
+        "Avoid eating, drinking, or taking non-prescribed medications unless instructed by a healthcare professional."
+      ],
 
+      "high": [
+        "Arrange an urgent consultation with a qualified healthcare professional as soon as possible.",
+        "Monitor your symptoms closely for any worsening, new symptoms, or changes in intensity.",
+        "Avoid strenuous physical activity and prioritize rest until evaluated by a medical professional.",
+        "Keep a note of symptom duration, severity, and any triggers to discuss during your consultation.",
+        "If symptoms escalate rapidly or you develop emergency warning signs, seek immediate medical care."
+      ],
+      "moderate": [
+        "Schedule a medical consultation if symptoms persist or worsen.",
+        "Monitor your symptoms regularly and note any changes.",
+        "Maintain a balanced routine with adequate rest and hydration.",
+        "Avoid activities that may aggravate your symptoms.",
+        "Seek prompt medical advice if new symptoms appear."
+      ],
+
+      "low": [
+        "Continue to observe your symptoms and note any changes over the next few days.",
+        "Maintain healthy habits such as adequate hydration, balanced nutrition, and sufficient rest.",
+        "Avoid known triggers that may worsen your symptoms, if applicable.",
+        "Consider scheduling a routine check-up if symptoms persist, recur, or cause concern.",
+        "Seek medical advice promptly if symptoms worsen, become persistent, or interfere with daily activities."
+      ]
+    },
     "disclaimer": "Disclaimer: This assessment is informational only and does not constitute medical advice, diagnosis, or treatment.",
 
     "actions": {
@@ -4136,7 +5943,6 @@
     "commonSymptoms": "Common Symptoms:",
     "learnMore": "Learn More",
     "more": "more",
-
     "categories": {
       "all": "All Diseases",
       "cardiovascular": "Cardiovascular",
@@ -4160,35 +5966,2447 @@
         "symptoms": [
           "Burning sensation in chest (heartburn)",
           "Chest pain",
+          "Regurgitation of food or sour liquid",
           "Difficulty swallowing",
-          "Regurgitation of food or sour liquid"
-        ]
+          "Chronic cough",
+          "Sore throat",
+          "Hoarseness of voice",
+          "Feeling of a lump in the throat"
+        ],
+        "causes": "GERD is most often caused by a weakened lower esophageal sphincter, allowing stomach acid to flow back into the esophagus. It may also be triggered by obesity, hiatal hernia, pregnancy, or delayed stomach emptying.",
+        "risk_factors": [
+          "Obesity",
+          "Smoking",
+          "Pregnancy",
+          "Large or late meals",
+          "Alcohol consumption",
+          "Hiatal hernia"
+        ],
+        "prevention_tips": [
+          "Eat smaller, more frequent meals",
+          "Avoid spicy, fatty, and acidic foods",
+          "Do not lie down immediately after eating",
+          "Maintain a healthy weight",
+          "Quit smoking",
+          "Limit alcohol intake",
+          "Elevate head while sleeping"
+        ],
+        "when_to_seek_help": "Seek medical attention if symptoms occur frequently, interfere with daily life, or if you experience difficulty swallowing, unexplained weight loss, vomiting blood, or severe chest pain."
       },
-
       "acne": {
         "id": "acne",
         "category": "skin",
         "name": "Acne",
-        "description": "A skin condition that occurs when hair follicles become clogged with oil and dead skin cells.",
+        "description": "A skin condition that occurs when hair follicles become clogged with oil and dead skin cells, leading to pimples and inflammation.",
         "symptoms": [
           "Whiteheads",
           "Blackheads",
-          "Small red bumps",
-          "Painful pimples"
-        ]
+          "Red pimples",
+          "Pus-filled pimples",
+          "Painful nodules",
+          "Oily skin",
+          "Skin redness",
+          "Scarring"
+        ],
+        "causes": "Acne develops when excess oil, dead skin cells, and bacteria clog hair follicles. Hormonal changes, stress, and certain medications can worsen this process.",
+        "risk_factors": [
+          "Hormonal changes",
+          "Family history",
+          "Oily skin",
+          "Stress",
+          "Certain medications",
+          "Touching or rubbing the skin frequently"
+        ],
+        "prevention_tips": [
+          "Wash face gently twice daily",
+          "Avoid touching or picking pimples",
+          "Use oil-free skincare products",
+          "Remove makeup before sleeping",
+          "Keep hair clean",
+          "Manage stress",
+          "Maintain a balanced diet"
+        ],
+        "when_to_seek_help": "Consult a dermatologist if acne is severe, painful, leaves scars, or does not improve with over-the-counter treatments."
       },
-
-      "alzheimer": {
-        "id": "alzheimer",
+      "allergicRhinitis": {
+        "id": "allergicRhinitis",
+        "category": "respiratory",
+        "name": "Allergic Rhinitis",
+        "description": "An allergic reaction that causes sneezing, congestion, runny nose, and itchy eyes due to airborne allergens.",
+        "symptoms": [
+          "Runny or blocked nose",
+          "Sneezing",
+          "Itchy nose or throat",
+          "Watery eyes",
+          "Red or swollen eyes",
+          "Post-nasal drip",
+          "Cough",
+          "Fatigue"
+        ],
+        "causes": "Allergic rhinitis occurs when the immune system overreacts to allergens such as pollen, dust mites, mold, or pet dander.",
+        "risk_factors": [
+          "Family history of allergies",
+          "Exposure to pollen or dust",
+          "Asthma",
+          "Air pollution",
+          "Smoking",
+          "Weakened immune system"
+        ],
+        "prevention_tips": [
+          "Avoid known allergens",
+          "Keep windows closed during pollen season",
+          "Use air purifiers",
+          "Wash hands and face after outdoor exposure",
+          "Vacuum and clean regularly",
+          "Use antihistamines if prescribed",
+          "Shower after being outdoors"
+        ],
+        "when_to_seek_help": "See a doctor if symptoms persist, disturb sleep, or cause breathing problems or frequent sinus infections."
+      },
+      "alzheimersDisease": {
+        "id": "alzheimersDisease",
         "category": "neurological",
         "name": "Alzheimer's Disease",
-        "description": "A progressive neurological disorder that causes memory loss and cognitive decline.",
+        "description": "A progressive neurological disorder that gradually destroys memory, thinking skills, and the ability to carry out daily activities.",
         "symptoms": [
           "Memory loss affecting daily life",
+          "Difficulty planning or solving problems",
+          "Confusion with time or place",
+          "Trouble speaking or finding words",
+          "Personality changes",
+          "Poor judgment",
+          "Difficulty recognizing people",
+          "Withdrawal from activities"
+        ],
+        "causes": "Alzheimer’s disease is caused by abnormal buildup of proteins in the brain that damage and destroy nerve cells.",
+        "risk_factors": [
+          "Increasing age",
+          "Family history",
+          "Genetic factors",
+          "Head injury",
+          "High blood pressure",
+          "Lack of physical activity"
+        ],
+        "prevention_tips": [
+          "Engage in mental exercises",
+          "Maintain a healthy diet",
+          "Exercise regularly",
+          "Manage blood pressure",
+          "Stay socially active",
+          "Get quality sleep",
+          "Avoid smoking"
+        ],
+        "when_to_seek_help": "Seek medical evaluation if memory loss, confusion, or personality changes begin interfering with daily activities or safety."
+      },
+      "anemia": {
+        "id": "anemia",
+        "category": "other",
+        "name": "Anemia",
+        "description": "A condition in which the body lacks enough healthy red blood cells to carry adequate oxygen to tissues.",
+        "symptoms": [
+          "Fatigue",
+          "Weakness",
+          "Pale skin",
+          "Shortness of breath",
+          "Dizziness",
+          "Cold hands and feet",
+          "Irregular heartbeat",
+          "Headaches"
+        ],
+        "causes": "Anemia is commonly caused by iron deficiency, vitamin deficiencies, blood loss, or chronic diseases.",
+        "risk_factors": [
+          "Poor nutrition",
+          "Chronic illness",
+          "Blood loss",
+          "Pregnancy",
+          "Family history",
+          "Heavy menstruation"
+        ],
+        "prevention_tips": [
+          "Eat iron-rich foods",
+          "Take vitamin B12 and folate",
+          "Consume vitamin C",
+          "Avoid excessive blood loss",
+          "Get regular blood tests",
+          "Treat underlying conditions",
+          "Take supplements if prescribed"
+        ],
+        "when_to_seek_help": "Seek medical care if you experience severe fatigue, chest pain, shortness of breath, or fainting."
+      },
+      "anxietyDisorder": {
+        "id": "anxietyDisorder",
+        "category": "mentalHealth",
+        "name": "Anxiety Disorder",
+        "description": "A mental health condition characterized by excessive fear, worry, and nervousness that interferes with daily activities.",
+        "symptoms": [
+          "Excessive worry",
+          "Restlessness",
+          "Rapid heartbeat",
+          "Sweating",
+          "Difficulty concentrating",
+          "Irritability",
+          "Sleep problems",
+          "Muscle tension"
+        ],
+        "causes": "Anxiety disorders develop due to genetic, chemical, and environmental factors.",
+        "risk_factors": [
+          "Chronic stress",
+          "Family history",
+          "Trauma",
+          "Substance abuse",
+          "Chronic illness",
+          "Personality traits"
+        ],
+        "prevention_tips": [
+          "Practice relaxation techniques",
+          "Exercise regularly",
+          "Maintain healthy sleep habits",
+          "Limit caffeine and alcohol",
+          "Seek therapy",
+          "Stay socially connected",
+          "Use stress management strategies"
+        ],
+        "when_to_seek_help": "Seek professional help if anxiety interferes with work, relationships, or sleep."
+      },
+      "arthritis": {
+        "id": "arthritis",
+        "category": "musculoskeletal",
+        "name": "Arthritis",
+        "description": "A condition characterized by inflammation of one or more joints, leading to pain, stiffness, and reduced mobility.",
+        "symptoms": [
+          "Joint pain",
+          "Joint stiffness",
+          "Swelling around joints",
+          "Reduced range of motion",
+          "Warmth in affected joints",
+          "Redness",
+          "Joint deformity",
+          "Fatigue"
+        ],
+        "causes": "Arthritis is caused by joint inflammation resulting from cartilage wear, autoimmune disorders, or infections.",
+        "risk_factors": [
+          "Older age",
+          "Obesity",
+          "Previous joint injury",
+          "Family history",
+          "Autoimmune disease",
+          "Repeated joint stress"
+        ],
+        "prevention_tips": [
+          "Maintain a healthy weight",
+          "Exercise regularly",
+          "Avoid joint injuries",
+          "Stretch and stay flexible",
+          "Eat anti-inflammatory foods",
+          "Quit smoking",
+          "Protect joints"
+        ],
+        "when_to_seek_help": "Seek medical care if joint pain or stiffness persists or limits daily activities."
+      },
+      "asthma": {
+        "id": "asthma",
+        "category": "respiratory",
+        "name": "Asthma",
+        "description": "A chronic lung disease that causes inflammation and narrowing of the airways, making breathing difficult.",
+        "symptoms": [
+          "Shortness of breath",
+          "Wheezing",
+          "Chest tightness",
+          "Chronic coughing",
+          "Rapid breathing",
+          "Trouble sleeping",
+          "Fatigue",
+          "Anxiety during attacks"
+        ],
+        "causes": "Asthma is caused by airway inflammation triggered by allergens, infections, exercise, cold air, or pollution.",
+        "risk_factors": [
+          "Family history",
+          "Allergies",
+          "Air pollution",
+          "Smoking",
+          "Respiratory infections",
+          "Obesity"
+        ],
+        "prevention_tips": [
+          "Avoid asthma triggers",
+          "Use inhalers",
+          "Keep air clean",
+          "Exercise regularly",
+          "Get vaccinated",
+          "Manage allergies",
+          "Avoid smoking"
+        ],
+        "when_to_seek_help": "Seek emergency care if breathing becomes extremely difficult or inhalers stop working."
+      },
+      "backPain": {
+        "id": "backPain",
+        "category": "musculoskeletal",
+        "name": "Back Pain",
+        "description": "Pain or discomfort in the upper, middle, or lower back, often caused by muscle strain or spine problems.",
+        "symptoms": [
+          "Muscle aches",
+          "Sharp pain",
+          "Limited movement",
+          "Pain down the legs",
+          "Stiffness",
+          "Difficulty standing",
+          "Poor posture",
+          "Weakness"
+        ],
+        "causes": "Back pain is commonly caused by muscle strain, poor posture, herniated discs, or spinal degeneration.",
+        "risk_factors": [
+          "Poor posture",
+          "Sedentary lifestyle",
+          "Obesity",
+          "Heavy lifting",
+          "Aging",
+          "Weak core muscles"
+        ],
+        "prevention_tips": [
+          "Practice good posture",
+          "Strengthen core",
+          "Lift properly",
+          "Exercise regularly",
+          "Maintain healthy weight",
+          "Stretch daily",
+          "Use supportive seating"
+        ],
+        "when_to_seek_help": "See a doctor if pain lasts more than a few weeks or causes numbness or weakness."
+      },
+      "bronchitis": {
+        "id": "bronchitis",
+        "category": "respiratory",
+        "name": "Bronchitis",
+        "description": "Inflammation of the bronchial tubes that carry air to and from the lungs.",
+        "symptoms": [
+          "Persistent cough",
+          "Mucus",
+          "Chest tightness",
+          "Shortness of breath",
+          "Fatigue",
+          "Mild fever",
+          "Sore throat",
+          "Wheezing"
+        ],
+        "causes": "Bronchitis is caused by infections or long-term exposure to irritants like smoke.",
+        "risk_factors": [
+          "Smoking",
+          "Air pollution",
+          "Weak immunity",
+          "Frequent colds",
+          "Dust exposure",
+          "Asthma"
+        ],
+        "prevention_tips": [
+          "Avoid smoking",
+          "Wash hands",
+          "Avoid pollution",
+          "Get vaccinated",
+          "Wear masks",
+          "Drink fluids",
+          "Strengthen immunity"
+        ],
+        "when_to_seek_help": "Seek care if cough lasts more than 3 weeks or breathing difficulty occurs."
+      },
+      "copd": {
+        "id": "copd",
+        "category": "respiratory",
+        "name": "COPD",
+        "description": "A progressive lung disease that blocks airflow and makes breathing difficult.",
+        "symptoms": [
+          "Chronic cough",
+          "Shortness of breath",
+          "Wheezing",
+          "Chest tightness",
+          "Mucus",
+          "Fatigue",
+          "Frequent infections",
+          "Weight loss"
+        ],
+        "causes": "COPD is mainly caused by long-term exposure to tobacco smoke and pollutants.",
+        "risk_factors": [
+          "Smoking",
+          "Secondhand smoke",
+          "Air pollution",
+          "Chemical exposure",
+          "Genetics",
+          "Age"
+        ],
+        "prevention_tips": [
+          "Quit smoking",
+          "Avoid pollution",
+          "Get vaccines",
+          "Exercise",
+          "Eat healthy",
+          "Use inhalers",
+          "Practice breathing"
+        ],
+        "when_to_seek_help": "Seek urgent care if breathing becomes very difficult or lips turn blue."
+      },
+      "cardiacArrest": {
+        "id": "cardiacArrest",
+        "category": "cardiovascular",
+        "name": "Cardiac Arrest",
+        "description": "A sudden loss of heart function that stops blood flow to the brain and body.",
+        "symptoms": [
+          "Sudden collapse",
+          "No pulse",
+          "No breathing",
+          "Loss of consciousness",
+          "Chest pain",
+          "Dizziness",
+          "Shortness of breath",
+          "Nausea"
+        ],
+        "causes": "Cardiac arrest is caused by an electrical malfunction in the heart.",
+        "risk_factors": [
+          "Heart disease",
+          "Previous heart attack",
+          "High blood pressure",
+          "Smoking",
+          "Diabetes",
+          "Obesity"
+        ],
+        "prevention_tips": [
+          "Eat heart healthy",
+          "Exercise",
+          "Quit smoking",
+          "Control BP",
+          "Manage cholesterol",
+          "Treat heart disease",
+          "Limit alcohol"
+        ],
+        "when_to_seek_help": "This is a medical emergency. Call emergency services immediately."
+      },
+      "cataracts": {
+        "id": "cataracts",
+        "category": "eye",
+        "name": "Cataracts",
+        "description": "A condition in which the normally clear lens of the eye becomes cloudy, leading to vision impairment.",
+        "symptoms": [
+          "Blurred vision",
+          "Difficulty seeing at night",
+          "Light sensitivity",
+          "Glare",
+          "Fading of colors",
+          "Double vision",
+          "Frequent glasses change",
+          "Poor depth perception"
+        ],
+        "causes": "Cataracts develop due to aging, eye injury, or long-term UV exposure.",
+        "risk_factors": [
+          "Aging",
+          "Diabetes",
+          "Smoking",
+          "Sun exposure",
+          "Eye injury",
+          "Steroid use"
+        ],
+        "prevention_tips": [
+          "Wear UV sunglasses",
+          "Get eye exams",
+          "Quit smoking",
+          "Control diabetes",
+          "Eat antioxidants",
+          "Limit alcohol",
+          "Protect eyes"
+        ],
+        "when_to_seek_help": "See a doctor if vision becomes cloudy or glare affects daily life."
+      },
+      "cervicalCancer": {
+        "id": "cervicalCancer",
+        "category": "other",
+        "name": "Cervical Cancer",
+        "description": "A type of cancer that develops in the cervix, most commonly caused by HPV infection.",
+        "symptoms": [
+          "Abnormal bleeding",
+          "Pelvic pain",
+          "Pain during sex",
+          "Unusual discharge",
+          "Post-menopausal bleeding",
+          "Lower back pain",
+          "Fatigue",
+          "Weight loss"
+        ],
+        "causes": "Cervical cancer is caused by persistent HPV infection.",
+        "risk_factors": [
+          "HPV",
+          "Smoking",
+          "Weak immunity",
+          "Early sexual activity",
+          "Multiple partners",
+          "No screening"
+        ],
+        "prevention_tips": [
+          "Get HPV vaccine",
+          "Regular Pap tests",
+          "Practice safe sex",
+          "Quit smoking",
+          "Maintain hygiene",
+          "Boost immunity",
+          "Early treatment"
+        ],
+        "when_to_seek_help": "See a doctor for abnormal vaginal bleeding or pelvic pain."
+      },
+      "chickenpox": {
+        "id": "chickenpox",
+        "category": "infectious",
+        "name": "Chickenpox",
+        "description": "A contagious viral infection that causes itchy blisters and flu-like symptoms.",
+        "symptoms": [
+          "Itchy blisters",
+          "Fever",
+          "Fatigue",
+          "Headache",
+          "Loss of appetite",
+          "Body aches",
+          "Skin redness",
+          "Crusting blisters"
+        ],
+        "causes": "Chickenpox is caused by the varicella-zoster virus.",
+        "risk_factors": [
+          "Not vaccinated",
+          "Exposure",
+          "Weak immunity",
+          "Children",
+          "Pregnancy",
+          "Crowded places"
+        ],
+        "prevention_tips": [
+          "Get vaccinated",
+          "Avoid infected people",
+          "Wash hands",
+          "Cover coughs",
+          "Disinfect surfaces",
+          "Boost immunity",
+          "Isolate if infected"
+        ],
+        "when_to_seek_help": "See a doctor if fever is high or rash spreads to eyes."
+      },
+      "cholera": {
+        "id": "cholera",
+        "category": "infectious",
+        "name": "Cholera",
+        "description": "An acute diarrheal disease caused by contaminated food or water.",
+        "symptoms": [
+          "Watery diarrhea",
+          "Vomiting",
+          "Dehydration",
+          "Dry mouth",
+          "Muscle cramps",
+          "Weakness",
+          "Low blood pressure",
+          "Sunken eyes"
+        ],
+        "causes": "Cholera is caused by Vibrio cholerae bacteria in contaminated water.",
+        "risk_factors": [
+          "Poor sanitation",
+          "Unsafe water",
+          "Crowded living",
+          "Travel",
+          "Malnutrition",
+          "Weak immunity"
+        ],
+        "prevention_tips": [
+          "Drink clean water",
+          "Wash hands",
+          "Eat cooked food",
+          "Use sanitation",
+          "Avoid street food",
+          "Get vaccinated",
+          "Maintain hygiene"
+        ],
+        "when_to_seek_help": "Seek emergency care if severe diarrhea or dehydration occurs."
+      },
+      "chronicKidneyDisease": {
+        "id": "chronicKidneyDisease",
+        "category": "other",
+        "name": "Chronic Kidney Disease",
+        "description": "A long-term condition in which the kidneys gradually lose their ability to filter waste from the blood.",
+        "symptoms": [
+          "Fatigue",
+          "Swelling in legs",
+          "Shortness of breath",
+          "Frequent urination",
+          "Nausea",
+          "Muscle cramps",
+          "Poor appetite",
+          "Sleep problems"
+        ],
+        "causes": "Chronic kidney disease is commonly caused by diabetes and high blood pressure.",
+        "risk_factors": [
+          "Diabetes",
+          "High blood pressure",
+          "Family history",
+          "Heart disease",
+          "Smoking",
+          "Obesity"
+        ],
+        "prevention_tips": [
+          "Control blood sugar",
+          "Manage blood pressure",
+          "Stay hydrated",
+          "Avoid smoking",
+          "Eat kidney-friendly diet",
+          "Exercise",
+          "Avoid painkiller overuse"
+        ],
+        "when_to_seek_help": "See a doctor if swelling, fatigue, or urination changes persist."
+      },
+      "colorectalCancer": {
+        "id": "colorectalCancer",
+        "category": "digestive",
+        "name": "Colorectal Cancer",
+        "description": "Cancer that affects the colon or rectum, often starting as abnormal growths called polyps.",
+        "symptoms": [
+          "Blood in stool",
+          "Bowel habit changes",
+          "Abdominal pain",
+          "Weight loss",
+          "Fatigue",
+          "Bloating",
+          "Narrow stools",
+          "Incomplete bowel emptying"
+        ],
+        "causes": "Colorectal cancer develops when abnormal cells grow uncontrollably in the colon or rectum.",
+        "risk_factors": [
+          "Older age",
+          "Family history",
+          "Low fiber diet",
+          "Obesity",
+          "Smoking",
+          "IBD"
+        ],
+        "prevention_tips": [
+          "Eat fiber",
+          "Exercise",
+          "Quit smoking",
+          "Limit alcohol",
+          "Healthy weight",
+          "Get screened",
+          "Support gut health"
+        ],
+        "when_to_seek_help": "See a doctor if blood in stool or bowel changes persist."
+      },
+      "conjunctivitis": {
+        "id": "conjunctivitis",
+        "category": "eye",
+        "name": "Conjunctivitis (Pink Eye)",
+        "description": "An inflammation of the membrane covering the white of the eye and eyelids.",
+        "symptoms": [
+          "Red eyes",
+          "Itching",
+          "Gritty feeling",
+          "Watery discharge",
+          "Crusty eyelids",
+          "Swelling",
+          "Blurred vision",
+          "Light sensitivity"
+        ],
+        "causes": "Conjunctivitis is caused by infections, allergies, or irritants.",
+        "risk_factors": [
+          "Poor hygiene",
+          "Contact lenses",
+          "Exposure",
+          "Allergies",
+          "Weak immunity",
+          "Irritants"
+        ],
+        "prevention_tips": [
+          "Wash hands",
+          "Avoid touching eyes",
+          "Do not share makeup",
+          "Clean lenses",
+          "Avoid allergens",
+          "Disinfect surfaces",
+          "Replace cosmetics"
+        ],
+        "when_to_seek_help": "Seek medical care if vision loss or severe pain occurs."
+      },
+      "constipation": {
+        "id": "constipation",
+        "category": "digestive",
+        "name": "Constipation",
+        "description": "A condition where bowel movements are infrequent or difficult.",
+        "symptoms": [
+          "Hard stools",
+          "Straining",
+          "Infrequent stools",
+          "Bloating",
+          "Incomplete emptying",
+          "Abdominal pain",
+          "Rectal pain",
+          "Nausea"
+        ],
+        "causes": "Constipation is caused by low fiber, dehydration, and inactivity.",
+        "risk_factors": [
+          "Low fiber",
+          "Dehydration",
+          "Sedentary lifestyle",
+          "Older age",
+          "Medications",
+          "Ignoring urge"
+        ],
+        "prevention_tips": [
+          "Eat fiber",
+          "Drink water",
+          "Exercise",
+          "Respond to urges",
+          "Limit junk food",
+          "Routine",
+          "Reduce stress"
+        ],
+        "when_to_seek_help": "See a doctor if constipation lasts over two weeks."
+      },
+      "coronaryArteryDisease": {
+        "id": "coronaryArteryDisease",
+        "category": "cardiovascular",
+        "name": "Coronary Artery Disease",
+        "description": "A condition in which coronary arteries are narrowed or blocked.",
+        "symptoms": [
+          "Chest pain",
+          "Shortness of breath",
+          "Fatigue",
+          "Palpitations",
+          "Dizziness",
+          "Nausea",
+          "Sweating",
+          "Weakness"
+        ],
+        "causes": "Coronary artery disease is caused by plaque buildup in arteries.",
+        "risk_factors": [
+          "High cholesterol",
+          "High blood pressure",
+          "Smoking",
+          "Diabetes",
+          "Obesity",
+          "Family history"
+        ],
+        "prevention_tips": [
+          "Eat healthy",
+          "Exercise",
+          "Quit smoking",
+          "Control BP",
+          "Manage cholesterol",
+          "Reduce stress",
+          "Healthy weight"
+        ],
+        "when_to_seek_help": "Seek emergency care if chest pain is severe or persistent."
+      },
+      "dengueFever": {
+        "id": "dengueFever",
+        "category": "infectious",
+        "name": "Dengue Fever",
+        "description": "A mosquito-borne viral infection that causes high fever and severe body pain.",
+        "symptoms": [
+          "High fever",
+          "Severe headache",
+          "Pain behind eyes",
+          "Joint pain",
+          "Nausea",
+          "Skin rash",
+          "Fatigue",
+          "Mild bleeding"
+        ],
+        "causes": "Dengue fever is caused by the dengue virus transmitted through mosquito bites.",
+        "risk_factors": [
+          "Tropical areas",
+          "Mosquito exposure",
+          "Previous infection",
+          "Crowded living",
+          "Poor sanitation",
+          "Weak immunity"
+        ],
+        "prevention_tips": [
+          "Use mosquito repellent",
+          "Wear long sleeves",
+          "Remove standing water",
+          "Use nets",
+          "Install screens",
+          "Avoid peak mosquito hours",
+          "Keep area clean"
+        ],
+        "when_to_seek_help": "Seek urgent care for severe abdominal pain, bleeding, or extreme weakness."
+      },
+      "depression": {
+        "id": "depression",
+        "category": "mentalHealth",
+        "name": "Depression",
+        "description": "A mental health disorder marked by persistent sadness and loss of interest.",
+        "symptoms": [
+          "Persistent sadness",
+          "Loss of interest",
+          "Fatigue",
+          "Sleep problems",
+          "Appetite changes",
+          "Poor focus",
+          "Guilt",
+          "Self-harm thoughts"
+        ],
+        "causes": "Depression develops due to chemical imbalances and emotional or environmental factors.",
+        "risk_factors": [
+          "Family history",
+          "Trauma",
+          "Chronic illness",
+          "Substance abuse",
+          "Stress",
+          "Lack of support"
+        ],
+        "prevention_tips": [
+          "Seek therapy",
+          "Stay connected",
+          "Exercise",
+          "Maintain sleep",
+          "Avoid drugs",
+          "Mindfulness",
+          "Set goals"
+        ],
+        "when_to_seek_help": "Get immediate help if you have suicidal thoughts."
+      },
+      "eczema": {
+        "id": "eczema",
+        "category": "skin",
+        "name": "Eczema",
+        "description": "A chronic skin condition causing dry, itchy, inflamed skin.",
+        "symptoms": [
+          "Dry itchy skin",
+          "Red patches",
+          "Raised bumps",
+          "Thick skin",
+          "Cracks",
+          "Bleeding",
+          "Swelling",
+          "Sensitivity"
+        ],
+        "causes": "Eczema is caused by immune overreaction and weak skin barrier.",
+        "risk_factors": [
+          "Family history",
+          "Allergies",
+          "Asthma",
+          "Dry skin",
+          "Stress",
+          "Irritants"
+        ],
+        "prevention_tips": [
+          "Moisturize",
+          "Avoid harsh soaps",
+          "Wear soft fabrics",
+          "Reduce stress",
+          "Use humidifier",
+          "Avoid allergens",
+          "Lukewarm baths"
+        ],
+        "when_to_seek_help": "See a doctor if eczema becomes infected or painful."
+      },
+      "epilepsy": {
+        "id": "epilepsy",
+        "category": "neurological",
+        "name": "Epilepsy",
+        "description": "A neurological disorder characterized by recurrent seizures.",
+        "symptoms": [
           "Confusion",
-          "Difficulty solving problems",
-          "Disorientation"
-        ]
+          "Staring spells",
+          "Jerking movements",
+          "Loss of consciousness",
+          "Fear",
+          "Tingling",
+          "Muscle stiffness",
+          "Fatigue"
+        ],
+        "causes": "Epilepsy may result from brain injury, genetic factors, or infections.",
+        "risk_factors": [
+          "Head injury",
+          "Family history",
+          "Brain infections",
+          "Stroke",
+          "Developmental disorders",
+          "Substance abuse"
+        ],
+        "prevention_tips": [
+          "Take medications",
+          "Avoid triggers",
+          "Sleep well",
+          "Limit alcohol",
+          "Manage stress",
+          "Wear helmets",
+          "Healthy lifestyle"
+        ],
+        "when_to_seek_help": "Seek urgent care if seizures last more than five minutes."
+      },
+      "fibromyalgia": {
+        "id": "fibromyalgia",
+        "category": "musculoskeletal",
+        "name": "Fibromyalgia",
+        "description": "A disorder causing widespread pain and fatigue.",
+        "symptoms": [
+          "Widespread pain",
+          "Fatigue",
+          "Sleep problems",
+          "Memory issues",
+          "Headaches",
+          "Depression",
+          "Joint stiffness",
+          "Tingling"
+        ],
+        "causes": "Fibromyalgia is caused by abnormal pain processing in the brain.",
+        "risk_factors": [
+          "Family history",
+          "Rheumatic disease",
+          "Stress",
+          "Trauma",
+          "Female gender",
+          "Sleep disorders"
+        ],
+        "prevention_tips": [
+          "Exercise",
+          "Stress control",
+          "Sleep well",
+          "Healthy routine",
+          "Relaxation",
+          "Balanced diet",
+          "Avoid overexertion"
+        ],
+        "when_to_seek_help": "See a doctor if pain and fatigue persist."
+      },
+      "foodPoisoning": {
+        "id": "foodPoisoning",
+        "category": "digestive",
+        "name": "Food Poisoning",
+        "description": "An illness caused by contaminated food.",
+        "symptoms": [
+          "Nausea",
+          "Vomiting",
+          "Diarrhea",
+          "Stomach cramps",
+          "Fever",
+          "Weakness",
+          "Dehydration",
+          "Headache"
+        ],
+        "causes": "Food poisoning is caused by harmful bacteria or viruses in food.",
+        "risk_factors": [
+          "Undercooked food",
+          "Poor hygiene",
+          "Weak immunity",
+          "Travel",
+          "Unsafe water",
+          "Improper storage"
+        ],
+        "prevention_tips": [
+          "Wash hands",
+          "Cook food fully",
+          "Avoid raw food",
+          "Drink clean water",
+          "Store food safely",
+          "Avoid street food",
+          "Refrigerate leftovers"
+        ],
+        "when_to_seek_help": "Get medical care if dehydration or bloody stools occur."
+      },
+      "gastritis": {
+        "id": "gastritis",
+        "category": "digestive",
+        "name": "Gastritis",
+        "description": "Inflammation of the stomach lining.",
+        "symptoms": [
+          "Upper abdominal pain",
+          "Nausea",
+          "Vomiting",
+          "Bloating",
+          "Loss of appetite",
+          "Indigestion",
+          "Black stools",
+          "Fatigue"
+        ],
+        "causes": "Gastritis is caused by H. pylori, alcohol, or painkillers.",
+        "risk_factors": [
+          "Alcohol",
+          "Smoking",
+          "Stress",
+          "H. pylori",
+          "NSAIDs",
+          "Older age"
+        ],
+        "prevention_tips": [
+          "Avoid alcohol",
+          "Eat smaller meals",
+          "Avoid spicy food",
+          "Quit smoking",
+          "Reduce stress",
+          "Use meds properly",
+          "Good hygiene"
+        ],
+        "when_to_seek_help": "See a doctor for vomiting blood or black stools."
+      },
+      "glaucoma": {
+        "id": "glaucoma",
+        "category": "eye",
+        "name": "Glaucoma",
+        "description": "An eye condition that damages the optic nerve.",
+        "symptoms": [
+          "Blind spots",
+          "Tunnel vision",
+          "Eye pain",
+          "Headache",
+          "Blurred vision",
+          "Red eyes",
+          "Nausea",
+          "Halos"
+        ],
+        "causes": "Glaucoma is caused by increased eye pressure.",
+        "risk_factors": [
+          "Age",
+          "Family history",
+          "High eye pressure",
+          "Diabetes",
+          "Eye injury",
+          "Steroid use"
+        ],
+        "prevention_tips": [
+          "Eye exams",
+          "Use eye drops",
+          "Protect eyes",
+          "Control sugar",
+          "Avoid smoking",
+          "Wear protection",
+          "Manage BP"
+        ],
+        "when_to_seek_help": "Seek urgent care for sudden vision loss."
+      },
+      "gout": {
+        "id": "gout",
+        "category": "musculoskeletal",
+        "name": "Gout",
+        "description": "A form of arthritis caused by uric acid crystal buildup.",
+        "symptoms": [
+          "Severe joint pain",
+          "Redness",
+          "Swelling",
+          "Warmth",
+          "Limited movement",
+          "Lingering pain",
+          "Shiny skin",
+          "Fever"
+        ],
+        "causes": "Gout occurs due to excess uric acid in blood.",
+        "risk_factors": [
+          "Obesity",
+          "High purine diet",
+          "Alcohol",
+          "Kidney disease",
+          "Family history",
+          "Medications"
+        ],
+        "prevention_tips": [
+          "Drink water",
+          "Limit red meat",
+          "Avoid alcohol",
+          "Healthy weight",
+          "Low purine diet",
+          "Take meds",
+          "Exercise"
+        ],
+        "when_to_seek_help": "See a doctor for sudden severe joint pain."
+      },
+      "hivAids": {
+        "id": "hivAids",
+        "category": "infectious",
+        "name": "HIV/AIDS",
+        "description": "A viral infection that weakens the immune system and reduces the body’s ability to fight infections.",
+        "symptoms": [
+          "Fever",
+          "Chronic fatigue",
+          "Swollen lymph nodes",
+          "Weight loss",
+          "Night sweats",
+          "Frequent infections",
+          "Skin rashes",
+          "Persistent diarrhea"
+        ],
+        "causes": "HIV is caused by the human immunodeficiency virus transmitted through blood and sexual contact.",
+        "risk_factors": [
+          "Unprotected sex",
+          "Sharing needles",
+          "Multiple partners",
+          "Blood exposure",
+          "Mother with HIV",
+          "STIs"
+        ],
+        "prevention_tips": [
+          "Practice safe sex",
+          "Get tested",
+          "Avoid sharing needles",
+          "Use sterile equipment",
+          "Preventive medication",
+          "Education",
+          "Avoid risky behavior"
+        ],
+        "when_to_seek_help": "See a doctor if exposed to HIV or symptoms persist."
+      },
+      "heartAttack": {
+        "id": "heartAttack",
+        "category": "cardiovascular",
+        "name": "Heart Attack (Myocardial Infarction)",
+        "description": "A life-threatening condition that occurs when blood flow to the heart is blocked.",
+        "symptoms": [
+          "Chest pain",
+          "Arm or jaw pain",
+          "Shortness of breath",
+          "Cold sweat",
+          "Nausea",
+          "Dizziness",
+          "Fatigue",
+          "Anxiety"
+        ],
+        "causes": "Heart attack occurs when plaque blocks blood flow to the heart.",
+        "risk_factors": [
+          "High cholesterol",
+          "Smoking",
+          "High blood pressure",
+          "Diabetes",
+          "Obesity",
+          "Family history"
+        ],
+        "prevention_tips": [
+          "Eat healthy",
+          "Exercise",
+          "Quit smoking",
+          "Control cholesterol",
+          "Manage BP",
+          "Healthy weight",
+          "Reduce stress"
+        ],
+        "when_to_seek_help": "Call emergency services immediately for chest pain or breathlessness."
+      },
+      "heartFailure": {
+        "id": "heartFailure",
+        "category": "cardiovascular",
+        "name": "Heart Failure",
+        "description": "A condition where the heart cannot pump enough blood.",
+        "symptoms": [
+          "Shortness of breath",
+          "Fatigue",
+          "Leg swelling",
+          "Rapid heartbeat",
+          "Persistent cough",
+          "Weight gain",
+          "Loss of appetite",
+          "Exercise intolerance"
+        ],
+        "causes": "Heart failure develops when heart muscle is weakened.",
+        "risk_factors": [
+          "Coronary disease",
+          "High BP",
+          "Diabetes",
+          "Obesity",
+          "Smoking",
+          "Heart attack history"
+        ],
+        "prevention_tips": [
+          "Low salt diet",
+          "Exercise",
+          "Take meds",
+          "Quit smoking",
+          "Limit alcohol",
+          "Control BP",
+          "Monitor weight"
+        ],
+        "when_to_seek_help": "Seek urgent care for sudden weight gain or severe breathlessness."
+      },
+      "hepatitisB": {
+        "id": "hepatitisB",
+        "category": "infectious",
+        "name": "Hepatitis B",
+        "description": "A viral infection that attacks the liver.",
+        "symptoms": [
+          "Abdominal pain",
+          "Dark urine",
+          "Yellow skin",
+          "Nausea",
+          "Fever",
+          "Joint pain",
+          "Fatigue",
+          "Loss of appetite"
+        ],
+        "causes": "Hepatitis B spreads through blood or sexual contact.",
+        "risk_factors": [
+          "Unprotected sex",
+          "Needle sharing",
+          "Healthcare exposure",
+          "Mother with HBV",
+          "Transfusions",
+          "Weak immunity"
+        ],
+        "prevention_tips": [
+          "Get vaccinated",
+          "Safe sex",
+          "Avoid sharing needles",
+          "Sterile equipment",
+          "Test blood",
+          "Hand washing",
+          "Avoid blood contact"
+        ],
+        "when_to_seek_help": "See a doctor for jaundice or abdominal pain."
+      },
+      "hypertension": {
+        "id": "hypertension",
+        "category": "cardiovascular",
+        "name": "Hypertension",
+        "description": "A condition where blood pressure remains high over time.",
+        "symptoms": [
+          "Headaches",
+          "Dizziness",
+          "Chest pain",
+          "Shortness of breath",
+          "Blurred vision",
+          "Nosebleeds",
+          "Irregular heartbeat",
+          "Often none"
+        ],
+        "causes": "Hypertension is caused by genetics, poor diet, inactivity, and stress.",
+        "risk_factors": [
+          "High salt",
+          "Obesity",
+          "Sedentary lifestyle",
+          "Smoking",
+          "Family history",
+          "Stress"
+        ],
+        "prevention_tips": [
+          "Low salt diet",
+          "Exercise",
+          "Healthy weight",
+          "Limit alcohol",
+          "Quit smoking",
+          "Reduce stress",
+          "Monitor BP"
+        ],
+        "when_to_seek_help": "See a doctor if BP stays high or symptoms appear."
+      },
+      "insomnia": {
+        "id": "insomnia",
+        "category": "mentalHealth",
+        "name": "Insomnia",
+        "description": "A sleep disorder that makes it difficult to fall or stay asleep.",
+        "symptoms": [
+          "Trouble falling asleep",
+          "Night waking",
+          "Early waking",
+          "Daytime fatigue",
+          "Irritability",
+          "Poor concentration",
+          "Headaches",
+          "Low energy"
+        ],
+        "causes": "Insomnia is caused by stress, anxiety, poor sleep habits, or illness.",
+        "risk_factors": [
+          "Stress",
+          "Anxiety",
+          "Depression",
+          "Caffeine",
+          "Irregular sleep",
+          "Chronic illness"
+        ],
+        "prevention_tips": [
+          "Regular sleep schedule",
+          "Avoid screens",
+          "Limit caffeine",
+          "Relaxation",
+          "Dark quiet room",
+          "Exercise",
+          "No late meals"
+        ],
+        "when_to_seek_help": "See a doctor if insomnia lasts weeks or affects daily life."
+      },
+      "irritableBowelSyndrome": {
+        "id": "irritableBowelSyndrome",
+        "category": "digestive",
+        "name": "Irritable Bowel Syndrome",
+        "description": "A chronic disorder affecting the large intestine.",
+        "symptoms": [
+          "Abdominal pain",
+          "Bloating",
+          "Gas",
+          "Diarrhea",
+          "Constipation",
+          "Mucus in stool",
+          "Cramping",
+          "Incomplete emptying"
+        ],
+        "causes": "IBS is caused by gut-brain communication problems.",
+        "risk_factors": [
+          "Stress",
+          "Anxiety",
+          "Food intolerance",
+          "Family history",
+          "Infections",
+          "Female gender"
+        ],
+        "prevention_tips": [
+          "Eat fiber",
+          "Avoid trigger foods",
+          "Manage stress",
+          "Stay hydrated",
+          "Exercise",
+          "Small meals",
+          "Sleep well"
+        ],
+        "when_to_seek_help": "See a doctor if symptoms are severe or persistent."
+      },
+      "jaundice": {
+        "id": "jaundice",
+        "category": "digestive",
+        "name": "Jaundice",
+        "description": "A condition where the skin and eyes turn yellow.",
+        "symptoms": [
+          "Yellow skin",
+          "Yellow eyes",
+          "Dark urine",
+          "Pale stools",
+          "Itching",
+          "Fatigue",
+          "Abdominal pain",
+          "Loss of appetite"
+        ],
+        "causes": "Jaundice occurs due to liver or bile duct problems.",
+        "risk_factors": [
+          "Liver disease",
+          "Hepatitis",
+          "Alcohol",
+          "Gallstones",
+          "Medications",
+          "Blood disorders"
+        ],
+        "prevention_tips": [
+          "Avoid alcohol",
+          "Get vaccinated",
+          "Eat healthy",
+          "Safe sex",
+          "Avoid bad food",
+          "Hydration",
+          "Manage liver disease"
+        ],
+        "when_to_seek_help": "See a doctor if yellowing of skin or eyes occurs."
+      },
+      "kidneyCancer": {
+        "id": "kidneyCancer",
+        "category": "other",
+        "name": "Kidney Cancer",
+        "description": "A type of cancer that begins in the kidneys.",
+        "symptoms": [
+          "Blood in urine",
+          "Back pain",
+          "Side pain",
+          "Weight loss",
+          "Fatigue",
+          "Fever",
+          "Loss of appetite",
+          "Anemia"
+        ],
+        "causes": "Kidney cancer occurs when kidney cells grow uncontrollably.",
+        "risk_factors": [
+          "Smoking",
+          "Obesity",
+          "High BP",
+          "Family history",
+          "Kidney disease",
+          "Chemical exposure"
+        ],
+        "prevention_tips": [
+          "Quit smoking",
+          "Healthy weight",
+          "Control BP",
+          "Hydration",
+          "Avoid chemicals",
+          "Exercise",
+          "Healthy diet"
+        ],
+        "when_to_seek_help": "See a doctor if blood in urine or persistent pain occurs."
+      },
+      "leukemia": {
+        "id": "leukemia",
+        "category": "other",
+        "name": "Leukemia",
+        "description": "A cancer of blood-forming tissues.",
+        "symptoms": [
+          "Fatigue",
+          "Infections",
+          "Weight loss",
+          "Easy bruising",
+          "Bleeding gums",
+          "Fever",
+          "Bone pain",
+          "Swollen lymph nodes"
+        ],
+        "causes": "Leukemia occurs when bone marrow produces abnormal white cells.",
+        "risk_factors": [
+          "Radiation",
+          "Cancer treatment",
+          "Smoking",
+          "Genetics",
+          "Family history",
+          "Chemicals"
+        ],
+        "prevention_tips": [
+          "Avoid radiation",
+          "Don't smoke",
+          "Limit chemicals",
+          "Eat healthy",
+          "Exercise",
+          "Strong immunity",
+          "Checkups"
+        ],
+        "when_to_seek_help": "See a doctor for fatigue or frequent infections."
+      },
+      "liverCancer": {
+        "id": "liverCancer",
+        "category": "digestive",
+        "name": "Liver Cancer",
+        "description": "Cancer that begins in the liver.",
+        "symptoms": [
+          "Upper abdominal pain",
+          "Swollen belly",
+          "Weight loss",
+          "Fatigue",
+          "Nausea",
+          "Yellow skin",
+          "Loss of appetite",
+          "Itching"
+        ],
+        "causes": "Liver cancer is caused by chronic liver disease.",
+        "risk_factors": [
+          "Hepatitis",
+          "Alcohol",
+          "Cirrhosis",
+          "Obesity",
+          "Diabetes",
+          "Smoking"
+        ],
+        "prevention_tips": [
+          "Avoid alcohol",
+          "Vaccinate",
+          "Healthy diet",
+          "Exercise",
+          "Healthy weight",
+          "Avoid smoking",
+          "Manage liver disease"
+        ],
+        "when_to_seek_help": "See a doctor for abdominal swelling or jaundice."
+      },
+      "lungCancer": {
+        "id": "lungCancer",
+        "category": "respiratory",
+        "name": "Lung Cancer",
+        "description": "Cancer that begins in the lungs.",
+        "symptoms": [
+          "Persistent cough",
+          "Blood in cough",
+          "Chest pain",
+          "Shortness of breath",
+          "Fatigue",
+          "Hoarseness",
+          "Weight loss",
+          "Repeated infections"
+        ],
+        "causes": "Lung cancer is mainly caused by smoking and pollution.",
+        "risk_factors": [
+          "Smoking",
+          "Secondhand smoke",
+          "Pollution",
+          "Chemical exposure",
+          "Family history",
+          "Radiation"
+        ],
+        "prevention_tips": [
+          "Do not smoke",
+          "Avoid smoke",
+          "Wear protection",
+          "Test radon",
+          "Eat healthy",
+          "Exercise",
+          "Avoid pollution"
+        ],
+        "when_to_seek_help": "See a doctor if cough or chest pain persists."
+      },
+      "lymphoma": {
+        "id": "lymphoma",
+        "category": "other",
+        "name": "Lymphoma",
+        "description": "A cancer of the lymphatic system.",
+        "symptoms": [
+          "Swollen lymph nodes",
+          "Fever",
+          "Night sweats",
+          "Weight loss",
+          "Fatigue",
+          "Itching",
+          "Loss of appetite",
+          "Shortness of breath"
+        ],
+        "causes": "Lymphoma occurs when lymphocytes grow uncontrollably.",
+        "risk_factors": [
+          "Weak immunity",
+          "Autoimmune disease",
+          "Family history",
+          "Viral infections",
+          "Radiation",
+          "Chemicals"
+        ],
+        "prevention_tips": [
+          "Avoid infections",
+          "Healthy immune system",
+          "Nutritious diet",
+          "Avoid toxins",
+          "Exercise",
+          "Manage stress",
+          "Checkups"
+        ],
+        "when_to_seek_help": "See a doctor if swollen lymph nodes persist."
+      },
+      "malaria": {
+        "id": "malaria",
+        "category": "infectious",
+        "name": "Malaria",
+        "description": "A serious mosquito-borne disease.",
+        "symptoms": [
+          "High fever",
+          "Chills",
+          "Sweating",
+          "Headache",
+          "Nausea",
+          "Vomiting",
+          "Muscle pain",
+          "Fatigue"
+        ],
+        "causes": "Malaria is caused by Plasmodium parasites.",
+        "risk_factors": [
+          "Tropical areas",
+          "Mosquito exposure",
+          "No nets",
+          "Travel",
+          "Poor sanitation",
+          "Weak immunity"
+        ],
+        "prevention_tips": [
+          "Use mosquito nets",
+          "Repellent",
+          "Long sleeves",
+          "Remove water",
+          "Screens",
+          "Preventive meds",
+          "Avoid dusk"
+        ],
+        "when_to_seek_help": "See a doctor for fever after mosquito bites."
+      },
+      "migraine": {
+        "id": "migraine",
+        "category": "neurological",
+        "name": "Migraine",
+        "description": "A neurological condition causing intense headaches.",
+        "symptoms": [
+          "Throbbing pain",
+          "Nausea",
+          "Vomiting",
+          "Light sensitivity",
+          "Sound sensitivity",
+          "Visual aura",
+          "Dizziness",
+          "Fatigue"
+        ],
+        "causes": "Migraines are caused by brain chemical changes.",
+        "risk_factors": [
+          "Family history",
+          "Hormonal changes",
+          "Stress",
+          "Poor sleep",
+          "Certain foods",
+          "Dehydration"
+        ],
+        "prevention_tips": [
+          "Avoid triggers",
+          "Sleep well",
+          "Hydration",
+          "Stress control",
+          "Eat regularly",
+          "Limit caffeine",
+          "Exercise"
+        ],
+        "when_to_seek_help": "See a doctor if headaches are severe or frequent."
+      },
+      "obesity": {
+        "id": "obesity",
+        "category": "metabolic",
+        "name": "Obesity",
+        "description": "A condition involving excessive body fat.",
+        "symptoms": [
+          "High body weight",
+          "Breathlessness",
+          "Fatigue",
+          "Joint pain",
+          "Sleep problems",
+          "Sweating",
+          "Low energy",
+          "Limited mobility"
+        ],
+        "causes": "Obesity is caused by excess calorie intake and inactivity.",
+        "risk_factors": [
+          "Poor diet",
+          "Sedentary lifestyle",
+          "Genetics",
+          "Poor sleep",
+          "Stress",
+          "Medications"
+        ],
+        "prevention_tips": [
+          "Balanced meals",
+          "Portion control",
+          "Exercise",
+          "Avoid sugar",
+          "Hydration",
+          "Sleep well",
+          "Track weight"
+        ],
+        "when_to_seek_help": "See a doctor if weight affects health."
+      },
+      "oralCancer": {
+        "id": "oralCancer",
+        "category": "other",
+        "name": "Oral Cancer",
+        "description": "Cancer that develops in the mouth, tongue, or throat.",
+        "symptoms": [
+          "Mouth sores",
+          "Difficulty swallowing",
+          "Red or white patches",
+          "Jaw pain",
+          "Loose teeth",
+          "Bleeding",
+          "Speech problems",
+          "Ear pain"
+        ],
+        "causes": "Oral cancer is mainly caused by tobacco, alcohol, and HPV.",
+        "risk_factors": [
+          "Smoking",
+          "Alcohol",
+          "HPV",
+          "Poor hygiene",
+          "Sun exposure",
+          "Family history"
+        ],
+        "prevention_tips": [
+          "Avoid tobacco",
+          "Limit alcohol",
+          "Oral hygiene",
+          "Dental checkups",
+          "Lip protection",
+          "Eat fruits",
+          "Safe sex"
+        ],
+        "when_to_seek_help": "See a doctor if mouth sores last more than two weeks."
+      },
+      "osteoporosis": {
+        "id": "osteoporosis",
+        "category": "musculoskeletal",
+        "name": "Osteoporosis",
+        "description": "A condition where bones become weak and fragile.",
+        "symptoms": [
+          "Back pain",
+          "Loss of height",
+          "Stooped posture",
+          "Fractures",
+          "Weak bones",
+          "Neck pain",
+          "Limited mobility",
+          "Fatigue"
+        ],
+        "causes": "Osteoporosis is caused by bone density loss.",
+        "risk_factors": [
+          "Older age",
+          "Low calcium",
+          "Family history",
+          "Smoking",
+          "Inactivity",
+          "Hormonal changes"
+        ],
+        "prevention_tips": [
+          "Calcium",
+          "Vitamin D",
+          "Exercise",
+          "No smoking",
+          "Limit alcohol",
+          "Healthy weight",
+          "Prevent falls"
+        ],
+        "when_to_seek_help": "See a doctor for fractures or posture changes."
+      },
+      "ovarianCancer": {
+        "id": "ovarianCancer",
+        "category": "other",
+        "name": "Ovarian Cancer",
+        "description": "Cancer that begins in the ovaries.",
+        "symptoms": [
+          "Bloating",
+          "Pelvic pain",
+          "Frequent urination",
+          "Loss of appetite",
+          "Fatigue",
+          "Back pain",
+          "Weight loss",
+          "Indigestion"
+        ],
+        "causes": "Ovarian cancer is caused by genetic or hormonal factors.",
+        "risk_factors": [
+          "Family history",
+          "Older age",
+          "Genetic mutation",
+          "Hormonal therapy",
+          "Obesity",
+          "Never pregnant"
+        ],
+        "prevention_tips": [
+          "Regular checkups",
+          "Healthy weight",
+          "No smoking",
+          "Nutritious diet",
+          "Know family history",
+          "Genetic testing",
+          "Early reporting"
+        ],
+        "when_to_seek_help": "See a doctor if bloating or pelvic pain persists."
+      },
+      "parkinsonsDisease": {
+        "id": "parkinsonsDisease",
+        "category": "neurological",
+        "name": "Parkinson’s Disease",
+        "description": "A progressive disorder affecting movement.",
+        "symptoms": [
+          "Tremors",
+          "Slow movement",
+          "Muscle stiffness",
+          "Poor balance",
+          "Shuffling walk",
+          "Speech changes",
+          "Writing difficulty",
+          "Fatigue"
+        ],
+        "causes": "Parkinson’s is caused by loss of dopamine-producing cells.",
+        "risk_factors": [
+          "Older age",
+          "Genetics",
+          "Male",
+          "Head injury",
+          "Toxins",
+          "Family history"
+        ],
+        "prevention_tips": [
+          "Exercise",
+          "Antioxidants",
+          "Head protection",
+          "Avoid toxins",
+          "Healthy lifestyle",
+          "Sleep",
+          "Stress control"
+        ],
+        "when_to_seek_help": "See a doctor if tremors or stiffness appear."
+      },
+      "pepticUlcer": {
+        "id": "pepticUlcer",
+        "category": "digestive",
+        "name": "Peptic Ulcer",
+        "description": "Open sores in the stomach or intestine lining.",
+        "symptoms": [
+          "Burning stomach pain",
+          "Bloating",
+          "Heartburn",
+          "Nausea",
+          "Vomiting",
+          "Weight loss",
+          "Dark stools",
+          "Poor appetite"
+        ],
+        "causes": "Peptic ulcers are caused by H. pylori or NSAIDs.",
+        "risk_factors": [
+          "Smoking",
+          "Alcohol",
+          "H. pylori",
+          "Stress",
+          "NSAIDs",
+          "Older age"
+        ],
+        "prevention_tips": [
+          "Avoid alcohol",
+          "Quit smoking",
+          "Eat balanced meals",
+          "Reduce stress",
+          "Use meds properly",
+          "Avoid spicy food",
+          "Hygiene"
+        ],
+        "when_to_seek_help": "Seek urgent care for vomiting blood or black stools."
+      },
+      "pneumonia": {
+        "id": "pneumonia",
+        "category": "respiratory",
+        "name": "Pneumonia",
+        "description": "An infection that inflames air sacs in the lungs.",
+        "symptoms": [
+          "Cough with mucus",
+          "High fever",
+          "Chest pain",
+          "Shortness of breath",
+          "Chills",
+          "Fatigue",
+          "Rapid breathing",
+          "Loss of appetite"
+        ],
+        "causes": "Pneumonia is caused by bacteria, viruses, or fungi.",
+        "risk_factors": [
+          "Weak immunity",
+          "Smoking",
+          "Elderly",
+          "Chronic disease",
+          "Recent infection",
+          "Hospital stay"
+        ],
+        "prevention_tips": [
+          "Vaccination",
+          "Hand washing",
+          "Avoid smoking",
+          "Boost immunity",
+          "Cover cough",
+          "Hydration",
+          "Rest"
+        ],
+        "when_to_seek_help": "See a doctor if breathing becomes difficult."
+      },
+      "prostateCancer": {
+        "id": "prostateCancer",
+        "category": "other",
+        "name": "Prostate Cancer",
+        "description": "Cancer that develops in the prostate gland.",
+        "symptoms": [
+          "Urination problems",
+          "Weak urine flow",
+          "Blood in urine",
+          "Pelvic pain",
+          "Bone pain",
+          "Erectile issues",
+          "Frequent urination",
+          "Fatigue"
+        ],
+        "causes": "Prostate cancer is caused by abnormal prostate cell growth.",
+        "risk_factors": [
+          "Older age",
+          "Family history",
+          "Obesity",
+          "High-fat diet",
+          "Genetics",
+          "Smoking"
+        ],
+        "prevention_tips": [
+          "Screening",
+          "Healthy weight",
+          "Eat vegetables",
+          "Exercise",
+          "Avoid smoking",
+          "Limit red meat",
+          "Watch urinary changes"
+        ],
+        "when_to_seek_help": "See a doctor for urinary or pelvic symptoms."
+      },
+      "psoriasis": {
+        "id": "psoriasis",
+        "category": "skin",
+        "name": "Psoriasis",
+        "description": "A chronic autoimmune skin disease.",
+        "symptoms": [
+          "Red patches",
+          "Silver scales",
+          "Dry cracked skin",
+          "Itching",
+          "Burning",
+          "Joint pain",
+          "Thick nails",
+          "Peeling skin"
+        ],
+        "causes": "Psoriasis occurs when the immune system attacks skin cells.",
+        "risk_factors": [
+          "Family history",
+          "Stress",
+          "Smoking",
+          "Infections",
+          "Obesity",
+          "Cold weather"
+        ],
+        "prevention_tips": [
+          "Moisturize",
+          "Avoid triggers",
+          "Reduce stress",
+          "Quit smoking",
+          "Safe sunlight",
+          "Healthy diet",
+          "Follow treatment"
+        ],
+        "when_to_seek_help": "See a dermatologist if psoriasis becomes painful or widespread."
+      },
+      "rheumatoidArthritis": {
+        "id": "rheumatoidArthritis",
+        "category": "musculoskeletal",
+        "name": "Rheumatoid Arthritis",
+        "description": "An autoimmune disease that causes joint inflammation.",
+        "symptoms": [
+          "Joint pain",
+          "Joint swelling",
+          "Morning stiffness",
+          "Fatigue",
+          "Warm joints",
+          "Loss of function",
+          "Fever",
+          "Joint deformity"
+        ],
+        "causes": "Rheumatoid arthritis occurs when immune system attacks joints.",
+        "risk_factors": [
+          "Family history",
+          "Smoking",
+          "Obesity",
+          "Female",
+          "Autoimmune disease",
+          "Age"
+        ],
+        "prevention_tips": [
+          "Exercise",
+          "Avoid smoking",
+          "Healthy weight",
+          "Anti-inflammatory foods",
+          "Stress control",
+          "Checkups",
+          "Take meds"
+        ],
+        "when_to_seek_help": "See a doctor if joint pain persists."
+      },
+      "sciatica": {
+        "id": "sciatica",
+        "category": "musculoskeletal",
+        "name": "Sciatica",
+        "description": "Pain that radiates along the sciatic nerve.",
+        "symptoms": [
+          "Lower back pain",
+          "Leg pain",
+          "Numbness",
+          "Tingling",
+          "Muscle weakness",
+          "Sharp pain",
+          "Standing difficulty",
+          "Limited movement"
+        ],
+        "causes": "Sciatica occurs due to nerve compression.",
+        "risk_factors": [
+          "Herniated disc",
+          "Obesity",
+          "Inactivity",
+          "Poor posture",
+          "Age",
+          "Back injury"
+        ],
+        "prevention_tips": [
+          "Good posture",
+          "Exercise",
+          "Core strength",
+          "Avoid heavy lifting",
+          "Healthy weight",
+          "Stretch",
+          "Proper seating"
+        ],
+        "when_to_seek_help": "See a doctor if pain is severe or causes weakness."
+      },
+      "skinCancerMelanoma": {
+        "id": "skinCancerMelanoma",
+        "category": "skin",
+        "name": "Skin Cancer (Melanoma)",
+        "description": "A dangerous form of skin cancer caused by UV damage.",
+        "symptoms": [
+          "New mole",
+          "Color change",
+          "Irregular shape",
+          "Bleeding",
+          "Itching",
+          "Dark nail streaks",
+          "Skin lesions",
+          "Painful spots"
+        ],
+        "causes": "Melanoma is caused by DNA damage from UV radiation.",
+        "risk_factors": [
+          "Sun exposure",
+          "Fair skin",
+          "Family history",
+          "Many moles",
+          "Sunburns",
+          "Weak immunity"
+        ],
+        "prevention_tips": [
+          "Use sunscreen",
+          "Avoid tanning beds",
+          "Protective clothing",
+          "Limit sun",
+          "Skin checks",
+          "Dermatology visits",
+          "Protect children"
+        ],
+        "when_to_seek_help": "See a doctor if a mole changes or bleeds."
+      },
+      "sinusitis": {
+        "id": "sinusitis",
+        "category": "respiratory",
+        "name": "Sinusitis",
+        "description": "Inflammation of the sinuses causing congestion and pain.",
+        "symptoms": [
+          "Facial pain",
+          "Nasal congestion",
+          "Headache",
+          "Thick discharge",
+          "Fever",
+          "Tooth pain",
+          "Loss of smell",
+          "Fatigue"
+        ],
+        "causes": "Sinusitis is caused by infection, allergies, or blocked sinuses.",
+        "risk_factors": [
+          "Colds",
+          "Allergies",
+          "Nasal polyps",
+          "Smoking",
+          "Weak immunity",
+          "Pollution"
+        ],
+        "prevention_tips": [
+          "Stay hydrated",
+          "Avoid allergens",
+          "Use humidifier",
+          "Hand washing",
+          "Avoid smoking",
+          "Treat colds",
+          "Saline sprays"
+        ],
+        "when_to_seek_help": "See a doctor if symptoms last more than 10 days."
+      },
+      "stomachCancer": {
+        "id": "stomachCancer",
+        "category": "digestive",
+        "name": "Stomach Cancer",
+        "description": "Cancer that develops in the stomach lining.",
+        "symptoms": [
+          "Stomach pain",
+          "Bloating",
+          "Loss of appetite",
+          "Weight loss",
+          "Nausea",
+          "Heartburn",
+          "Fatigue",
+          "Vomiting blood"
+        ],
+        "causes": "Stomach cancer is caused by chronic inflammation or H. pylori infection.",
+        "risk_factors": [
+          "Smoking",
+          "H. pylori",
+          "High salt diet",
+          "Family history",
+          "Older age",
+          "Alcohol"
+        ],
+        "prevention_tips": [
+          "Eat fresh foods",
+          "Avoid smoked foods",
+          "Quit smoking",
+          "Limit alcohol",
+          "Treat H. pylori",
+          "Exercise",
+          "Healthy weight"
+        ],
+        "when_to_seek_help": "Seek care for stomach pain or blood in vomit."
+      },
+      "stroke": {
+        "id": "stroke",
+        "category": "neurological",
+        "name": "Stroke",
+        "description": "A medical emergency caused by interrupted blood supply to the brain.",
+        "symptoms": [
+          "Sudden numbness",
+          "Speech problems",
+          "Vision trouble",
+          "Loss of balance",
+          "Severe headache",
+          "Confusion",
+          "Dizziness",
+          "Weakness"
+        ],
+        "causes": "Stroke occurs when a blood vessel to the brain is blocked or ruptured.",
+        "risk_factors": [
+          "High blood pressure",
+          "Smoking",
+          "Diabetes",
+          "Heart disease",
+          "Obesity",
+          "High cholesterol"
+        ],
+        "prevention_tips": [
+          "Control blood pressure",
+          "Exercise",
+          "Healthy diet",
+          "Quit smoking",
+          "Manage diabetes",
+          "Reduce stress",
+          "Limit alcohol"
+        ],
+        "when_to_seek_help": "Call emergency services immediately if stroke symptoms appear."
+      },
+      "thyroidDisorders": {
+        "id": "thyroidDisorders",
+        "category": "metabolic",
+        "name": "Thyroid Disorders",
+        "description": "Conditions that affect thyroid hormone balance.",
+        "symptoms": [
+          "Weight changes",
+          "Fatigue",
+          "Hair thinning",
+          "Mood changes",
+          "Heat or cold intolerance",
+          "Heart changes",
+          "Dry skin",
+          "Muscle weakness"
+        ],
+        "causes": "Thyroid disorders are caused by autoimmune disease or hormone imbalance.",
+        "risk_factors": [
+          "Family history",
+          "Autoimmune disease",
+          "Pregnancy",
+          "Female gender",
+          "Iodine deficiency",
+          "Stress"
+        ],
+        "prevention_tips": [
+          "Eat iodine foods",
+          "Regular checkups",
+          "Stress control",
+          "Exercise",
+          "No smoking",
+          "Balanced diet",
+          "Take medication"
+        ],
+        "when_to_seek_help": "See a doctor for unexplained weight or mood changes."
+      },
+      "tuberculosis": {
+        "id": "tuberculosis",
+        "category": "infectious",
+        "name": "Tuberculosis",
+        "description": "A bacterial infection affecting the lungs.",
+        "symptoms": [
+          "Persistent cough",
+          "Chest pain",
+          "Weight loss",
+          "Night sweats",
+          "Fever",
+          "Fatigue",
+          "Coughing blood",
+          "Poor appetite"
+        ],
+        "causes": "Tuberculosis spreads through air droplets.",
+        "risk_factors": [
+          "Crowded living",
+          "Weak immunity",
+          "HIV",
+          "Malnutrition",
+          "Smoking",
+          "Close contact"
+        ],
+        "prevention_tips": [
+          "Vaccination",
+          "Ventilation",
+          "Complete treatment",
+          "Avoid crowds",
+          "Cover cough",
+          "Nutrition",
+          "Screening"
+        ],
+        "when_to_seek_help": "See a doctor if cough lasts more than 3 weeks."
+      },
+      "typhoidFever": {
+        "id": "typhoidFever",
+        "category": "infectious",
+        "name": "Typhoid Fever",
+        "description": "A bacterial infection spread through contaminated food or water.",
+        "symptoms": [
+          "High fever",
+          "Abdominal pain",
+          "Weakness",
+          "Headache",
+          "Loss of appetite",
+          "Diarrhea",
+          "Rash",
+          "Constipation"
+        ],
+        "causes": "Typhoid is caused by Salmonella bacteria.",
+        "risk_factors": [
+          "Poor sanitation",
+          "Unsafe water",
+          "Travel",
+          "Weak immunity",
+          "Street food",
+          "Crowded areas"
+        ],
+        "prevention_tips": [
+          "Drink clean water",
+          "Wash hands",
+          "Avoid raw food",
+          "Vaccination",
+          "Eat cooked meals",
+          "Hygiene",
+          "Avoid street food"
+        ],
+        "when_to_seek_help": "See a doctor if fever lasts more than 3 days."
+      },
+      "urinaryTractInfection": {
+        "id": "urinaryTractInfection",
+        "category": "other",
+        "name": "Urinary Tract Infection",
+        "description": "An infection of the urinary system.",
+        "symptoms": [
+          "Burning urination",
+          "Frequent urination",
+          "Cloudy urine",
+          "Pelvic pain",
+          "Strong odor",
+          "Blood in urine",
+          "Fever",
+          "Fatigue"
+        ],
+        "causes": "UTIs occur when bacteria enter the urinary tract.",
+        "risk_factors": [
+          "Poor hygiene",
+          "Dehydration",
+          "Female anatomy",
+          "Catheters",
+          "Sexual activity",
+          "Weak immunity"
+        ],
+        "prevention_tips": [
+          "Drink water",
+          "Maintain hygiene",
+          "Urinate after sex",
+          "Avoid holding urine",
+          "Breathable underwear",
+          "Avoid irritants",
+          "Wipe front to back"
+        ],
+        "when_to_seek_help": "See a doctor for pain, fever, or blood in urine."
+      },
+      "varicoseVeins": {
+        "id": "varicoseVeins",
+        "category": "cardiovascular",
+        "name": "Varicose Veins",
+        "description": "Swollen twisted veins usually in the legs.",
+        "symptoms": [
+          "Visible veins",
+          "Leg pain",
+          "Heaviness",
+          "Swelling",
+          "Skin darkening",
+          "Itching",
+          "Night cramps",
+          "Restlessness"
+        ],
+        "causes": "Varicose veins occur when valves fail.",
+        "risk_factors": [
+          "Standing long hours",
+          "Obesity",
+          "Pregnancy",
+          "Age",
+          "Family history",
+          "Inactivity"
+        ],
+        "prevention_tips": [
+          "Exercise",
+          "Elevate legs",
+          "Avoid standing",
+          "Healthy weight",
+          "Compression socks",
+          "Stay active",
+          "Loose clothing"
+        ],
+        "when_to_seek_help": "See a doctor if veins become painful or bleed."
+      },
+      "vertigo": {
+        "id": "vertigo",
+        "category": "neurological",
+        "name": "Vertigo",
+        "description": "A spinning sensation due to balance problems.",
+        "symptoms": [
+          "Spinning",
+          "Nausea",
+          "Vomiting",
+          "Loss of balance",
+          "Headache",
+          "Sweating",
+          "Ringing ears",
+          "Blurred vision"
+        ],
+        "causes": "Vertigo is caused by inner ear or nerve problems.",
+        "risk_factors": [
+          "Ear infections",
+          "Head injury",
+          "Migraines",
+          "Older age",
+          "Medications",
+          "Balance disorders"
+        ],
+        "prevention_tips": [
+          "Avoid sudden moves",
+          "Stay hydrated",
+          "Sit down",
+          "Avoid driving",
+          "Treat ear infections",
+          "Rest",
+          "Follow doctor advice"
+        ],
+        "when_to_seek_help": "See a doctor for severe or persistent dizziness."
+      },
+      "visionImpairment": {
+        "id": "visionImpairment",
+        "category": "eye",
+        "name": "Vision Impairment",
+        "description": "Partial or complete loss of eyesight.",
+        "symptoms": [
+          "Blurred vision",
+          "Night difficulty",
+          "Double vision",
+          "Vision loss",
+          "Eye pain",
+          "Light sensitivity",
+          "Reading difficulty",
+          "Headaches"
+        ],
+        "causes": "Vision impairment is caused by eye disease, injury, or aging.",
+        "risk_factors": [
+          "Aging",
+          "Diabetes",
+          "Eye injury",
+          "Family history",
+          "Smoking",
+          "Poor nutrition"
+        ],
+        "prevention_tips": [
+          "Eye exams",
+          "Protective eyewear",
+          "Control diabetes",
+          "Eye-healthy foods",
+          "No smoking",
+          "Limit screens",
+          "UV protection"
+        ],
+        "when_to_seek_help": "See an eye doctor if vision worsens suddenly."
+      },
+      "vitaminDDeficiency": {
+        "id": "vitaminDDeficiency",
+        "category": "metabolic",
+        "name": "Vitamin D Deficiency",
+        "description": "A condition where the body lacks enough vitamin D.",
+        "symptoms": [
+          "Bone pain",
+          "Muscle weakness",
+          "Fatigue",
+          "Frequent illness",
+          "Depression",
+          "Hair loss",
+          "Slow healing",
+          "Bone fractures"
+        ],
+        "causes": "Vitamin D deficiency occurs due to lack of sunlight or poor absorption.",
+        "risk_factors": [
+          "Limited sunlight",
+          "Dark skin",
+          "Old age",
+          "Obesity",
+          "Digestive issues",
+          "Poor diet"
+        ],
+        "prevention_tips": [
+          "Get sunlight",
+          "Eat vitamin D foods",
+          "Take supplements",
+          "Exercise",
+          "Healthy weight",
+          "Monitor levels",
+          "Doctor advice"
+        ],
+        "when_to_seek_help": "See a doctor for bone pain or frequent illness."
+      },
+      "whoopingCough": {
+        "id": "whoopingCough",
+        "category": "infectious",
+        "name": "Whooping Cough",
+        "description": "A highly contagious respiratory infection.",
+        "symptoms": [
+          "Severe coughing",
+          "Whooping sound",
+          "Runny nose",
+          "Fever",
+          "Vomiting after coughing",
+          "Fatigue",
+          "Breathing difficulty",
+          "Chest pain"
+        ],
+        "causes": "Whooping cough is caused by Bordetella pertussis bacteria.",
+        "risk_factors": [
+          "Not vaccinated",
+          "Young age",
+          "Weak immunity",
+          "Crowded living",
+          "Exposure",
+          "Travel"
+        ],
+        "prevention_tips": [
+          "Vaccination",
+          "Avoid sick people",
+          "Wash hands",
+          "Cover coughs",
+          "Masks",
+          "Clean environment",
+          "Boosters"
+        ],
+        "when_to_seek_help": "See a doctor if coughing causes breathing trouble."
+      },
+      "yellowFever": {
+        "id": "yellowFever",
+        "category": "infectious",
+        "name": "Yellow Fever",
+        "description": "A mosquito-borne viral disease.",
+        "symptoms": [
+          "Fever",
+          "Headache",
+          "Muscle pain",
+          "Nausea",
+          "Vomiting",
+          "Fatigue",
+          "Yellow skin",
+          "Bleeding"
+        ],
+        "causes": "Yellow fever is caused by a virus spread by mosquitoes.",
+        "risk_factors": [
+          "Travel to endemic areas",
+          "No vaccination",
+          "Mosquito bites",
+          "Weak immunity",
+          "Tropical living",
+          "Poor sanitation"
+        ],
+        "prevention_tips": [
+          "Vaccination",
+          "Mosquito repellent",
+          "Long clothing",
+          "Remove standing water",
+          "Screens",
+          "Stay indoors",
+          "Nets"
+        ],
+        "when_to_seek_help": "Seek emergency care for yellowing or bleeding."
       }
     }
   },

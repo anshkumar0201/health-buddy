@@ -79,12 +79,12 @@ export default function Assessment() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-24 pb-32">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-24 pb-32">
       <div className="max-w-3xl mx-auto px-4">
         <button
           onClick={() => navigate(-1)}
-          className={`flex items-center gap-2 text-lg text-gray-500
-            hover:text-gray-900 font-semibold transition mb-6
+          className={`flex items-center gap-2 text-lg text-gray-600
+            hover:text-gray-900 font-semibold transition mb-6 cursor-pointer
             ${isSubmitting ? "pointer-events-none opacity-40" : ""}`}
         >
           <ArrowLeft className="w-6 h-6" />
