@@ -5,6 +5,7 @@ import {
   Info,
   ArrowLeft,
   Stethoscope,
+  SearchX,
 } from "lucide-react";
 import diseasesHub from "@/data/disease1.json";
 
@@ -17,14 +18,28 @@ export default function DiseaseDetails() {
 
   if (!disease) {
     return (
-      <main className="min-h-screen pt-32 text-center">
-        <h1 className="text-2xl font-bold">Disease not found</h1>
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue-600 underline mt-4 block"
-        >
-          Back to Diseases
-        </button>
+      <main className="min-h-[70vh] px-4 text-center justify-center flex flex-col items-center">
+        <SearchX className="w-16 h-16 text-gray-400 mb-4" />
+        <h1 className="text-3xl font-bold mb-2">Disease not found</h1>
+        <p className="text-gray-600 max-w-md mb-6">
+          The condition you're looking for may not exist or the link is
+          incorrect.
+        </p>
+        <div className="flex">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-600 underline mt-4 block text-lg font-semibold cursor-pointer px-50 "
+          >
+            Back to Diseases
+          </button>
+          <button
+            variant="outline"
+            onClick={() => navigate("/symptom-checker")}
+            className="text-blue-600 underline mt-4 block text-lg cursor-pointer font-semibold px-50"
+          >
+            Check Symptoms
+          </button>
+        </div>
       </main>
     );
   }
