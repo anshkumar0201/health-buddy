@@ -47,6 +47,8 @@ CONDITIONS
   - keys MUST remain exactly the same
   - arrays may grow or shrink based on user text
   - you may decide condition name, tag, and description
+  - minimum three conditions per urgency level
+  - condition names MUST be relevant to user symptoms
 
 REQUIRED JSON SCHEMA (DO NOT CHANGE STRUCTURE):
 
