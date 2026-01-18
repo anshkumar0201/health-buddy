@@ -152,7 +152,7 @@
     "inputTitle": "Describe Your Symptoms",
     "placeholder": "Example: headache and fever since last 2 days",
     "minChars": "characters minimum",
-    "tip": "Tip: Adding duration or severity improves accuracy.",
+    "tip": "Tip: Enter clear and complete symptoms to get a more relevant response. Adding duration or severity improves accuracy.",
     "cta": "Analyze My Symptoms",
     "loading": "Analyzing...",
     "invalid": {
@@ -246,8 +246,10 @@
           "description": "Discomfort caused by difficulty in digesting food."
         }
       ]
-    }
-  },
+    },
+    "reset": "Start Over"
+
+},
 
   "SymptomChecker": {
     "title": "Symptom Checker",

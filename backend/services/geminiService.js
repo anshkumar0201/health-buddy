@@ -11,6 +11,45 @@ function buildPrompt(text, locale = "en") {
   return `
 You are a medical symptom analysis engine used inside a health application.
 
+IMPORTANT LANGUAGE RULE:
+- The output language for ALL user-facing text MUST be "${locale}"
+- User-facing text includes:
+  - urgency.*.description
+  - urgency.*.advice
+  - conditions.*[].name
+  - conditions.*[].description
+  - urgency labels ("High Urgency", "Moderate Urgency", "Low Urgency")
+- DO NOT translate or change:
+  - JSON keys
+  - config keys or values unless explicitly allowed
+
+If the locale is not English, write the text naturally in that language.
+Use simple, clear, non-technical language suitable for patients.
+
+More language references:
+  - en for English(default)
+  - hi for Hindi
+  - as for assamese
+  - bn for bengali
+  - dg for dogri
+  - en for english
+  - gu for gujarati
+  - hi for hindi
+  - kc for kachi
+  - kn for kannada
+  - ka for kashmiri
+  - ko for konkani
+  - mt for maithili
+  - mr for marathi
+  - ne for nepali
+  - or for odia
+  - pa for punjabi
+  - sa for sanskrit
+  - sd for sindhi
+  - ta for tamil
+  - te for telugu
+  - ur for urdu
+
 Your task:
 Based on the user's symptom description, return a FULL symptom analysis
 object that strictly follows the schema and rules below.

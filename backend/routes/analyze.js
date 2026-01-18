@@ -25,34 +25,31 @@ function isTextValidEnough(text, maxInvalidRatio = 0.4) {
     let invalidWords = 0;
 
     for (const word of words) {
-        // Reject very short noise
-        if (word.length < 3) {
-            invalidWords++;
-            continue;
-        }
+        // Ignore short connector words
+        if (word.length < 3) continue;
 
-        // Reject repeated-character garbage (aaaaa, sssss)
+        // Reject repeated-character garbage
         if (/^(.)\1{3,}$/.test(word)) {
             invalidWords++;
             continue;
         }
 
-        // Reject random consonant clusters (very common gibberish)
+        // Reject random consonant clusters
         if (!/[aeiou]/.test(word)) {
             invalidWords++;
             continue;
         }
 
-        // Otherwise treat as valid (allows spelling mistakes)
         validWords++;
     }
 
     const total = validWords + invalidWords;
-    const invalidRatio = invalidWords / total;
 
-    return invalidRatio < maxInvalidRatio;
+    // Avoid NaN (0 / 0)
+    if (total === 0) return false;
+
+    return (invalidWords / total) < maxInvalidRatio;
 }
-
 
 /* ======================================================
    ROUTE
@@ -61,26 +58,25 @@ router.post("/", async (req, res) => {
     try {
         const { text, locale } = req.body;
 
-        // Basic input safety
         if (!text || typeof text !== "string") {
             return res.status(400).json({ error: "Invalid input" });
         }
 
-        // Length guard (cheap)
         if (text.trim().length < 10) {
             return res.status(400).json({
                 error: "Input too short for analysis",
             });
         }
 
-        // 🛑 IMPORTANT: 80% validity gate
-        if (!isTextValidEnough(text, 0.2)) {
-            return res.status(400).json({
-                error: "Input unclear",
+        // Soft clarity gate
+        if (!isTextValidEnough(text, 0.4)) {
+            return res.json({
+                status: "needs_more_info",
+                message:
+                    "Please add more details such as pain severity, swelling, fever, or progression.",
             });
         }
 
-        // ✅ ONLY NOW Gemini is called
         const result = await analyzeSymptomsWithGemini(
             text,
             locale || "en"
