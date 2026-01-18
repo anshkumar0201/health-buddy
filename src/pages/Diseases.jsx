@@ -20,7 +20,7 @@ const CATEGORY_ORDER = [
 ];
 
 export default function Diseases() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const y = sessionStorage.getItem("symptomScroll");
@@ -36,50 +36,44 @@ export default function Diseases() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
 
-  /* ---------------- Get diseases from i18n ---------------- */
+  /* ---------------- Get diseases from i18n (SAME AS SymptomChecker) ---------------- */
   const diseases = useMemo(() => {
-    const lang = i18n.language;
-    const namespaces = i18n.options.ns || [];
-    const ns = Array.isArray(namespaces) ? namespaces[0] : namespaces;
+    const items = t("Diseases.items", {
+      returnObjects: true,
+      defaultValue: {},
+    });
 
-    const items = i18n.store.data?.[lang]?.[ns]?.Diseases?.items;
-    if (!items || typeof items !== "object") return [];
+    return Object.entries(items).map(([id, data]) => ({
+      id,
+      ...data,
+    }));
+  }, [t]);
 
-    return Object.values(items);
-  }, [i18n.language]);
-
-  /* ---------------- Category counts ---------------- */
+  /* ---------------- Category counts (NO lowercasing) ---------------- */
   const categoryCounts = useMemo(() => {
     const counts = {};
     diseases.forEach((d) => {
       if (!d?.category) return;
-      const key = d.category.toLowerCase();
-      counts[key] = (counts[key] || 0) + 1;
+      counts[d.category] = (counts[d.category] || 0) + 1;
     });
     return counts;
   }, [diseases]);
 
-  /* ---------------- Filtering ---------------- */
+  /* ---------------- Filtering (MATCH SymptomChecker) ---------------- */
   const filteredDiseases = useMemo(() => {
-    return diseases.filter((d) => {
-      if (!d?.name || !d?.category) return false;
-
-      const category = d.category.toLowerCase();
-      const matchesCategory =
-        activeCategory === "all" || category === activeCategory;
-
-      const matchesSearch = d.name.toLowerCase().includes(search.toLowerCase());
-
-      return matchesCategory && matchesSearch;
-    });
+    return diseases.filter(
+      (d) =>
+        (activeCategory === "all" || d.category === activeCategory) &&
+        d.name.toLowerCase().includes(search.toLowerCase())
+    );
   }, [diseases, activeCategory, search]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-16 pb-32">
       <div className="max-w-7xl mx-auto px-4">
         {/* Icon */}
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+          <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
         </div>
@@ -108,7 +102,7 @@ export default function Diseases() {
 
         {/* Categories */}
         <div className="mt-8">
-          <div className="flex gap-2 overflow-x-auto pb-2  -mx-4 px-4 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-3 sm:overflow-visible">
+          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-3 sm:overflow-visible">
             {CATEGORY_ORDER.map((key) => {
               const count =
                 key === "all" ? diseases.length : categoryCounts[key] || 0;
@@ -137,7 +131,7 @@ export default function Diseases() {
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
           {filteredDiseases.map((d) => (
             <div
-              key={d.name}
+              key={d.id}
               className="group bg-white rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col"
             >
               <div className="flex-1">
@@ -154,13 +148,12 @@ export default function Diseases() {
                 </p>
               </div>
 
-              {/* ✅ FIXED LINK */}
               <Link
-                to={`/diseases/${encodeURIComponent(d.name)}`}
+                to={`/diseases/${d.id}`}
                 onClick={() =>
                   sessionStorage.setItem("symptomScroll", window.scrollY)
                 }
-                className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 group-hover:text-blue-600"
+                className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300 group-hover:text-blue-600 transition"
               >
                 {t("Diseases.learnMore")}
                 <span className="transition-transform group-hover:translate-x-1">

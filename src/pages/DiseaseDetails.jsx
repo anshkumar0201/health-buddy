@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 import {
   AlertTriangle,
   CheckCircle,
@@ -7,59 +8,77 @@ import {
   Stethoscope,
   SearchX,
 } from "lucide-react";
-import diseasesHub from "@/data/disease1.json";
+import { useTranslation } from "react-i18next";
+
 
 export default function DiseaseDetails() {
-  const { name } = useParams();
-  const decodedName = decodeURIComponent(name);
+  const { name: id } = useParams();
+
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const disease = diseasesHub.find((d) => d.name === decodedName);
+  /* ---------------- Get disease (SAME PATTERN AS Diseases.jsx) ---------------- */
+  const disease = useMemo(() => {
+    const items = t("Diseases.items", {
+      returnObjects: true,
+      defaultValue: {},
+    });
 
+    if (!items || !items[id]) return null;
+
+    return {
+      id,
+      ...items[id],
+    };
+  }, [id, t]);
+
+
+  /* ---------------- Not found ---------------- */
   if (!disease) {
     return (
       <main className="min-h-[70vh] px-4 text-center justify-center flex flex-col items-center">
         <SearchX className="w-16 h-16 text-gray-400 mb-4" />
-        <h1 className="text-3xl font-bold mb-2">Disease not found</h1>
+        <h1 className="text-3xl font-bold mb-2">
+          {t("Diseases.noData.diseaseNotFound")}
+        </h1>
         <p className="text-gray-600 max-w-md mb-6">
-          The condition you're looking for may not exist or the link is
-          incorrect.
+          {t("Diseases.noData.noDiseaseText")}
         </p>
-        <div className="flex">
+        <div className="flex gap-6">
           <button
             onClick={() => navigate(-1)}
-            className="text-blue-600 underline mt-4 block text-lg font-semibold cursor-pointer px-50 "
+            className="text-blue-600 underline mt-4 block text-lg font-semibold cursor-pointer"
           >
-            Back to Diseases
+            {t("Diseases.backToDiseases")}
           </button>
           <button
-            variant="outline"
             onClick={() => navigate("/symptom-checker")}
-            className="text-blue-600 underline mt-4 block text-lg cursor-pointer font-semibold px-50"
+            className="text-blue-600 underline mt-4 block text-lg font-semibold cursor-pointer"
           >
-            Check Symptoms
+            {t("Diseases.noData.checkSymptoms")}
           </button>
         </div>
       </main>
     );
   }
 
+  /* ---------------- Details page ---------------- */
   return (
     <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-24 pb-32 font-normal">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-fadeIn">
         {/* Back */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-lg text-gray-500 cursor-pointer hover:text-gray-900 font-semibold  hover:font-bold transition-colors duration-200 mb-6"
+          className="flex items-center gap-2 text-lg text-gray-500 cursor-pointer hover:text-gray-900 font-semibold hover:font-bold transition-colors duration-200 mb-6"
         >
           <ArrowLeft className="w-6 h-6" />
-          Back to Diseases
+          {t("Diseases.backToDiseases")}
         </button>
 
         <div className="border border-gray-200 rounded-2xl px-8 py-8 w-full bg-linear-to-r shadow-lg">
           {/* Hero Image */}
           {disease.image_url && (
-            <div className="w-full h-56 rounded-2xl  overflow-hidden mb-8 shadow-md hover:shadow-xl transition-all duration-300 ease-out">
+            <div className="w-full h-56 rounded-2xl overflow-hidden mb-8 shadow-md hover:shadow-xl transition-all duration-300 ease-out">
               <img
                 src={disease.image_url}
                 alt={disease.name}
@@ -69,7 +88,7 @@ export default function DiseaseDetails() {
           )}
 
           {/* Category */}
-          <span className="inline-flex items-center mb-3 px-4 py-1.5 rounded-full text-xs font-semibold bg-linear-to-r from-gray-900 to-gray-700 text-white shadow-sm">
+          <span className="inline-flex items-center mb-3 px-4 py-1.5 rounded-full text-sm font-semibold bg-linear-to-r from-gray-900 to-gray-700 text-white shadow-sm">
             {disease.category}
           </span>
 
@@ -100,7 +119,7 @@ export default function DiseaseDetails() {
           </div>
 
           {/* Common Symptoms */}
-          <SectionCard title="Common Symptoms" icon={<Info />}>
+          <SectionCard title={t("Diseases.commonSymptoms")} icon={<Info />}>
             <ul className="grid sm:grid-cols-2 gap-y-2 gap-x-6">
               {disease.symptoms.map((s, i) => (
                 <li
@@ -117,7 +136,7 @@ export default function DiseaseDetails() {
           {/* Causes */}
           {disease.causes && (
             <SectionCard
-              title="Causes"
+              title={t("Diseases.causes")}
               icon={<AlertTriangle className="text-orange-500" />}
             >
               <p className="text-sm text-gray-700">{disease.causes}</p>
@@ -127,7 +146,7 @@ export default function DiseaseDetails() {
           {/* Risk Factors */}
           {disease.risk_factors?.length > 0 && (
             <SectionCard
-              title="Risk Factors"
+              title={t("Diseases.riskFactors")}
               icon={<AlertTriangle className="text-red-500" />}
             >
               <ul className="grid sm:grid-cols-2 gap-y-2 gap-x-6">
@@ -149,7 +168,7 @@ export default function DiseaseDetails() {
             <div className="mt-6 rounded-2xl border border-green-200 bg-green-50 p-6 shadow-sm hover:shadow-[0_10px_25px_-10px_rgba(34,197,94,0.35)] transition-all duration-300">
               <div className="flex items-center gap-2 mb-4 text-green-700 font-semibold">
                 <CheckCircle className="w-5 h-5" />
-                Prevention Tips
+                {t("Diseases.preventionTips")}
               </div>
 
               <ul className="grid sm:grid-cols-2 gap-y-2 gap-x-6">
@@ -171,7 +190,7 @@ export default function DiseaseDetails() {
             <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-6 shadow-sm hover:shadow-[0_10px_25px_-10px_rgba(239,68,68,0.35)] transition-all duration-300">
               <div className="flex items-center gap-2 mb-2 text-red-700 font-semibold">
                 <AlertTriangle className="w-5 h-5" />
-                When to Seek Medical Help
+                {t("Diseases.seekHelp")}
               </div>
 
               <p className="text-sm text-red-700">

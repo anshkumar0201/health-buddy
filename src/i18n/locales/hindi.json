@@ -7888,10 +7888,9 @@
     "title": "रोग जानकारी केंद्र",
     "subtitle": "सामान्य रोगों, उनके लक्षणों, कारणों और रोकथाम के बारे में जानें",
     "searchPlaceholder": "रोग खोजें...",
-    "commonSymptoms": "सामान्य लक्षण:",
+    "commonSymptoms": "सामान्य लक्षण",
     "learnMore": "और जानें",
     "more": "और",
-
     "categories": {
       "all": "सभी रोग",
       "cardiovascular": "हृदय संबंधी",
@@ -10357,7 +10356,19 @@
         ],
         "when_to_seek_help": "यदि त्वचा पीली हो जाए या खून बहने लगे तो तुरंत आपात चिकित्सा सहायता लें।"
       }
-    }
+    },
+    "noData": {
+      "diseaseNotFound": "रोग नहीं मिला",
+      "noDiseaseText": "जिस स्थिति की आप तलाश कर रहे हैं, वह मौजूद नहीं हो सकती है या लिंक गलत है।",
+      "checkSymptoms": "लक्षण जाँचें"
+    },
+    "backToDiseases": "रोगों की सूची पर वापस जाएँ",
+    "takeAssessment": "आकलन शुरू करें",
+    "findClinics": "क्लिनिक खोजें",
+    "causes": "कारण",
+    "riskFactors": "जोखिम कारक",
+    "preventionTips": "रोकथाम के सुझाव",
+    "seekHelp": "कब चिकित्सकीय सहायता लें"
   },
 
   "Prevention": {

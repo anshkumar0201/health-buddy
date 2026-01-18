@@ -41,7 +41,7 @@ export default function Prevention() {
   console.log("Disease categories:", diseaseCategories);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-16 pb-32">
       <div className="max-w-7xl mx-auto px-4">
         {/* Icon */}
         <div className="flex justify-center mb-6">

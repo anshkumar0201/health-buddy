@@ -5942,7 +5942,7 @@
     "title": "Disease Information Hub",
     "subtitle": "Learn about common diseases, their symptoms, causes, and prevention",
     "searchPlaceholder": "Search diseases...",
-    "commonSymptoms": "Common Symptoms:",
+    "commonSymptoms": "Common Symptoms",
     "learnMore": "Learn More",
     "more": "more",
     "categories": {
@@ -8410,7 +8410,19 @@
         ],
         "when_to_seek_help": "Seek emergency care for yellowing or bleeding."
       }
-    }
+    },
+    "noData": {
+      "diseaseNotFound": "Disease not found",
+      "noDiseaseText": "The condition you're looking for may not exist or the link is incorrect.",
+      "checkSymptoms": "Check Symptoms"
+    },
+    "backToDiseases": "Back to Diseases",
+    "takeAssessment": "Take Assessment",
+    "findClinics": "Find Clinics",
+    "causes": "Causes",
+    "riskFactors": "Risk Factors",
+    "preventionTips": "Prevention Tips",
+    "seekHelp": "When to seek Medical Help"
   },
 
   "Prevention": {

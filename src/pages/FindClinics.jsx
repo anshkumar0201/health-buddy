@@ -27,8 +27,8 @@ export default function FindClinics() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-16 pb-32">
-      <div className="max-w-5xl mx-auto px-4 text-center">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-16 pb-32">
+      <div className="max-w-7xl mx-auto px-4 text-center overflow-hidden">
         {/* Icon */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-2xl bg-orange-500 flex items-center justify-center shadow-lg">
@@ -73,59 +73,61 @@ export default function FindClinics() {
           </button>
         </div>
 
-        {/* Quick Search */}
-        <h2 className="mt-14 text-lg font-bold text-gray-900">
-          {t("FindClinics.quickSearch")}
-        </h2>
+        <div className="max-w-6xl mx-auto px-6 mt-4 pt-4 pb-10 my-5">
+          {/* Quick Search */}
+          <h2 className="mt-6 text-lg font-bold text-gray-900">
+            {t("FindClinics.quickSearch")}
+          </h2>
 
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          {QUICK_SEARCHES.map((item) => (
-            <QuickCard
-              key={item.key}
-              emoji={item.emoji}
-              label={t(`FindClinics.quick.${item.key}`)}
-              onClick={() => openMaps(item.query)}
-            />
-          ))}
-        </div>
-
-        {/* Emergency */}
-        <div className="mt-14 max-w-3xl mx-auto rounded-2xl border border-red-200 bg-red-50 p-6 text-left">
-          <div className="flex items-center gap-2 text-red-700 font-semibold mb-4 text-lg">
-            🚨 {t("FindClinics.emergency.title")}
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+            {QUICK_SEARCHES.map((item) => (
+              <QuickCard
+                key={item.key}
+                emoji={item.emoji}
+                label={t(`FindClinics.quick.${item.key}`)}
+                onClick={() => openMaps(item.query)}
+              />
+            ))}
           </div>
 
-          <p className="text-red-700 text-sm mb-4">
-            {t("FindClinics.emergency.description")}
-          </p>
+          {/* Emergency */}
+          <div className="mt-14 max-w-3xl mx-auto rounded-2xl border border-red-200 bg-red-50 p-6 text-left">
+            <div className="flex items-center gap-2 text-red-700 font-semibold mb-4 text-lg">
+              🚨 {t("FindClinics.emergency.title")}
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-            <EmergencyBadge
-              label={t("FindClinics.emergency.ambulance")}
-              phone="108"
-            />
-            <EmergencyBadge
-              label={t("FindClinics.emergency.healthHelpline")}
-              phone="104"
-            />
-            <EmergencyBadge
-              label={t("FindClinics.emergency.emergency")}
-              phone="102"
-            />
-          </div>
+            <p className="text-red-700 text-sm mb-4">
+              {t("FindClinics.emergency.description")}
+            </p>
 
-          <button
-            onClick={() => openMaps("Emergency hospital")}
-            className="
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+              <EmergencyBadge
+                label={t("FindClinics.emergency.ambulance")}
+                phone="108"
+              />
+              <EmergencyBadge
+                label={t("FindClinics.emergency.healthHelpline")}
+                phone="104"
+              />
+              <EmergencyBadge
+                label={t("FindClinics.emergency.emergency")}
+                phone="102"
+              />
+            </div>
+
+            <button
+              onClick={() => openMaps("Emergency hospital")}
+              className="
               w-full bg-red-600 text-white py-3 rounded-xl font-medium
               flex items-center justify-center gap-2 cursor-pointer
               transition-all duration-300
               hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5
             "
-          >
-            <MapPin className="w-4 h-4" />
-            {t("FindClinics.emergency.findNearby")}
-          </button>
+            >
+              <MapPin className="w-4 h-4" />
+              {t("FindClinics.emergency.findNearby")}
+            </button>
+          </div>
         </div>
       </div>
     </main>
