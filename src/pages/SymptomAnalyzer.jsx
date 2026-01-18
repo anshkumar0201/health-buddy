@@ -494,6 +494,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 /* ======================================================
    FRONTEND INPUT CLARITY CHECK (HARD STOP)
@@ -609,7 +610,7 @@ export default function SymptomAnalyzer() {
     setResult({ status: "loading" });
 
     try {
-      const response = await fetch("/api/analyze-symptoms", {
+      const response = await fetch(`${API_BASE}/api/analyze-symptoms`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
