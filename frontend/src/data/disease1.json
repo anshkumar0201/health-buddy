@@ -1,0 +1,2454 @@
+[
+    {
+      "name": "Acid Reflux (GERD)",
+      "category": "Digestive",
+      "description": "A digestive disorder in which stomach acid or bile flows back into the food pipe (esophagus), irritating its lining.",
+      "symptoms": [
+        "Burning sensation in chest (heartburn)",
+        "Chest pain",
+        "Regurgitation of food or sour liquid",
+        "Difficulty swallowing",
+        "Chronic cough",
+        "Sore throat",
+        "Hoarseness of voice",
+        "Feeling of a lump in the throat"
+      ],
+      "causes": "GERD is most often caused by a weakened lower esophageal sphincter, allowing stomach acid to flow back into the esophagus. It may also be triggered by obesity, hiatal hernia, pregnancy, or delayed stomach emptying.",
+      "risk_factors": [
+        "Obesity",
+        "Smoking",
+        "Pregnancy",
+        "Large or late meals",
+        "Alcohol consumption",
+        "Hiatal hernia"
+      ],
+      "prevention_tips": [
+        "Eat smaller, more frequent meals",
+        "Avoid spicy, fatty, and acidic foods",
+        "Do not lie down immediately after eating",
+        "Maintain a healthy weight",
+        "Quit smoking",
+        "Limit alcohol intake",
+        "Elevate head while sleeping"
+      ],
+      "when_to_seek_help": "Seek medical attention if symptoms occur frequently, interfere with daily life, or if you experience difficulty swallowing, unexplained weight loss, vomiting blood, or severe chest pain.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Acne",
+      "category": "Skin",
+      "description": "A skin condition that occurs when hair follicles become clogged with oil and dead skin cells, leading to pimples and inflammation.",
+      "symptoms": [
+        "Whiteheads",
+        "Blackheads",
+        "Red pimples",
+        "Pus-filled pimples",
+        "Painful nodules",
+        "Oily skin",
+        "Skin redness",
+        "Scarring"
+      ],
+      "causes": "Acne develops when excess oil, dead skin cells, and bacteria clog hair follicles. Hormonal changes, stress, and certain medications can worsen this process.",
+      "risk_factors": [
+        "Hormonal changes",
+        "Family history",
+        "Oily skin",
+        "Stress",
+        "Certain medications",
+        "Touching or rubbing the skin frequently"
+      ],
+      "prevention_tips": [
+        "Wash face gently twice daily",
+        "Avoid touching or picking pimples",
+        "Use oil-free skincare products",
+        "Remove makeup before sleeping",
+        "Keep hair clean",
+        "Manage stress",
+        "Maintain a balanced diet"
+      ],
+      "when_to_seek_help": "Consult a dermatologist if acne is severe, painful, leaves scars, or does not improve with over-the-counter treatments.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Allergic Rhinitis",
+      "category": "Respiratory",
+      "description": "An allergic reaction that causes sneezing, congestion, runny nose, and itchy eyes due to airborne allergens.",
+      "symptoms": [
+        "Runny or blocked nose",
+        "Sneezing",
+        "Itchy nose or throat",
+        "Watery eyes",
+        "Red or swollen eyes",
+        "Post-nasal drip",
+        "Cough",
+        "Fatigue"
+      ],
+      "causes": "Allergic rhinitis occurs when the immune system overreacts to allergens such as pollen, dust mites, mold, or pet dander.",
+      "risk_factors": [
+        "Family history of allergies",
+        "Exposure to pollen or dust",
+        "Asthma",
+        "Air pollution",
+        "Smoking",
+        "Weakened immune system"
+      ],
+      "prevention_tips": [
+        "Avoid known allergens",
+        "Keep windows closed during pollen season",
+        "Use air purifiers",
+        "Wash hands and face after outdoor exposure",
+        "Vacuum and clean regularly",
+        "Use antihistamines if prescribed",
+        "Shower after being outdoors"
+      ],
+      "when_to_seek_help": "See a doctor if symptoms persist, disturb sleep, or cause breathing problems or frequent sinus infections.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Alzheimer's Disease",
+      "category": "Neurological",
+      "description": "A progressive neurological disorder that gradually destroys memory, thinking skills, and the ability to carry out daily activities.",
+      "symptoms": [
+        "Memory loss affecting daily life",
+        "Difficulty planning or solving problems",
+        "Confusion with time or place",
+        "Trouble speaking or finding words",
+        "Personality changes",
+        "Poor judgment",
+        "Difficulty recognizing people",
+        "Withdrawal from activities"
+      ],
+      "causes": "Alzheimer’s disease is caused by abnormal buildup of proteins in the brain that damage and destroy nerve cells, disrupting communication between them.",
+      "risk_factors": [
+        "Increasing age",
+        "Family history",
+        "Genetic factors",
+        "Head injury",
+        "High blood pressure",
+        "Lack of physical activity"
+      ],
+      "prevention_tips": [
+        "Engage in mental exercises",
+        "Maintain a healthy diet",
+        "Exercise regularly",
+        "Manage blood pressure",
+        "Stay socially active",
+        "Get quality sleep",
+        "Avoid smoking"
+      ],
+      "when_to_seek_help": "Seek medical evaluation if memory loss, confusion, or personality changes begin interfering with daily activities or safety.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Anemia",
+      "category": "Other",
+      "description": "A condition in which the body lacks enough healthy red blood cells to carry adequate oxygen to tissues.",
+      "symptoms": [
+        "Fatigue",
+        "Weakness",
+        "Pale skin",
+        "Shortness of breath",
+        "Dizziness",
+        "Cold hands and feet",
+        "Irregular heartbeat",
+        "Headaches"
+      ],
+      "causes": "Anemia is commonly caused by iron deficiency, vitamin deficiencies, blood loss, or chronic diseases that reduce red blood cell production.",
+      "risk_factors": [
+        "Poor nutrition",
+        "Chronic illness",
+        "Blood loss",
+        "Pregnancy",
+        "Family history",
+        "Heavy menstruation"
+      ],
+      "prevention_tips": [
+        "Eat iron-rich foods",
+        "Take vitamin B12 and folate",
+        "Consume vitamin C for iron absorption",
+        "Avoid excessive blood loss",
+        "Get regular blood tests",
+        "Treat underlying conditions",
+        "Take supplements if prescribed"
+      ],
+      "when_to_seek_help": "Seek medical care if you experience severe fatigue, chest pain, shortness of breath, or fainting.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Anxiety Disorder",
+      "category": "Mental Health",
+      "description": "A mental health condition characterized by excessive fear, worry, and nervousness that interferes with daily activities.",
+      "symptoms": [
+        "Excessive worry",
+        "Restlessness",
+        "Rapid heartbeat",
+        "Sweating",
+        "Difficulty concentrating",
+        "Irritability",
+        "Sleep problems",
+        "Muscle tension"
+      ],
+      "causes": "Anxiety disorders develop due to a combination of genetic predisposition, brain chemistry imbalance, stressful life events, and environmental factors.",
+      "risk_factors": [
+        "Chronic stress",
+        "Family history",
+        "Trauma",
+        "Substance abuse",
+        "Chronic illness",
+        "Personality traits"
+      ],
+      "prevention_tips": [
+        "Practice relaxation techniques",
+        "Exercise regularly",
+        "Maintain healthy sleep habits",
+        "Limit caffeine and alcohol",
+        "Seek therapy",
+        "Stay socially connected",
+        "Use stress-management strategies"
+      ],
+      "when_to_seek_help": "Seek professional help if anxiety interferes with work, relationships, sleep, or causes panic attacks or thoughts of self-harm.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Arthritis",
+      "category": "Musculoskeletal",
+      "description": "A condition characterized by inflammation of one or more joints, leading to pain, stiffness, and reduced mobility.",
+      "symptoms": [
+        "Joint pain",
+        "Joint stiffness",
+        "Swelling around joints",
+        "Reduced range of motion",
+        "Warmth in affected joints",
+        "Redness",
+        "Joint deformity",
+        "Fatigue"
+      ],
+      "causes": "Arthritis is caused by joint inflammation resulting from cartilage wear, autoimmune disorders, or infections that damage joint tissues.",
+      "risk_factors": [
+        "Older age",
+        "Obesity",
+        "Previous joint injury",
+        "Family history",
+        "Autoimmune disease",
+        "Repeated joint stress"
+      ],
+      "prevention_tips": [
+        "Maintain a healthy weight",
+        "Exercise regularly",
+        "Avoid joint injuries",
+        "Stretch and stay flexible",
+        "Eat anti-inflammatory foods",
+        "Quit smoking",
+        "Protect joints during activities"
+      ],
+      "when_to_seek_help": "Seek medical care if joint pain, swelling, or stiffness persists, worsens, or limits your ability to perform daily activities.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Asthma",
+      "category": "Respiratory",
+      "description": "A chronic lung disease that causes inflammation and narrowing of the airways, making breathing difficult.",
+      "symptoms": [
+        "Shortness of breath",
+        "Wheezing",
+        "Chest tightness",
+        "Chronic coughing",
+        "Rapid breathing",
+        "Trouble sleeping due to breathing",
+        "Fatigue",
+        "Anxiety during attacks"
+      ],
+      "causes": "Asthma is caused by airway inflammation triggered by allergens, infections, exercise, cold air, or pollutants.",
+      "risk_factors": [
+        "Family history of asthma",
+        "Allergies",
+        "Air pollution",
+        "Smoking",
+        "Respiratory infections",
+        "Obesity"
+      ],
+      "prevention_tips": [
+        "Avoid asthma triggers",
+        "Use inhalers as prescribed",
+        "Keep air clean",
+        "Exercise regularly",
+        "Get vaccinated",
+        "Manage allergies",
+        "Avoid smoking"
+      ],
+      "when_to_seek_help": "Seek emergency care if breathing becomes extremely difficult, lips turn blue, or inhalers do not provide relief.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Back Pain",
+      "category": "Musculoskeletal",
+      "description": "Pain or discomfort in the upper, middle, or lower back, often caused by muscle strain or spine issues.",
+      "symptoms": [
+        "Muscle aches",
+        "Sharp or stabbing pain",
+        "Limited movement",
+        "Pain radiating down legs",
+        "Stiffness",
+        "Difficulty standing",
+        "Posture problems",
+        "Weakness"
+      ],
+      "causes": "Back pain is commonly caused by muscle strain, poor posture, herniated discs, or spinal degeneration.",
+      "risk_factors": [
+        "Poor posture",
+        "Sedentary lifestyle",
+        "Obesity",
+        "Heavy lifting",
+        "Aging",
+        "Weak core muscles"
+      ],
+      "prevention_tips": [
+        "Practice good posture",
+        "Strengthen core muscles",
+        "Lift objects properly",
+        "Exercise regularly",
+        "Maintain healthy weight",
+        "Stretch daily",
+        "Use supportive seating"
+      ],
+      "when_to_seek_help": "See a doctor if pain lasts more than a few weeks, worsens, or is accompanied by numbness or weakness.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Bronchitis",
+      "category": "Respiratory",
+      "description": "Inflammation of the bronchial tubes that carry air to and from the lungs.",
+      "symptoms": [
+        "Persistent cough",
+        "Mucus production",
+        "Chest tightness",
+        "Shortness of breath",
+        "Fatigue",
+        "Mild fever",
+        "Sore throat",
+        "Wheezing"
+      ],
+      "causes": "Bronchitis is caused by viral or bacterial infections or prolonged exposure to irritants like smoke.",
+      "risk_factors": [
+        "Smoking",
+        "Air pollution",
+        "Weakened immune system",
+        "Frequent colds",
+        "Occupational dust",
+        "Asthma"
+      ],
+      "prevention_tips": [
+        "Avoid smoking",
+        "Wash hands frequently",
+        "Avoid air pollutants",
+        "Get vaccinated",
+        "Wear masks in polluted areas",
+        "Drink plenty of fluids",
+        "Strengthen immunity"
+      ],
+      "when_to_seek_help": "Seek medical help if cough lasts more than three weeks, or if fever and breathing difficulty occur.",
+      "assessment_questions": []
+    },
+    {
+      "name": "COPD",
+      "category": "Respiratory",
+      "description": "A progressive lung disease that blocks airflow and makes breathing difficult.",
+      "symptoms": [
+        "Chronic cough",
+        "Shortness of breath",
+        "Wheezing",
+        "Chest tightness",
+        "Mucus production",
+        "Fatigue",
+        "Frequent respiratory infections",
+        "Weight loss"
+      ],
+      "causes": "COPD is mainly caused by long-term exposure to tobacco smoke and air pollutants.",
+      "risk_factors": [
+        "Smoking",
+        "Secondhand smoke",
+        "Air pollution",
+        "Occupational chemicals",
+        "Genetics",
+        "Age"
+      ],
+      "prevention_tips": [
+        "Quit smoking",
+        "Avoid polluted air",
+        "Get flu and pneumonia vaccines",
+        "Exercise regularly",
+        "Eat a nutritious diet",
+        "Use prescribed inhalers",
+        "Practice breathing exercises"
+      ],
+      "when_to_seek_help": "Seek urgent care if breathing becomes very difficult, lips turn blue, or symptoms suddenly worsen.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Cardiac Arrest",
+      "category": "Cardiovascular",
+      "description": "A sudden loss of heart function that stops blood flow to the brain and body.",
+      "symptoms": [
+        "Sudden collapse",
+        "Loss of consciousness",
+        "No pulse",
+        "No breathing",
+        "Chest pain before collapse",
+        "Dizziness",
+        "Shortness of breath",
+        "Nausea"
+      ],
+      "causes": "Cardiac arrest is caused by an electrical malfunction in the heart that disrupts normal heart rhythm.",
+      "risk_factors": [
+        "Heart disease",
+        "Previous heart attack",
+        "High blood pressure",
+        "Smoking",
+        "Diabetes",
+        "Obesity"
+      ],
+      "prevention_tips": [
+        "Maintain heart-healthy diet",
+        "Exercise regularly",
+        "Quit smoking",
+        "Control blood pressure",
+        "Manage cholesterol",
+        "Treat heart conditions",
+        "Limit alcohol intake"
+      ],
+      "when_to_seek_help": "This is a medical emergency. Call emergency services immediately if someone collapses, has no pulse, or stops breathing.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Cataracts",
+      "category": "Eye",
+      "description": "A condition in which the normally clear lens of the eye becomes cloudy, leading to vision impairment.",
+      "symptoms": [
+        "Blurred or cloudy vision",
+        "Difficulty seeing at night",
+        "Sensitivity to light",
+        "Glare around lights",
+        "Fading of colors",
+        "Double vision in one eye",
+        "Frequent change in eyeglass prescription",
+        "Poor depth perception"
+      ],
+      "causes": "Cataracts develop due to aging, eye injury, or prolonged exposure to ultraviolet light that causes proteins in the lens to clump together.",
+      "risk_factors": [
+        "Aging",
+        "Diabetes",
+        "Smoking",
+        "Excessive sun exposure",
+        "Eye injury",
+        "Long-term steroid use"
+      ],
+      "prevention_tips": [
+        "Wear UV-protective sunglasses",
+        "Get regular eye exams",
+        "Quit smoking",
+        "Control blood sugar",
+        "Eat antioxidant-rich foods",
+        "Limit alcohol",
+        "Protect eyes from injury"
+      ],
+      "when_to_seek_help": "Seek medical evaluation if vision becomes blurry, night vision worsens, or glare interferes with daily activities.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Cervical Cancer",
+      "category": "Other",
+      "description": "A type of cancer that develops in the cells of the cervix, most commonly caused by HPV infection.",
+      "symptoms": [
+        "Abnormal vaginal bleeding",
+        "Pelvic pain",
+        "Pain during intercourse",
+        "Unusual vaginal discharge",
+        "Bleeding after menopause",
+        "Lower back pain",
+        "Fatigue",
+        "Weight loss"
+      ],
+      "causes": "Cervical cancer is caused by persistent infection with high-risk types of human papillomavirus (HPV), which leads to abnormal cell growth.",
+      "risk_factors": [
+        "HPV infection",
+        "Smoking",
+        "Weak immune system",
+        "Early sexual activity",
+        "Multiple sexual partners",
+        "Lack of screening"
+      ],
+      "prevention_tips": [
+        "Get HPV vaccination",
+        "Have regular Pap smears",
+        "Practice safe sex",
+        "Quit smoking",
+        "Maintain good hygiene",
+        "Strengthen immunity",
+        "Seek early treatment for infections"
+      ],
+      "when_to_seek_help": "Consult a doctor if you have unexplained vaginal bleeding, pelvic pain, or abnormal discharge.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Chickenpox",
+      "category": "Infectious",
+      "description": "A contagious viral infection that causes an itchy, blister-like rash and flu-like symptoms.",
+      "symptoms": [
+        "Itchy fluid-filled blisters",
+        "Fever",
+        "Fatigue",
+        "Headache",
+        "Loss of appetite",
+        "Body aches",
+        "Skin redness",
+        "Crusting of blisters"
+      ],
+      "causes": "Chickenpox is caused by the varicella-zoster virus, which spreads through coughing, sneezing, or direct contact with blisters.",
+      "risk_factors": [
+        "Not vaccinated",
+        "Exposure to infected person",
+        "Weakened immunity",
+        "Children",
+        "Pregnancy",
+        "Living in crowded areas"
+      ],
+      "prevention_tips": [
+        "Get vaccinated",
+        "Avoid infected individuals",
+        "Practice hand hygiene",
+        "Cover coughs and sneezes",
+        "Disinfect surfaces",
+        "Boost immunity",
+        "Isolate during infection"
+      ],
+      "when_to_seek_help": "Seek medical care if fever is high, rash spreads to eyes, or signs of infection appear.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Cholera",
+      "category": "Infectious",
+      "description": "An acute diarrheal disease caused by consuming food or water contaminated with Vibrio cholerae bacteria.",
+      "symptoms": [
+        "Profuse watery diarrhea",
+        "Vomiting",
+        "Rapid dehydration",
+        "Dry mouth",
+        "Muscle cramps",
+        "Weakness",
+        "Low blood pressure",
+        "Sunken eyes"
+      ],
+      "causes": "Cholera is caused by drinking contaminated water or eating food infected with Vibrio cholerae bacteria.",
+      "risk_factors": [
+        "Poor sanitation",
+        "Unsafe drinking water",
+        "Living in overcrowded areas",
+        "Travel to affected regions",
+        "Malnutrition",
+        "Weakened immunity"
+      ],
+      "prevention_tips": [
+        "Drink clean, boiled water",
+        "Wash hands frequently",
+        "Eat fully cooked food",
+        "Use proper sanitation",
+        "Avoid street food",
+        "Get vaccinated",
+        "Maintain hygiene"
+      ],
+      "when_to_seek_help": "Seek emergency care if severe diarrhea, dehydration, or weakness develops.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Chronic Kidney Disease",
+      "category": "Other",
+      "description": "A long-term condition in which the kidneys gradually lose their ability to filter waste from the blood.",
+      "symptoms": [
+        "Fatigue",
+        "Swelling in legs or feet",
+        "Shortness of breath",
+        "Frequent urination",
+        "Nausea",
+        "Muscle cramps",
+        "Poor appetite",
+        "Sleep problems"
+      ],
+      "causes": "Chronic kidney disease is commonly caused by diabetes, high blood pressure, and long-term kidney damage.",
+      "risk_factors": [
+        "Diabetes",
+        "High blood pressure",
+        "Family history",
+        "Heart disease",
+        "Smoking",
+        "Obesity"
+      ],
+      "prevention_tips": [
+        "Control blood sugar",
+        "Manage blood pressure",
+        "Stay hydrated",
+        "Avoid smoking",
+        "Eat kidney-friendly diet",
+        "Exercise regularly",
+        "Avoid overuse of painkillers"
+      ],
+      "when_to_seek_help": "Consult a doctor if swelling, fatigue, or changes in urination persist.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Colorectal Cancer",
+      "category": "Digestive",
+      "description": "Cancer that affects the colon or rectum, often starting as abnormal growths called polyps.",
+      "symptoms": [
+        "Blood in stool",
+        "Change in bowel habits",
+        "Abdominal pain",
+        "Unexplained weight loss",
+        "Fatigue",
+        "Bloating",
+        "Narrow stools",
+        "Feeling of incomplete bowel emptying"
+      ],
+      "causes": "Colorectal cancer develops when abnormal cells in the colon or rectum grow uncontrollably, often from polyps.",
+      "risk_factors": [
+        "Older age",
+        "Family history",
+        "Low fiber diet",
+        "Obesity",
+        "Smoking",
+        "Inflammatory bowel disease"
+      ],
+      "prevention_tips": [
+        "Eat high-fiber diet",
+        "Exercise regularly",
+        "Avoid smoking",
+        "Limit alcohol",
+        "Maintain healthy weight",
+        "Get regular screenings",
+        "Manage gut health"
+      ],
+      "when_to_seek_help": "See a doctor if you notice blood in stool, persistent bowel changes, or unexplained weight loss.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Conjunctivitis (Pink Eye)",
+      "category": "Eye",
+      "description": "An inflammation of the transparent membrane that lines the eyelid and eyeball, causing redness and irritation.",
+      "symptoms": [
+        "Redness in one or both eyes",
+        "Itching",
+        "Gritty sensation",
+        "Watery discharge",
+        "Crusty eyelids",
+        "Swollen eyelids",
+        "Blurred vision",
+        "Light sensitivity"
+      ],
+      "causes": "Conjunctivitis is caused by viral or bacterial infections, allergic reactions, or exposure to irritants such as smoke or chemicals.",
+      "risk_factors": [
+        "Poor hand hygiene",
+        "Contact lens use",
+        "Exposure to infected individuals",
+        "Allergies",
+        "Weak immune system",
+        "Eye irritants"
+      ],
+      "prevention_tips": [
+        "Wash hands frequently",
+        "Avoid touching eyes",
+        "Do not share towels or makeup",
+        "Clean contact lenses properly",
+        "Avoid allergens",
+        "Disinfect surfaces",
+        "Replace eye cosmetics regularly"
+      ],
+      "when_to_seek_help": "Seek medical care if eye pain, vision loss, severe redness, or thick discharge develops.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Constipation",
+      "category": "Digestive",
+      "description": "A condition in which bowel movements become infrequent or difficult to pass.",
+      "symptoms": [
+        "Hard stools",
+        "Straining during bowel movements",
+        "Less than three bowel movements per week",
+        "Abdominal bloating",
+        "Feeling of incomplete emptying",
+        "Abdominal pain",
+        "Rectal pain",
+        "Nausea"
+      ],
+      "causes": "Constipation is caused by slow movement of stool through the digestive tract due to low fiber intake, dehydration, or lack of physical activity.",
+      "risk_factors": [
+        "Low fiber diet",
+        "Dehydration",
+        "Sedentary lifestyle",
+        "Older age",
+        "Medications",
+        "Ignoring the urge to go"
+      ],
+      "prevention_tips": [
+        "Eat fiber-rich foods",
+        "Drink plenty of water",
+        "Exercise regularly",
+        "Respond to bowel urges",
+        "Limit processed foods",
+        "Establish regular toilet habits",
+        "Reduce stress"
+      ],
+      "when_to_seek_help": "Consult a doctor if constipation lasts more than two weeks, or is accompanied by blood, severe pain, or weight loss.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Coronary Artery Disease",
+      "category": "Cardiovascular",
+      "description": "A condition in which the coronary arteries become narrowed or blocked, reducing blood flow to the heart.",
+      "symptoms": [
+        "Chest pain (angina)",
+        "Shortness of breath",
+        "Fatigue",
+        "Heart palpitations",
+        "Dizziness",
+        "Nausea",
+        "Sweating",
+        "Weakness"
+      ],
+      "causes": "Coronary artery disease is caused by the buildup of plaque in the arteries, which restricts blood flow to the heart muscle.",
+      "risk_factors": [
+        "High cholesterol",
+        "High blood pressure",
+        "Smoking",
+        "Diabetes",
+        "Obesity",
+        "Family history"
+      ],
+      "prevention_tips": [
+        "Eat heart-healthy foods",
+        "Exercise regularly",
+        "Quit smoking",
+        "Control blood pressure",
+        "Manage cholesterol",
+        "Reduce stress",
+        "Maintain healthy weight"
+      ],
+      "when_to_seek_help": "Seek emergency care if chest pain is severe, lasts more than a few minutes, or is accompanied by shortness of breath or fainting.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Dengue Fever",
+      "category": "Infectious",
+      "description": "A mosquito-borne viral infection that causes high fever, body pain, and flu-like symptoms.",
+      "symptoms": [
+        "High fever",
+        "Severe headache",
+        "Pain behind the eyes",
+        "Joint and muscle pain",
+        "Nausea and vomiting",
+        "Skin rash",
+        "Fatigue",
+        "Mild bleeding"
+      ],
+      "causes": "Dengue fever is caused by the dengue virus, which is transmitted through the bite of infected mosquitoes.",
+      "risk_factors": [
+        "Living in tropical areas",
+        "Mosquito exposure",
+        "Previous dengue infection",
+        "Crowded living conditions",
+        "Poor sanitation",
+        "Weakened immunity"
+      ],
+      "prevention_tips": [
+        "Use mosquito repellent",
+        "Wear long sleeves",
+        "Eliminate standing water",
+        "Use mosquito nets",
+        "Install window screens",
+        "Avoid outdoor exposure at dawn and dusk",
+        "Keep surroundings clean"
+      ],
+      "when_to_seek_help": "Seek urgent care if there is severe abdominal pain, bleeding, persistent vomiting, or extreme fatigue.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Depression",
+      "category": "Mental Health",
+      "description": "A mental health disorder characterized by persistent sadness, hopelessness, and loss of interest in activities.",
+      "symptoms": [
+        "Persistent sadness",
+        "Loss of interest in activities",
+        "Fatigue",
+        "Sleep disturbances",
+        "Changes in appetite",
+        "Difficulty concentrating",
+        "Feelings of guilt",
+        "Thoughts of self-harm"
+      ],
+      "causes": "Depression develops due to imbalances in brain chemicals combined with genetic, emotional, and environmental factors.",
+      "risk_factors": [
+        "Family history",
+        "Trauma",
+        "Chronic illness",
+        "Substance abuse",
+        "Stressful life events",
+        "Lack of social support"
+      ],
+      "prevention_tips": [
+        "Seek therapy",
+        "Stay socially connected",
+        "Exercise regularly",
+        "Maintain sleep routine",
+        "Avoid alcohol and drugs",
+        "Practice mindfulness",
+        "Set realistic goals"
+      ],
+      "when_to_seek_help": "Get immediate help if you have thoughts of self-harm, hopelessness, or inability to function normally.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Eczema",
+      "category": "Skin",
+      "description": "A chronic skin condition that causes dry, itchy, and inflamed patches of skin.",
+      "symptoms": [
+        "Dry itchy skin",
+        "Red or brown patches",
+        "Small raised bumps",
+        "Thickened skin",
+        "Cracked skin",
+        "Bleeding skin",
+        "Swelling",
+        "Skin sensitivity"
+      ],
+      "causes": "Eczema is caused by an overactive immune response and a weakened skin barrier that allows moisture loss and irritation.",
+      "risk_factors": [
+        "Family history",
+        "Allergies",
+        "Asthma",
+        "Dry skin",
+        "Stress",
+        "Environmental irritants"
+      ],
+      "prevention_tips": [
+        "Moisturize daily",
+        "Avoid harsh soaps",
+        "Wear soft fabrics",
+        "Reduce stress",
+        "Use humidifier",
+        "Avoid allergens",
+        "Take lukewarm baths"
+      ],
+      "when_to_seek_help": "Consult a doctor if eczema becomes painful, infected, or interferes with sleep or daily life.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Epilepsy",
+      "category": "Neurological",
+      "description": "A neurological disorder characterized by recurrent, unprovoked seizures due to abnormal electrical activity in the brain.",
+      "symptoms": [
+        "Temporary confusion",
+        "Staring spells",
+        "Uncontrollable jerking movements",
+        "Loss of consciousness",
+        "Fear or anxiety",
+        "Tingling sensations",
+        "Muscle stiffness",
+        "Fatigue after seizures"
+      ],
+      "causes": "Epilepsy can result from brain injury, genetic factors, infections, stroke, or abnormal brain development.",
+      "risk_factors": [
+        "Head injury",
+        "Family history",
+        "Brain infections",
+        "Stroke",
+        "Developmental disorders",
+        "Alcohol or drug abuse"
+      ],
+      "prevention_tips": [
+        "Take prescribed medications",
+        "Avoid seizure triggers",
+        "Get enough sleep",
+        "Limit alcohol",
+        "Manage stress",
+        "Wear protective gear",
+        "Maintain healthy lifestyle"
+      ],
+      "when_to_seek_help": "Seek urgent care if seizures last longer than five minutes, occur repeatedly, or are followed by difficulty breathing.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Fibromyalgia",
+      "category": "Musculoskeletal",
+      "description": "A chronic disorder characterized by widespread musculoskeletal pain accompanied by fatigue and sleep problems.",
+      "symptoms": [
+        "Widespread pain",
+        "Fatigue",
+        "Sleep disturbances",
+        "Memory problems",
+        "Headaches",
+        "Depression",
+        "Joint stiffness",
+        "Numbness or tingling"
+      ],
+      "causes": "Fibromyalgia is thought to be caused by abnormal pain processing in the brain and nervous system.",
+      "risk_factors": [
+        "Family history",
+        "Rheumatic disease",
+        "Stress",
+        "Physical trauma",
+        "Female gender",
+        "Sleep disorders"
+      ],
+      "prevention_tips": [
+        "Exercise regularly",
+        "Practice stress management",
+        "Get quality sleep",
+        "Maintain healthy routine",
+        "Use relaxation techniques",
+        "Eat balanced diet",
+        "Avoid overexertion"
+      ],
+      "when_to_seek_help": "Consult a doctor if pain and fatigue persist and interfere with daily activities.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Food Poisoning",
+      "category": "Digestive",
+      "description": "An illness caused by consuming food contaminated with bacteria, viruses, or parasites.",
+      "symptoms": [
+        "Nausea",
+        "Vomiting",
+        "Watery or bloody diarrhea",
+        "Stomach cramps",
+        "Fever",
+        "Weakness",
+        "Dehydration",
+        "Headache"
+      ],
+      "causes": "Food poisoning is caused by eating food contaminated with harmful microorganisms or toxins.",
+      "risk_factors": [
+        "Eating undercooked food",
+        "Poor food hygiene",
+        "Weakened immune system",
+        "Travel",
+        "Contaminated water",
+        "Improper storage"
+      ],
+      "prevention_tips": [
+        "Wash hands before eating",
+        "Cook food thoroughly",
+        "Avoid raw foods",
+        "Drink clean water",
+        "Store food properly",
+        "Avoid street food",
+        "Refrigerate leftovers"
+      ],
+      "when_to_seek_help": "Seek medical care if severe vomiting, dehydration, bloody stools, or high fever occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Gastritis",
+      "category": "Digestive",
+      "description": "Inflammation of the stomach lining that can cause pain and digestive discomfort.",
+      "symptoms": [
+        "Upper abdominal pain",
+        "Nausea",
+        "Vomiting",
+        "Bloating",
+        "Loss of appetite",
+        "Indigestion",
+        "Black stools",
+        "Fatigue"
+      ],
+      "causes": "Gastritis is caused by infection with H. pylori bacteria, excessive alcohol use, or long-term use of painkillers.",
+      "risk_factors": [
+        "Alcohol use",
+        "Smoking",
+        "Stress",
+        "H. pylori infection",
+        "NSAID use",
+        "Older age"
+      ],
+      "prevention_tips": [
+        "Avoid alcohol",
+        "Eat smaller meals",
+        "Avoid spicy foods",
+        "Quit smoking",
+        "Reduce stress",
+        "Use medications properly",
+        "Maintain good hygiene"
+      ],
+      "when_to_seek_help": "See a doctor if stomach pain, vomiting blood, or black stools occur.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Glaucoma",
+      "category": "Eye",
+      "description": "A group of eye conditions that damage the optic nerve, often due to high eye pressure.",
+      "symptoms": [
+        "Patchy blind spots",
+        "Tunnel vision",
+        "Eye pain",
+        "Headache",
+        "Blurred vision",
+        "Red eyes",
+        "Nausea",
+        "Halos around lights"
+      ],
+      "causes": "Glaucoma is caused by increased pressure inside the eye that damages the optic nerve.",
+      "risk_factors": [
+        "Older age",
+        "Family history",
+        "High eye pressure",
+        "Diabetes",
+        "Eye injury",
+        "Long-term steroid use"
+      ],
+      "prevention_tips": [
+        "Regular eye exams",
+        "Use prescribed eye drops",
+        "Protect eyes",
+        "Control blood sugar",
+        "Avoid smoking",
+        "Wear eye protection",
+        "Manage blood pressure"
+      ],
+      "when_to_seek_help": "Seek urgent care if you experience sudden vision loss, eye pain, or severe headache.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Gout",
+      "category": "Musculoskeletal",
+      "description": "A form of arthritis caused by high uric acid levels that lead to joint inflammation.",
+      "symptoms": [
+        "Sudden intense joint pain",
+        "Redness",
+        "Swelling",
+        "Warmth in joint",
+        "Limited movement",
+        "Lingering discomfort",
+        "Shiny skin over joint",
+        "Fever"
+      ],
+      "causes": "Gout occurs when uric acid crystals build up in joints due to excess uric acid in the blood.",
+      "risk_factors": [
+        "Obesity",
+        "High-purine diet",
+        "Alcohol use",
+        "Kidney disease",
+        "Family history",
+        "Certain medications"
+      ],
+      "prevention_tips": [
+        "Drink plenty of water",
+        "Limit red meat",
+        "Avoid alcohol",
+        "Maintain healthy weight",
+        "Eat low-purine foods",
+        "Take medications as prescribed",
+        "Exercise regularly"
+      ],
+      "when_to_seek_help": "Consult a doctor if joint pain is severe, sudden, or accompanied by fever.",
+      "assessment_questions": []
+    },
+    {
+      "name": "HIV/AIDS",
+      "category": "Infectious",
+      "description": "A viral infection that attacks the immune system, reducing the body’s ability to fight infections and disease.",
+      "symptoms": [
+        "Fever",
+        "Chronic fatigue",
+        "Swollen lymph nodes",
+        "Unexplained weight loss",
+        "Night sweats",
+        "Frequent infections",
+        "Skin rashes",
+        "Persistent diarrhea"
+      ],
+      "causes": "HIV is caused by the human immunodeficiency virus, which spreads through blood, sexual contact, or from mother to child.",
+      "risk_factors": [
+        "Unprotected sex",
+        "Sharing needles",
+        "Multiple sexual partners",
+        "Blood transfusions",
+        "Mother with HIV",
+        "Sexually transmitted infections"
+      ],
+      "prevention_tips": [
+        "Practice safe sex",
+        "Get regular HIV testing",
+        "Avoid sharing needles",
+        "Use sterile medical equipment",
+        "Take preventive medications",
+        "Educate about HIV",
+        "Avoid risky behaviors"
+      ],
+      "when_to_seek_help": "Seek medical evaluation if exposed to HIV, or if persistent fever, weight loss, or recurrent infections occur.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Heart Attack (Myocardial Infarction)",
+      "category": "Cardiovascular",
+      "description": "A life-threatening condition that occurs when blood flow to the heart is blocked.",
+      "symptoms": [
+        "Chest pain or pressure",
+        "Pain in arms, neck, or jaw",
+        "Shortness of breath",
+        "Cold sweat",
+        "Nausea",
+        "Lightheadedness",
+        "Extreme fatigue",
+        "Anxiety"
+      ],
+      "causes": "Heart attack occurs when plaque buildup in coronary arteries ruptures, blocking blood flow to heart muscle.",
+      "risk_factors": [
+        "High cholesterol",
+        "Smoking",
+        "High blood pressure",
+        "Diabetes",
+        "Obesity",
+        "Family history"
+      ],
+      "prevention_tips": [
+        "Eat heart-healthy foods",
+        "Exercise regularly",
+        "Quit smoking",
+        "Control cholesterol",
+        "Manage blood pressure",
+        "Maintain healthy weight",
+        "Reduce stress"
+      ],
+      "when_to_seek_help": "Call emergency services immediately if you experience chest pain, shortness of breath, or fainting.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Heart Failure",
+      "category": "Cardiovascular",
+      "description": "A chronic condition in which the heart cannot pump enough blood to meet the body’s needs.",
+      "symptoms": [
+        "Shortness of breath",
+        "Fatigue",
+        "Swelling in legs or ankles",
+        "Rapid heartbeat",
+        "Persistent cough",
+        "Weight gain",
+        "Loss of appetite",
+        "Difficulty exercising"
+      ],
+      "causes": "Heart failure develops when the heart muscle is weakened or damaged by heart disease or high blood pressure.",
+      "risk_factors": [
+        "Coronary artery disease",
+        "High blood pressure",
+        "Diabetes",
+        "Obesity",
+        "Smoking",
+        "Heart attack history"
+      ],
+      "prevention_tips": [
+        "Follow a low-sodium diet",
+        "Exercise regularly",
+        "Take prescribed medications",
+        "Quit smoking",
+        "Limit alcohol",
+        "Control blood pressure",
+        "Monitor weight"
+      ],
+      "when_to_seek_help": "Seek urgent care if you experience sudden weight gain, severe shortness of breath, or chest pain.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Hepatitis B",
+      "category": "Infectious",
+      "description": "A viral infection that attacks the liver and can cause both acute and chronic disease.",
+      "symptoms": [
+        "Abdominal pain",
+        "Dark urine",
+        "Yellowing of skin",
+        "Nausea",
+        "Fever",
+        "Joint pain",
+        "Loss of appetite",
+        "Fatigue"
+      ],
+      "causes": "Hepatitis B is caused by a virus transmitted through blood, sexual contact, or from mother to baby.",
+      "risk_factors": [
+        "Unprotected sex",
+        "Shared needles",
+        "Healthcare exposure",
+        "Mother with hepatitis B",
+        "Blood transfusions",
+        "Weakened immunity"
+      ],
+      "prevention_tips": [
+        "Get vaccinated",
+        "Practice safe sex",
+        "Avoid sharing needles",
+        "Ensure sterile medical equipment",
+        "Test blood products",
+        "Wash hands",
+        "Avoid contact with blood"
+      ],
+      "when_to_seek_help": "Seek medical care if jaundice, dark urine, or abdominal pain occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Hypertension",
+      "category": "Cardiovascular",
+      "description": "A condition in which the force of blood against artery walls is consistently too high.",
+      "symptoms": [
+        "Often no symptoms",
+        "Headaches",
+        "Dizziness",
+        "Chest pain",
+        "Shortness of breath",
+        "Blurred vision",
+        "Nosebleeds",
+        "Irregular heartbeat"
+      ],
+      "causes": "Hypertension is caused by genetic factors, poor diet, lack of exercise, and stress.",
+      "risk_factors": [
+        "High salt intake",
+        "Obesity",
+        "Sedentary lifestyle",
+        "Smoking",
+        "Family history",
+        "Stress"
+      ],
+      "prevention_tips": [
+        "Eat low-salt diet",
+        "Exercise regularly",
+        "Maintain healthy weight",
+        "Limit alcohol",
+        "Quit smoking",
+        "Reduce stress",
+        "Monitor blood pressure"
+      ],
+      "when_to_seek_help": "See a doctor if blood pressure readings are consistently high or symptoms like chest pain occur.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Insomnia",
+      "category": "Mental Health",
+      "description": "A sleep disorder that makes it difficult to fall or stay asleep.",
+      "symptoms": [
+        "Difficulty falling asleep",
+        "Waking during the night",
+        "Waking too early",
+        "Daytime fatigue",
+        "Irritability",
+        "Poor concentration",
+        "Headaches",
+        "Low energy"
+      ],
+      "causes": "Insomnia is caused by stress, anxiety, poor sleep habits, or medical conditions.",
+      "risk_factors": [
+        "Stress",
+        "Anxiety",
+        "Depression",
+        "Caffeine use",
+        "Irregular sleep schedule",
+        "Chronic illness"
+      ],
+      "prevention_tips": [
+        "Maintain regular sleep schedule",
+        "Avoid screens before bed",
+        "Limit caffeine",
+        "Practice relaxation",
+        "Create sleep-friendly environment",
+        "Exercise regularly",
+        "Avoid late meals"
+      ],
+      "when_to_seek_help": "Seek medical advice if sleeplessness lasts more than a few weeks or affects daily functioning.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Irritable Bowel Syndrome",
+      "category": "Digestive",
+      "description": "A chronic disorder affecting the large intestine, causing abdominal pain and changes in bowel habits.",
+      "symptoms": [
+        "Abdominal pain",
+        "Bloating",
+        "Gas",
+        "Diarrhea",
+        "Constipation",
+        "Mucus in stool",
+        "Cramping",
+        "Feeling of incomplete bowel movement"
+      ],
+      "causes": "IBS is caused by abnormal gut-brain communication, intestinal muscle contractions, and increased sensitivity of the digestive tract.",
+      "risk_factors": [
+        "Stress",
+        "Anxiety",
+        "Food intolerance",
+        "Family history",
+        "Infections",
+        "Female gender"
+      ],
+      "prevention_tips": [
+        "Eat fiber-rich foods",
+        "Avoid trigger foods",
+        "Manage stress",
+        "Stay hydrated",
+        "Exercise regularly",
+        "Eat smaller meals",
+        "Get enough sleep"
+      ],
+      "when_to_seek_help": "Seek medical attention if symptoms are severe, persistent, or accompanied by weight loss or bleeding.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Jaundice",
+      "category": "Digestive",
+      "description": "A condition in which the skin and eyes turn yellow due to high bilirubin levels in the blood.",
+      "symptoms": [
+        "Yellow skin",
+        "Yellow eyes",
+        "Dark urine",
+        "Pale stools",
+        "Itching",
+        "Fatigue",
+        "Abdominal pain",
+        "Loss of appetite"
+      ],
+      "causes": "Jaundice occurs when the liver cannot process bilirubin properly due to liver disease, infection, or bile duct blockage.",
+      "risk_factors": [
+        "Liver disease",
+        "Hepatitis",
+        "Alcohol use",
+        "Gallstones",
+        "Certain medications",
+        "Blood disorders"
+      ],
+      "prevention_tips": [
+        "Avoid alcohol",
+        "Get hepatitis vaccines",
+        "Eat healthy diet",
+        "Practice safe sex",
+        "Avoid contaminated food",
+        "Stay hydrated",
+        "Manage liver disease"
+      ],
+      "when_to_seek_help": "Consult a doctor if yellowing of the skin or eyes appears, especially with abdominal pain or fever.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Kidney Cancer",
+      "category": "Other",
+      "description": "A type of cancer that begins in the cells of the kidneys.",
+      "symptoms": [
+        "Blood in urine",
+        "Back pain",
+        "Side pain",
+        "Weight loss",
+        "Fatigue",
+        "Fever",
+        "Loss of appetite",
+        "Anemia"
+      ],
+      "causes": "Kidney cancer develops when abnormal kidney cells grow uncontrollably and form a tumor.",
+      "risk_factors": [
+        "Smoking",
+        "Obesity",
+        "High blood pressure",
+        "Family history",
+        "Kidney disease",
+        "Chemical exposure"
+      ],
+      "prevention_tips": [
+        "Quit smoking",
+        "Maintain healthy weight",
+        "Control blood pressure",
+        "Stay hydrated",
+        "Avoid harmful chemicals",
+        "Exercise regularly",
+        "Eat balanced diet"
+      ],
+      "when_to_seek_help": "See a doctor if blood in urine, persistent pain, or unexplained weight loss occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Leukemia",
+      "category": "Other",
+      "description": "A cancer of blood-forming tissues that interferes with the body’s ability to fight infection.",
+      "symptoms": [
+        "Fatigue",
+        "Frequent infections",
+        "Unexplained weight loss",
+        "Easy bruising",
+        "Bleeding gums",
+        "Fever",
+        "Bone pain",
+        "Swollen lymph nodes"
+      ],
+      "causes": "Leukemia occurs when bone marrow produces abnormal white blood cells that crowd out healthy cells.",
+      "risk_factors": [
+        "Radiation exposure",
+        "Previous cancer treatment",
+        "Smoking",
+        "Genetic disorders",
+        "Family history",
+        "Chemical exposure"
+      ],
+      "prevention_tips": [
+        "Avoid radiation exposure",
+        "Do not smoke",
+        "Limit chemical exposure",
+        "Eat healthy foods",
+        "Exercise regularly",
+        "Maintain immunity",
+        "Get regular checkups"
+      ],
+      "when_to_seek_help": "Consult a doctor if persistent fatigue, frequent infections, or unexplained bruising occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Liver Cancer",
+      "category": "Digestive",
+      "description": "Cancer that begins in the cells of the liver, often linked to chronic liver disease.",
+      "symptoms": [
+        "Upper abdominal pain",
+        "Swollen abdomen",
+        "Unexplained weight loss",
+        "Fatigue",
+        "Nausea",
+        "Yellow skin",
+        "Loss of appetite",
+        "Itching"
+      ],
+      "causes": "Liver cancer is caused by chronic liver inflammation due to hepatitis, alcohol abuse, or fatty liver disease.",
+      "risk_factors": [
+        "Hepatitis B or C",
+        "Alcohol abuse",
+        "Cirrhosis",
+        "Obesity",
+        "Diabetes",
+        "Smoking"
+      ],
+      "prevention_tips": [
+        "Avoid alcohol",
+        "Get hepatitis vaccination",
+        "Eat healthy diet",
+        "Exercise regularly",
+        "Maintain healthy weight",
+        "Avoid smoking",
+        "Manage liver disease"
+      ],
+      "when_to_seek_help": "Seek medical help if abdominal swelling, yellowing of skin, or unexplained weight loss occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Lung Cancer",
+      "category": "Respiratory",
+      "description": "A type of cancer that begins in the lungs and interferes with normal breathing.",
+      "symptoms": [
+        "Persistent cough",
+        "Coughing up blood",
+        "Chest pain",
+        "Shortness of breath",
+        "Fatigue",
+        "Hoarseness",
+        "Weight loss",
+        "Repeated infections"
+      ],
+      "causes": "Lung cancer is mainly caused by smoking and long-term exposure to air pollutants and toxic substances.",
+      "risk_factors": [
+        "Smoking",
+        "Secondhand smoke",
+        "Air pollution",
+        "Occupational chemicals",
+        "Family history",
+        "Radiation exposure"
+      ],
+      "prevention_tips": [
+        "Do not smoke",
+        "Avoid secondhand smoke",
+        "Use protective masks",
+        "Test home for radon",
+        "Eat antioxidant-rich foods",
+        "Exercise regularly",
+        "Avoid polluted areas"
+      ],
+      "when_to_seek_help": "See a doctor if cough, chest pain, or breathlessness persists or worsens.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Lymphoma",
+      "category": "Other",
+      "description": "A cancer of the lymphatic system that affects immune cells called lymphocytes.",
+      "symptoms": [
+        "Swollen lymph nodes",
+        "Fever",
+        "Night sweats",
+        "Unexplained weight loss",
+        "Fatigue",
+        "Itching",
+        "Loss of appetite",
+        "Shortness of breath"
+      ],
+      "causes": "Lymphoma occurs when lymphocytes grow uncontrollably due to genetic mutations or immune system dysfunction.",
+      "risk_factors": [
+        "Weakened immune system",
+        "Autoimmune disease",
+        "Family history",
+        "Viral infections",
+        "Radiation exposure",
+        "Chemical exposure"
+      ],
+      "prevention_tips": [
+        "Avoid infections",
+        "Maintain immune health",
+        "Eat nutritious foods",
+        "Avoid toxic chemicals",
+        "Exercise regularly",
+        "Manage stress",
+        "Get medical checkups"
+      ],
+      "when_to_seek_help": "Seek medical attention if swollen lymph nodes do not go away or are accompanied by fever and weight loss.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Malaria",
+      "category": "Infectious",
+      "description": "A life-threatening disease caused by parasites transmitted through mosquito bites.",
+      "symptoms": [
+        "High fever",
+        "Chills",
+        "Sweating",
+        "Headache",
+        "Nausea",
+        "Vomiting",
+        "Muscle pain",
+        "Fatigue"
+      ],
+      "causes": "Malaria is caused by Plasmodium parasites transmitted through infected mosquito bites.",
+      "risk_factors": [
+        "Living in tropical areas",
+        "Mosquito exposure",
+        "Lack of mosquito nets",
+        "Travel to endemic regions",
+        "Poor sanitation",
+        "Weakened immunity"
+      ],
+      "prevention_tips": [
+        "Use mosquito nets",
+        "Apply insect repellent",
+        "Wear long sleeves",
+        "Eliminate standing water",
+        "Use window screens",
+        "Take preventive medication",
+        "Avoid outdoor exposure at dusk"
+      ],
+      "when_to_seek_help": "Seek medical care if fever, chills, or flu-like symptoms appear after mosquito exposure.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Migraine",
+      "category": "Neurological",
+      "description": "A neurological condition that causes intense, recurring headaches and sensory disturbances.",
+      "symptoms": [
+        "Throbbing headache",
+        "Nausea",
+        "Vomiting",
+        "Sensitivity to light",
+        "Sensitivity to sound",
+        "Visual disturbances",
+        "Dizziness",
+        "Fatigue"
+      ],
+      "causes": "Migraines occur due to changes in brain chemicals and nerve pathways, often triggered by stress, hormones, or certain foods.",
+      "risk_factors": [
+        "Family history",
+        "Hormonal changes",
+        "Stress",
+        "Lack of sleep",
+        "Certain foods",
+        "Dehydration"
+      ],
+      "prevention_tips": [
+        "Avoid known triggers",
+        "Get adequate sleep",
+        "Stay hydrated",
+        "Manage stress",
+        "Eat regular meals",
+        "Limit caffeine",
+        "Exercise regularly"
+      ],
+      "when_to_seek_help": "Consult a doctor if headaches are frequent, severe, or accompanied by neurological symptoms.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Obesity",
+      "category": "Metabolic",
+      "description": "A condition involving excessive body fat that increases the risk of serious health problems.",
+      "symptoms": [
+        "High body weight",
+        "Breathlessness",
+        "Fatigue",
+        "Joint pain",
+        "Sleep problems",
+        "Excess sweating",
+        "Low energy",
+        "Limited mobility"
+      ],
+      "causes": "Obesity is caused by consuming more calories than the body uses, often combined with lack of physical activity.",
+      "risk_factors": [
+        "Poor diet",
+        "Sedentary lifestyle",
+        "Genetics",
+        "Lack of sleep",
+        "Stress",
+        "Certain medications"
+      ],
+      "prevention_tips": [
+        "Eat balanced meals",
+        "Control portion sizes",
+        "Exercise regularly",
+        "Avoid sugary foods",
+        "Drink plenty of water",
+        "Get enough sleep",
+        "Track body weight"
+      ],
+      "when_to_seek_help": "Seek medical advice if weight gain affects breathing, mobility, or overall health.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Oral Cancer",
+      "category": "Other",
+      "description": "Cancer that develops in the mouth, tongue, gums, or throat.",
+      "symptoms": [
+        "Mouth sores",
+        "Difficulty swallowing",
+        "White or red patches",
+        "Jaw pain",
+        "Loose teeth",
+        "Bleeding",
+        "Speech difficulty",
+        "Ear pain"
+      ],
+      "causes": "Oral cancer is caused mainly by tobacco use, alcohol consumption, and HPV infection.",
+      "risk_factors": [
+        "Smoking",
+        "Alcohol use",
+        "HPV infection",
+        "Poor oral hygiene",
+        "Sun exposure",
+        "Family history"
+      ],
+      "prevention_tips": [
+        "Avoid tobacco",
+        "Limit alcohol",
+        "Maintain oral hygiene",
+        "Get regular dental exams",
+        "Use lip protection",
+        "Eat fruits and vegetables",
+        "Practice safe sex"
+      ],
+      "when_to_seek_help": "Consult a doctor or dentist if mouth sores or patches do not heal within two weeks.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Osteoporosis",
+      "category": "Musculoskeletal",
+      "description": "A condition that causes bones to become weak and brittle, increasing the risk of fractures.",
+      "symptoms": [
+        "Back pain",
+        "Loss of height",
+        "Stooped posture",
+        "Bone fractures",
+        "Weak bones",
+        "Neck pain",
+        "Limited mobility",
+        "Fatigue"
+      ],
+      "causes": "Osteoporosis occurs when bone density decreases due to aging, hormonal changes, or lack of calcium and vitamin D.",
+      "risk_factors": [
+        "Older age",
+        "Low calcium intake",
+        "Family history",
+        "Smoking",
+        "Sedentary lifestyle",
+        "Hormonal changes"
+      ],
+      "prevention_tips": [
+        "Eat calcium-rich foods",
+        "Get vitamin D",
+        "Exercise regularly",
+        "Avoid smoking",
+        "Limit alcohol",
+        "Maintain healthy weight",
+        "Prevent falls"
+      ],
+      "when_to_seek_help": "Seek medical evaluation if fractures occur easily or posture changes suddenly.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Ovarian Cancer",
+      "category": "Other",
+      "description": "A type of cancer that begins in the ovaries and often goes undetected until it has spread.",
+      "symptoms": [
+        "Abdominal bloating",
+        "Pelvic pain",
+        "Frequent urination",
+        "Loss of appetite",
+        "Fatigue",
+        "Back pain",
+        "Unexplained weight loss",
+        "Indigestion"
+      ],
+      "causes": "Ovarian cancer develops when abnormal ovarian cells grow uncontrollably, often due to genetic mutations or hormonal factors.",
+      "risk_factors": [
+        "Family history",
+        "Older age",
+        "Genetic mutations",
+        "Hormonal therapy",
+        "Obesity",
+        "Never being pregnant"
+      ],
+      "prevention_tips": [
+        "Regular gynecological exams",
+        "Maintain healthy weight",
+        "Avoid smoking",
+        "Eat nutritious diet",
+        "Know family history",
+        "Consider genetic testing",
+        "Report persistent symptoms"
+      ],
+      "when_to_seek_help": "See a doctor if bloating, pelvic pain, or changes in appetite persist for more than two weeks.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Parkinson’s Disease",
+      "category": "Neurological",
+      "description": "A progressive nervous system disorder that affects movement and coordination.",
+      "symptoms": [
+        "Tremors",
+        "Slow movement",
+        "Muscle stiffness",
+        "Impaired balance",
+        "Shuffling walk",
+        "Speech changes",
+        "Difficulty writing",
+        "Fatigue"
+      ],
+      "causes": "Parkinson’s disease is caused by the loss of dopamine-producing brain cells.",
+      "risk_factors": [
+        "Older age",
+        "Genetics",
+        "Male gender",
+        "Head injury",
+        "Exposure to toxins",
+        "Family history"
+      ],
+      "prevention_tips": [
+        "Exercise regularly",
+        "Eat antioxidant-rich foods",
+        "Protect head from injury",
+        "Avoid toxic chemicals",
+        "Maintain healthy lifestyle",
+        "Get adequate sleep",
+        "Manage stress"
+      ],
+      "when_to_seek_help": "Consult a doctor if tremors, stiffness, or balance problems appear.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Peptic Ulcer",
+      "category": "Digestive",
+      "description": "Open sores that develop on the inner lining of the stomach or small intestine.",
+      "symptoms": [
+        "Burning stomach pain",
+        "Bloating",
+        "Heartburn",
+        "Nausea",
+        "Vomiting",
+        "Weight loss",
+        "Dark stools",
+        "Loss of appetite"
+      ],
+      "causes": "Peptic ulcers are caused by infection with H. pylori bacteria or long-term use of pain-relieving medications.",
+      "risk_factors": [
+        "Smoking",
+        "Alcohol use",
+        "H. pylori infection",
+        "Stress",
+        "NSAID use",
+        "Older age"
+      ],
+      "prevention_tips": [
+        "Avoid alcohol",
+        "Quit smoking",
+        "Eat balanced meals",
+        "Reduce stress",
+        "Take medications properly",
+        "Avoid spicy foods",
+        "Practice good hygiene"
+      ],
+      "when_to_seek_help": "Seek urgent care if you have severe pain, vomiting blood, or black stools.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Pneumonia",
+      "category": "Respiratory",
+      "description": "An infection that inflames the air sacs in one or both lungs.",
+      "symptoms": [
+        "Cough with mucus",
+        "High fever",
+        "Chest pain",
+        "Shortness of breath",
+        "Chills",
+        "Fatigue",
+        "Rapid breathing",
+        "Loss of appetite"
+      ],
+      "causes": "Pneumonia is caused by bacteria, viruses, or fungi infecting the lungs.",
+      "risk_factors": [
+        "Weakened immunity",
+        "Smoking",
+        "Elderly age",
+        "Chronic illness",
+        "Recent respiratory infection",
+        "Hospitalization"
+      ],
+      "prevention_tips": [
+        "Get vaccinated",
+        "Wash hands frequently",
+        "Avoid smoking",
+        "Strengthen immunity",
+        "Cover mouth when coughing",
+        "Stay hydrated",
+        "Rest well"
+      ],
+      "when_to_seek_help": "Seek medical care if breathing becomes difficult, fever is high, or chest pain occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Prostate Cancer",
+      "category": "Other",
+      "description": "A type of cancer that develops in the prostate gland in men.",
+      "symptoms": [
+        "Difficulty urinating",
+        "Weak urine flow",
+        "Blood in urine",
+        "Pelvic discomfort",
+        "Bone pain",
+        "Erectile dysfunction",
+        "Frequent urination",
+        "Fatigue"
+      ],
+      "causes": "Prostate cancer develops when abnormal cells grow uncontrollably in the prostate gland.",
+      "risk_factors": [
+        "Older age",
+        "Family history",
+        "Obesity",
+        "High-fat diet",
+        "Genetic mutations",
+        "Smoking"
+      ],
+      "prevention_tips": [
+        "Get regular screenings",
+        "Maintain healthy weight",
+        "Eat fruits and vegetables",
+        "Exercise regularly",
+        "Avoid smoking",
+        "Limit red meat",
+        "Monitor urinary changes"
+      ],
+      "when_to_seek_help": "See a doctor if urination problems, blood in urine, or pelvic pain occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Psoriasis",
+      "category": "Skin",
+      "description": "A chronic autoimmune condition that causes rapid buildup of skin cells.",
+      "symptoms": [
+        "Red patches",
+        "Silver scales",
+        "Dry cracked skin",
+        "Itching",
+        "Burning sensation",
+        "Joint pain",
+        "Thickened nails",
+        "Skin peeling"
+      ],
+      "causes": "Psoriasis occurs when the immune system mistakenly attacks healthy skin cells.",
+      "risk_factors": [
+        "Family history",
+        "Stress",
+        "Smoking",
+        "Infections",
+        "Obesity",
+        "Cold weather"
+      ],
+      "prevention_tips": [
+        "Moisturize skin",
+        "Avoid triggers",
+        "Reduce stress",
+        "Quit smoking",
+        "Get sunlight safely",
+        "Maintain healthy diet",
+        "Follow treatment plan"
+      ],
+      "when_to_seek_help": "Consult a dermatologist if skin becomes painful, widespread, or affects daily life.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Rheumatoid Arthritis",
+      "category": "Musculoskeletal",
+      "description": "An autoimmune disorder that causes chronic inflammation of joints and other body systems.",
+      "symptoms": [
+        "Joint pain",
+        "Joint swelling",
+        "Morning stiffness",
+        "Fatigue",
+        "Warm joints",
+        "Loss of joint function",
+        "Low-grade fever",
+        "Joint deformity"
+      ],
+      "causes": "Rheumatoid arthritis occurs when the immune system attacks the lining of the joints, causing inflammation and damage.",
+      "risk_factors": [
+        "Family history",
+        "Smoking",
+        "Obesity",
+        "Female gender",
+        "Autoimmune disorders",
+        "Age"
+      ],
+      "prevention_tips": [
+        "Exercise regularly",
+        "Avoid smoking",
+        "Maintain healthy weight",
+        "Eat anti-inflammatory foods",
+        "Manage stress",
+        "Get regular checkups",
+        "Take medications as prescribed"
+      ],
+      "when_to_seek_help": "Seek medical care if joint pain and stiffness persist or worsen and limit daily activities.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Sciatica",
+      "category": "Musculoskeletal",
+      "description": "Pain that radiates along the path of the sciatic nerve from the lower back down the legs.",
+      "symptoms": [
+        "Lower back pain",
+        "Leg pain",
+        "Numbness",
+        "Tingling sensation",
+        "Muscle weakness",
+        "Sharp pain",
+        "Difficulty standing",
+        "Reduced mobility"
+      ],
+      "causes": "Sciatica occurs when the sciatic nerve is compressed due to a herniated disc or spinal narrowing.",
+      "risk_factors": [
+        "Herniated disc",
+        "Obesity",
+        "Sedentary lifestyle",
+        "Poor posture",
+        "Age",
+        "Back injury"
+      ],
+      "prevention_tips": [
+        "Practice good posture",
+        "Exercise regularly",
+        "Strengthen core muscles",
+        "Avoid heavy lifting",
+        "Maintain healthy weight",
+        "Stretch daily",
+        "Use proper seating"
+      ],
+      "when_to_seek_help": "Seek medical care if pain is severe, persistent, or accompanied by weakness or loss of bladder control.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Skin Cancer (Melanoma)",
+      "category": "Skin",
+      "description": "A dangerous form of skin cancer that develops from pigment-producing cells.",
+      "symptoms": [
+        "New mole",
+        "Change in mole color",
+        "Irregular mole shape",
+        "Bleeding mole",
+        "Itching",
+        "Dark streaks under nails",
+        "Skin lesions",
+        "Painful spots"
+      ],
+      "causes": "Melanoma is caused by DNA damage from ultraviolet radiation exposure.",
+      "risk_factors": [
+        "Sun exposure",
+        "Fair skin",
+        "Family history",
+        "Many moles",
+        "Sunburns",
+        "Weakened immunity"
+      ],
+      "prevention_tips": [
+        "Use sunscreen",
+        "Avoid tanning beds",
+        "Wear protective clothing",
+        "Limit sun exposure",
+        "Examine skin regularly",
+        "Get dermatology checkups",
+        "Protect children from sun"
+      ],
+      "when_to_seek_help": "See a doctor if a mole changes in size, shape, or color or begins bleeding.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Sinusitis",
+      "category": "Respiratory",
+      "description": "Inflammation of the sinuses that causes congestion and facial pain.",
+      "symptoms": [
+        "Facial pain",
+        "Nasal congestion",
+        "Headache",
+        "Thick nasal discharge",
+        "Fever",
+        "Tooth pain",
+        "Loss of smell",
+        "Fatigue"
+      ],
+      "causes": "Sinusitis is caused by infection, allergies, or blocked sinus passages.",
+      "risk_factors": [
+        "Colds",
+        "Allergies",
+        "Nasal polyps",
+        "Smoking",
+        "Weak immune system",
+        "Polluted air"
+      ],
+      "prevention_tips": [
+        "Stay hydrated",
+        "Avoid allergens",
+        "Use humidifier",
+        "Wash hands frequently",
+        "Avoid smoking",
+        "Treat colds early",
+        "Use saline sprays"
+      ],
+      "when_to_seek_help": "Consult a doctor if symptoms last longer than 10 days or are severe.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Stomach Cancer",
+      "category": "Digestive",
+      "description": "Cancer that develops in the lining of the stomach.",
+      "symptoms": [
+        "Stomach pain",
+        "Bloating",
+        "Loss of appetite",
+        "Weight loss",
+        "Nausea",
+        "Heartburn",
+        "Fatigue",
+        "Vomiting blood"
+      ],
+      "causes": "Stomach cancer is caused by chronic inflammation, H. pylori infection, and unhealthy diet.",
+      "risk_factors": [
+        "Smoking",
+        "H. pylori infection",
+        "High-salt diet",
+        "Family history",
+        "Older age",
+        "Alcohol use"
+      ],
+      "prevention_tips": [
+        "Eat fresh foods",
+        "Avoid smoked foods",
+        "Quit smoking",
+        "Limit alcohol",
+        "Get treated for H. pylori",
+        "Exercise regularly",
+        "Maintain healthy weight"
+      ],
+      "when_to_seek_help": "Seek medical attention if stomach pain, vomiting blood, or unexplained weight loss occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Stroke",
+      "category": "Neurological",
+      "description": "A medical emergency caused by interrupted blood supply to the brain.",
+      "symptoms": [
+        "Sudden numbness",
+        "Speech difficulty",
+        "Vision problems",
+        "Loss of balance",
+        "Severe headache",
+        "Confusion",
+        "Dizziness",
+        "Weakness"
+      ],
+      "causes": "Stroke occurs when a blood vessel to the brain is blocked or ruptures.",
+      "risk_factors": [
+        "High blood pressure",
+        "Smoking",
+        "Diabetes",
+        "Heart disease",
+        "Obesity",
+        "High cholesterol"
+      ],
+      "prevention_tips": [
+        "Control blood pressure",
+        "Exercise regularly",
+        "Eat healthy diet",
+        "Avoid smoking",
+        "Manage diabetes",
+        "Reduce stress",
+        "Limit alcohol"
+      ],
+      "when_to_seek_help": "Call emergency services immediately if any stroke symptoms appear.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Thyroid Disorders",
+      "category": "Metabolic",
+      "description": "Conditions that affect the thyroid gland, disrupting hormone balance.",
+      "symptoms": [
+        "Weight changes",
+        "Fatigue",
+        "Hair thinning",
+        "Mood changes",
+        "Cold or heat intolerance",
+        "Heart rate changes",
+        "Dry skin",
+        "Muscle weakness"
+      ],
+      "causes": "Thyroid disorders result from autoimmune disease, iodine deficiency, or hormonal imbalance.",
+      "risk_factors": [
+        "Family history",
+        "Autoimmune disease",
+        "Pregnancy",
+        "Female gender",
+        "Iodine deficiency",
+        "Stress"
+      ],
+      "prevention_tips": [
+        "Eat iodine-rich foods",
+        "Get regular checkups",
+        "Manage stress",
+        "Exercise",
+        "Avoid smoking",
+        "Maintain balanced diet",
+        "Take prescribed medication"
+      ],
+      "when_to_seek_help": "See a doctor if unexplained weight or mood changes occur.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Tuberculosis",
+      "category": "Infectious",
+      "description": "A serious bacterial infection that mainly affects the lungs.",
+      "symptoms": [
+        "Persistent cough",
+        "Chest pain",
+        "Weight loss",
+        "Night sweats",
+        "Fever",
+        "Fatigue",
+        "Coughing blood",
+        "Loss of appetite"
+      ],
+      "causes": "Tuberculosis is caused by Mycobacterium tuberculosis spread through airborne droplets.",
+      "risk_factors": [
+        "Crowded living",
+        "Weak immune system",
+        "HIV",
+        "Malnutrition",
+        "Smoking",
+        "Close contact with infected person"
+      ],
+      "prevention_tips": [
+        "Get vaccinated",
+        "Ensure proper ventilation",
+        "Complete TB treatment",
+        "Avoid crowded places",
+        "Cover coughs",
+        "Maintain nutrition",
+        "Regular screening"
+      ],
+      "when_to_seek_help": "Consult a doctor if cough lasts longer than three weeks or blood appears in sputum.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Typhoid Fever",
+      "category": "Infectious",
+      "description": "A bacterial infection that spreads through contaminated food or water.",
+      "symptoms": [
+        "High fever",
+        "Abdominal pain",
+        "Weakness",
+        "Headache",
+        "Loss of appetite",
+        "Diarrhea",
+        "Rash",
+        "Constipation"
+      ],
+      "causes": "Typhoid fever is caused by Salmonella typhi bacteria.",
+      "risk_factors": [
+        "Poor sanitation",
+        "Unsafe drinking water",
+        "Travel to endemic areas",
+        "Weak immunity",
+        "Eating street food",
+        "Crowded living"
+      ],
+      "prevention_tips": [
+        "Drink clean water",
+        "Wash hands",
+        "Avoid raw foods",
+        "Get vaccinated",
+        "Eat cooked meals",
+        "Maintain hygiene",
+        "Avoid street food"
+      ],
+      "when_to_seek_help": "Seek medical care if fever lasts more than three days or abdominal pain worsens.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Urinary Tract Infection",
+      "category": "Other",
+      "description": "An infection in any part of the urinary system.",
+      "symptoms": [
+        "Burning urination",
+        "Frequent urination",
+        "Cloudy urine",
+        "Pelvic pain",
+        "Strong urine smell",
+        "Blood in urine",
+        "Fever",
+        "Fatigue"
+      ],
+      "causes": "UTIs occur when bacteria enter the urinary tract and multiply.",
+      "risk_factors": [
+        "Poor hygiene",
+        "Dehydration",
+        "Female anatomy",
+        "Catheter use",
+        "Sexual activity",
+        "Weakened immunity"
+      ],
+      "prevention_tips": [
+        "Drink plenty of water",
+        "Maintain hygiene",
+        "Urinate after intercourse",
+        "Avoid holding urine",
+        "Wear breathable underwear",
+        "Avoid irritants",
+        "Wipe front to back"
+      ],
+      "when_to_seek_help": "See a doctor if pain, fever, or blood in urine occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Varicose Veins",
+      "category": "Cardiovascular",
+      "description": "Enlarged, twisted veins that usually appear in the legs.",
+      "symptoms": [
+        "Visible swollen veins",
+        "Leg pain",
+        "Heaviness in legs",
+        "Swelling",
+        "Skin discoloration",
+        "Itching",
+        "Night cramps",
+        "Restlessness"
+      ],
+      "causes": "Varicose veins occur when vein valves fail, causing blood to pool.",
+      "risk_factors": [
+        "Standing long hours",
+        "Obesity",
+        "Pregnancy",
+        "Age",
+        "Family history",
+        "Sedentary lifestyle"
+      ],
+      "prevention_tips": [
+        "Exercise regularly",
+        "Elevate legs",
+        "Avoid prolonged standing",
+        "Maintain healthy weight",
+        "Wear compression stockings",
+        "Stay active",
+        "Avoid tight clothing"
+      ],
+      "when_to_seek_help": "Seek medical care if veins become painful, swollen, or bleed.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Vertigo",
+      "category": "Neurological",
+      "description": "A sensation of spinning or dizziness caused by inner ear or brain problems.",
+      "symptoms": [
+        "Spinning sensation",
+        "Nausea",
+        "Vomiting",
+        "Loss of balance",
+        "Headache",
+        "Sweating",
+        "Ringing in ears",
+        "Blurred vision"
+      ],
+      "causes": "Vertigo is caused by inner ear disorders, head injury, or nerve problems.",
+      "risk_factors": [
+        "Ear infections",
+        "Head injury",
+        "Migraines",
+        "Older age",
+        "Certain medications",
+        "Balance disorders"
+      ],
+      "prevention_tips": [
+        "Avoid sudden movements",
+        "Stay hydrated",
+        "Sit down during dizziness",
+        "Avoid driving during attacks",
+        "Manage ear infections",
+        "Get adequate rest",
+        "Follow medical advice"
+      ],
+      "when_to_seek_help": "Seek medical attention if dizziness is severe, persistent, or accompanied by vision or speech problems.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Vision Impairment",
+      "category": "Eye",
+      "description": "Partial or complete loss of eyesight that affects daily activities.",
+      "symptoms": [
+        "Blurred vision",
+        "Difficulty seeing at night",
+        "Double vision",
+        "Loss of vision",
+        "Eye pain",
+        "Light sensitivity",
+        "Trouble reading",
+        "Headaches"
+      ],
+      "causes": "Vision impairment results from eye diseases, injury, or aging-related degeneration.",
+      "risk_factors": [
+        "Aging",
+        "Diabetes",
+        "Eye injuries",
+        "Family history",
+        "Smoking",
+        "Poor nutrition"
+      ],
+      "prevention_tips": [
+        "Get regular eye exams",
+        "Wear protective eyewear",
+        "Control diabetes",
+        "Eat eye-healthy foods",
+        "Avoid smoking",
+        "Limit screen time",
+        "Protect eyes from UV"
+      ],
+      "when_to_seek_help": "Consult an eye doctor if vision suddenly worsens or pain develops.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Vitamin D Deficiency",
+      "category": "Metabolic",
+      "description": "A condition in which the body does not have enough vitamin D to maintain bone and immune health.",
+      "symptoms": [
+        "Bone pain",
+        "Muscle weakness",
+        "Fatigue",
+        "Frequent infections",
+        "Depression",
+        "Hair loss",
+        "Slow wound healing",
+        "Bone fractures"
+      ],
+      "causes": "Vitamin D deficiency occurs due to limited sunlight exposure, poor diet, or absorption problems.",
+      "risk_factors": [
+        "Limited sun exposure",
+        "Dark skin",
+        "Older age",
+        "Obesity",
+        "Digestive disorders",
+        "Poor diet"
+      ],
+      "prevention_tips": [
+        "Get sunlight",
+        "Eat vitamin D-rich foods",
+        "Take supplements",
+        "Exercise regularly",
+        "Maintain healthy weight",
+        "Monitor vitamin levels",
+        "Follow doctor’s advice"
+      ],
+      "when_to_seek_help": "See a doctor if bone pain, weakness, or frequent illness occurs.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Whooping Cough",
+      "category": "Infectious",
+      "description": "A highly contagious bacterial respiratory infection.",
+      "symptoms": [
+        "Severe coughing fits",
+        "Whooping sound",
+        "Runny nose",
+        "Fever",
+        "Vomiting after coughing",
+        "Fatigue",
+        "Breathing difficulty",
+        "Chest pain"
+      ],
+      "causes": "Whooping cough is caused by Bordetella pertussis bacteria.",
+      "risk_factors": [
+        "Not vaccinated",
+        "Young age",
+        "Weak immune system",
+        "Crowded living",
+        "Exposure to infected person",
+        "Travel"
+      ],
+      "prevention_tips": [
+        "Get vaccinated",
+        "Avoid infected people",
+        "Wash hands",
+        "Cover coughs",
+        "Wear masks",
+        "Keep environment clean",
+        "Get booster shots"
+      ],
+      "when_to_seek_help": "Seek medical care if coughing fits cause breathing difficulty or vomiting.",
+      "assessment_questions": []
+    },
+    {
+      "name": "Yellow Fever",
+      "category": "Infectious",
+      "description": "A viral disease transmitted by mosquitoes that can cause severe illness.",
+      "symptoms": [
+        "Fever",
+        "Headache",
+        "Muscle pain",
+        "Nausea",
+        "Vomiting",
+        "Fatigue",
+        "Yellow skin",
+        "Bleeding"
+      ],
+      "causes": "Yellow fever is caused by a virus transmitted by infected mosquitoes.",
+      "risk_factors": [
+        "Travel to endemic areas",
+        "Lack of vaccination",
+        "Mosquito exposure",
+        "Weak immunity",
+        "Living in tropical regions",
+        "Poor sanitation"
+      ],
+      "prevention_tips": [
+        "Get vaccinated",
+        "Use mosquito repellent",
+        "Wear long clothing",
+        "Avoid stagnant water",
+        "Install window screens",
+        "Stay indoors at peak mosquito times",
+        "Use mosquito nets"
+      ],
+      "when_to_seek_help": "Seek emergency care if fever with yellowing of eyes or bleeding occurs.",
+      "assessment_questions": []
+    }
+  ]
+  
+  

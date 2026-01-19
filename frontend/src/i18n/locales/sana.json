@@ -1,0 +1,319 @@
+{
+  "SymptomAnalyzer": {
+    "_meta": {
+      "version": "1.0.0",
+      "lastUpdated": "2026-01-14"
+    },
+
+    "title": "Symptom Analyzer",
+    "subtitle": "Describe how you're feeling and we'll suggest which conditions to check",
+
+    "howItWorks": {
+      "title": "How it works",
+      "description": "Describe your symptoms in your own words. Our system analyzes them and suggests relevant health checks."
+    },
+    "inputTitle": "Describe Your Symptoms",
+    "placeholder": "Example: headache and fever since last 2 days",
+    "minChars": "characters minimum",
+    "cta": "Analyze My Symptoms",
+    "loading": "Analyzing...",
+    "invalid": {
+      "title": "Input unclear",
+      "message": "We couldn’t understand your symptoms clearly."
+    },
+    "actions": {
+      "symptomChecker": "Go to Symptom Checker →",
+      "findClinics": "Find Nearby Clinics"
+    },
+    "urgencyLevel": "Urgency Level",
+    "immediateAdvice": "Immediate Advice",
+    "suggestedConditions": "Suggested Conditions to Check",
+    "check": "Check",
+    "disclaimer": "This is not a diagnosis. Please consult a healthcare professional.",
+    "nlp": {
+      "stopWords": [
+        "and",
+        "or",
+        "but",
+        "since",
+        "for",
+        "from",
+        "with",
+        "without",
+        "last",
+        "days",
+        "feeling",
+        "having",
+        "pain",
+        "problem",
+        "is",
+        "am",
+        "are",
+        "was",
+        "were",
+        "been",
+        "to",
+        "of",
+        "in"
+      ],
+      "symptoms": {
+        "chestPain": {
+          "score": 5,
+          "aliases": [
+            ["chest", "pain"],
+            ["tightness", "chest"],
+            ["pressure", "chest"]
+          ]
+        },
+        "shortnessOfBreath": {
+          "score": 5,
+          "aliases": [
+            ["shortness", "breath"],
+            ["breathless"],
+            ["difficulty", "breathing"]
+          ]
+        },
+        "palpitations": {
+          "score": 3,
+          "aliases": [
+            ["palpitations"],
+            ["racing", "heart"],
+            ["irregular", "heartbeat"]
+          ]
+        },
+        "confusion": {
+          "score": 4,
+          "aliases": [
+            ["confusion"],
+            ["disoriented"],
+            ["not", "thinking", "clearly"]
+          ]
+        },
+        "lossOfConsciousness": {
+          "score": 5,
+          "aliases": [["fainted"], ["passed", "out"], ["unconscious"]]
+        },
+        "severeHeadache": {
+          "score": 4,
+          "aliases": [
+            ["severe", "headache"],
+            ["worst", "headache"],
+            ["thunderclap", "headache"]
+          ]
+        },
+        "stiffNeck": {
+          "score": 4,
+          "aliases": [
+            ["stiff", "neck"],
+            ["neck", "stiffness"]
+          ]
+        },
+        "seizure": {
+          "score": 5,
+          "aliases": [["seizure"], ["convulsions"], ["fits"]]
+        },
+        "persistentCough": {
+          "score": 2,
+          "aliases": [
+            ["persistent", "cough"],
+            ["chronic", "cough"]
+          ]
+        },
+        "wheezing": {
+          "score": 3,
+          "aliases": [["wheezing"], ["whistling", "breath"]]
+        },
+        "chestCongestion": {
+          "score": 2,
+          "aliases": [["chest", "congestion"], ["phlegm"]]
+        },
+        "fever": {
+          "score": 3,
+          "aliases": [
+            ["fever"],
+            ["feverish"],
+            ["high", "temperature"],
+            ["bukhar"]
+          ]
+        },
+        "chills": {
+          "score": 2,
+          "aliases": [["chills"], ["shivering"]]
+        },
+        "fatigue": {
+          "score": 1,
+          "aliases": [["fatigue"], ["tired"], ["weak"]]
+        },
+        "abdominalPain": {
+          "score": 3,
+          "aliases": [
+            ["abdominal", "pain"],
+            ["stomach", "pain"],
+            ["belly", "pain"]
+          ]
+        },
+        "vomiting": {
+          "score": 3,
+          "aliases": [["vomiting"], ["throwing", "up"]]
+        },
+        "persistentDiarrhea": {
+          "score": 3,
+          "aliases": [
+            ["persistent", "diarrhea"],
+            ["frequent", "loose", "stools"]
+          ]
+        },
+        "bloodInStool": {
+          "score": 5,
+          "aliases": [
+            ["blood", "stool"],
+            ["bloody", "stool"]
+          ]
+        },
+        "jointPain": {
+          "score": 1,
+          "aliases": [
+            ["joint", "pain"],
+            ["aching", "joints"]
+          ]
+        },
+        "muscleWeakness": {
+          "score": 3,
+          "aliases": [
+            ["muscle", "weakness"],
+            ["difficulty", "moving"]
+          ]
+        },
+        "excessiveThirst": {
+          "score": 2,
+          "aliases": [
+            ["excessive", "thirst"],
+            ["very", "thirsty"]
+          ]
+        },
+        "frequentUrination": {
+          "score": 2,
+          "aliases": [
+            ["frequent", "urination"],
+            ["urinating", "often"]
+          ]
+        },
+        "rash": {
+          "score": 1,
+          "aliases": [["rash"], ["skin", "eruption"]]
+        },
+        "rapidlySpreadingRash": {
+          "score": 4,
+          "aliases": [["rapidly", "spreading", "rash"]]
+        },
+        "suddenVisionLoss": {
+          "score": 5,
+          "aliases": [
+            ["sudden", "vision", "loss"],
+            ["lost", "vision"]
+          ]
+        },
+        "suicidalThoughts": {
+          "score": 5,
+          "aliases": [
+            ["suicidal", "thoughts"],
+            ["want", "to", "die"]
+          ]
+        }
+      }
+    },
+    "riskCombos": [
+      {
+        "symptoms": ["chestPain", "shortnessOfBreath"],
+        "multiplier": 2.2
+      },
+      {
+        "symptoms": ["chestPain", "palpitations"],
+        "multiplier": 1.8
+      },
+      {
+        "symptoms": ["confusion", "severeHeadache"],
+        "multiplier": 2.0
+      },
+      {
+        "symptoms": ["fever", "stiffNeck"],
+        "multiplier": 2.2
+      },
+      {
+        "symptoms": ["lossOfConsciousness", "seizure"],
+        "multiplier": 2.5
+      },
+      {
+        "symptoms": ["suddenVisionLoss", "severeHeadache"],
+        "multiplier": 2.3
+      },
+      {
+        "symptoms": ["shortnessOfBreath", "wheezing"],
+        "multiplier": 1.7
+      },
+      {
+        "symptoms": ["fever", "confusion"],
+        "multiplier": 1.8
+      },
+      {
+        "symptoms": ["abdominalPain", "bloodInStool"],
+        "multiplier": 2.1
+      },
+      {
+        "symptoms": ["suicidalThoughts"],
+        "multiplier": 3.0
+      }
+    ],
+    "urgency": {
+      "high": {
+        "minScore": 6,
+        "label": "High",
+        "description": "The combination of your symptoms could indicate a serious condition that requires prompt medical evaluation.",
+        "advice": "Seek immediate medical attention if symptoms persist or worsen."
+      },
+      "moderate": {
+        "minScore": 3,
+        "label": "Moderate",
+        "description": "Your symptoms suggest a condition that should be monitored and assessed.",
+        "advice": "Rest, stay hydrated, and consult a healthcare professional if needed."
+      },
+      "low": {
+        "minScore": 0,
+        "label": "Low",
+        "description": "Your symptoms appear mild and are often manageable at home.",
+        "advice": "Monitor symptoms and follow general wellness practices."
+      }
+    },
+    "confidence": {
+      "low": 0.3,
+      "medium": 0.6,
+      "high": 0.85
+    },
+
+    "conditions": {
+      "meningitis": {
+        "name": "Meningitis",
+        "tag": "neurological",
+        "minUrgency": "high",
+        "description": "Headache with fever and neurological symptoms can indicate meningitis."
+      },
+      "viralInfection": {
+        "name": "Viral Infection",
+        "tag": "infectious",
+        "minUrgency": "moderate",
+        "description": "Common cause of headache, fever, and fatigue."
+      },
+      "tensionHeadache": {
+        "name": "Tension Headache",
+        "tag": "headache",
+        "minUrgency": "low",
+        "description": "Stress-related headaches that are usually not serious."
+      }
+    },
+    "tags": {
+      "neurological": "Neurological Conditions",
+      "infectious": "Infectious Diseases",
+      "headache": "Headaches"
+    }
+  }
+}

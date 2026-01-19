@@ -1,0 +1,81 @@
+{
+  "config": {
+    "minCharCount": 30,
+    "symptomScores": {
+      "chest pain": 10,
+      "shortness of breath": 8,
+      "breathing difficulty": 8,
+      "fever": 5,
+      "high fever": 7,
+      "headache": 3,
+      "dizziness": 4,
+      "vomiting": 4,
+      "nausea": 3,
+      "abdominal pain": 5,
+      "weakness": 3,
+      "fatigue": 2
+    },
+    "urgencyThresholds": {
+      "high": 20,
+      "moderate": 10
+    }
+  },
+  "urgency": {
+    "high": {
+      "color": "red",
+      "label": "High Urgency",
+      "description": "You are experiencing symptoms that could indicate a serious condition requiring immediate medical attention.",
+      "advice": "Please seek immediate medical care. Go to the nearest emergency room or call emergency services now."
+    },
+    "moderate": {
+      "color": "yellow",
+      "label": "Moderate Urgency",
+      "description": "Some of your symptoms suggest a condition that needs prompt medical evaluation.",
+      "advice": "Please contact a healthcare professional within 24 hours for an evaluation."
+    },
+    "low": {
+      "color": "green",
+      "label": "Low Urgency",
+      "description": "Your symptoms are generally mild and do not appear to require immediate medical attention.",
+      "advice": "You may consider contacting a healthcare professional if your symptoms worsen or persist."
+    }
+  },
+  "conditions": {
+    "high": [
+      {
+        "name": "Heart Attack",
+        "tag": "Cardiac",
+        "description": "A serious condition where blood flow to the heart is blocked, often causing chest pain, shortness of breath, and weakness."
+      },
+      {
+        "name": "Pulmonary Embolism",
+        "tag": "Lung",
+        "description": "A blood clot that travels to the lungs, causing chest pain and difficulty breathing."
+      }
+    ],
+    "moderate": [
+      {
+        "name": "Angina",
+        "tag": "Cardiac",
+        "description": "Chest pain caused by reduced blood flow to the heart muscle."
+      },
+      {
+        "name": "Pneumonia",
+        "tag": "Lung",
+        "description": "An infection that inflames the air sacs in one or both lungs, potentially causing chest pain and shortness of breath."
+      }
+    ],
+    "low": [
+      {
+        "name": "Muscle Strain",
+        "tag": "Musculoskeletal",
+        "description": "A minor injury to chest muscles that can cause pain, especially with movement."
+      },
+      {
+        "name": "Anxiety",
+        "tag": "Mental Health",
+        "description": "Can cause physical symptoms like chest tightness, shortness of breath, and weakness."
+      }
+    ]
+  }
+}
