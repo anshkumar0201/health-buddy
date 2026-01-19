@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import medicalTerms from "../../shared/medical/medical-terms.json";
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 /* ======================================================
@@ -86,6 +88,100 @@ function isTextClearEnough(text, maxInvalidRatio = 0.4) {
 }
 
 /* ======================================================
+   MEDICAL SIGNAL CHECK (STRICT)
+   ====================================================== */
+const MEDICAL_SETS = {
+  symptoms: new Set(medicalTerms.symptoms),
+  bodyParts: new Set(medicalTerms.bodyParts),
+  severity: new Set(medicalTerms.severity),
+  duration: new Set(medicalTerms.duration),
+};
+
+function hasMedicalSignal(text, minMatches = 2) {
+  const words = text
+      .toLowerCase()
+      .replace(/[^a-z\s]/g, " ")
+      .split(/\s+/);
+
+  let matches = 0;
+  for (const w of words) {
+    if (
+      MEDICAL_SETS.symptoms.has(w) ||
+      MEDICAL_SETS.bodyParts.has(w) ||
+      MEDICAL_SETS.severity.has(w) ||
+      MEDICAL_SETS.duration.has(w)
+    ) {
+      matches++;
+      if (matches >= minMatches) return true;
+    }
+
+  }
+  return false;
+}
+
+function tokenize(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function hasSymptomStructure(text) {
+  let flags = {
+    symptom: false,
+    body: false,
+    duration: false,
+    severity: false,
+  };
+
+  for (const word of tokenize(text)) {
+    if (MEDICAL_SETS.symptoms.has(word)) flags.symptom = true;
+    if (MEDICAL_SETS.bodyParts.has(word)) flags.body = true;
+    if (MEDICAL_SETS.duration.has(word)) flags.duration = true;
+    if (MEDICAL_SETS.severity.has(word)) flags.severity = true;
+  }
+
+  return Object.values(flags).filter(Boolean).length >= 2;
+}
+
+
+function medicalDensity(text, minRatio = 0.08) {
+  const words = tokenize(text);
+
+  if (words.length < 10) return false;
+
+  let medicalCount = 0;
+
+  for (const w of words) {
+    if (
+      MEDICAL_SETS.symptoms.has(w) ||
+      MEDICAL_SETS.bodyParts.has(w) ||
+      MEDICAL_SETS.severity.has(w) ||
+      MEDICAL_SETS.duration.has(w)
+    ) {
+      medicalCount++;
+    }
+  }
+
+  return medicalCount / words.length >= minRatio;
+}
+
+
+const META_PATTERNS = [
+  /can you/i,
+  /please analyze/i,
+  /what is wrong/i,
+  /help me/i,
+  /doctor/i,
+  /hi|hello/i,
+];
+
+function isMetaInput(text) {
+  return META_PATTERNS.some((r) => r.test(text));
+}
+
+/* ======================================================
    COMPONENT
    ====================================================== */
 export default function SymptomAnalyzer() {
@@ -118,11 +214,32 @@ export default function SymptomAnalyzer() {
 
     // ⛔ HARD FRONTEND STOP — NO GEMINI
     if (!isTextClearEnough(text, 0.4)) {
-      console.log("❌ Frontend blocked invalid input — Gemini NOT called");
       setResult({ status: "invalid" });
       return;
     }
 
+    // 🏥 MEDICAL SIGNAL HARD STOP
+    if (!hasMedicalSignal(text, 2)) {
+      setResult({ status: "invalid" });
+      return;
+    }
+
+    if (!hasSymptomStructure(text)) {
+      setResult({ status: "invalid" });
+      return;
+    }
+
+    if (!medicalDensity(text, 0.08)) {
+      setResult({ status: "invalid" });
+      return;
+    }
+
+    if (isMetaInput(text)) {
+      setResult({ status: "invalid" });
+      return;
+    }
+
+    // ✅ ONLY NOW start loading + API
     setLoading(true);
     setResult({ status: "loading" });
 
@@ -180,7 +297,7 @@ export default function SymptomAnalyzer() {
     } finally {
       setLoading(false);
     }
-  };
+  };;
 
   /* ---------- INPUT HANDLERS ---------- */
   const handleTextChange = (e) => {

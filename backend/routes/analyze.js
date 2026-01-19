@@ -4,6 +4,7 @@ const {
 } = require("../services/geminiService");
 
 const router = express.Router();
+const medicalTerms = require("../../shared/medical/medical-terms.json");
 
 /* ======================================================
    INPUT VALIDATION (STRICT INVALID BLOCK)
@@ -52,6 +53,67 @@ function isTextValidEnough(text, maxInvalidRatio = 0.4) {
 }
 
 /* ======================================================
+   MEDICAL SEMANTIC GATES (BACKEND)
+   ====================================================== */
+
+const MEDICAL_SETS = {
+    symptoms: new Set(medicalTerms.symptoms),
+    bodyParts: new Set(medicalTerms.bodyParts),
+    severity: new Set(medicalTerms.severity),
+    duration: new Set(medicalTerms.duration),
+};
+
+function hasMedicalSignal(text, minMatches = 2) {
+    const words = text
+        .toLowerCase()
+        .replace(/[^a-z\s]/g, " ")
+        .split(/\s+/);
+
+    let matches = 0;
+    for (const w of words) {
+        if (
+            MEDICAL_SETS.symptoms.has(w) ||
+            MEDICAL_SETS.bodyParts.has(w) ||
+            MEDICAL_SETS.severity.has(w) ||
+            MEDICAL_SETS.duration.has(w)
+        ) {
+            matches++;
+            if (matches >= minMatches) return true;
+        }
+
+    }
+    return false;
+}
+
+function tokenize(text) {
+    return text
+        .toLowerCase()
+        .replace(/[^a-z\s]/g, " ")
+        .split(/\s+/)
+        .filter(Boolean);
+}
+
+function hasSymptomStructure(text) {
+    let flags = {
+        symptom: false,
+        body: false,
+        duration: false,
+        severity: false,
+    };
+
+    for (const word of tokenize(text)) {
+        if (MEDICAL_SETS.symptoms.has(word)) flags.symptom = true;
+        if (MEDICAL_SETS.bodyParts.has(word)) flags.body = true;
+        if (MEDICAL_SETS.duration.has(word)) flags.duration = true;
+        if (MEDICAL_SETS.severity.has(word)) flags.severity = true;
+    }
+
+    return Object.values(flags).filter(Boolean).length >= 2;
+}
+
+
+
+/* ======================================================
    ROUTE
    ====================================================== */
 router.post("/", async (req, res) => {
@@ -76,6 +138,27 @@ router.post("/", async (req, res) => {
                     "Please add more details such as pain severity, swelling, fever, or progression.",
             });
         }
+
+        /* ======================================================
+   🏥 MEDICAL MEANING GATES (BACKEND)
+   ====================================================== */
+
+        if (!hasMedicalSignal(text, 2)) {
+            return res.json({
+                status: "needs_more_info",
+                message:
+                    "Please describe specific symptoms, affected body parts, and duration.",
+            });
+        }
+
+        if (!hasSymptomStructure(text)) {
+            return res.json({
+                status: "needs_more_info",
+                message:
+                    "Include symptom type, body location, and how long it has been occurring.",
+            });
+        }
+
 
         const result = await analyzeSymptomsWithGemini(
             text,
