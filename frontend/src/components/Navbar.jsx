@@ -276,7 +276,7 @@ export default function Navbar() {
             {/* Sun */}
             <Sun
               className={`
-      absolute w-6 h-6 text-yellow-600
+      absolute w-6 h-6 text-yellow-700
       transition-all duration-500 ease-in-out
       ${
         isDark
@@ -289,7 +289,7 @@ export default function Navbar() {
             {/* Moon */}
             <Moon
               className={`
-      absolute w-6 h-6 text-blue-400
+      absolute w-6 h-6 text-gray-300
       transition-all duration-500 ease-in-out
       ${
         isDark

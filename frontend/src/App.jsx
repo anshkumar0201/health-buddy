@@ -27,7 +27,7 @@ function PageLoader() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-white">
       <div className="w-8 h-8 rounded-full border-2 border-gray-300 border-t-black animate-spin mb-3" />
       <p className="text-sm text-gray-500">{t("loading")}</p>
     </div>
