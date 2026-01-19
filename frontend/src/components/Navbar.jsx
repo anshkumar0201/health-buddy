@@ -12,6 +12,8 @@ import {
   Menu,
   X,
   ChevronDown,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const navItems = [
@@ -52,6 +54,20 @@ export default function Navbar() {
   const [langOpen, setLangOpen] = useState(false);
   const location = useLocation();
   const { t, i18n } = useTranslation();
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem("theme") === "dark"
+  );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDark]);
 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -95,7 +111,7 @@ export default function Navbar() {
       className="
       sticky top-0 z-50
       bg-white/70 backdrop-blur-md
-      supports-[backdrop-filter]:bg-white/60
+      supports-backdrop-filter:bg-white/60
       border-b border-white/30 shadow-lg
       transition-colors duration-300
       print-hide
@@ -236,6 +252,53 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
+          <button
+            onClick={() => setIsDark((v) => !v)}
+            aria-label="Toggle dark mode"
+            className={`
+    relative mx-4 w-10 h-10 cursor-pointer
+    flex items-center justify-center
+    rounded-lg
+    border border-gray-400
+    shadow-md
+    transition-all duration-300
+    active:scale-90
+
+    ${
+      isDark
+        ? "bg-[#202123] hover:bg-[#243447] border-[#2E3B4E]"
+        : "bg-white hover:bg-gray-100 border-gray-400"
+    }
+    }
+  `}
+          >
+            {/* Sun */}
+            <Sun
+              className={`
+      absolute w-6 h-6 text-yellow-600
+      transition-all duration-500 ease-in-out
+      ${
+        isDark
+          ? "opacity-0 rotate-90 scale-0"
+          : "opacity-100 rotate-0 scale-100"
+      }
+    `}
+            />
+
+            {/* Moon */}
+            <Moon
+              className={`
+      absolute w-6 h-6 text-blue-400
+      transition-all duration-500 ease-in-out
+      ${
+        isDark
+          ? "opacity-100 rotate-0 scale-100"
+          : "opacity-0 -rotate-90 scale-0"
+      }
+    `}
+            />
+          </button>
 
           {/* Mobile Menu Button */}
           <button className="lg:hidden" onClick={() => setOpen(!open)}>
