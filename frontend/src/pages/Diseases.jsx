@@ -36,7 +36,7 @@ export default function Diseases() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
 
-  /* ---------------- Get diseases from i18n (SAME AS SymptomChecker) ---------------- */
+  /* ---------------- Get diseases from i18n ---------------- */
   const diseases = useMemo(() => {
     const items = t("Diseases.items", {
       returnObjects: true,
@@ -49,7 +49,7 @@ export default function Diseases() {
     }));
   }, [t]);
 
-  /* ---------------- Category counts (NO lowercasing) ---------------- */
+  /* ---------------- Category counts ---------------- */
   const categoryCounts = useMemo(() => {
     const counts = {};
     diseases.forEach((d) => {
@@ -59,31 +59,37 @@ export default function Diseases() {
     return counts;
   }, [diseases]);
 
-  /* ---------------- Filtering (MATCH SymptomChecker) ---------------- */
+  /* ---------------- Filtering ---------------- */
   const filteredDiseases = useMemo(() => {
     return diseases.filter(
       (d) =>
         (activeCategory === "all" || d.category === activeCategory) &&
-        d.name.toLowerCase().includes(search.toLowerCase())
+        d.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [diseases, activeCategory, search]);
 
   return (
-    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-10 pb-32">
+    // FIX: bg-linear-to-b -> bg-gradient-to-b
+    // DARK MODE: Main background slate-950/900
+    <main
+      className="min-h-screen pt-10 pb-32 transition-colors duration-300
+      bg-gradient-to-b from-slate-50 to-white 
+      dark:from-slate-950 dark:to-slate-900"
+    >
       <div className="max-w-7xl mx-auto px-4">
         {/* Icon */}
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
         </div>
 
         {/* Heading */}
-        <h1 className="text-3xl sm:text-4xl font-bold text-center text-gray-900">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center transition-colors duration-300 text-gray-900 dark:text-gray-300">
           {t("Diseases.title")}
         </h1>
 
-        <p className="text-center text-gray-600 mt-3 text-lg">
+        <p className="text-center mt-3 text-lg transition-colors duration-300 text-gray-600 dark:text-gray-400">
           {t("Diseases.subtitle")}
         </p>
 
@@ -95,7 +101,9 @@ export default function Diseases() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("Diseases.searchPlaceholder")}
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
+              className="w-full pl-11 pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors duration-300
+                bg-white border-gray-200 
+                dark:bg-[#1e293b] dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
             />
           </div>
         </div>
@@ -111,14 +119,22 @@ export default function Diseases() {
                 <button
                   key={key}
                   onClick={() => setActiveCategory(key)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium cursor-pointer flex items-center gap-2 transition border border-gray-300 ${
-                    activeCategory === key
-                      ? "bg-black text-white"
-                      : "bg-white text-gray-700 border hover:bg-gray-100"
-                  }`}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium cursor-pointer flex items-center gap-2 transition border 
+                    ${
+                      activeCategory === key
+                        ? "bg-black text-white dark:bg-gray-300 dark:text-black dark:border-gray-500"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 dark:bg-slate-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-700"
+                    }`}
                 >
                   <span>{t(`Diseases.categories.${key}`)}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 text-black">
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full 
+                    ${
+                      activeCategory === key
+                        ? "bg-gray-200 text-black dark:bg-gray-800 dark:text-white"
+                        : "bg-gray-200 text-black dark:bg-slate-700 dark:text-gray-300"
+                    }`}
+                  >
                     {count}
                   </span>
                 </button>
@@ -132,18 +148,25 @@ export default function Diseases() {
           {filteredDiseases.map((d) => (
             <div
               key={d.id}
-              className="group bg-white rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col"
+              className="group rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col transition-all duration-300
+                bg-white border-gray-200
+                dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-blue-400 dark:hover:shadow-gray-700"
             >
               <div className="flex-1">
-                <span className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-semibold bg-black text-white">
+                <span
+                  className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-semibold 
+                  bg-black text-white 
+                  dark:bg-blue-600 dark:text-white"
+                >
                   {t(`Diseases.categories.${d.category}`)}
                 </span>
 
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                <h3 className="text-lg font-bold mb-2 transition-colors duration-300 text-gray-900 dark:text-gray-300">
                   {d.name}
                 </h3>
 
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                {/* Using text-gray-300 for reduced eye strain in dark mode */}
+                <p className="text-sm mb-4 line-clamp-2 transition-colors duration-300 text-gray-600 dark:text-gray-300">
                   {d.description}
                 </p>
               </div>
@@ -153,7 +176,9 @@ export default function Diseases() {
                 onClick={() =>
                   sessionStorage.setItem("symptomScroll", window.scrollY)
                 }
-                className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-300 group-hover:text-blue-600 transition"
+                className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium transition
+                  hover:bg-gray-300 group-hover:text-blue-600
+                  dark:text-gray-300 dark:hover:bg-slate-600 dark:group-hover:text-blue-400"
               >
                 {t("Diseases.learnMore")}
                 <span className="transition-transform group-hover:translate-x-1">

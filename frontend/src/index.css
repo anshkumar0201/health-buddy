@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ⚠️ TAILWIND V4 FORCE CLASS STRATEGY ⚠️ */
+@variant dark (&:where(.dark, .dark *));
+
 /* Global styles — plain CSS only */
 html,
 body {
@@ -18,6 +21,18 @@ body {
 html.dark body {
   background-color: #0f172a; /* slate-900 (Dark Background) */
   color: #f1f5f9;            /* slate-100 (Light Text) */
+}
+
+/* ========================================================================
+   GLOBAL SMOOTHNESS FIX
+   This targets ALL elements and animates their colors when the theme changes.
+   We specifically exclude 'transform' and 'opacity' to not break your 
+   existing hover animations or mobile menu slides.
+   ======================================================================== */
+html, body, *, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 700ms;
+  transition-timing-function: ease-in-out;
 }
 
 @keyframes fade-in {
