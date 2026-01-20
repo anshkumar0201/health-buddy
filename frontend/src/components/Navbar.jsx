@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+// 1. IMPORT THE HOOK
+import { useTheme } from "../context/ThemeContext";
 import {
   Home,
   Activity,
@@ -55,42 +57,12 @@ export default function Navbar() {
   const location = useLocation();
   const { t, i18n } = useTranslation();
 
-  // State to track if feature is enabled via cookie
-  const [isFeatureEnabled, setIsFeatureEnabled] = useState(false);
+  // 2. USE THE CONTEXT (Replaces all local state & cookie logic)
+  const { theme, toggleTheme, isFeatureEnabled } = useTheme();
 
-  // Initialize Theme State
-  const [isDark, setIsDark] = useState(
-    () => localStorage.getItem("theme") === "dark",
-  );
-
-  useEffect(() => {
-    const checkCookie = () => {
-      const matches = document.cookie
-        .split(";")
-        .some((item) => item.trim().startsWith("enable_dark_mode=true"));
-      setIsFeatureEnabled(matches);
-    };
-    checkCookie();
-  }, []);
-
-  useEffect(() => {
-    const root = document.documentElement;
-
-    // SCENARIO A: Feature Flag is OFF (Regular User)
-    if (!isFeatureEnabled) {
-      root.classList.remove("dark");
-      return;
-    }
-
-    // SCENARIO B: Feature Flag is ON
-    if (isDark) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark, isFeatureEnabled]);
+  // 3. Derive UI state from Context
+  const isDark = theme === "dark";
+  const showDarkUI = isFeatureEnabled && isDark;
 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -125,9 +97,6 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Helper boolean to make the render clean
-  const showDarkUI = isFeatureEnabled && isDark;
-
   return (
     <header
       className={`
@@ -142,11 +111,6 @@ export default function Navbar() {
         }
       `}
     >
-      {/* FIXED LAYOUT:
-        - Removed 'max-w-7xl mx-auto' (This was causing the large side gaps)
-        - Added 'w-full' to span the entire screen width
-        - Adjusted padding to 'px-6 lg:px-8' for symmetrical spacing
-      */}
       <div className="w-full px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
@@ -175,9 +139,9 @@ export default function Navbar() {
 
           <div className="flex flex-col leading-tight">
             <span
-              className={`text-xl font-bold ${showDarkUI ? "text-blue-400" : "text-blue-600"}`}
+              className={`text-2xl font-bold ${showDarkUI ? "text-blue-400" : "text-blue-600"}`}
             >
-              HealthBuddy
+              Qura
             </span>
             <span
               className={`text-sm ${showDarkUI ? "text-gray-200" : "text-gray-600"}`}
@@ -322,7 +286,7 @@ export default function Navbar() {
           {/* Toggle Button */}
           {isFeatureEnabled && (
             <button
-              onClick={() => setIsDark((v) => !v)}
+              onClick={toggleTheme} // 4. CALL THE CONTEXT FUNCTION
               aria-label="Toggle dark mode"
               className={`
                 relative w-10 h-10 cursor-pointer

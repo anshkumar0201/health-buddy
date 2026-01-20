@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./i18n";
 import App from "./App";
 import "./index.css";
-
+import { ThemeProvider } from "./context/ThemeContext";
 
 function Root() {
   useEffect(() => {
@@ -17,6 +17,8 @@ function Root() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Root />
-  </React.StrictMode>
+    <ThemeProvider>
+      <Root />
+    </ThemeProvider>
+  </React.StrictMode>,
 );
