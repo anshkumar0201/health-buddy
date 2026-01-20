@@ -58,11 +58,11 @@ export default function Navbar() {
   const { t, i18n } = useTranslation();
 
   // 2. USE THE CONTEXT (Replaces all local state & cookie logic)
-  const { theme, toggleTheme, isFeatureEnabled } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   // 3. Derive UI state from Context
   const isDark = theme === "dark";
-  const showDarkUI = isFeatureEnabled && isDark;
+  const showDarkUI = isDark;
 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -284,7 +284,7 @@ export default function Navbar() {
           </div>
 
           {/* Toggle Button */}
-          {isFeatureEnabled && (
+          {
             <button
               onClick={toggleTheme} // 4. CALL THE CONTEXT FUNCTION
               aria-label="Toggle dark mode"
@@ -316,7 +316,7 @@ export default function Navbar() {
                 `}
               />
             </button>
-          )}
+          }
 
           {/* Mobile Menu Button */}
           <button

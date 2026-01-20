@@ -75,7 +75,7 @@ export default function FindClinics() {
               font-medium shadow-xl cursor-pointer
               transition-all duration-300
               hover:bg-blue-700 hover:shadow-2xl hover:-translate-y-0.5
-              dark:bg-blue-600 dark:hover:bg-blue-500
+              dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-gray-300
             "
           >
             <Search className="w-5 h-5" />
