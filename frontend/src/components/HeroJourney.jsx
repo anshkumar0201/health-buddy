@@ -53,7 +53,7 @@ export default function HeroJourney() {
               hover:scale-110 hover:-translate-y-0.5
               hover:shadow-[0_20px_40px_rgba(37,99,235,0.25)]
               active:scale-95
-              dark:bg-gray-200
+              dark:bg-gray-200 dark:shadow-gray-700
             "
           >
             <Activity className="w-5 h-5" />

@@ -106,7 +106,7 @@ export default function Assessment() {
           <div className="flex justify-between text-sm mb-2 transition-colors duration-300 text-gray-600 dark:text-gray-400">
             <span />
             <span>
-              Question {currentQuestion + 1} of {totalQuestions}
+              {t("assessments.question")} {currentQuestion + 1} of {totalQuestions}
             </span>
           </div>
 
@@ -208,7 +208,7 @@ export default function Assessment() {
               mt-4 w-full py-3 rounded-xl text-sm font-medium
               flex items-center justify-center gap-2 transition cursor-pointer active:scale-[0.98]
               bg-black text-white hover:bg-gray-900
-              dark:bg-slate-800 dark:text-white dark:hover:bg-slate-200 dark:hover:text-black dark:border dark:border-gray-600
+              dark:bg-slate-400 dark:text-black dark:hover:bg-slate-100 dark:hover:text-black dark:border dark:border-gray-600
             "
           >
             {t("assessments.cancelAssessment")}

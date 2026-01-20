@@ -50,7 +50,7 @@ export default function CTASection() {
               active:scale-95 cursor-pointer
               
               bg-white text-blue-600 hover:shadow-[0_20px_40px_rgba(37,99,235,0.25)]
-              dark:bg-slate-200 dark:text-teal-600 dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]
+              dark:bg-slate-200 dark:text-teal-600 dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] dark:shadow-gray-700
             "
           >
             <Activity className="w-5 h-5 pointer-events-none" />

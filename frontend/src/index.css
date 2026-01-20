@@ -11,35 +11,63 @@ html.dark {
   --page-bg: #131314;
 }
 
-/* Global styles — plain CSS only */
 html,
 body {
   background-color: white;
-  color: #111827; /* gray-900 */
+  color: #111827;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Add smooth transition for the theme switch */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* FEATURE FLAG LOGIC: 
-   This override ONLY applies when the Navbar adds "dark" to the HTML tag.
-   If the feature flag is off, this code is ignored.
-*/
+/* ========================================================================
+   GEMINI DARK MODE PALETTE
+   ======================================================================== */
+
 html.dark body {
-  /* CHANGED: From #0f172a (Blue Slate) to #131314 (Gemini/Soft Dark) */
-  background-color: #131314; 
-  
-  /* CHANGED: Slightly softer white for text to reduce contrast strain */
-  color: #e3e3e3;            
+  background-color: #131314; /* Gemini Background */
+  color: #e3e3e3;            /* Gemini Text */
+}
+
+
+/* 1. Main Backgrounds (Slate 950 -> Neutral Black #131314) */
+html.dark .dark\:bg-slate-950,
+html.dark .bg-slate-950,
+html.dark .bg-\[\#020617\],      /* Tailwind Slate-950 Hex */
+html.dark .dark\:bg-\[\#020617\] {
+  background-color: rgb(19 19 20 / var(--tw-bg-opacity, 1)) !important;
+}
+
+/* 2. Cards/Navbar (Slate 900/800 -> Neutral Surface #1E1F20) */
+html.dark .dark\:bg-slate-900,
+html.dark .bg-slate-900,
+html.dark .bg-\[\#0f172a\],      /* Tailwind Slate-900 Hex */
+html.dark .dark\:bg-\[\#0f172a\],
+html.dark .dark\:bg-slate-800,
+html.dark .bg-slate-800,
+html.dark .bg-\[\#1e293b\],      /* Tailwind Slate-800 Hex */
+html.dark .dark\:bg-\[\#1e293b\],
+html.dark .bg-gray-900,
+html.dark .dark\:bg-gray-900 {
+  /* RGB for #1E1F20 is 30 31 32 */
+  background-color: rgb(30 31 32 / var(--tw-bg-opacity, 1)) !important;
+  border-color: #333333 !important;
+}
+
+/* 3. Fix Gradient Stops (Hero Section) */
+html.dark .dark\:from-slate-950 {
+  --tw-gradient-from: #131314 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(19, 19, 20, 0)) !important;
+}
+
+html.dark .dark\:to-slate-900 {
+  --tw-gradient-to: #1e1f20 !important;
 }
 
 /* ========================================================================
-   GLOBAL SMOOTHNESS FIX
-   This targets ALL elements and animates their colors when the theme changes.
-   We specifically exclude 'transform' and 'opacity' to not break your 
-   existing hover animations or mobile menu slides.
+   ANIMATIONS & UTILITIES
    ======================================================================== */
+
 html, body, *, *::before, *::after {
   transition-property: background-color, border-color, color, fill, stroke, box-shadow;
   transition-duration: 700ms;
@@ -47,14 +75,8 @@ html, body, *, *::before, *::after {
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
@@ -71,48 +93,16 @@ html.dark .emergency-btn {
 }
 
 @media screen {
-  .pdf-hide {
-    display: grid;
-  }
+  .pdf-hide { display: grid; }
 }
 
 @media print {
-  /* Hide everything by default */
-  body * {
-    visibility: hidden;
-  }
-
-  /* Show ONLY the report */
-  .print-area,
-  .print-area * {
-    visibility: visible;
-  }
-
-  /* Position report cleanly */
-  .print-area {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-
-  /* 🚫 Hide buttons, navbar, sticky bars */
-  .pdf-hide,
-  .print-hide {
-    display: none !important;
-  }
-
-  /* Remove shadows & background clutter */
-  body {
-    background: white !important;
-  }
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area { position: absolute; top: 0; left: 0; width: 100%; }
+  .pdf-hide, .print-hide { display: none !important; }
+  body { background: white !important; }
 }
 
-/* Hide scrollbar but keep scroll */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

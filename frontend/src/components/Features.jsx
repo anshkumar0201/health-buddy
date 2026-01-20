@@ -99,7 +99,7 @@ export default function Features() {
                       select-none
                       
                       bg-blue-600 text-white hover:bg-blue-800
-                      dark:bg-blue-700 dark:hover:bg-blue-600
+                      dark:bg-blue-700 dark:hover:bg-blue-500
                     "
                   >
                     {feature.action}

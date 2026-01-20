@@ -27,7 +27,7 @@ export default function HeroStats() {
                   rounded-2xl shadow-lg px-6 py-8 text-center 
                   transition-all duration-300 hover:shadow-2xl hover:-translate-y-1
                   bg-white 
-                  dark:bg-[#1e293b] dark:border dark:border-slate-800 dark:shadow-black/40  dark:text-gray-300
+                  dark:bg-[#242930] dark:border dark:border-slate-800 dark:shadow-black/40  dark:text-gray-300
                 "
               >
                 {Icon && (
