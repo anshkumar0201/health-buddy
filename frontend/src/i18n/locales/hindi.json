@@ -7821,7 +7821,13 @@
           ]
         }
       }
-    }
+    },
+    "back": "लक्षण जाँचकर्ता पर वापस जाएँ",
+    "previous": "पिछला",
+    "next": "अगला",
+    "cancelAssessment": "मूल्यांकन रद्द करें",
+    "calculating": "गणना की जा रही है...",
+    "complete": "पूर्ण"
   },
 
   "AssessmentResult": {

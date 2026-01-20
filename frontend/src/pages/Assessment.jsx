@@ -1,20 +1,24 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-// import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import i18n from "@/i18n";
+import { useTranslation } from "react-i18next"; 
 
 export default function Assessment() {
   const { disease } = useParams();
   const navigate = useNavigate();
-  // const { t } = useTranslation();
+   const { t } = useTranslation();
 
   // ✅ Fetch ONLY the current disease assessment
   const assessment = i18n.getResource(
     i18n.language,
     "translation",
-    `assessments.data.${disease}`
+    `assessments.data.${disease}`,
   );
+
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState(Array(assessment?.questions?.length || 0).fill(null));
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!assessment || !assessment.questions) {
@@ -26,10 +30,6 @@ export default function Assessment() {
 
   const QUESTIONS = assessment.questions;
   const totalQuestions = QUESTIONS.length;
-
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState(Array(totalQuestions).fill(null));
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedOption = answers[currentQuestion];
   const isLastQuestion = currentQuestion === totalQuestions - 1;
@@ -58,11 +58,11 @@ export default function Assessment() {
         navigate("/assessment-result", {
           state: {
             disease,
-            title: assessment.title,
+            // title: assessment.title,
             score: totalScore,
             maxScore: maxPossibleScore,
             thresholds: assessment.risk_thresholds,
-            recommendations: assessment.recommendations,
+            // recommendations: assessment.recommendations,
             criticalHit: hasCriticalYes,
           },
         });
@@ -79,38 +79,52 @@ export default function Assessment() {
   };
 
   return (
-    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-10 pb-32">
+    // FIX: bg-linear-to-b -> bg-gradient-to-b
+    // DARK MODE: Main background slate-950/900
+    <main
+      className="min-h-screen pt-10 pb-32 transition-colors duration-300
+      bg-gradient-to-b from-slate-50 to-white 
+      dark:from-slate-950 dark:to-slate-900"
+    >
       <div className="max-w-6xl mx-auto px-4">
         <button
           onClick={() => navigate(-1)}
-          className={`flex items-center gap-2 text-lg text-gray-600
-            hover:text-black font-semibold transition mb-4 hover:font-bold cursor-pointer
+          className={`flex items-center gap-2 text-lg font-semibold transition mb-4 hover:font-bold cursor-pointer
+            text-gray-600 hover:text-black
+            dark:text-gray-300 dark:hover:text-white
             ${isSubmitting ? "pointer-events-none opacity-40" : ""}`}
         >
           <ArrowLeft className="w-6 h-6" />
-          Back to Symptom Checker
+          {t("assessments.back")}
         </button>
 
-        <h1 className="text-2xl font-bold mb-2">{assessment.title}</h1>
+        <h1 className="text-2xl font-bold mb-2 transition-colors duration-300 text-gray-900 dark:text-white">
+          {assessment.title}
+        </h1>
 
         <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
+          <div className="flex justify-between text-sm mb-2 transition-colors duration-300 text-gray-600 dark:text-gray-400">
             <span />
             <span>
               Question {currentQuestion + 1} of {totalQuestions}
             </span>
           </div>
 
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-2 rounded-full overflow-hidden transition-colors duration-300 bg-gray-200 dark:bg-gray-700">
             <div
-              className="h-full bg-black transition-all duration-300"
+              className="h-full transition-all duration-300 bg-black dark:bg-white"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border p-8">
-          <h2 className="text-lg font-semibold mb-6">
+        {/* Card Container - DARK MODE: Dark Slate Bg, Dark Border */}
+        <div
+          className="rounded-2xl shadow-lg border p-8 transition-colors duration-300
+          bg-white border-gray-200
+          dark:bg-[#1e293b] dark:border-gray-700"
+        >
+          <h2 className="text-lg font-semibold mb-6 transition-colors duration-300 text-gray-900 dark:text-white">
             {QUESTIONS[currentQuestion].question}
           </h2>
 
@@ -120,24 +134,23 @@ export default function Assessment() {
                 key={idx}
                 onClick={() => handleOptionSelect(opt)}
                 className={`w-full flex items-center gap-3 px-5 py-4
-                  rounded-xl border text-left text-sm font-medium transition
-                  cursor-pointer
+                  rounded-xl border text-left text-sm font-medium transition cursor-pointer
                   ${
                     selectedOption?.text === opt.text
-                      ? "border-black bg-gray-50"
-                      : "hover:bg-gray-50"
+                      ? "border-black bg-gray-50 dark:bg-slate-800 dark:border-white dark:text-white"
+                      : "border-gray-200 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-white"
                   }`}
               >
                 <span
-                  className={`w-4 h-4 rounded-full border flex items-center justify-center
+                  className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors duration-300
                     ${
                       selectedOption?.text === opt.text
-                        ? "border-black"
-                        : "border-gray-400"
+                        ? "border-black dark:border-white"
+                        : "border-gray-400 dark:border-gray-500"
                     }`}
                 >
                   {selectedOption?.text === opt.text && (
-                    <span className="w-2 h-2 bg-black rounded-full" />
+                    <span className="w-2 h-2 rounded-full bg-black dark:bg-white" />
                   )}
                 </span>
                 {opt.text}
@@ -150,61 +163,55 @@ export default function Assessment() {
             <button
               disabled={currentQuestion === 0 || isSubmitting}
               onClick={handlePrevious}
-              className="flex-1 py-3 rounded-xl border
-                text-sm font-medium text-gray-600
-                hover:bg-gray-200
-                disabled:opacity-40 cursor-pointer
-                transition
-                flex items-center justify-center gap-2"
+              className="flex-1 py-3 rounded-xl border text-sm font-medium transition cursor-pointer flex items-center justify-center gap-2
+                disabled:opacity-40
+                text-gray-600 border-gray-200 hover:bg-gray-200
+                dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-500 dark:hover:text-white"
             >
               <ArrowLeft className="w-4 h-4" />
-              Previous
+              {t("assessments.previous")}
             </button>
 
             <button
               disabled={!selectedOption || isSubmitting}
               onClick={handleNext}
-              className={`flex-1 py-3 rounded-xl text-sm font-medium
-                flex items-center justify-center gap-2 cursor-pointer
-                transition
+              className={`flex-1 py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 cursor-pointer transition
                 ${
                   selectedOption
-                    ? "bg-black text-white hover:bg-gray-900"
-                    : "bg-gray-300 text-white"
+                    ? "bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                    : "bg-gray-300 text-white dark:bg-slate-700 dark:text-gray-400"
                 }`}
             >
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Calculating...
+                  {t("assessments.calculating")}
                 </>
               ) : isLastQuestion ? (
                 <>
-                  Complete
+                  {t("assessments.complete")}
                   <Check className="w-4 h-4" />
                 </>
               ) : (
                 <>
-                  Next
+                  {t("assessments.next")}
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </button>
           </div>
 
-          {/* ✅ Cancel Button */}
+          {/* Cancel Button */}
           <button
             onClick={() => navigate(-1)}
             className="
-              mt-4 w-full py-3 rounded-xl
-              bg-black text-white text-sm font-medium
-              flex items-center justify-center gap-2
-              transition cursor-pointer
-              hover:bg-gray-900
-              active:scale-[0.98]
+              mt-4 w-full py-3 rounded-xl text-sm font-medium
+              flex items-center justify-center gap-2 transition cursor-pointer active:scale-[0.98]
+              bg-black text-white hover:bg-gray-900
+              dark:bg-slate-800 dark:text-white dark:hover:bg-slate-200 dark:hover:text-black dark:border dark:border-gray-600
             "
           >
-            Cancel Assessment
+            {t("assessments.cancelAssessment")}
           </button>
         </div>
       </div>

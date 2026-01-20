@@ -21,13 +21,19 @@ export default function FindClinics() {
 
   const openMaps = (query) => {
     const url = `https://www.google.com/maps/search/${encodeURIComponent(
-      `${query} near me`
+      `${query} near me`,
     )}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
-    <main className="min-h-screen bg-linear-to-b from-slate-50 to-white pt-10 pb-32">
+    // FIX: bg-linear-to-b -> bg-gradient-to-b
+    // DARK MODE: Main background slate-950/900
+    <main
+      className="min-h-screen pt-10 pb-32 transition-colors duration-300
+      bg-gradient-to-b from-slate-50 to-white 
+      dark:from-slate-950 dark:to-slate-900"
+    >
       <div className="max-w-7xl mx-auto px-4 text-center overflow-hidden">
         {/* Icon */}
         <div className="flex justify-center mb-6">
@@ -37,20 +43,24 @@ export default function FindClinics() {
         </div>
 
         {/* Heading */}
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
+        <h1 className="text-3xl sm:text-4xl font-bold transition-colors duration-300 text-gray-900 dark:text-gray-300">
           {t("FindClinics.title")}
         </h1>
 
-        <p className="text-gray-600 mt-3 text-lg">
+        <p className="mt-3 text-lg transition-colors duration-300 text-gray-600 dark:text-gray-300">
           {t("FindClinics.subtitle")}
         </p>
 
-        {/* Location Found */}
-        <div className="mt-8 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-left max-w-2xl mx-auto">
-          <p className="text-green-800 font-medium flex items-center gap-2">
+        {/* Location Found - DARK MODE: Transparent green bg */}
+        <div
+          className="mt-8 rounded-xl border px-5 py-4 text-left max-w-2xl mx-auto transition-colors duration-300
+          bg-green-50 border-green-200 
+          dark:bg-green-900/30 dark:border-green-800"
+        >
+          <p className="font-medium flex items-center gap-2 transition-colors duration-300 text-green-800 dark:text-green-300">
             📍 {t("FindClinics.locationFound.title")}
           </p>
-          <p className="text-green-700 text-sm mt-1">
+          <p className="text-sm mt-1 transition-colors duration-300 text-green-700 dark:text-green-400">
             {t("FindClinics.locationFound.description")}
           </p>
         </div>
@@ -65,6 +75,7 @@ export default function FindClinics() {
               font-medium shadow-xl cursor-pointer
               transition-all duration-300
               hover:bg-blue-700 hover:shadow-2xl hover:-translate-y-0.5
+              dark:bg-blue-600 dark:hover:bg-blue-500
             "
           >
             <Search className="w-5 h-5" />
@@ -74,8 +85,8 @@ export default function FindClinics() {
         </div>
 
         <div className="max-w-6xl mx-auto px-6 mt-4 pt-4 pb-10 my-5">
-          {/* Quick Search */}
-          <h2 className="mt-6 text-lg font-bold text-gray-900">
+          {/* Quick Search Heading */}
+          <h2 className="mt-6 text-lg font-bold transition-colors duration-300 text-gray-900 dark:text-white">
             {t("FindClinics.quickSearch")}
           </h2>
 
@@ -90,13 +101,17 @@ export default function FindClinics() {
             ))}
           </div>
 
-          {/* Emergency */}
-          <div className="mt-14 max-w-3xl mx-auto rounded-2xl border border-red-200 bg-red-50 p-6 text-left">
-            <div className="flex items-center gap-2 text-red-700 font-semibold mb-4 text-lg">
+          {/* Emergency Section - DARK MODE: Transparent red bg */}
+          <div
+            className="mt-14 max-w-3xl mx-auto rounded-2xl border p-6 text-left transition-colors duration-300
+            bg-red-50 border-red-200 
+            dark:bg-red-900/20 dark:border-red-800"
+          >
+            <div className="flex items-center gap-2 font-semibold mb-4 text-lg transition-colors duration-300 text-red-700 dark:text-red-400">
               🚨 {t("FindClinics.emergency.title")}
             </div>
 
-            <p className="text-red-700 text-sm mb-4">
+            <p className="text-sm mb-4 transition-colors duration-300 text-red-700 dark:text-red-300">
               {t("FindClinics.emergency.description")}
             </p>
 
@@ -118,11 +133,12 @@ export default function FindClinics() {
             <button
               onClick={() => openMaps("Emergency hospital")}
               className="
-              w-full bg-red-600 text-white py-3 rounded-xl font-medium
-              flex items-center justify-center gap-2 cursor-pointer
-              transition-all duration-300
-              hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5
-            "
+                w-full bg-red-600 text-white py-3 rounded-xl font-medium
+                flex items-center justify-center gap-2 cursor-pointer
+                transition-all duration-300
+                hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5
+                dark:hover:bg-red-500
+              "
             >
               <MapPin className="w-4 h-4" />
               {t("FindClinics.emergency.findNearby")}
@@ -141,21 +157,29 @@ function QuickCard({ emoji, label, onClick }) {
     <button
       onClick={onClick}
       className="
-        group bg-white border border-gray-200 rounded-2xl p-5
+        group rounded-2xl p-5 border
         flex flex-col items-center gap-3 text-sm font-medium
         transition-all duration-300 ease-out
         cursor-pointer
         hover:-translate-y-2 hover:scale-[1.05]
-        hover:border-blue-400
-        hover:shadow-[0_18px_40px_-12px_rgba(59,130,246,0.35)]
         focus:outline-none
+        
+        bg-white border-gray-200
+        hover:border-blue-400 hover:shadow-[0_18px_40px_-12px_rgba(59,130,246,0.35)]
+        
+        dark:bg-[#1e293b] dark:border-gray-700 
+        dark:hover:border-blue-400 dark:hover:shadow-[0_18px_40px_-12px_rgba(30,58,138,0.5)]
       "
     >
       <div className="text-4xl leading-none transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1">
         {emoji}
       </div>
 
-      <span className="text-gray-700 text-center transition-colors duration-300 group-hover:text-blue-600">
+      <span
+        className="text-center transition-colors duration-300 
+        text-gray-700 group-hover:text-blue-600
+        dark:text-gray-300 dark:group-hover:text-blue-400"
+      >
         {label}
       </span>
     </button>
@@ -167,14 +191,17 @@ function EmergencyBadge({ label, phone }) {
     <a
       href={`tel:${phone}`}
       className="
-        group bg-white border border-red-300 text-red-700
-        rounded-xl py-3 px-4 text-sm font-semibold
+        group border rounded-xl py-3 px-4 text-sm font-semibold
         flex items-center justify-center gap-2
         transition-all duration-300 ease-out
-        hover:-translate-y-1 hover:scale-[1.04]
-        hover:border-red-500 hover:text-red-600
-        hover:shadow-[0_14px_30px_-10px_rgba(220,38,38,0.45)]
         cursor-pointer
+        hover:-translate-y-1 hover:scale-[1.04]
+        
+        bg-white border-red-300 text-red-700
+        hover:border-red-500 hover:text-red-600 hover:shadow-[0_14px_30px_-10px_rgba(220,38,38,0.45)]
+        
+        dark:bg-slate-800 dark:border-red-900 dark:text-red-400
+        dark:hover:border-red-600 dark:hover:text-red-300 dark:hover:shadow-[0_14px_30px_-10px_rgba(153,27,27,0.5)]
       "
     >
       <span className="text-lg transition-transform duration-300 group-hover:scale-110">

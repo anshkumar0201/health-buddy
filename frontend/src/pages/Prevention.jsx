@@ -143,12 +143,13 @@ export default function Prevention() {
                         ([diseaseKey, disease]) => (
                           <div
                             key={diseaseKey}
+                            /* ADDED: dark:hover:shadow-gray-700 */
                             className="
                               rounded-2xl border p-6
                               shadow-sm transition-all duration-300
                               hover:shadow-xl hover:-translate-y-1
                               bg-white border-gray-200
-                              dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-green-500
+                              dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-green-500 dark:hover:shadow-gray-700
                             "
                           >
                             <div className="flex items-start justify-between mb-2">
@@ -222,13 +223,14 @@ function Card({ icon, title, tips = [], color }) {
 
   return (
     <div
+      /* ADDED: dark:hover:shadow-gray-700 */
       className="rounded-2xl border p-6
         shadow-sm
         transition-all duration-300
         hover:shadow-xl
         hover:-translate-y-1
         bg-white border-gray-200 hover:border-blue-500
-        dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-blue-400"
+        dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-blue-400 dark:hover:shadow-gray-700"
     >
       <div
         className={`w-10 h-10 rounded-xl ${color}
