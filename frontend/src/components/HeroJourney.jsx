@@ -64,10 +64,16 @@ export default function HeroJourney() {
 
       {/* ✅ Seamless fade into REAL page background */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none"
         style={{
-          backgroundImage:
-            "linear-gradient(to top, var(--page-bg), transparent)",
+          backgroundImage: `
+      linear-gradient(
+        to top,
+        var(--page-bg) 0%,
+        color-mix(in srgb, var(--page-bg) 85%, transparent) 40%,
+        transparent 100%
+      )
+    `,
         }}
       />
     </section>
