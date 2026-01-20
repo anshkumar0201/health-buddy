@@ -27,26 +27,26 @@ const navItems = [
 ];
 
 const languages = [
-  { code: "as", label: "অসমীয়া" }, // Assamese
-  { code: "bn", label: "বাংলা" }, // Bengali
-  { code: "dg", label: "डोगरी" }, // Dogri
-  { code: "en", label: "English" }, // English
-  { code: "gu", label: "ગુજરાતી" }, // Gujarati
-  { code: "hi", label: "हिन्दी" }, // Hindi
-  { code: "kc", label: "કચ્છી" }, // Kachi
-  { code: "kn", label: "ಕನ್ನಡ" }, // Kannada
-  { code: "ka", label: "کٲشُر" }, // Kashmiri
-  { code: "ko", label: "कोंकणी" }, // Konkani
-  { code: "mt", label: "मैथिली" }, // Maithili
-  { code: "mr", label: "मराठी" }, // Marathi
-  { code: "ne", label: "नेपाली" }, // Nepali
-  { code: "or", label: "ଓଡ଼ିଆ" }, // Odia
-  { code: "pa", label: "ਪੰਜਾਬੀ" }, // Punjabi
-  { code: "sa", label: "संस्कृतम्" }, // Sanskrit
-  { code: "sd", label: "सिंधी" }, // Sindhi (Devanagari)
-  { code: "ta", label: "தமிழ்" }, // Tamil
-  { code: "te", label: "తెలుగు" }, // Telugu
-  { code: "ur", label: "اردو" }, // Urdu
+  { code: "as", label: "অসমীয়া" },
+  { code: "bn", label: "বাংলা" },
+  { code: "dg", label: "डोगरी" },
+  { code: "en", label: "English" },
+  { code: "gu", label: "ગુજરાતી" },
+  { code: "hi", label: "हिन्दी" },
+  { code: "kc", label: "કચ્છી" },
+  { code: "kn", label: "ಕನ್ನಡ" },
+  { code: "ka", label: "کٲشُر" },
+  { code: "ko", label: "कोंकणी" },
+  { code: "mt", label: "मैथिली" },
+  { code: "mr", label: "मराठी" },
+  { code: "ne", label: "नेपाली" },
+  { code: "or", label: "ଓଡ଼ିଆ" },
+  { code: "pa", label: "ਪੰਜਾਬੀ" },
+  { code: "sa", label: "संस्कृतम्" },
+  { code: "sd", label: "सिंधी" },
+  { code: "ta", label: "தமிழ்" },
+  { code: "te", label: "తెలుగు" },
+  { code: "ur", label: "اردو" },
 ];
 
 export default function Navbar() {
@@ -54,12 +54,35 @@ export default function Navbar() {
   const [langOpen, setLangOpen] = useState(false);
   const location = useLocation();
   const { t, i18n } = useTranslation();
+
+  // State to track if feature is enabled via cookie
+  const [isFeatureEnabled, setIsFeatureEnabled] = useState(false);
+
+  // Initialize Theme State
   const [isDark, setIsDark] = useState(
-    () => localStorage.getItem("theme") === "dark"
+    () => localStorage.getItem("theme") === "dark",
   );
 
   useEffect(() => {
+    const checkCookie = () => {
+      const matches = document.cookie
+        .split(";")
+        .some((item) => item.trim().startsWith("enable_dark_mode=true"));
+      setIsFeatureEnabled(matches);
+    };
+    checkCookie();
+  }, []);
+
+  useEffect(() => {
     const root = document.documentElement;
+
+    // SCENARIO A: Feature Flag is OFF (Regular User)
+    if (!isFeatureEnabled) {
+      root.classList.remove("dark");
+      return;
+    }
+
+    // SCENARIO B: Feature Flag is ON
     if (isDark) {
       root.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -67,7 +90,7 @@ export default function Navbar() {
       root.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
-  }, [isDark]);
+  }, [isDark, isFeatureEnabled]);
 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -78,7 +101,6 @@ export default function Navbar() {
     setLangOpen(false);
   };
 
-  /* Close dropdown on outside click */
   useEffect(() => {
     function handleClickOutside(e) {
       if (
@@ -91,39 +113,47 @@ export default function Navbar() {
         setLangOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [langOpen]);
 
-  /* Close dropdown on ESC */
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "Escape") setLangOpen(false);
     }
-
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // Helper boolean to make the render clean
+  const showDarkUI = isFeatureEnabled && isDark;
+
   return (
     <header
-      className="
-      sticky top-0 z-50
-      bg-white/70 backdrop-blur-md
-      supports-backdrop-filter:bg-white/60
-      border-b border-white/30 shadow-lg
-      transition-colors duration-300
-      print-hide
-    "
+      className={`
+        sticky top-0 z-50
+        backdrop-blur-md
+        transition-colors duration-300 ease-in-out
+        print-hide
+        ${
+          showDarkUI
+            ? "bg-slate-900/70 border-b border-white/10 shadow-lg"
+            : "bg-white/70 border-b border-white/30 shadow-lg"
+        }
+      `}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      {/* FIXED LAYOUT:
+        - Removed 'max-w-7xl mx-auto' (This was causing the large side gaps)
+        - Added 'w-full' to span the entire screen width
+        - Adjusted padding to 'px-6 lg:px-8' for symmetrical spacing
+      */}
+      <div className="w-full px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
           to="/"
           replace
           onClick={() => window.scrollTo({ top: 0 })}
-          className="flex items-center gap-3 whitespace-nowrap shrink-0"
+          className="flex items-center gap-3 whitespace-nowrap shrink-0 outline-none focus:outline-none"
         >
           <div
             className="w-12 h-12 rounded-2xl flex items-center justify-center"
@@ -144,13 +174,21 @@ export default function Navbar() {
           </div>
 
           <div className="flex flex-col leading-tight">
-            <span className="text-xl font-bold text-blue-600">HealthBuddy</span>
-            <span className="text-sm text-gray-600">Your Health Companion</span>
+            <span
+              className={`text-xl font-bold ${showDarkUI ? "text-blue-400" : "text-blue-600"}`}
+            >
+              HealthBuddy
+            </span>
+            <span
+              className={`text-sm ${showDarkUI ? "text-gray-200" : "text-gray-600"}`}
+            >
+              Your Health Companion
+            </span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="mx-4 hidden lg:flex">
+        <nav className="hidden lg:flex">
           <div className="flex items-center gap-2">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -159,22 +197,41 @@ export default function Navbar() {
                   ? location.pathname === "/"
                   : location.pathname.startsWith(item.path);
 
+              const baseClasses = `
+                flex items-center gap-2
+                h-10 px-3 xl:px-4
+                rounded-lg
+                text-sm whitespace-nowrap
+                transition-all duration-300 ease-in-out
+                border
+                outline-none focus:outline-none
+              `;
+
+              let itemClasses = "";
+
+              if (showDarkUI) {
+                if (isActive) {
+                  itemClasses =
+                    "bg-white/15 text-blue-200 font-semibold border-white/10 shadow-sm";
+                } else {
+                  itemClasses =
+                    "text-gray-300 border-transparent hover:bg-white/10 hover:text-white font-medium";
+                }
+              } else {
+                if (isActive) {
+                  itemClasses =
+                    "bg-blue-100 text-blue-600 font-semibold border-blue-100";
+                } else {
+                  itemClasses =
+                    "text-gray-600 border-transparent hover:bg-gray-200 font-medium";
+                }
+              }
+
               return (
                 <Link
                   key={item.key}
                   to={item.path}
-                  className={`
-                    flex items-center gap-2
-                    h-10 px-4
-                    rounded-lg
-                    text-sm whitespace-nowrap
-                    transition-colors duration-200
-                    ${
-                      isActive
-                        ? "bg-blue-100 text-blue-600 font-semibold"
-                        : "text-gray-600 hover:bg-gray-200"
-                    }
-                  `}
+                  className={`${baseClasses} ${itemClasses}`}
                 >
                   <Icon size={16} className="shrink-0" />
                   {t(item.key)}
@@ -191,18 +248,19 @@ export default function Navbar() {
             <button
               ref={buttonRef}
               onClick={() => setLangOpen((v) => !v)}
-              className="
+              className={`
                 flex items-center gap-2
                 h-10 px-4 cursor-pointer
                 text-sm font-medium
-                bg-white
-                border border-gray-400
-                rounded-lg
-                shadow-md
-                transition-all
-                hover:bg-gray-100 hover:shadow-lg
+                rounded-lg shadow-md
+                transition-all duration-300
                 active:scale-[0.97]
-              "
+                ${
+                  showDarkUI
+                    ? "bg-white/10 border border-white/20 text-gray-100 hover:bg-white/20"
+                    : "bg-white border border-gray-400 hover:bg-gray-100 hover:shadow-lg"
+                }
+              `}
               aria-haspopup="listbox"
               aria-expanded={langOpen}
             >
@@ -210,40 +268,48 @@ export default function Navbar() {
                 "Language"}
               <ChevronDown
                 size={14}
-                className={`transition-transform ${
-                  langOpen ? "rotate-180" : ""
-                }`}
+                className={`transition-transform duration-300 ${langOpen ? "rotate-180" : ""}`}
               />
             </button>
 
             {langOpen && (
               <div
                 ref={dropdownRef}
-                className="
-      absolute right-0 mt-2 w-44
-      bg-white border border-gray-200
-      rounded-xl shadow-lg
-      z-50
-      overflow-hidden
-    "
+                className={`
+                  absolute right-0 mt-2 w-44
+                  border rounded-xl shadow-lg z-50 overflow-hidden backdrop-blur-xl
+                  transition-all duration-300
+                  ${showDarkUI ? "bg-slate-900/90 border-white/10" : "bg-white border-gray-200"}
+                `}
               >
                 <div
-                  className="
-        max-h-80 overflow-y-auto pr-1
-        scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent
-      "
+                  className={`
+                    max-h-80 overflow-y-auto pr-1
+                    scrollbar-thin scrollbar-track-transparent
+                    ${showDarkUI ? "scrollbar-thumb-gray-600" : "scrollbar-thumb-gray-300"}
+                  `}
                 >
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
                       onClick={() => changeLanguage(lang.code)}
                       className={`
-            w-full text-left
-            px-4 py-2 text-sm cursor-pointer
-            transition-colors
-            hover:bg-blue-200 active:bg-blue-100
-            ${lang.code === i18n.language ? "bg-blue-100 font-semibold" : ""}
-          `}
+                        w-full text-left
+                        px-4 py-2 text-sm cursor-pointer
+                        transition-colors duration-200
+                        ${
+                          showDarkUI
+                            ? "text-gray-200 hover:bg-white/10 active:bg-white/20"
+                            : "hover:bg-blue-200 active:bg-blue-100"
+                        }
+                        ${
+                          lang.code === i18n.language
+                            ? showDarkUI
+                              ? "bg-white/15 text-white font-semibold"
+                              : "bg-blue-100 font-semibold"
+                            : ""
+                        }
+                      `}
                     >
                       {lang.label}
                     </button>
@@ -253,55 +319,46 @@ export default function Navbar() {
             )}
           </div>
 
-          <button
-            onClick={() => setIsDark((v) => !v)}
-            aria-label="Toggle dark mode"
-            className={`
-    relative mx-4 w-10 h-10 cursor-pointer
-    flex items-center justify-center
-    rounded-lg
-    border border-gray-400
-    shadow-md
-    transition-all duration-300
-    active:scale-90
-
-    ${
-      isDark
-        ? "bg-[#202123] hover:bg-[#243447] border-[#2E3B4E]"
-        : "bg-white hover:bg-gray-100 border-gray-400"
-    }
-    }
-  `}
-          >
-            {/* Sun */}
-            <Sun
+          {/* Toggle Button */}
+          {isFeatureEnabled && (
+            <button
+              onClick={() => setIsDark((v) => !v)}
+              aria-label="Toggle dark mode"
               className={`
-      absolute w-6 h-6 text-yellow-700
-      transition-all duration-500 ease-in-out
-      ${
-        isDark
-          ? "opacity-0 rotate-90 scale-0"
-          : "opacity-100 rotate-0 scale-100"
-      }
-    `}
-            />
-
-            {/* Moon */}
-            <Moon
-              className={`
-      absolute w-6 h-6 text-gray-300
-      transition-all duration-500 ease-in-out
-      ${
-        isDark
-          ? "opacity-100 rotate-0 scale-100"
-          : "opacity-0 -rotate-90 scale-0"
-      }
-    `}
-            />
-          </button>
+                relative w-10 h-10 cursor-pointer
+                flex items-center justify-center
+                rounded-lg shadow-md
+                transition-all duration-300
+                active:scale-90
+                ${
+                  showDarkUI
+                    ? "bg-white/10 hover:bg-white/20 border border-white/20 text-white"
+                    : "bg-white hover:bg-gray-100 border border-gray-400"
+                }
+              `}
+            >
+              <Sun
+                className={`
+                  absolute w-5 h-5 text-yellow-500
+                  transition-all duration-500 ease-in-out
+                  ${showDarkUI ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"}
+                `}
+              />
+              <Moon
+                className={`
+                  absolute w-5 h-5 text-white
+                  transition-all duration-500 ease-in-out
+                  ${showDarkUI ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"}
+                `}
+              />
+            </button>
+          )}
 
           {/* Mobile Menu Button */}
-          <button className="lg:hidden" onClick={() => setOpen(!open)}>
+          <button
+            className={`lg:hidden ${showDarkUI ? "text-white" : "text-gray-800"}`}
+            onClick={() => setOpen(!open)}
+          >
             {open ? <X /> : <Menu />}
           </button>
         </div>
