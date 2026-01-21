@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* ⚠️ TAILWIND V4 FORCE CLASS STRATEGY ⚠️ */
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --page-bg: #ffffff;
+}
+
+html.dark {
+  --page-bg: #131314;
+}
+
+html,
+body {
+  background-color: white;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========================================================================
+   GEMINI DARK MODE PALETTE
+   ======================================================================== */
+
+html.dark body {
+  background-color: #131314; /* Gemini Background */
+  color: #e3e3e3;            /* Gemini Text */
+}
+
+
+/* 1. Main Backgrounds (Slate 950 -> Neutral Black #131314) */
+html.dark .dark\:bg-slate-950,
+html.dark .bg-slate-950,
+html.dark .bg-\[\#020617\],      /* Tailwind Slate-950 Hex */
+html.dark .dark\:bg-\[\#020617\] {
+  background-color: rgb(19 19 20 / var(--tw-bg-opacity, 1)) !important;
+}
+
+/* 2. Cards/Navbar (Slate 900/800 -> Neutral Surface #1E1F20) */
+html.dark .dark\:bg-slate-900,
+html.dark .bg-slate-900,
+html.dark .bg-\[\#0f172a\],      /* Tailwind Slate-900 Hex */
+html.dark .dark\:bg-\[\#0f172a\],
+html.dark .dark\:bg-slate-800,
+html.dark .bg-slate-800,
+html.dark .bg-\[\#1e293b\],      /* Tailwind Slate-800 Hex */
+html.dark .dark\:bg-\[\#1e293b\],
+html.dark .bg-gray-900,
+html.dark .dark\:bg-gray-900 {
+  /* RGB for #1E1F20 is 30 31 32 */
+  background-color: rgb(30 31 32 / var(--tw-bg-opacity, 1)) !important;
+  border-color: #333333 !important;
+}
+
+/* 3. Fix Gradient Stops (Hero Section) */
+html.dark .dark\:from-slate-950 {
+  --tw-gradient-from: #131314 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(19, 19, 20, 0)) !important;
+}
+
+html.dark .dark\:to-slate-900 {
+  --tw-gradient-to: #1e1f20 !important;
+}
+
+/* ========================================================================
+   ANIMATIONS & UTILITIES
+   ======================================================================== */
+
+html, body, *, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 400ms;
+  transition-timing-function: ease-in-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+.emergency-btn {
+  @apply bg-white border border-red-300 text-red-700 rounded-lg py-2 text-center font-semibold transition-all hover:bg-red-600 hover:text-white hover:-translate-y-0.5;
+}
+
+/* Dark mode override for the emergency button */
+html.dark .emergency-btn {
+  @apply bg-slate-800 border-red-900 text-red-400 hover:bg-red-700 hover:text-white;
+}
+
+@media screen {
+  .pdf-hide { display: grid; }
+}
+
+@media print {
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area { position: absolute; top: 0; left: 0; width: 100%; }
+  .pdf-hide, .print-hide { display: none !important; }
+  body { background: white !important; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
