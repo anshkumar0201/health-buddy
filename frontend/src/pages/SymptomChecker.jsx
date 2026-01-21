@@ -117,17 +117,22 @@ export default function SymptomChecker() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
+                title={t(`SymptomChecker.categories.${cat}`)} // full text on hover
                 className={`whitespace-nowrap shrink-0
-                  px-4 py-2 rounded-xl cursor-pointer
-                  text-sm font-medium flex items-center gap-2
-                  transition-all duration-300
-                  ${
-                    activeCategory === cat
-                      ? "bg-black text-white shadow-sm dark:bg-gray-300 dark:text-black"
-                      : "border hover:bg-gray-100 bg-white text-black border-gray-200 dark:bg-slate-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-700"
-                  }`}
+      px-4 py-2 rounded-xl cursor-pointer
+      text-sm font-medium flex items-center
+      transition-all duration-300
+      max-w-[160px] sm:max-w-[200px]
+      overflow-hidden text-ellipsis
+      ${
+        activeCategory === cat
+          ? "bg-black text-white shadow-sm dark:bg-gray-300 dark:text-black"
+          : "border hover:bg-gray-100 bg-white text-black border-gray-200 dark:bg-slate-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-700"
+      }`}
               >
-                {t(`SymptomChecker.categories.${cat}`)}
+                <span className="truncate block w-full text-center">
+                  {t(`SymptomChecker.categories.${cat}`)}
+                </span>
               </button>
             ))}
           </div>
@@ -218,7 +223,8 @@ export default function SymptomChecker() {
                 </Link>
               </div>
             ))}
-          </div>)}
+          </div>
+        )}
       </div>
     </main>
   );
