@@ -17,11 +17,18 @@ export default function MobileTabBar() {
     const isDark = theme === "dark";
 
     return (
-        <div className="sm:hidden fixed bottom-3.5 left-0 right-0 z-[1000] flex justify-center">
+        <div
+            className="sm:hidden fixed z-[1000] flex justify-center"
+            style={{
+                left: "env(safe-area-inset-left)",
+                right: "env(safe-area-inset-right)",
+                bottom: "calc(env(safe-area-inset-bottom) + 12px)",
+            }}
+        >
             <div
                 className={`
           flex justify-around items-center
-          h-16 w-[96%]
+          h-16 w-full max-w-[520px] mx-2
           rounded-4xl
           backdrop-blur-lg
           border

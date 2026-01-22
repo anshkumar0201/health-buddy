@@ -21,7 +21,6 @@ const EmergencyDetail = lazy(() => import("@/pages/EmergencyDetail"));
 const Assessment = lazy(() => import("@/pages/Assessment"));
 const AssessmentResult = lazy(() => import("@/pages/AssessmentResult"));
 import MobileTabBar from "@/components/MobileTabBar";
-import EmergencyFAB from "@/components/EmergencyFAB";
 
 /* ---------------- Loading Fallback ---------------- */
 
@@ -77,7 +76,6 @@ export default function App() {
                 </div>
                 {/* Mobile navigation */}
                 <MobileTabBar/>
-                <EmergencyFAB/>
             </div>
         </BrowserRouter>
     );

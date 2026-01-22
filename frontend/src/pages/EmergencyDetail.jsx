@@ -180,7 +180,7 @@ export default function EmergencyDetail() {
                     key={i}
                     className="flex gap-3 transition-colors duration-300 text-gray-900 dark:text-gray-200"
                   >
-                    <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold dark:bg-blue-500">
+                    <div className="w-6 h-6 min-w-[1.5rem] min-h-[1.5rem] aspect-square rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold leading-none dark:bg-blue-500">
                       {i + 1}
                     </div>
                     <p>{step}</p>
@@ -258,10 +258,10 @@ function Checklist({ title, items = [], type }) {
       ? "text-green-700 dark:text-green-400"
       : "text-red-700 dark:text-red-400";
 
-  const iconClass =
-    type === "do"
-      ? "text-green-600 dark:text-green-500"
-      : "text-red-600 dark:text-red-500";
+  // const iconClass =
+  //   type === "do"
+  //     ? "text-green-600 dark:text-green-500"
+  //     : "text-red-600 dark:text-red-500";
 
   return (
     <div
@@ -274,9 +274,21 @@ function Checklist({ title, items = [], type }) {
         {items.map((item, i) => (
           <li
             key={i}
-            className="flex gap-2 transition-colors duration-300 text-gray-700 dark:text-gray-300"
+            className="flex gap-3 items-start transition-colors duration-300 text-gray-700 dark:text-gray-300"
           >
-            <Icon className={`w-5 h-5 ${iconClass}`} />
+            <div
+              className={`
+      w-6 h-6 min-w-[1.5rem] aspect-square rounded-full
+      flex items-center justify-center
+      ${
+        type === "do"
+          ? "bg-green-600 dark:bg-green-500"
+          : "bg-red-600 dark:bg-red-500"
+      }
+    `}
+            >
+              <Icon className="w-3.5 h-3.5 text-white leading-none" />
+            </div>
             <span>{item}</span>
           </li>
         ))}
