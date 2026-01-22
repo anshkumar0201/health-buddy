@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { Activity, BookOpen, Shield, MapPin, AlertCircle } from "lucide-react";
+import { Activity, Stethoscope, BookOpen, Shield, MapPin, AlertCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 /* Icon mapping (React responsibility) */
 const ICON_MAP = {
-  symptomChecker: Activity,
+  symptomAnalyzer:Activity,
+  symptomChecker: Stethoscope,
   diseaseLibrary: BookOpen,
   preventionTips: Shield,
   findClinics: MapPin,
@@ -13,6 +14,7 @@ const ICON_MAP = {
 
 /* Gradient mapping (UI responsibility) */
 const GRADIENT_MAP = {
+  symptomAnalyzer:"from-purple-300 to-violet-600",
   symptomChecker: "from-blue-500 to-cyan-500",
   diseaseLibrary: "from-purple-500 to-pink-500",
   preventionTips: "from-green-500 to-emerald-500",

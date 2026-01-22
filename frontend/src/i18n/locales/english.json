@@ -82,10 +82,17 @@
 
     "items": [
       {
+        "id": "symptomAnalyzer",
+        "path": "/symptom-analyzer",
+        "title": "Symptom Analyzer",
+        "description": "Assess your health with our AI-powered symptom analysis",
+        "action": "Start Analyzer"
+      },
+      {
         "id": "symptomChecker",
         "path": "/symptom-checker",
         "title": "Symptom Checker",
-        "description": "Assess your health with our AI-powered symptom analysis",
+        "description": "Identify potential conditions and causes based on your specific symptoms",
         "action": "Start Assessment"
       },
       {

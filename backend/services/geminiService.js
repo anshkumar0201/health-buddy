@@ -157,16 +157,51 @@ Return ONLY the JSON.
    INTERNAL GEMINI CALL (JSON-ENFORCED)
    ====================================================== */
 async function callGemini(prompt) {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite",
-    contents: prompt,
-    generationConfig: {
-      temperature: 0,
-      responseMimeType: "application/json",
-    },
-  });
+  try {
 
-  return response.candidates?.[0]?.content?.parts?.[0]?.text;
+    console.log("🔵 Sending request to Gemini...");
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-lite",
+      generationConfig: {
+        temperature: 0,
+        responseMimeType: "application/json",
+      },
+      safetySettings: [
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_MEDICAL", threshold: "BLOCK_NONE" }, // If available in your tier
+      ],
+      contents: [
+        { role: "user", parts: [{ text: prompt }] }
+      ]
+
+    });
+
+    console.log("🟡 RAW API RESPONSE:", JSON.stringify(response, null, 2));
+
+    const candidate = response.candidates?.[0];
+
+    // CHECK FOR SAFETY BLOCK
+    if (candidate?.finishReason === "SAFETY") {
+      console.error("❌ BLOCKED BY SAFETY FILTERS");
+      throw new Error("Gemini refused to answer due to Safety Filters.");
+    }
+
+    const text = candidate?.content?.parts?.[0]?.text;
+
+    if (!text) {
+      console.error("❌ NO TEXT IN RESPONSE");
+      throw new Error("Empty response from Gemini.");
+    }
+
+    return text;
+
+  } catch (error) {
+    console.error("🔥 GEMINI API ERROR:", error);
+    throw error; // Re-throw to be caught in main function
+  }
 }
 
 function extractJson(text) {
@@ -187,15 +222,16 @@ function extractJson(text) {
 /* ======================================================
    MAIN GEMINI CALL
    ====================================================== */
+/* ======================================================
+   MAIN GEMINI CALL
+   ====================================================== */
 async function analyzeSymptomsWithGemini(text, locale = "en") {
   // ---- helper to parse safely ----
   const parseGeminiJson = (rawText) => {
     const extracted = extractJson(rawText);
-
     if (!extracted) {
       throw new Error("Could not extract JSON");
     }
-
     return JSON.parse(extracted);
   };
 
@@ -206,8 +242,16 @@ async function analyzeSymptomsWithGemini(text, locale = "en") {
   try {
     rawText = await callGemini(buildPrompt(text, locale));
     parsed = parseGeminiJson(rawText);
+
+    // ✅ LOGGING ADDED HERE
+    console.log("\n✨ ---------------- HUMAN READABLE RESPONSE ---------------- ✨");
+    // 'depth: null' shows all nested levels
+    // 'colors: true' makes it easy to read in VS Code terminal
+    console.dir(parsed, { depth: null, colors: true });
+    console.log("✨ --------------------------------------------------------- ✨\n");
+
   } catch (err) {
-    console.warn("⚠️ Gemini JSON parse failed, retrying once...");
+    console.warn("⚠️ Gemini JSON parse failed, retrying once...", err.message);
   }
 
   // -------- ONE RETRY (STRICTER) --------
@@ -219,6 +263,10 @@ async function analyzeSymptomsWithGemini(text, locale = "en") {
       );
 
       parsed = parseGeminiJson(rawText);
+
+      // Log retry success too
+      console.dir(parsed, { depth: null, colors: true });
+
     } catch (err) {
       console.error("❌ Gemini returned invalid JSON twice");
       throw new Error("Gemini returned invalid JSON");

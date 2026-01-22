@@ -127,7 +127,7 @@ export default function DiseaseDetails() {
               to="/clinics"
               className="flex-1 flex items-center justify-center px-6 py-3 rounded-xl border font-medium shadow-sm active:scale-[0.97] transition-all duration-200
                 border-gray-200 bg-white text-gray-800 hover:bg-gray-50 hover:shadow-md
-                dark:bg-slate-800 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-slate-700"
+                dark:bg-slate-800 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-white dark:shadow-gray-700"
             >
               {t("Diseases.findClinics")}
             </Link>
