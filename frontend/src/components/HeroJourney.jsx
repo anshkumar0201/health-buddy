@@ -52,7 +52,7 @@ export default function HeroJourney() {
               transition-all duration-300 ease-out
               hover:scale-110 hover:-translate-y-0.5
               hover:shadow-[0_20px_40px_rgba(37,99,235,0.25)]
-              active:scale-95
+              active:scale-95 cursor-pointer
               dark:bg-gray-200 dark:shadow-gray-700
             "
           >

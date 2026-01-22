@@ -163,13 +163,13 @@ export default function SymptomChecker() {
                 }}
                 className="
           mt-6 px-5 py-2.5 text-sm font-semibold rounded-lg
-          bg-white text-black
+          bg-black text-white
           border border-gray-300
           shadow-md shadow-black/20
-          hover:bg-gray-100 hover:shadow-lg
+          hover:bg-gray-600 hover:shadow-lg
           active:scale-[0.98]
           transition-all duration-200
-          cursor-pointer
+          cursor-pointer dark:bg-white dark:text-black dark:hover:bg-gray-400
         "
               >
                 Clear filters
