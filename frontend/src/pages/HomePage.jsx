@@ -60,7 +60,12 @@ export default function HomePage() {
           )}
 
           {showBottom && (
-            <div className="fixed bottom-[5.2rem] left-1/2 -translate-x-1/2 z-40">
+            <div
+              className="fixed left-1/2 -translate-x-1/2 z-40"
+              style={{
+                bottom: "calc(max(env(safe-area-inset-bottom), 1px) + 4.3rem)",
+              }}
+            >
               <button
                 onClick={() =>
                   window.scrollTo({

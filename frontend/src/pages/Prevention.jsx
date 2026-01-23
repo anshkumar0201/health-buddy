@@ -259,7 +259,12 @@ export default function Prevention() {
         )}
 
         {showBottom && (
-          <div className="fixed bottom-[5.2rem] left-1/2 -translate-x-1/2 z-40">
+          <div
+            className="fixed left-1/2 -translate-x-1/2 z-40"
+            style={{
+              bottom: "calc(max(env(safe-area-inset-bottom), 1px) + 4.3rem)",
+            }}
+          >
             <button
               onClick={() =>
                 window.scrollTo({
@@ -271,7 +276,7 @@ export default function Prevention() {
           pointer-events-auto
           w-10 h-10 rounded-full font-bold
           flex items-center justify-center
-          backdrop-blur-md
+          backdrop-blur-md mb-1
           bg-white/25 dark:bg-black/25
           border border-white/20 dark:border-gray-700/40
           shadow-sm

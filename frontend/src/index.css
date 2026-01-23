@@ -79,6 +79,24 @@ html, body, *, *::before, *::after {
   transition-timing-function: ease-in-out;
 }
 
+/* Mobile glass fix */
+.glass-mobile {
+  max-width: 100vw;
+  width: 100%;
+  margin: 0 auto;
+  isolation: isolate;
+  contain: paint;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+header,
+.mobile-tabbar {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }

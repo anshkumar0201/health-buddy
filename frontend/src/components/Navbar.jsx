@@ -210,6 +210,8 @@ export default function Navbar() {
           </div>
         </Link>
 
+        <div className="flex-1 lg:hidden" />
+
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex">
           <div className="flex items-center gap-2">
@@ -381,9 +383,9 @@ export default function Navbar() {
           {/* ********************************************************************************* */}
 
           {/* Mobile Controls */}
-          <div className="lg:hidden flex items-center w-full mx-6">
+          <div className="lg:hidden flex items-center pr-3">
             {/* Right mobile group */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 ml-auto">
               {/* Mobile Language */}
               <button
                 ref={mobileButtonRef}
@@ -391,7 +393,7 @@ export default function Navbar() {
                 className={`
     flex items-center gap-1
     px-1 py-1 rounded-lg
-    text-sm font-semibold
+    text-xs font-semibold
     ${
       showDarkUI
         ? "bg-slate-900/90 border border-gray-500 shadow-amber-200 text-gray-300"
@@ -402,7 +404,7 @@ export default function Navbar() {
                 {i18n.language.toUpperCase()}
                 <span
                   className={`
-      material-symbols-rounded text-lg
+      material-symbols-rounded text-sm
       transition-transform duration-300
       ${mobileLangOpen ? "rotate-180" : ""}
     `}
@@ -461,7 +463,7 @@ export default function Navbar() {
               {/* Mobile Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="material-symbols-rounded text-2xl font-light"
+                className="material-symbols-rounded text-xl font-light"
               >
                 {showDarkUI ? "dark_mode" : "light_mode"}
               </button>
@@ -473,13 +475,13 @@ export default function Navbar() {
                   onClick={() => setMobileEmergencyOpen((v) => !v)}
                   className="material-symbols-rounded text-xl text-red-600 mx-2"
                 >
-                  local_hospital
+                  phone
                 </button>
-
-                {mobileEmergencyOpen && (
-                  <div
-                    ref={mobileEmergencyRef}
-                    className={`
+                <div className="lg:hidden relative flex items-center gap-1">
+                  {mobileEmergencyOpen && (
+                    <div
+                      ref={mobileEmergencyRef}
+                      className={`
         absolute top-full right-0 mt-4 w-48
         rounded-xl z-[9999]
         backdrop-blur-lg
@@ -493,15 +495,15 @@ export default function Navbar() {
               : "bg-white/90 border-white/60 shadow-[0_8px_25px_rgba(0.7,0.7,0.7,0.7)]"
           }
         `}
-                  >
-                    {emergencyNumbers.map((item) => (
-                      <button
-                        key={item.number}
-                        onClick={() => {
-                          window.location.href = `tel:${item.number}`;
-                          setMobileEmergencyOpen(false);
-                        }}
-                        className={`
+                    >
+                      {emergencyNumbers.map((item) => (
+                        <button
+                          key={item.number}
+                          onClick={() => {
+                            window.location.href = `tel:${item.number}`;
+                            setMobileEmergencyOpen(false);
+                          }}
+                          className={`
             w-full text-left px-2 py-2 text-sm
             flex justify-between items-center
             transition-all
@@ -511,13 +513,17 @@ export default function Navbar() {
                 : "hover:bg-white/40"
             }
           `}
-                      > 📞
-                        {item.label}
-                        <span className="font-mono font-bold">{item.number}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                        >
+                          {" "}
+                          {item.label}
+                          <span className="font-mono font-bold">
+                            {item.number}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
