@@ -25,7 +25,8 @@
     "palpitations",
     "fainting",
     "seizure",
-    "confusion"
+    "confusion",
+    "pimple"
   ],
 
   "bodyParts": [
@@ -48,7 +49,8 @@
     "lungs",
     "heart",
     "skin",
-    "pelvis"
+    "pelvis",
+    "breast"
   ],
 
   "severity": [
