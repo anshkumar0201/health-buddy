@@ -137,9 +137,9 @@ function hasSymptomStructure(text) {
   }
   return Object.values(flags).filter(Boolean).length >= 2;
 }
-function medicalDensity(text, minRatio = 0.08) {
+function medicalDensity(text, minRatio = 0.03) {
   const words = tokenize(text);
-  if (words.length < 10) return false;
+  if (words.length < 5) return false;
   let medicalCount = 0;
   for (const w of words) {
     if (
@@ -181,30 +181,33 @@ export default function SymptomAnalyzer() {
   const [result, setResult] = useState({ status: "idle" });
   const charCount = text.trim().length;
 
+  const fail = (reason) => {
+    console.warn("SYMPTOM ANALYZER BLOCKED:", reason);
+    console.warn("Please enter valid input. Current USER INPUT:", text, );
+    setResult({ status: "invalid", reason });
+    return false;
+  };
+
+
+
   const analyzeSymptoms = async () => {
     if (!text.trim() || charCount < MIN_CHARS) {
-      setResult({ status: "invalid" });
-      return;
+      return fail("Character count is less than minimum");
     }
     if (!isTextClearEnough(text, 0.4)) {
-      setResult({ status: "invalid" });
-      return;
+      return fail("Text not clear enough");
     }
     if (!hasMedicalSignal(text, 2)) {
-      setResult({ status: "invalid" });
-      return;
+      return fail("No medical signal detected");
     }
     if (!hasSymptomStructure(text)) {
-      setResult({ status: "invalid" });
-      return;
+      return fail("No symptom structure");
     }
     if (!medicalDensity(text, 0.08)) {
-      setResult({ status: "invalid" });
-      return;
+      return fail("Medical density too low");
     }
     if (isMetaInput(text)) {
-      setResult({ status: "invalid" });
-      return;
+      return fail("Meta / conversational input");
     }
 
     setLoading(true);

@@ -66,21 +66,22 @@ export default function FindClinics() {
         </div>
 
         {/* Primary CTA */}
-        <div className="mt-8">
+        <div className="mt-8 flex justify-center">
           <button
             onClick={() => openMaps("Healthcare facilities")}
             className="
-              inline-flex items-center gap-3
-              bg-blue-600 text-white px-8 py-4 rounded-xl
-              font-medium shadow-xl cursor-pointer
-              transition-all duration-300
-              hover:bg-blue-700 hover:shadow-2xl hover:-translate-y-0.5
-              dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-gray-300
-            "
+      flex items-center justify-center gap-3
+      min-h-[56px]
+      bg-blue-600 text-white px-6 py-3 rounded-xl
+      font-medium shadow-xl cursor-pointer
+      transition-all duration-300
+      hover:bg-blue-700 hover:shadow-2xl hover:-translate-y-0.5
+      dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-gray-300
+    "
           >
-            <Search className="w-5 h-5" />
+            <Search className="w-5 h-5 shrink-0" />
             {t("FindClinics.primaryCTA")}
-            <ExternalLink className="w-4 h-4 opacity-80" />
+            <ExternalLink className="w-4 h-4 shrink-0 opacity-80" />
           </button>
         </div>
 
@@ -103,7 +104,7 @@ export default function FindClinics() {
 
           {/* Emergency Section - DARK MODE: Transparent red bg */}
           <div
-            className="mt-14 max-w-3xl mx-auto rounded-2xl border p-6 text-left transition-colors duration-300
+            className="mt-14 w-full sm:max-w-3xl sm:mx-auto rounded-2xl border p-6 text-left transition-colors duration-300
             bg-red-50 border-red-200 
             dark:bg-red-900/20 dark:border-red-800"
           >
@@ -133,14 +134,15 @@ export default function FindClinics() {
             <button
               onClick={() => openMaps("Emergency hospital")}
               className="
-                w-full bg-red-600 text-white py-3 rounded-xl font-medium
-                flex items-center justify-center gap-2 cursor-pointer
-                transition-all duration-300
-                hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5
-                dark:hover:bg-red-500
-              "
+    w-full min-h-[52px]
+    bg-red-600 text-white px-4 py-3 rounded-xl font-medium
+    flex items-center justify-center gap-2 cursor-pointer
+    transition-all duration-300
+    hover:bg-red-700 hover:shadow-xl hover:-translate-y-0.5
+    dark:hover:bg-red-500
+  "
             >
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-4 h-4 shrink-0" />
               {t("FindClinics.emergency.findNearby")}
             </button>
           </div>
@@ -191,7 +193,7 @@ function EmergencyBadge({ label, phone }) {
     <a
       href={`tel:${phone}`}
       className="
-        group border rounded-xl py-3 px-4 text-sm font-semibold
+        group border rounded-xl py-3 px-2 text-sm font-semibold
         flex items-center justify-center gap-2
         transition-all duration-300 ease-out
         cursor-pointer

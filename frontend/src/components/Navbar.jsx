@@ -11,8 +11,6 @@ import {
   Shield,
   MapPin,
   AlertCircle,
-  Menu,
-  X,
   ChevronDown,
   Sun,
   Moon,
@@ -26,6 +24,13 @@ const navItems = [
   { key: "Navbar.prevention", icon: Shield, path: "/prevention" },
   { key: "Navbar.findClinics", icon: MapPin, path: "/clinics" },
   { key: "Navbar.emergency", icon: AlertCircle, path: "/emergency" },
+];
+
+const emergencyNumbers = [
+  { label: "Ambulance Service", number: "108" },
+  { label: "Health Helpline", number: "104" },
+  { label: "Medical Emergency", number: "102" },
+  { label: "National Emergency Number", number: "112" },
 ];
 
 const languages = [
@@ -53,46 +58,94 @@ const languages = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
+  const [desktopLangOpen, setDesktopLangOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
+
   const location = useLocation();
   const { t, i18n } = useTranslation();
-
-  // 2. USE THE CONTEXT (Replaces all local state & cookie logic)
   const { theme, toggleTheme } = useTheme();
 
-  // 3. Derive UI state from Context
   const isDark = theme === "dark";
   const showDarkUI = isDark;
 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
+  const mobileDropdownRef = useRef(null);
+  const mobileButtonRef = useRef(null);
+
+  const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
+  const mobileEmergencyRef = useRef(null);
+  const mobileEmergencyBtnRef = useRef(null);
+
   const changeLanguage = (code) => {
     i18n.changeLanguage(code);
     localStorage.setItem("lang", code);
-    setLangOpen(false);
+    setDesktopLangOpen(false);
+    setMobileLangOpen(false);
   };
 
+  //Desktop outside click only
   useEffect(() => {
     function handleClickOutside(e) {
       if (
-        langOpen &&
+        desktopLangOpen &&
+        buttonRef.current && // desktop button only
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target) &&
-        buttonRef.current &&
         !buttonRef.current.contains(e.target)
       ) {
-        setLangOpen(false);
+        setDesktopLangOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [langOpen]);
+  }, [desktopLangOpen]);
+
+  // Mobile outside click only
+  useEffect(() => {
+    function handleMobileClickOutside(e) {
+      if (
+        mobileLangOpen &&
+        mobileButtonRef.current &&
+        mobileDropdownRef.current &&
+        !mobileDropdownRef.current.contains(e.target) &&
+        !mobileButtonRef.current.contains(e.target)
+      ) {
+        setMobileLangOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleMobileClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleMobileClickOutside);
+  }, [mobileLangOpen]);
+
+  //Mobile Outside only
+  useEffect(() => {
+    function handleEmergencyClickOutside(e) {
+      if (
+        mobileEmergencyOpen &&
+        mobileEmergencyBtnRef.current &&
+        mobileEmergencyRef.current &&
+        !mobileEmergencyRef.current.contains(e.target) &&
+        !mobileEmergencyBtnRef.current.contains(e.target)
+      ) {
+        setMobileEmergencyOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleEmergencyClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleEmergencyClickOutside);
+  }, [mobileEmergencyOpen]);
 
   useEffect(() => {
     function handleKeyDown(e) {
-      if (e.key === "Escape") setLangOpen(false);
+      if (e.key === "Escape") setDesktopLangOpen(false);
     }
+
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
@@ -100,28 +153,40 @@ export default function Navbar() {
   return (
     <header
       className={`
-        sticky top-0 z-50
-        backdrop-blur-md
-        transition-colors duration-300 ease-in-out
-        print-hide
-        ${
-          showDarkUI
-            ? "bg-slate-900/70 border-b border-white/10 shadow-lg"
-            : "bg-white/70 border-b border-white/30 shadow-lg"
-        }
-      `}
+    sticky top-0 z-50
+    transition-all duration-300 ease-in-out
+    print-hide
+
+    /* Desktop (unchanged) */
+    lg:backdrop-blur-md
+    ${
+      showDarkUI
+        ? "lg:bg-slate-900/70 lg:border-b lg:border-white/10 lg:shadow-lg"
+        : "lg:bg-white/70 lg:border-b lg:border-white/30 lg:shadow-lg"
+    }
+
+    /* Mobile glass */
+    backdrop-blur-xl
+    ${
+      showDarkUI
+        ? "bg-[#1e1f20]/50 border-b border-gray-400/25 shadow-[0_8px_30px_rgba(255,255,255,0.12)]"
+        : "bg-white/35 border-b border-white/60 shadow-[0_8px_25px_rgba(0.7,0.7,0.7,0.7)]"
+    }
+  `}
     >
-      <div className="w-full px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="w-full px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-start lg:justify-between">
         {/* Logo */}
         <Link
           to="/"
           replace
           onClick={() => window.scrollTo({ top: 0 })}
-          className="flex items-center gap-3 whitespace-nowrap shrink-0 outline-none focus:outline-none"
+          className="flex items-center gap-2 shrink-0"
         >
           <div
-            className="w-12 h-12 rounded-2xl flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #4F8CFF, #34D399)" }}
+            className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, #4F8CFF, #34D399)",
+            }}
           >
             <svg
               width="30"
@@ -138,14 +203,8 @@ export default function Navbar() {
           </div>
 
           <div className="flex flex-col leading-tight">
-            <span
-              className={`text-2xl font-bold ${showDarkUI ? "text-blue-400" : "text-blue-600"}`}
-            >
-              Qura
-            </span>
-            <span
-              className={`text-sm ${showDarkUI ? "text-gray-200" : "text-gray-600"}`}
-            >
+            <span className="text-xl sm:text-2xl font-bold">Qura</span>
+            <span className="text-[10px] sm:text-sm">
               Your Health Companion
             </span>
           </div>
@@ -211,7 +270,7 @@ export default function Navbar() {
           <div className="relative hidden sm:block">
             <button
               ref={buttonRef}
-              onClick={() => setLangOpen((v) => !v)}
+              onClick={() => setDesktopLangOpen((v) => !v)}
               className={`
                 flex items-center gap-2
                 h-10 px-4 cursor-pointer
@@ -226,17 +285,17 @@ export default function Navbar() {
                 }
               `}
               aria-haspopup="listbox"
-              aria-expanded={langOpen}
+              aria-expanded={desktopLangOpen}
             >
               {languages.find((l) => l.code === i18n.language)?.label ||
                 "Language"}
               <ChevronDown
                 size={14}
-                className={`transition-transform duration-300 ${langOpen ? "rotate-180" : ""}`}
+                className={`transition-transform duration-300 ${desktopLangOpen ? "rotate-180" : ""}`}
               />
             </button>
 
-            {langOpen && (
+            {desktopLangOpen && (
               <div
                 ref={dropdownRef}
                 className={`
@@ -299,6 +358,7 @@ export default function Navbar() {
                     ? "bg-white/10 hover:bg-white/20 border border-white/20 text-white"
                     : "bg-white hover:bg-gray-100 border border-gray-400"
                 }
+                hidden sm:flex
               `}
             >
               <Sun
@@ -318,13 +378,149 @@ export default function Navbar() {
             </button>
           }
 
-          {/* Mobile Menu Button */}
-          <button
-            className={`lg:hidden ${showDarkUI ? "text-white" : "text-gray-800"}`}
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <X /> : <Menu />}
-          </button>
+          {/* ********************************************************************************* */}
+
+          {/* Mobile Controls */}
+          <div className="lg:hidden flex items-center w-full mx-6">
+            {/* Right mobile group */}
+            <div className="flex items-center gap-2">
+              {/* Mobile Language */}
+              <button
+                ref={mobileButtonRef}
+                onClick={() => setMobileLangOpen((prev) => !prev)}
+                className={`
+    flex items-center gap-1
+    px-1 py-1 rounded-lg
+    text-sm font-semibold
+    ${
+      showDarkUI
+        ? "bg-slate-900/90 border border-gray-500 shadow-amber-200 text-gray-300"
+        : "bg-white text-gray-600 border border-gray-400 shadow-gray-700"
+    }
+  `}
+              >
+                {i18n.language.toUpperCase()}
+                <span
+                  className={`
+      material-symbols-rounded text-lg
+      transition-transform duration-300
+      ${mobileLangOpen ? "rotate-180" : ""}
+    `}
+                >
+                  expand_more
+                </span>
+              </button>
+
+              <div className="lg:hidden relative flex items-center gap-1">
+                {mobileLangOpen && (
+                  <div
+                    ref={mobileDropdownRef}
+                    className={`
+    absolute top-full right-0 mt-8 w-28
+    rounded-xl
+    z-[9999]
+    backdrop-blur-lg
+    border
+    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+    animate-fade-in
+    transition-all duration-300
+          ${
+            isDark
+              ? "bg-[#1e1f20]/85 border-gray-400/25 shadow-[0_8px_30px_rgba(255,255,255,0.12)]"
+              : "bg-white/85 border-white/60 shadow-[0_8px_25px_rgba(0.7,0.7,0.7,0.7)]"
+          }
+        `}
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          changeLanguage(lang.code);
+                          setMobileLangOpen(false);
+                        }}
+                        className={`
+    w-full text-left px-4 py-2 text-sm
+    transition-all duration-200
+    flex items-center justify-between
+    ${showDarkUI ? "text-gray-300 hover:bg-white/10" : "hover:bg-blue-100"}
+    ${lang.code === i18n.language ? "font-semibold scale-[1.02]" : ""}
+  `}
+                      >
+                        {lang.label}
+                        {lang.code === i18n.language && (
+                          <span className="material-symbols-rounded text-base">
+                            check
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="material-symbols-rounded text-2xl font-light"
+              >
+                {showDarkUI ? "dark_mode" : "light_mode"}
+              </button>
+
+              {/* Mobile Emergency */}
+              <div className="relative">
+                <button
+                  ref={mobileEmergencyBtnRef}
+                  onClick={() => setMobileEmergencyOpen((v) => !v)}
+                  className="material-symbols-rounded text-xl text-red-600 mx-2"
+                >
+                  local_hospital
+                </button>
+
+                {mobileEmergencyOpen && (
+                  <div
+                    ref={mobileEmergencyRef}
+                    className={`
+        absolute top-full right-0 mt-4 w-48
+        rounded-xl z-[9999]
+        backdrop-blur-lg
+    border
+    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+    animate-fade-in
+    transition-all duration-300
+          ${
+            isDark
+              ? "bg-[#1e1f20]/90 border-gray-400/25 shadow-[0_8px_30px_rgba(255,255,255,0.12)]"
+              : "bg-white/90 border-white/60 shadow-[0_8px_25px_rgba(0.7,0.7,0.7,0.7)]"
+          }
+        `}
+                  >
+                    {emergencyNumbers.map((item) => (
+                      <button
+                        key={item.number}
+                        onClick={() => {
+                          window.location.href = `tel:${item.number}`;
+                          setMobileEmergencyOpen(false);
+                        }}
+                        className={`
+            w-full text-left px-2 py-2 text-sm
+            flex justify-between items-center
+            transition-all
+            ${
+              showDarkUI
+                ? "text-gray-200 hover:bg-white/15"
+                : "hover:bg-white/40"
+            }
+          `}
+                      > 📞
+                        {item.label}
+                        <span className="font-mono font-bold">{item.number}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>

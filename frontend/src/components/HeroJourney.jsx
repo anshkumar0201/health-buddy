@@ -7,7 +7,7 @@ export default function HeroJourney() {
   const { t } = useTranslation();
 
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-hidden isolate">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-green-500 dark:opacity-90 transition-opacity duration-300" />
 

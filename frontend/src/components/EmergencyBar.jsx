@@ -7,9 +7,7 @@ export default function EmergencyBar() {
   const helplines = t("EmergencyBar.helplines", { returnObjects: true });
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 print-hide">
-      {/* Spacer to prevent overlap */}
-      <div className="h-4 bg-transparent" />
+      <div className="fixed bottom-0 left-0 right-0 z-50 print-hide pointer-events-auto">
 
       {/* Emergency bar */}
       <div className="bg-red-500 text-white">
