@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 // 1. IMPORT THE HOOK
@@ -25,6 +25,7 @@ const navItems = [
   { key: "Navbar.findClinics", icon: MapPin, path: "/clinics" },
   { key: "Navbar.emergency", icon: AlertCircle, path: "/emergency" },
 ];
+
 
 const emergencyNumbers = [
   { label: "Ambulance Service", number: "108" },
@@ -56,10 +57,14 @@ const languages = [
   // { code: "ur", label: "اردو" },
 ];
 
+
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
   const [desktopLangOpen, setDesktopLangOpen] = useState(false);
   const [mobileLangOpen, setMobileLangOpen] = useState(false);
+  const memoNavItems = useMemo(() => navItems, []);
+  const memoLanguages = useMemo(() => languages, []);
+  const memoEmergencyNumbers = useMemo(() => emergencyNumbers, []);
+
 
   const location = useLocation();
   const { t, i18n } = useTranslation();
@@ -104,42 +109,42 @@ export default function Navbar() {
   }, [desktopLangOpen]);
 
   // Mobile outside click only
-  useEffect(() => {
-    function handleMobileClickOutside(e) {
-      if (
-        mobileLangOpen &&
-        mobileButtonRef.current &&
-        mobileDropdownRef.current &&
-        !mobileDropdownRef.current.contains(e.target) &&
-        !mobileButtonRef.current.contains(e.target)
-      ) {
-        setMobileLangOpen(false);
-      }
-    }
+  // useEffect(() => {
+  //   function handleMobileClickOutside(e) {
+  //     if (
+  //       mobileLangOpen &&
+  //       mobileButtonRef.current &&
+  //       mobileDropdownRef.current &&
+  //       !mobileDropdownRef.current.contains(e.target) &&
+  //       !mobileButtonRef.current.contains(e.target)
+  //     ) {
+  //       setMobileLangOpen(false);
+  //     }
+  //   }
 
-    document.addEventListener("mousedown", handleMobileClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleMobileClickOutside);
-  }, [mobileLangOpen]);
+  //   document.addEventListener("mousedown", handleMobileClickOutside);
+  //   return () =>
+  //     document.removeEventListener("mousedown", handleMobileClickOutside);
+  // }, [mobileLangOpen]);
 
-  //Mobile Outside only
-  useEffect(() => {
-    function handleEmergencyClickOutside(e) {
-      if (
-        mobileEmergencyOpen &&
-        mobileEmergencyBtnRef.current &&
-        mobileEmergencyRef.current &&
-        !mobileEmergencyRef.current.contains(e.target) &&
-        !mobileEmergencyBtnRef.current.contains(e.target)
-      ) {
-        setMobileEmergencyOpen(false);
-      }
-    }
+  // //Mobile Outside only
+  // useEffect(() => {
+  //   function handleEmergencyClickOutside(e) {
+  //     if (
+  //       mobileEmergencyOpen &&
+  //       mobileEmergencyBtnRef.current &&
+  //       mobileEmergencyRef.current &&
+  //       !mobileEmergencyRef.current.contains(e.target) &&
+  //       !mobileEmergencyBtnRef.current.contains(e.target)
+  //     ) {
+  //       setMobileEmergencyOpen(false);
+  //     }
+  //   }
 
-    document.addEventListener("mousedown", handleEmergencyClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleEmergencyClickOutside);
-  }, [mobileEmergencyOpen]);
+  //   document.addEventListener("mousedown", handleEmergencyClickOutside);
+  //   return () =>
+  //     document.removeEventListener("mousedown", handleEmergencyClickOutside);
+  // }, [mobileEmergencyOpen]);
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -153,11 +158,10 @@ export default function Navbar() {
   return (
     <header
       className={`
-    sticky top-0 z-50
-    transition-all duration-300 ease-in-out
+    sticky top-0 z-50 h-16
     print-hide
 
-    /* Desktop (unchanged) */
+    /* Desktop stays same */
     lg:backdrop-blur-md
     ${
       showDarkUI
@@ -165,12 +169,11 @@ export default function Navbar() {
         : "lg:bg-white/70 lg:border-b lg:border-white/30 lg:shadow-lg"
     }
 
-    /* Mobile glass */
-    backdrop-blur-xl
+    /* Mobile M3 */
     ${
       showDarkUI
-        ? "bg-[#1e1f20]/50 border-b border-gray-400/25 shadow-[0_8px_30px_rgba(255,255,255,0.12)]"
-        : "bg-white/35 border-b border-white/60 shadow-[0_8px_25px_rgba(0.7,0.7,0.7,0.7)]"
+        ? "bg-[#121418] border-b border-white/5 shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
+        : "bg-[#f8fafc] border-b border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
     }
   `}
     >
@@ -179,7 +182,7 @@ export default function Navbar() {
         <Link
           to="/"
           replace
-          onClick={() => window.scrollTo({ top: 0 })}
+          onClick={() => requestAnimationFrame(() => window.scrollTo(0, 0))}
           className="flex items-center gap-2 shrink-0"
         >
           <div
@@ -210,10 +213,12 @@ export default function Navbar() {
           </div>
         </Link>
 
+        <div className="flex-1 lg:hidden" />
+
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex">
           <div className="flex items-center gap-2">
-            {navItems.map((item) => {
+            {memoNavItems.map((item) => {
               const Icon = item.icon;
               const isActive =
                 item.path === "/"
@@ -287,7 +292,7 @@ export default function Navbar() {
               aria-haspopup="listbox"
               aria-expanded={desktopLangOpen}
             >
-              {languages.find((l) => l.code === i18n.language)?.label ||
+              {memoLanguages.find((l) => l.code === i18n.language)?.label ||
                 "Language"}
               <ChevronDown
                 size={14}
@@ -312,7 +317,7 @@ export default function Navbar() {
                     ${showDarkUI ? "scrollbar-thumb-gray-600" : "scrollbar-thumb-gray-300"}
                   `}
                 >
-                  {languages.map((lang) => (
+                  {memoLanguages.map((lang) => (
                     <button
                       key={lang.code}
                       onClick={() => changeLanguage(lang.code)}
@@ -381,17 +386,18 @@ export default function Navbar() {
           {/* ********************************************************************************* */}
 
           {/* Mobile Controls */}
-          <div className="lg:hidden flex items-center w-full mx-6">
+          <div className="lg:hidden flex items-center pr-3">
             {/* Right mobile group */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 ml-auto">
               {/* Mobile Language */}
               <button
                 ref={mobileButtonRef}
                 onClick={() => setMobileLangOpen((prev) => !prev)}
+                onBlur={() => setMobileLangOpen(false)}
                 className={`
     flex items-center gap-1
     px-1 py-1 rounded-lg
-    text-sm font-semibold
+    text-xs font-semibold
     ${
       showDarkUI
         ? "bg-slate-900/90 border border-gray-500 shadow-amber-200 text-gray-300"
@@ -402,7 +408,7 @@ export default function Navbar() {
                 {i18n.language.toUpperCase()}
                 <span
                   className={`
-      material-symbols-rounded text-lg
+      material-symbols-rounded text-sm
       transition-transform duration-300
       ${mobileLangOpen ? "rotate-180" : ""}
     `}
@@ -414,24 +420,25 @@ export default function Navbar() {
               <div className="lg:hidden relative flex items-center gap-1">
                 {mobileLangOpen && (
                   <div
+                    onMouseDown={(e) => e.preventDefault()}
                     ref={mobileDropdownRef}
                     className={`
     absolute top-full right-0 mt-8 w-28
     rounded-xl
     z-[9999]
-    backdrop-blur-lg
+    
     border
     shadow-[0_8px_32px_rgba(0,0,0,0.25)]
     animate-fade-in
     transition-all duration-300
           ${
             isDark
-              ? "bg-[#1e1f20]/85 border-gray-400/25 shadow-[0_8px_30px_rgba(255,255,255,0.12)]"
-              : "bg-white/85 border-white/60 shadow-[0_8px_25px_rgba(0.7,0.7,0.7,0.7)]"
+              ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
+              : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
           }
         `}
                   >
-                    {languages.map((lang) => (
+                    {memoLanguages.map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => {
@@ -461,7 +468,7 @@ export default function Navbar() {
               {/* Mobile Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="material-symbols-rounded text-2xl font-light"
+                className="material-symbols-rounded text-xl font-light"
               >
                 {showDarkUI ? "dark_mode" : "light_mode"}
               </button>
@@ -471,37 +478,40 @@ export default function Navbar() {
                 <button
                   ref={mobileEmergencyBtnRef}
                   onClick={() => setMobileEmergencyOpen((v) => !v)}
+                  onBlur={() => setMobileEmergencyOpen(false)}
                   className="material-symbols-rounded text-xl text-red-600 mx-2"
                 >
-                  local_hospital
+                  phone
                 </button>
-
-                {mobileEmergencyOpen && (
-                  <div
-                    ref={mobileEmergencyRef}
-                    className={`
-        absolute top-full right-0 mt-4 w-48
-        rounded-xl z-[9999]
-        backdrop-blur-lg
+                <div className="lg:hidden relative flex items-center gap-1">
+                  {mobileEmergencyOpen && (
+                    <div
+                      onMouseDown={(e) => e.preventDefault()}
+                      ref={mobileEmergencyRef}
+                      className={`
+    absolute top-full right-0 mt-8 w-48
+    rounded-xl
+    z-[9999]
+    
     border
     shadow-[0_8px_32px_rgba(0,0,0,0.25)]
     animate-fade-in
     transition-all duration-300
           ${
             isDark
-              ? "bg-[#1e1f20]/90 border-gray-400/25 shadow-[0_8px_30px_rgba(255,255,255,0.12)]"
-              : "bg-white/90 border-white/60 shadow-[0_8px_25px_rgba(0.7,0.7,0.7,0.7)]"
+              ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
+              : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
           }
         `}
-                  >
-                    {emergencyNumbers.map((item) => (
-                      <button
-                        key={item.number}
-                        onClick={() => {
-                          window.location.href = `tel:${item.number}`;
-                          setMobileEmergencyOpen(false);
-                        }}
-                        className={`
+                    >
+                      {memoEmergencyNumbers.map((item) => (
+                        <button
+                          key={item.number}
+                          onClick={() => {
+                            window.location.href = `tel:${item.number}`;
+                            setMobileEmergencyOpen(false);
+                          }}
+                          className={`
             w-full text-left px-2 py-2 text-sm
             flex justify-between items-center
             transition-all
@@ -511,13 +521,17 @@ export default function Navbar() {
                 : "hover:bg-white/40"
             }
           `}
-                      > 📞
-                        {item.label}
-                        <span className="font-mono font-bold">{item.number}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                        >
+                          {" "}
+                          {item.label}
+                          <span className="font-mono font-bold">
+                            {item.number}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
