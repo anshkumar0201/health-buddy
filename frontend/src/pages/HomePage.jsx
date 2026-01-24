@@ -56,36 +56,53 @@ export default function HomePage() {
         </section>
         <section>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-            viewport={{ once: true, amount: 0.3 }}
+            initial={{ opacity: 0, y: 60, scale: 0.96 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: {
+                duration: 0.7,
+                ease: "easeOut",
+              },
+            }}
+            viewport={{ once: true, margin: "-100px" }}
           >
             <Features />
           </motion.div>
         </section>
         <section>
           <motion.div
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.5 }}
+            initial={{ opacity: 0, x: -120 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: {
+                duration: 0.8,
+                ease: "easeOut",
+              },
+            }}
+            viewport={{ once: true, margin: "-120px" }}
           >
             <WhyChoose />
           </motion.div>
         </section>
         <section>
           <motion.div
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.5 }}
+            initial={{ opacity: 0, x: 120 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: {
+                duration: 0.8,
+                ease: "easeOut",
+              },
+            }}
+            viewport={{ once: true, margin: "-120px" }}
           >
             <CTASection />
           </motion.div>
         </section>
-
-        {/* <WhyChoose />
-        <CTASection /> */}
         {/* Mobile Scroll Helpers */}
         <div className="sm:hidden pointer-events-none">
           {showTop && (

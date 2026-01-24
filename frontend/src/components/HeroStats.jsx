@@ -47,7 +47,7 @@ export default function HeroStats() {
   const stats = t("HeroStats.items", { returnObjects: true });
 
   return (
-    <section className="relative z-20 -mt-59 pb-20">
+    <section className="relative z-20 -mt-59 sm:-mt-80 pb-20">
       <div className="max-w-7xl mx-auto px-6">
         <div
           className="grid grid-cols-2 lg:grid-cols-4
@@ -73,7 +73,7 @@ export default function HeroStats() {
     text-center 
     transition-all duration-300 hover:shadow-2xl hover:-translate-y-1
     bg-white 
-    dark:bg-[#242930] dark:border dark:border-slate-800
+    dark:bg-[#242930] dark:border dark:border-slate-700
     dark:shadow-gray-700 dark:hover:shadow-gray-500 dark:text-gray-300
   "
               >
