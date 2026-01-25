@@ -9,48 +9,58 @@ import {
   Download,
   Stethoscope,
 } from "lucide-react";
+import { useMemo } from "react";
+import { motion } from "framer-motion";
+import SkeletonAssessmentResult from "../components/skeletons/SkeletonAssessmentResult";
 
 export default function AssessmentResult() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t, i18n, ready } = useTranslation();
 
-  const assessment = i18n.getResource(
-    i18n.language,
-    "translation",
-    `assessments.data.${location.state.disease}`,
-  );
-
-  if (!location.state) {
-    navigate("/symptom-checker", { replace: true });
-    return null;
-  }
+  const state = location.state || {};
 
   const {
-    title,
+    disease,
     score = 0,
     maxScore = 1,
     thresholds = { low: 0, moderate: 0, high: Infinity },
     recommendations = { low: [], moderate: [], high: [] },
     criticalHit = false,
-  } = location.state;
+  } = state;
+
+  const assessment = useMemo(() => {
+    if (!disease) return null;
+    return i18n.getResource(
+      i18n.language,
+      "translation",
+      `assessments.data.${disease}`,
+    );
+  }, [disease, i18n]);
+
 
   /* ---------- ROBUST RISK LOGIC ---------- */
-  const percentage = Math.round((score / maxScore) * 100);
+  const percentage = useMemo(
+    () => Math.round((score / maxScore) * 100),
+    [score, maxScore],
+  );
 
-  let riskKey = "low";
-  let theme = "green";
+  const riskMeta = useMemo(() => {
+    if (criticalHit) return { key: "high", theme: "red" };
+    if (score >= thresholds.high || percentage >= 70)
+      return { key: "high", theme: "red" };
+    if (score >= thresholds.moderate || percentage >= 40)
+      return { key: "moderate", theme: "yellow" };
+    return { key: "low", theme: "green" };
+  }, [score, thresholds, percentage, criticalHit]);
 
-  if (criticalHit) {
-    riskKey = "high";
-    theme = "red";
-  } else if (score >= thresholds.high || percentage >= 70) {
-    riskKey = "high";
-    theme = "red";
-  } else if (score >= thresholds.moderate || percentage >= 40) {
-    riskKey = "moderate";
-    theme = "yellow";
-  }
+    if (!disease || !ready || !assessment) {
+      navigate("/symptom-checker", { replace: true });
+      return <SkeletonAssessmentResult />;
+    }
+
+  const riskKey = riskMeta.key;
+  const theme = riskMeta.theme;
 
   const showEmergencyBanner = criticalHit || riskKey === "high";
 
@@ -96,7 +106,10 @@ export default function AssessmentResult() {
 
   return (
     // DARK MODE: Main background transitions
-    <main
+    <motion.main
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="min-h-screen pt-24 pb-32 transition-colors duration-300
       bg-gradient-to-b from-slate-50 to-white 
       dark:from-slate-950 dark:to-slate-900"
@@ -122,7 +135,10 @@ export default function AssessmentResult() {
         >
           <div className="text-sm sm:text-base">
             {/* Header (Dynamic Color) */}
-            <div
+            <motion.div
+              initial={{ y: -40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
               className={`${themeStyles.bg} border-b ${themeStyles.border} p-4 sm:p-6 flex items-start justify-between gap-4 transition-colors duration-300`}
             >
               <div className="min-w-0">
@@ -141,11 +157,14 @@ export default function AssessmentResult() {
               <Check
                 className={`w-10 font-bold h-10 shrink-0 ${themeStyles.icon}`}
               />
-            </div>
+            </motion.div>
 
             {/* 🚨 Emergency Banner */}
             {showEmergencyBanner && (
-              <div
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ repeat: 3, duration: 0.6, ease: "easeInOut" }}
                 className="mx-2 sm:mx-6 mt-6 rounded-2xl border p-5 flex gap-4 transition-colors duration-300
               bg-red-50 border-red-300 
               dark:bg-red-900/20 dark:border-red-800"
@@ -186,11 +205,14 @@ export default function AssessmentResult() {
                         )}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {/* Risk Card */}
-            <div
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 140, damping: 14 }}
               className={`m-6 p-6 rounded-xl border transition-colors duration-300 ${themeStyles.border} ${themeStyles.bg}`}
             >
               <div className="flex justify-between items-center">
@@ -210,7 +232,7 @@ export default function AssessmentResult() {
                   {t(`AssessmentResult.riskLevels.${riskKey}`)}
                 </span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Recommendations */}
             <div className="px-10 mt-8">
@@ -222,12 +244,18 @@ export default function AssessmentResult() {
               <ul className="mt-4 space-y-3">
                 {advice.length > 0 ? (
                   advice.map((rec, idx) => (
-                    <li key={idx} className="flex gap-3">
+                    <motion.li
+                      key={idx}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.08 }}
+                      className="flex gap-3"
+                    >
                       <Check className="w-4 h-4 mt-1 text-green-600 dark:text-green-400" />
                       <span className="text-xs sm:text-sm transition-colors duration-300 text-gray-700 dark:text-gray-300">
                         {rec}
                       </span>
-                    </li>
+                    </motion.li>
                   ))
                 ) : (
                   <li className="text-sm transition-colors duration-300 text-gray-600 dark:text-gray-400">
@@ -272,7 +300,9 @@ export default function AssessmentResult() {
 
             {/* Actions */}
             <div className="grid sm:grid-cols-3 gap-4 px-8 mt-6 mb-8">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={() => navigate("/symptom-checker")}
                 className="rounded-xl border py-3 cursor-pointer font-semibold transition-colors duration-300
                 border-gray-200 text-gray-700 hover:bg-gray-50
@@ -280,9 +310,11 @@ export default function AssessmentResult() {
               >
                 <ArrowLeft className="inline w-4 h-4 mr-2" />
                 {t("AssessmentResult.actions.newAssessment")}
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={() => window.print()}
                 className="rounded-xl border cursor-pointer py-3 font-semibold transition-colors duration-300
                 border-gray-200 text-gray-700 hover:bg-gray-50
@@ -290,9 +322,11 @@ export default function AssessmentResult() {
               >
                 {t("AssessmentResult.actions.download")}
                 <Download className="inline w-4 h-4 ml-2" />
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={() => navigate("/clinics")}
                 className="rounded-xl py-3 font-semibold cursor-pointer transition-colors duration-300
                 bg-black text-white hover:bg-gray-900
@@ -300,11 +334,11 @@ export default function AssessmentResult() {
               >
                 {t("AssessmentResult.actions.findClinics")}
                 <ArrowRight className="inline w-4 h-4 ml-2" />
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }

@@ -244,7 +244,9 @@ export default function Assessment() {
           </div>
 
           {/* Cancel Button */}
-          <button
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            whileHover={{ scale: 1.02 }}
             onClick={() => navigate(-1)}
             className="
               mt-4 w-full py-3 rounded-xl text-sm font-medium
@@ -254,7 +256,7 @@ export default function Assessment() {
             "
           >
             {t("assessments.cancelAssessment")}
-          </button>
+          </motion.button>
         </motion.div>
       </div>
     </motion.main>
