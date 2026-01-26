@@ -74,6 +74,23 @@ const MEDICAL_SETS = {
   duration: new Set(medicalTerms.duration),
 };
 
+const MEDICAL_PHRASES = [
+  "shortness of breath",
+  "chest pain",
+  "lower back",
+  "high fever",
+  "heart rate",
+  "blood pressure",
+  "loss of appetite",
+  "weight loss",
+  "blurred vision",
+  "ringing in ear",
+  "difficulty swallowing",
+  "burning urination",
+  "severe headache",
+];
+
+
 function normalizeWord(word) {
   return word
     .toLowerCase()
@@ -113,8 +130,17 @@ function isCloseSymptom(word) {
   return false;
 }
 function hasMedicalSignal(text, minMatches = 2) {
+  const lower = text.toLowerCase();
+
+  // Phrase-level match first (huge win)
+  for (const p of MEDICAL_PHRASES) {
+    if (lower.includes(p)) return true;
+  }
+
+  // Then fallback to word-level logic
   const words = tokenize(text);
   let matches = 0;
+
   for (const w of words) {
     if (
       MEDICAL_SETS.symptoms.has(w) ||
@@ -129,6 +155,7 @@ function hasMedicalSignal(text, minMatches = 2) {
   }
   return false;
 }
+
 function hasSymptomStructure(text) {
   let flags = { symptom: false, body: false, duration: false, severity: false };
   for (const w of tokenize(text)) {
