@@ -25,6 +25,7 @@ import ur from "./locales/urdu.json";
 
 
 i18n.use(initReactI18next).init({
+    initImmediate: false,
     resources: {
         
         as: { translation: as },

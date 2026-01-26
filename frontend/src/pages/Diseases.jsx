@@ -2,6 +2,9 @@ import { useState, useMemo, useEffect } from "react";
 import { BookOpen, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
+import SkeletonDiseases from "@/components/skeletons/SkeletonDiseases";
+
 
 /* ---------------- Category order ---------------- */
 const CATEGORY_ORDER = [
@@ -20,7 +23,7 @@ const CATEGORY_ORDER = [
 ];
 
 export default function Diseases() {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
 
   const [showTop, setShowTop] = useState(false);
   const [showBottom, setShowBottom] = useState(false);
@@ -89,11 +92,27 @@ export default function Diseases() {
     );
   }, [diseases, activeCategory, search]);
 
+  if (!ready) return <SkeletonDiseases />;
+
+  const grid = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.06 } },
+  };
+
+  const card = {
+    hidden: { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0 },
+  };
+
+
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
     // DARK MODE: Main background slate-950/900
-    <main
-      className="min-h-screen pt-10 pb-32 transition-colors duration-300
+    <motion.main
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="min-h-screen pt-24 pb-32 transition-colors duration-300
       bg-gradient-to-b from-slate-50 to-white 
       dark:from-slate-950 dark:to-slate-900"
     >
@@ -130,7 +149,12 @@ export default function Diseases() {
         </div>
 
         {/* Categories */}
-        <div className="mt-8">
+        <div
+          initial={{ x: -80, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mt-8"
+        >
           <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-3 sm:overflow-visible">
             {CATEGORY_ORDER.map((key) => {
               const count =
@@ -205,10 +229,17 @@ export default function Diseases() {
         )}
 
         {/* Disease Cards */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
+        <motion.div
+          variants={grid}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
+        >
           {filteredDiseases.map((d) => (
-            <div
+            <motion.div
               key={d.id}
+              variants={card}
               className="group rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col transition-all duration-300
                 bg-white border-gray-200
                 dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-blue-400 dark:hover:shadow-gray-700"
@@ -246,9 +277,9 @@ export default function Diseases() {
                   →
                 </span>
               </Link>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
       {/* Mobile Scroll Helpers */}
       <div className="sm:hidden pointer-events-none">
@@ -308,6 +339,6 @@ export default function Diseases() {
           </div>
         )}
       </div>
-    </main>
+    </motion.main>
   );
 }

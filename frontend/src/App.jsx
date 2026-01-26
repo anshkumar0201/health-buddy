@@ -45,38 +45,41 @@ export default function App() {
     }, [i18n.language]);
 
     return (
-        <BrowserRouter>
-            <ScrollToTop/>
-            {/* App shell */}
-            <div className="min-h-screen pb-16 sm:pb-0">
-                <Navbar/>
+      <BrowserRouter>
+        <ScrollToTop />
+        {/* App shell */}
+        <div className="min-h-screen pb-16 sm:pb-0 overflow-visible">
+          <Navbar />
 
-                {/* Lazy-loaded routes */}
-                <Suspense fallback={<PageLoader/>}>
-                    <ErrorBoundary>
-                        <Routes>
-                            <Route path="/" element={<HomePage/>}/>
-                            <Route path="/symptom-analyzer" element={<SymptomAnalyzer/>}/>
-                            <Route path="/symptom-checker" element={<SymptomChecker/>}/>
-                            <Route path="/diseases" element={<Diseases/>}/>
-                            <Route path="/diseases/:name" element={<DiseaseDetails/>}/>
-                            <Route path="/prevention" element={<Prevention/>}/>
-                            <Route path="/clinics" element={<FindClinics/>}/>
-                            <Route path="/emergency" element={<Emergency/>}/>
-                            <Route path="/emergency/:slug" element={<EmergencyDetail/>}/>
-                            <Route path="/assessment/:disease" element={<Assessment/>}/>
-                            <Route path="/assessment-result" element={<AssessmentResult/>}/>
-                        </Routes>
-                    </ErrorBoundary>
-                </Suspense>
+          {/* Lazy-loaded routes */}
+          <Suspense fallback={<PageLoader />}>
+            <ErrorBoundary>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/symptom-analyzer" element={<SymptomAnalyzer />} />
+                <Route path="/symptom-checker" element={<SymptomChecker />} />
+                <Route path="/diseases" element={<Diseases />} />
+                <Route path="/diseases/:name" element={<DiseaseDetails />} />
+                <Route path="/prevention" element={<Prevention />} />
+                <Route path="/clinics" element={<FindClinics />} />
+                <Route path="/emergency" element={<Emergency />} />
+                <Route path="/emergency/:slug" element={<EmergencyDetail />} />
+                <Route path="/assessment/:disease" element={<Assessment />} />
+                <Route
+                  path="/assessment-result"
+                  element={<AssessmentResult />}
+                />
+              </Routes>
+            </ErrorBoundary>
+          </Suspense>
 
-                {/* Desktop emergency bar */}
-                <div className="hidden sm:block">
-                    <EmergencyBar/>
-                </div>
-                {/* Mobile navigation */}
-                <MobileTabBar/>
-            </div>
-        </BrowserRouter>
+          {/* Desktop emergency bar */}
+          <div className="hidden sm:block">
+            <EmergencyBar />
+          </div>
+          {/* Mobile navigation */}
+          <MobileTabBar />
+        </div>
+      </BrowserRouter>
     );
 }

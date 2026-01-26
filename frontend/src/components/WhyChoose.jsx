@@ -1,12 +1,15 @@
 import { CheckCircle } from "lucide-react";
 import whychoose from "../assets/whychoose.jpeg";
 import { useTranslation } from "react-i18next";
+import SkeletonWhyChoose from "./skeletons/SkeletonWhyChoose";
 
 export default function WhyChoose() {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
 
   // Fetch points array from JSON
   const points = t("WhyChoose.points", { returnObjects: true });
+
+  if (!ready) return <SkeletonWhyChoose />;
 
   return (
     // DARK MODE: Switches to slate-900 to alternate with other sections

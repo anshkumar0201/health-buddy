@@ -108,44 +108,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [desktopLangOpen]);
 
-  // Mobile outside click only
-  // useEffect(() => {
-  //   function handleMobileClickOutside(e) {
-  //     if (
-  //       mobileLangOpen &&
-  //       mobileButtonRef.current &&
-  //       mobileDropdownRef.current &&
-  //       !mobileDropdownRef.current.contains(e.target) &&
-  //       !mobileButtonRef.current.contains(e.target)
-  //     ) {
-  //       setMobileLangOpen(false);
-  //     }
-  //   }
-
-  //   document.addEventListener("mousedown", handleMobileClickOutside);
-  //   return () =>
-  //     document.removeEventListener("mousedown", handleMobileClickOutside);
-  // }, [mobileLangOpen]);
-
-  // //Mobile Outside only
-  // useEffect(() => {
-  //   function handleEmergencyClickOutside(e) {
-  //     if (
-  //       mobileEmergencyOpen &&
-  //       mobileEmergencyBtnRef.current &&
-  //       mobileEmergencyRef.current &&
-  //       !mobileEmergencyRef.current.contains(e.target) &&
-  //       !mobileEmergencyBtnRef.current.contains(e.target)
-  //     ) {
-  //       setMobileEmergencyOpen(false);
-  //     }
-  //   }
-
-  //   document.addEventListener("mousedown", handleEmergencyClickOutside);
-  //   return () =>
-  //     document.removeEventListener("mousedown", handleEmergencyClickOutside);
-  // }, [mobileEmergencyOpen]);
-
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "Escape") setDesktopLangOpen(false);
@@ -157,8 +119,11 @@ export default function Navbar() {
 
   return (
     <header
+      role="banner" // ✅ accessibility landmark
+      aria-label="Main navigation"
+      data-testid="navbar"
       className={`
-    sticky top-0 z-50 h-16
+    fixed top-0 left-0 right-0 z-50 h-16
     print-hide
 
     /* Desktop stays same */
@@ -182,6 +147,8 @@ export default function Navbar() {
         <Link
           to="/"
           replace
+          aria-label="App Logo. Go to home page" // ✅ screen reader clarity
+          data-testid="navbar-logo"
           onClick={() => requestAnimationFrame(() => window.scrollTo(0, 0))}
           className="flex items-center gap-2 shrink-0"
         >
@@ -190,6 +157,7 @@ export default function Navbar() {
             style={{
               background: "linear-gradient(135deg, #4F8CFF, #34D399)",
             }}
+            aria-hidden="true" // ✅ decorative
           >
             <svg
               width="30"
@@ -200,12 +168,13 @@ export default function Navbar() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              aria-hidden="true" // ✅ decorative
             >
               <path d="M20.8 4.6c-1.9-1.7-4.9-1.4-6.6.6L12 7.4l-2.2-2.2c-1.7-2-4.7-2.3-6.6-.6-2.1 1.9-2.2 5.1-.3 7.1l8.1 8.1 8.1-8.1c1.9-2 1.8-5.2-.3-7.1z" />
             </svg>
           </div>
 
-          <div className="flex flex-col leading-tight">
+          <div className="flex flex-col leading-tight" aria-hidden="true">
             <span className="text-xl sm:text-2xl font-bold">Qura</span>
             <span className="text-[10px] sm:text-sm">
               Your Health Companion
@@ -216,7 +185,12 @@ export default function Navbar() {
         <div className="flex-1 lg:hidden" />
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex">
+        <nav
+          role="navigation" // ✅ explicit nav landmark
+          aria-label="Primary"
+          data-testid="navbar-desktop"
+          className="hidden lg:flex"
+        >
           <div className="flex items-center gap-2">
             {memoNavItems.map((item) => {
               const Icon = item.icon;
@@ -259,10 +233,12 @@ export default function Navbar() {
                 <Link
                   key={item.key}
                   to={item.path}
+                  data-testid={`nav-link-${item.key}`}
+                  aria-current={isActive ? "page" : undefined} // ✅ active page for SR
                   className={`${baseClasses} ${itemClasses}`}
                 >
-                  <Icon size={16} className="shrink-0" />
-                  {t(item.key)}
+                  <Icon size={16} aria-hidden="true" className="shrink-0" />
+                  <span>{t(item.key)}</span>
                 </Link>
               );
             })}
@@ -296,12 +272,16 @@ export default function Navbar() {
                 "Language"}
               <ChevronDown
                 size={14}
+                aria-hidden="true" // ✅ decorative
                 className={`transition-transform duration-300 ${desktopLangOpen ? "rotate-180" : ""}`}
               />
             </button>
 
             {desktopLangOpen && (
               <div
+                role="menu" // ✅ screen reader menu
+                aria-label="Language options"
+                data-testid="language-menu"
                 ref={dropdownRef}
                 className={`
                   absolute right-0 mt-2 w-44
@@ -320,6 +300,9 @@ export default function Navbar() {
                   {memoLanguages.map((lang) => (
                     <button
                       key={lang.code}
+                      role="menuitem"
+                      aria-label={lang.label} // ✅ selection state
+                      data-testid={`language-${lang.code}`}
                       onClick={() => changeLanguage(lang.code)}
                       className={`
                         w-full text-left
@@ -351,7 +334,8 @@ export default function Navbar() {
           {
             <button
               onClick={toggleTheme} // 4. CALL THE CONTEXT FUNCTION
-              aria-label="Toggle dark mode"
+              aria-label="Toggle dark mode" // ✅ required for icon button
+              data-testid="theme-toggle"
               className={`
                 relative w-10 h-10 cursor-pointer
                 flex items-center justify-center
