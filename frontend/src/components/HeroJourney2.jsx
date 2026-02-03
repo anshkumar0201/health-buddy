@@ -22,43 +22,45 @@ export default function HeroJourney() {
       role="banner"
       aria-labelledby="hero-heading"
       data-testid="hero-section"
-      className="
-        relative w-full overflow-hidden isolate
-        /* FLUID HEIGHT: Grows with content, ensures nothing gets cut off */
-        min-h-[auto] lg:min-h-[85svh]
-        flex flex-col justify-center
-      "
+      className="relative w-full overflow-hidden isolate
+        /* Mobile: Let height adapt to content */
+        min-h-auto 
+        /* Desktop: Full viewport height, BUT with bottom padding safety */
+        lg:min-h-[100svh]
+        /* Layout: Vertical column */
+        flex flex-col"
     >
       {/* TRANSFORMED VISUAL LAYER ONLY */}
       <motion.div
-        style={{
-          y: shouldReduceMotion ? 0 : y,
-          scale: shouldReduceMotion ? 1 : scale,
-        }}
+        style={{ y, scale }}
         aria-hidden="true"
         data-testid="hero-visual-layer"
-        className="absolute inset-0 -z-10"
+        className="absolute inset-0"
       >
         {/* LIVING BACKDROP */}
-        <div className="absolute inset-0" aria-hidden="true">
+        <div className="absolute inset-0 -z-10" aria-hidden="true">
           <motion.div
             animate={!shouldReduceMotion ? { rotate: 360 } : undefined}
             transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-            data-testid="hero-gradient-1"
             className="absolute w-[800px] h-[800px] lg:w-[1200px] lg:h-[1200px]
-                       bg-gradient-to-r from-blue-500/30 via-cyan-400/30 to-emerald-400/30
+                       bg-gradient-to-r from-blue-500/40
+                       via-cyan-400/40 to-emerald-400/40
                        blur-[100px] lg:blur-[140px] rounded-full
+                       will-change-transform
                        top-[-400px] left-[-200px] lg:top-[-500px] lg:left-[-400px]"
+            data-testid="hero-gradient-1"
           />
 
           <motion.div
             animate={!shouldReduceMotion ? { rotate: -360 } : undefined}
             transition={{ duration: 160, repeat: Infinity, ease: "linear" }}
-            data-testid="hero-gradient-2"
             className="absolute w-[600px] h-[600px] lg:w-[1000px] lg:h-[1000px]
-                       bg-gradient-to-r from-indigo-500/20 via-fuchsia-400/20 to-pink-400/20
+                       bg-gradient-to-r from-indigo-500/30
+                       via-fuchsia-400/30 to-pink-400/30
                        blur-[120px] lg:blur-[160px] rounded-full
+                       will-change-transform
                        bottom-[-200px] right-[-100px] lg:bottom-[-400px] lg:right-[-300px]"
+            data-testid="hero-gradient-2"
           />
 
           <div
@@ -81,33 +83,39 @@ export default function HeroJourney() {
           data-testid="hero-image"
           className="absolute top-0 right-0 h-full w-full object-cover
                      object-[70%_50%] sm:object-[50%_50%]
-                     pointer-events-none select-none opacity-90"
+                     pointer-events-none select-none"
         />
       </motion.div>
 
       {/* STATIC CONTENT LAYER */}
       <div
         className="
-          relative z-10 w-full max-w-7xl mx-auto 
-          px-4 sm:px-6 lg:px-8 
-          text-center text-gray-100
+          relative z-10 w-full max-w-5xl mx-auto 
+          px-6 text-center text-gray-200
           
-          /* FLUID PADDING:
-             - pt-32: Clears the navbar on mobile.
-             - lg:pt-20: Centers nicely on desktop.
-             - pb-20: Ensures content never touches the bottom edge (or stats cards).
-          */
-          pt-24 pb-16 lg:pt-20 lg:pb-20
+          /* FLEX CENTERING LOGIC */
+          flex-1 flex flex-col justify-center
+
+          /* Mobile: Standard padding */
+          pt-24 pb-16
+          
+          /* Desktop (THE FIX): 
+             Remove top padding so flex-center works, 
+             BUT add huge bottom padding (pb-40).
+             This effectively lifts the 'visual center' upwards, 
+             leaving room for Stats cards at the bottom. */
+          lg:pt-10 lg:pb-40
         "
+        data-testid="hero-content"
       >
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.8 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
           data-testid="hero-badge"
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full 
-                     bg-white/10 backdrop-blur-md border border-white/20
-                     text-xs sm:text-sm font-medium mb-8 shadow-lg mx-auto"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full font-semibold
+                       bg-white/20 backdrop-blur-sm border border-gray-300
+                       text-xs sm:text-sm mb-6 shadow-sm mx-auto"
         >
           ✨ {t("HeroJourney.badge")}
         </motion.div>
@@ -118,13 +126,11 @@ export default function HeroJourney() {
           initial={{ opacity: 0, y: 60, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl 
-            font-bold leading-[1.1] tracking-tight
-            drop-shadow-sm"
+          className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight"
         >
           {t("HeroJourney.headingLine1")}
           <span
-            className="block text-emerald-400 mt-2 filter drop-shadow-lg"
+            className="block text-green-500 mt-2"
             data-testid="hero-heading-highlight"
           >
             {t("HeroJourney.headingLine2")}
@@ -136,7 +142,7 @@ export default function HeroJourney() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-200 font-medium leading-relaxed"
+          className="mt-6 max-w-3xl mx-auto text-base sm:text-lg font-medium text-gray-100"
         >
           {t("HeroJourney.description")}
         </motion.p>
@@ -153,31 +159,31 @@ export default function HeroJourney() {
           className="mt-10 flex justify-center"
           data-testid="hero-cta-container"
         >
-          <button
+          <motion.button
             type="button"
             aria-label={t("HeroJourney.ctaAria", "Open symptom checker")}
             data-testid="hero-cta-button"
-            // whileHover={{
-            //   y: -6,
-            //   scale: 1.08,
-            //   boxShadow: "0 30px 60px rgba(37,99,235,0.4)",
-            // }}
-            // whileTap={{ scale: 0.92 }}
+            whileHover={{
+              y: -6,
+              scale: 1.08,
+              boxShadow: "0 30px 60px rgba(37,99,235,0.4)",
+            }}
+            whileTap={{ scale: 0.92 }}
             onClick={() => navigate("/symptom-checker")}
             className="
-              group relative inline-flex items-center gap-3
-              px-8 py-4 rounded-2xl
-              bg-white text-blue-600 
-              font-bold text-lg
-              shadow-xl shadow-blue-900/20 cursor-pointer
-              hover:shadow-2xl hover:bg-emerald-300 hover:text-gray-700 hover:scale-[1.02]
-              active:scale-[0.98]
-              transition-all duration-300
+              inline-flex items-center gap-2
+              bg-white text-blue-600 border border-gray-400
+              px-7 py-3 rounded-xl font-bold cursor-pointer hover:bg-green-500 hover:text-white
+              shadow-2xl transition-colors duration-300
             "
           >
-            <Activity className="w-6 h-6 transition-transform group-hover:rotate-12" />
+            <Activity
+              className="w-5 h-5"
+              aria-hidden="true"
+              data-testid="hero-cta-icon"
+            />
             <span data-testid="hero-cta-text">{t("HeroJourney.cta")}</span>
-          </button>
+          </motion.button>
         </motion.div>
       </div>
 

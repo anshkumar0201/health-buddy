@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+// 1. IMPORT THE HOOK
 import { useTheme } from "../context/ThemeContext";
 import {
   Home,
@@ -33,9 +34,26 @@ const emergencyNumbers = [
 ];
 
 const languages = [
+  // { code: "as", label: "অসমীয়া" },
+  // { code: "bn", label: "বাংলা" },
+  // { code: "dg", label: "डोगरी" },
   { code: "en", label: "English" },
+  // { code: "gu", label: "ગુજરાતી" },
   { code: "hi", label: "हिन्दी" },
+  // { code: "kc", label: "કચ્છી" },
+  // { code: "kn", label: "ಕನ್ನಡ" },
+  // { code: "ka", label: "کٲشُر" },
+  // { code: "ko", label: "कोंकणी" },
+  // { code: "mt", label: "मैथिली" },
+  // { code: "mr", label: "मराठी" },
+  // { code: "ne", label: "नेपाली" },
   { code: "or", label: "ଓଡ଼ିଆ" },
+  // { code: "pa", label: "ਪੰਜਾਬੀ" },
+  // { code: "sa", label: "संस्कृतम्" },
+  // { code: "sd", label: "सिंधी" },
+  // { code: "ta", label: "தமிழ்" },
+  // { code: "te", label: "తెలుగు" },
+  // { code: "ur", label: "اردو" },
 ];
 
 export default function Navbar() {
@@ -44,14 +62,11 @@ export default function Navbar() {
   const memoNavItems = useMemo(() => navItems, []);
   const memoLanguages = useMemo(() => languages, []);
   const memoEmergencyNumbers = useMemo(() => emergencyNumbers, []);
-
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const { theme, toggleTheme } = useTheme();
-
   const isDark = theme === "dark";
   const showDarkUI = isDark;
-
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
   const mobileDropdownRef = useRef(null);
@@ -67,11 +82,12 @@ export default function Navbar() {
     setMobileLangOpen(false);
   };
 
+  //Desktop outside click only
   useEffect(() => {
     function handleClickOutside(e) {
       if (
         desktopLangOpen &&
-        buttonRef.current &&
+        buttonRef.current && // desktop button only
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target) &&
         !buttonRef.current.contains(e.target)
@@ -79,6 +95,7 @@ export default function Navbar() {
         setDesktopLangOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [desktopLangOpen]);
@@ -87,81 +104,84 @@ export default function Navbar() {
     function handleKeyDown(e) {
       if (e.key === "Escape") setDesktopLangOpen(false);
     }
+
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   return (
     <header
-      role="banner"
+      role="banner" // ✅ accessibility landmark
+      aria-label="Main navigation"
       data-testid="navbar"
       className={`
-        fixed top-0 left-0 right-0 z-50 h-16
-        print-hide transition-all duration-300
-        /* Glassmorphism for Desktop */
+    fixed top-0 left-0 right-0 z-50 h-16
+    print-hide transition-all duration-300
+/* Glassmorphism */
         lg:backdrop-blur-sm
-        ${
-          showDarkUI
-            ? "lg:bg-slate-900/80 lg:border-b lg:border-white/10 lg:shadow-lg bg-[#121418] border-b border-white/5"
-            : "lg:bg-white/80 lg:border-b lg:border-white/30 lg:shadow-lg bg-[#f8fafc] border-b border-black/5"
-        }
-      `}
+    ${
+      showDarkUI
+        ? "lg:bg-slate-900/80 lg:border-b lg:border-white/10 lg:shadow-lg bg-[#121418] border-b border-white/5"
+        : "lg:bg-white/80 lg:border-b lg:border-white/30 lg:shadow-lg bg-[#f8fafc] border-b border-black/5"
+    }
+
+    /* Mobile M3 */
+    ${
+      showDarkUI
+        ? "bg-[#121418] border-b border-white/5 shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
+        : "bg-[#f8fafc] border-b border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.08)]"
+    }
+  `}
     >
-      {/* FLUID CONTAINER 
-          - gap-4: ensures elements never touch.
-          - justify-between: pushes Logo Left, Nav Center, Controls Right.
-      */}
-      <div className="w-full h-full px-4 lg:px-6 flex items-center justify-between gap-4">
-        {/* --- LEFT: LOGO --- 
-            shrink-0: Ensures logo NEVER shrinks, even on extreme zoom.
-        */}
+      <div className="w-full h-full max-w-[1920px] mx-auto px-4 flex items-center justify-between gap-4">
+        {/* Logo */}
         <Link
           to="/"
           replace
-          aria-label="App Logo"
-          className="flex items-center gap-2 shrink-0 select-none"
+          aria-label="App Logo. Go to home page" // ✅ screen reader clarity
+          data-testid="navbar-logo"
           onClick={() => requestAnimationFrame(() => window.scrollTo(0, 0))}
+          className="flex items-center gap-2 shrink-0"
         >
           <div
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-md"
-            style={{ background: "linear-gradient(135deg, #4F8CFF, #34D399)" }}
+            className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, #4F8CFF, #34D399)",
+            }}
+            aria-hidden="true" // ✅ decorative
           >
             <svg
-              width="24"
-              height="24"
+              width="30"
+              height="30"
               viewBox="0 0 24 24"
               fill="none"
               stroke="white"
-              strokeWidth="2.5"
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              aria-hidden="true" // ✅ decorative
             >
               <path d="M20.8 4.6c-1.9-1.7-4.9-1.4-6.6.6L12 7.4l-2.2-2.2c-1.7-2-4.7-2.3-6.6-.6-2.1 1.9-2.2 5.1-.3 7.1l8.1 8.1 8.1-8.1c1.9-2 1.8-5.2-.3-7.1z" />
             </svg>
           </div>
-          <div className="flex flex-col leading-tight">
-            {/* Text size automatically adjusts or hides on very small mobile screens via CSS if needed, but here we keep it simple */}
-            <span
-              className={`text-xl font-bold tracking-tight ${showDarkUI ? "text-white" : "text-slate-800"}`}
-            >
-              Rurivia.AI
-            </span>
-            <span
-              className={`text-[10px] font-semibold hidden sm:block ${showDarkUI ? "text-slate-200" : "text-slate-800"}`}
-            >
-              Health Companion
+
+          <div className="flex flex-col leading-tight" aria-hidden="true">
+            <span className="text-xl sm:text-2xl font-bold">Qura</span>
+            <span className="text-[10px] sm:text-sm">
+              Your Health Companion
             </span>
           </div>
         </Link>
 
-        {/* --- MOBILE SPACER --- */}
         <div className="flex-1 lg:hidden" />
 
-        {/* --- CENTER: DESKTOP NAV --- 
-            - flex-1: Takes available space.
-            - min-w-0: Critical! Allows the flex child to shrink below its content size if needed.
-        */}
-        <nav className="hidden lg:flex items-center justify-center flex-1 min-w-0 px-2">
+        {/* Desktop Navigation */}
+        <nav
+          role="navigation" // ✅ explicit nav landmark
+          aria-label="Primary"
+          data-testid="navbar-desktop"
+          className="hidden lg:flex items-center justify-center flex-1 px-4"
+        >
           <div className="flex items-center gap-1 xl:gap-2">
             {memoNavItems.map((item) => {
               const Icon = item.icon;
@@ -171,139 +191,177 @@ export default function Navbar() {
                   : location.pathname.startsWith(item.path);
 
               const baseClasses = `
-                flex items-center justify-center gap-2
-                h-10 px-3 rounded-lg
-                text-sm font-medium whitespace-nowrap
-                transition-all duration-200 ease-out
-                border border-transparent
+                flex items-center gap-2
+                h-10 lg:px-3 xl:px-4
+                rounded-lg
+                text-sm whitespace-nowrap
+                transition-all duration-300 ease-in-out
+                border
+                outline-none focus:outline-none
               `;
 
               let itemClasses = "";
+
               if (showDarkUI) {
-                // FIXED: Standard dark hover (slate-800) for items
-                itemClasses = isActive
-                  ? "bg-white/10 text-blue-300 border-white/5"
-                  : "text-slate-400 hover:bg-slate-800 hover:text-slate-200";
+                if (isActive) {
+                  itemClasses =
+                    "bg-white/15 text-blue-200 font-semibold border-white/10 shadow-sm";
+                } else {
+                  itemClasses =
+                    "text-gray-300 border-transparent hover:bg-white/10 hover:text-white font-medium";
+                }
               } else {
-                itemClasses = isActive
-                  ? "bg-blue-50 text-blue-600 border-blue-100"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900";
+                if (isActive) {
+                  itemClasses =
+                    "bg-blue-100 text-blue-600 font-semibold border-blue-100";
+                } else {
+                  itemClasses =
+                    "text-gray-600 border-transparent hover:bg-gray-200 font-medium";
+                }
               }
 
               return (
                 <Link
                   key={item.key}
                   to={item.path}
-                  title={t(item.key)} // Tooltip ensures usability when text is hidden
+                  data-testid={`nav-link-${item.key}`}
+                  aria-current={isActive ? "page" : undefined} // ✅ active page for SR
                   className={`${baseClasses} ${itemClasses}`}
                 >
-                  <Icon size={20} className="shrink-0" />
-
-                  {/* --- THE MAGIC FIX ---
-                      hidden xl:block:
-                      1. On Laptops/Tablets (lg): Text is HIDDEN (Icon Only).
-                      2. On Large Screens (xl): Text is SHOWN.
-                      3. On Zoom In: Browser width shrinks effectively -> Nav auto-switches to Icon Only mode.
-                  */}
-                  <span className="hidden xl:block max-w-[120px] truncate">
-                    {t(item.key)}
-                  </span>
+                  <Icon size={16} aria-hidden="true" className="shrink-0" />
+                  <span>{t(item.key)}</span>
                 </Link>
               );
             })}
           </div>
         </nav>
 
-        {/* --- RIGHT: CONTROLS --- 
-            shrink-0: Ensures these buttons never get crushed.
-        */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Desktop Language */}
+        {/* Right Side */}
+        <div className="flex items-center gap-3">
+          {/* Language Selector */}
           <div className="relative hidden sm:block">
             <button
               ref={buttonRef}
               onClick={() => setDesktopLangOpen((v) => !v)}
               className={`
                 flex items-center gap-2
-                h-9 px-3
+                h-10 px-4 cursor-pointer
                 text-sm font-medium
-                rounded-lg border
-                transition-all duration-200 cursor-pointer
+                rounded-lg shadow-md
+                transition-all duration-300
+                active:scale-[0.97]
                 ${
                   showDarkUI
-                    ? /* FIX: hover:bg-slate-700 is distinct and visible in dark mode. 
-                       Removed 'hover:bg-white' to prevent blinding contrast issues. */
-                      "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-500 hover:text-white"
-                    : "bg-white border-slate-200 text-slate-700 hover:bg-slate-200 hover:border-slate-300"
+                    ? "bg-white/10 border border-white/20 text-gray-100 hover:bg-white/20"
+                    : "bg-white border border-gray-400 hover:bg-gray-100 hover:shadow-lg"
                 }
               `}
+              aria-haspopup="listbox"
+              aria-expanded={desktopLangOpen}
             >
-              {/* Responsive Text: Hides label on smaller laptops, shows code */}
-              <span className="hidden xl:inline truncate max-w-[80px]">
-                {memoLanguages.find((l) => l.code === i18n.language)?.label ||
-                  "Lang"}
-              </span>
-              <span className="xl:hidden">{i18n.language.toUpperCase()}</span>
+              {memoLanguages.find((l) => l.code === i18n.language)?.label ||
+                "Language"}
               <ChevronDown
                 size={14}
+                aria-hidden="true" // ✅ decorative
                 className={`transition-transform duration-300 ${desktopLangOpen ? "rotate-180" : ""}`}
               />
             </button>
 
             {desktopLangOpen && (
               <div
+                role="menu" // ✅ screen reader menu
+                aria-label="Language options"
+                data-testid="language-menu"
                 ref={dropdownRef}
                 className={`
-                  absolute right-0 mt-2 w-40
-                  border rounded-xl shadow-xl z-50 overflow-hidden cursor-pointer
-                  ${showDarkUI ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}
+                  absolute right-0 mt-2 w-44
+                  border rounded-xl shadow-lg z-50 overflow-hidden backdrop-blur-xl
+                  transition-all duration-300
+                  ${showDarkUI ? "bg-slate-900/90 border-white/10" : "bg-white border-gray-200"}
                 `}
               >
-                {memoLanguages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => changeLanguage(lang.code)}
-                    className={`
-                      w-full text-left px-4 py-2 text-sm hover:opacity-80 cursor-pointer
-                      ${showDarkUI ? "text-slate-200 hover:bg-slate-600" : "text-slate-800 hover:bg-slate-200"}
-                    `}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
+                <div
+                  className={`
+                    max-h-80 overflow-y-auto pr-1
+                    scrollbar-thin scrollbar-track-transparent
+                    ${showDarkUI ? "scrollbar-thumb-gray-600" : "scrollbar-thumb-gray-300"}
+                  `}
+                >
+                  {memoLanguages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      role="menuitem"
+                      aria-label={lang.label} // ✅ selection state
+                      data-testid={`language-${lang.code}`}
+                      onClick={() => changeLanguage(lang.code)}
+                      className={`
+                        w-full text-left
+                        px-4 py-2 text-sm cursor-pointer
+                        transition-colors duration-200
+                        ${
+                          showDarkUI
+                            ? "text-gray-200 hover:bg-white/10 active:bg-white/20"
+                            : "hover:bg-blue-200 active:bg-blue-100"
+                        }
+                        ${
+                          lang.code === i18n.language
+                            ? showDarkUI
+                              ? "bg-white/15 text-white font-semibold"
+                              : "bg-blue-100 font-semibold"
+                            : ""
+                        }
+                      `}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className={`
-              relative w-9 h-9 hidden sm:flex
-              items-center justify-center
-              rounded-lg border cursor-pointer 
-              transition-colors
-              ${
-                showDarkUI
-                  ? "bg-slate-800 border-slate-700 text-indigo-500 hover:bg-blue-400 hover:text-indigo-300"
-                  : "bg-white border-slate-200 text-yellow-400 hover:text-slate-600 hover:bg-amber-100"
-              }
-            `}
-          >
-            <Sun
-              size={18}
-              className={`absolute transition-all ${showDarkUI ? "opacity-0 scale-50" : "opacity-100 scale-100"}`}
-            />
-            <Moon
-              size={18}
-              className={`absolute transition-all ${showDarkUI ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}
-            />
-          </button>
+          {/* Toggle Button */}
+          {
+            <button
+              onClick={toggleTheme} // 4. CALL THE CONTEXT FUNCTION
+              aria-label="Toggle dark mode" // ✅ required for icon button
+              data-testid="theme-toggle"
+              className={`
+                relative w-10 h-10 cursor-pointer
+                flex items-center justify-center
+                rounded-lg shadow-md
+                transition-all duration-300
+                active:scale-90
+                ${
+                  showDarkUI
+                    ? "bg-white/10 hover:bg-white/20 border border-white/20 text-white"
+                    : "bg-white hover:bg-gray-100 border border-gray-400"
+                }
+                hidden sm:flex
+              `}
+            >
+              <Sun
+                className={`
+                  absolute w-5 h-5 text-yellow-500
+                  transition-all duration-500 ease-in-out
+                  ${showDarkUI ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"}
+                `}
+              />
+              <Moon
+                className={`
+                  absolute w-5 h-5 text-white
+                  transition-all duration-500 ease-in-out
+                  ${showDarkUI ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"}
+                `}
+              />
+            </button>
+          }
 
           {/* ********************************************************************************* */}
 
-          {/* --- MOBILE DRAWER TOGGLE --- */}
-          <div className="lg:hidden flex items-center gap-3">
+          {/* Mobile Controls */}
+          <div className="lg:hidden flex items-center pr-3">
             {/* Right mobile group */}
             <div className="flex items-center gap-3 ml-auto">
               {/* Mobile Language */}

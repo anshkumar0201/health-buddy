@@ -1,12 +1,12 @@
 import { useState, useMemo, useEffect } from "react";
-import { Stethoscope, Search, Info } from "lucide-react";
+import { Activity, Search, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import SkeletonSymptomChecker from "@/components/skeletons/SkeletonSymptomChecker";
 
 export default function SymptomChecker() {
-  const { t, ready, i18n } = useTranslation();
+  const { t, ready } = useTranslation();
 
   const [showTop, setShowTop] = useState(false);
   const [showBottom, setShowBottom] = useState(false);
@@ -80,16 +80,9 @@ export default function SymptomChecker() {
   };
 
   const card = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, scale: 0.9, rotateX: -8 },
+    show: { opacity: 1, scale: 1, rotateX: 0 },
   };
-
-
-  const motionKey = useMemo(
-      () => `${activeCategory}-${search}-${i18n.language}`,
-      [activeCategory, search, i18n.language]
-  );
-
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b (valid Tailwind class)
@@ -99,7 +92,7 @@ export default function SymptomChecker() {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="min-h-screen pt-24 pb-32 transition-colors duration-300
-    bg-gradient-to-b from-slate-50 to-white
+    bg-gradient-to-b from-slate-50 to-white 
     dark:from-slate-950 dark:to-slate-900"
     >
       <motion.div
@@ -111,7 +104,7 @@ export default function SymptomChecker() {
         {/* Icon */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-emerald-400 flex items-center justify-center shadow-lg">
-            <Stethoscope className="w-8 h-8 text-white" />
+            <Activity className="w-8 h-8 text-white" />
           </div>
         </div>
 
@@ -127,7 +120,7 @@ export default function SymptomChecker() {
         {/* Notice - DARK MODE: Use semi-transparent blue background */}
         <motion.div
           className="mt-8 max-w-3xl mx-auto rounded-xl border px-5 py-4 flex gap-3 transition-colors duration-300
-          bg-blue-50 border-blue-200
+          bg-blue-50 border-blue-200 
           dark:bg-blue-900/30 dark:border-blue-800"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -169,7 +162,12 @@ export default function SymptomChecker() {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div
+          <motion.div
+            whileHover={{
+              y: -8,
+              scale: 1.03,
+              boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+            }}
             className="
               flex gap-2 overflow-x-auto pb-2
               -mx-4 px-4
@@ -178,15 +176,9 @@ export default function SymptomChecker() {
             "
           >
             {categories.map((cat) => (
-              <motion.button
+              <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                whileHover={{
-                  scale: 1.07,
-                  filter: "brightness(1.1)"
-                }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.15, ease: "easeOut" }}
                 title={t(`SymptomChecker.categories.${cat}`)} // full text on hover
                 className={`whitespace-nowrap shrink-0
       px-4 py-2 rounded-xl cursor-pointer
@@ -203,9 +195,9 @@ export default function SymptomChecker() {
                 <span className="truncate block w-full text-center">
                   {t(`SymptomChecker.categories.${cat}`)}
                 </span>
-              </motion.button>
+              </button>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Empty State */}
@@ -250,13 +242,13 @@ export default function SymptomChecker() {
 
         {/* Cards */}
         {filteredDiseases.length > 0 && (
-            <motion.div
-                key={motionKey}   // 🔥 forces correct re-render
-                className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-                variants={grid}
-                initial="hidden"
-                animate="show"
-            >
+          <motion.div
+            className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            variants={grid}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+          >
             {filteredDiseases.map((d) => (
               <motion.div
                 key={d.id}
@@ -271,8 +263,8 @@ export default function SymptomChecker() {
               >
                 <div>
                   <span
-                    className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-medium
-                  bg-black text-white
+                    className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-medium 
+                  bg-black text-white 
                   dark:bg-blue-600 dark:text-gray-300"
                   >
                     {t(`SymptomChecker.categories.${d.category}`)}
