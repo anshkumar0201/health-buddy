@@ -2,31 +2,31 @@ import { useState, useMemo, useEffect } from "react";
 import { Activity, Search, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
+import SkeletonSymptomChecker from "@/components/skeletons/SkeletonSymptomChecker";
 
 export default function SymptomChecker() {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
 
-const [showTop, setShowTop] = useState(false);
-const [showBottom, setShowBottom] = useState(false);
+  const [showTop, setShowTop] = useState(false);
+  const [showBottom, setShowBottom] = useState(false);
 
-useEffect(() => {
-  const onScroll = () => {
-    const y = window.scrollY;
-    const max = document.body.scrollHeight - window.innerHeight;
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      const max = document.body.scrollHeight - window.innerHeight;
 
-    const scrolledEnough = y > 1500;
-    const nearBottom = y > max - 80;
+      const scrolledEnough = y > 1500;
+      const nearBottom = y > max - 80;
 
-    setShowTop(scrolledEnough);
-    setShowBottom(scrolledEnough && !nearBottom);
-  };
+      setShowTop(scrolledEnough);
+      setShowBottom(scrolledEnough && !nearBottom);
+    };
 
-  window.addEventListener("scroll", onScroll);
-  onScroll();
-  return () => window.removeEventListener("scroll", onScroll);
-}, []);
-
-
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const categories = [
     "all",
@@ -70,15 +70,37 @@ useEffect(() => {
       d.name.toLowerCase().includes(search.toLowerCase()),
   );
 
+  if (!ready) return <SkeletonSymptomChecker />;
+
+  const grid = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.08 },
+    },
+  };
+
+  const card = {
+    hidden: { opacity: 0, scale: 0.9, rotateX: -8 },
+    show: { opacity: 1, scale: 1, rotateX: 0 },
+  };
+
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b (valid Tailwind class)
     // DARK MODE: Main background changes to dark slate
-    <main
-      className="min-h-screen pt-10 pb-32 transition-colors duration-300
-      bg-gradient-to-b from-slate-50 to-white 
-      dark:from-slate-950 dark:to-slate-900"
+    <motion.main
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="min-h-screen pt-24 pb-32 transition-colors duration-300
+    bg-gradient-to-b from-slate-50 to-white 
+    dark:from-slate-950 dark:to-slate-900"
     >
-      <div className="max-w-7xl mx-auto px-4">
+      <motion.div
+        className="max-w-7xl mx-auto px-4"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         {/* Icon */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-emerald-400 flex items-center justify-center shadow-lg">
@@ -96,10 +118,13 @@ useEffect(() => {
         </p>
 
         {/* Notice - DARK MODE: Use semi-transparent blue background */}
-        <div
+        <motion.div
           className="mt-8 max-w-3xl mx-auto rounded-xl border px-5 py-4 flex gap-3 transition-colors duration-300
           bg-blue-50 border-blue-200 
           dark:bg-blue-900/30 dark:border-blue-800"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 120, damping: 14 }}
         >
           <Info className="w-5 h-5 mt-0.5 shrink-0 text-blue-600 dark:text-blue-300" />
           <p className="text-sm leading-relaxed text-blue-800 dark:text-blue-200">
@@ -108,10 +133,15 @@ useEffect(() => {
             </span>
             {t("SymptomChecker.notice.description")}
           </p>
-        </div>
+        </motion.div>
 
         {/* Search */}
-        <div className="mt-8 max-w-3xl mx-auto">
+        <motion.div
+          className="mt-8 max-w-3xl mx-auto"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 120, damping: 14 }}
+        >
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -123,11 +153,21 @@ useEffect(() => {
                 dark:bg-[#1e293b] dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Categories */}
-        <div className="mt-8">
-          <div
+        <motion.div
+          className="mt-8"
+          initial={{ x: -60, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <motion.div
+            whileHover={{
+              y: -8,
+              scale: 1.03,
+              boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+            }}
             className="
               flex gap-2 overflow-x-auto pb-2
               -mx-4 px-4
@@ -157,8 +197,8 @@ useEffect(() => {
                 </span>
               </button>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Empty State */}
         {filteredDiseases.length === 0 && (
@@ -202,10 +242,17 @@ useEffect(() => {
 
         {/* Cards */}
         {filteredDiseases.length > 0 && (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            variants={grid}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+          >
             {filteredDiseases.map((d) => (
-              <div
+              <motion.div
                 key={d.id}
+                variants={card}
                 className="group rounded-2xl border p-6
                 shadow-sm
                 transition-all duration-300 ease-out
@@ -243,11 +290,11 @@ useEffect(() => {
                 >
                   {t("SymptomChecker.startAssessment")} →
                 </Link>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
 
       {/* Mobile Scroll Helpers */}
       <div className="sm:hidden pointer-events-none">
@@ -275,7 +322,12 @@ useEffect(() => {
         )}
 
         {showBottom && (
-          <div className="fixed bottom-[5.2rem] left-1/2 -translate-x-1/2 z-40">
+          <div
+            className="fixed left-1/2 -translate-x-1/2 z-40"
+            style={{
+              bottom: "calc(max(env(safe-area-inset-bottom), 1px) + 4.3rem)",
+            }}
+          >
             <button
               onClick={() =>
                 window.scrollTo({
@@ -287,7 +339,7 @@ useEffect(() => {
           pointer-events-auto
           w-10 h-10 rounded-full font-bold
           flex items-center justify-center
-          backdrop-blur-md
+          backdrop-blur-md mb-1
           bg-white/25 dark:bg-black/25
           border border-white/20 dark:border-gray-700/40
           shadow-sm
@@ -302,6 +354,6 @@ useEffect(() => {
           </div>
         )}
       </div>
-    </main>
+    </motion.main>
   );
 }

@@ -1,8 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ArrowLeft, AlertTriangle, Phone } from "lucide-react";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
+import SkeletonEmergencyDetail from "@/components/skeletons/SkeletonEmergencyDetail";
+
 
 /* ---------- Icons ---------- */
 
@@ -27,15 +30,22 @@ function AlertIcon({ className = "" }) {
 export default function EmergencyDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
 
-  const cards = t("Emergency.cards", { returnObjects: true }) || [];
-  const card = cards.find((c) => c.id === slug);
+  const cards = useMemo(
+    () => t("Emergency.cards", { returnObjects: true }) || [],
+    [t],
+  );
+  const card = useMemo(() => cards.find((c) => c.id === slug), [cards, slug]);
 
-  const details = t(`EmergencyDetails.${slug}`, {
-    returnObjects: true,
-    defaultValue: null,
-  });
+  const details = useMemo(
+    () =>
+      t(`EmergencyDetails.${slug}`, {
+        returnObjects: true,
+        defaultValue: null,
+      }),
+    [t, slug],
+  );
 
   if (process.env.NODE_ENV === "development") {
     if (!details || !details.steps?.length) {
@@ -47,9 +57,14 @@ export default function EmergencyDetail() {
     window.scrollTo({ top: 0 });
   }, [slug]);
 
+  if (!ready) {
+    return <SkeletonEmergencyDetail />;
+  }
+
+
   if (!card || !details) {
     return (
-      <main className="min-h-screen bg-slate-50 pt-10 px-4 dark:bg-slate-900">
+      <main className="min-h-screen bg-slate-50 pt-24 px-4 dark:bg-slate-900">
         <div className="max-w-5xl mx-auto bg-white p-8 rounded-2xl shadow-lg text-center dark:bg-[#1e293b]">
           <AlertTriangle className="w-10 h-10 text-orange-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold mb-2 dark:text-white">
@@ -75,8 +90,11 @@ export default function EmergencyDetail() {
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
     // DARK MODE: Main background slate-950/900
-    <main
-      className="min-h-screen pt-10 pb-24 transition-colors duration-300
+    <motion.main
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="min-h-screen pt-24 pb-24 transition-colors duration-300
       bg-slate-50 
       dark:bg-slate-900"
     >
@@ -121,7 +139,10 @@ export default function EmergencyDetail() {
             </p>
 
             {/* Emergency Callout - DARK MODE: Transparent Red */}
-            <div
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: [1, 1.03, 1], opacity: 1 }}
+              transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2 }}
               className="flex gap-3 rounded-lg p-4 mb-6 border transition-colors duration-300
               bg-red-50 border-red-200 
               dark:bg-red-900/20 dark:border-red-900"
@@ -133,7 +154,7 @@ export default function EmergencyDetail() {
                 {t("EmergencyDetails.EmergencyUI.dial")} <strong>108</strong> /{" "}
                 <strong>112</strong>
               </p>
-            </div>
+            </motion.div>
 
             {/* About */}
             <Section title={t("EmergencyDetails.EmergencyUI.about")}>
@@ -148,15 +169,18 @@ export default function EmergencyDetail() {
 
             <ul className="space-y-3">
               {details.recognize?.map((item, i) => (
-                <li
+                <motion.li
                   key={i}
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: i * 0.08 }}
                   className="flex gap-3 border p-3 rounded-xl transition-colors duration-300
                     bg-orange-50 border-orange-100 
                     dark:bg-orange-900/20 dark:border-orange-900 dark:text-gray-200"
                 >
                   <AlertIcon />
                   <span>{item}</span>
-                </li>
+                </motion.li>
               ))}
             </ul>
 
@@ -176,31 +200,46 @@ export default function EmergencyDetail() {
 
               <ol className="space-y-3">
                 {details.steps?.map((step, i) => (
-                  <li
+                  <motion.li
                     key={i}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: i * 0.1 }}
                     className="flex gap-3 transition-colors duration-300 text-gray-900 dark:text-gray-200"
                   >
                     <div className="w-6 h-6 min-w-[1.5rem] min-h-[1.5rem] aspect-square rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold leading-none dark:bg-blue-500">
                       {i + 1}
                     </div>
                     <p>{step}</p>
-                  </li>
+                  </motion.li>
                 ))}
               </ol>
             </div>
 
             {/* DO / DON'T */}
             <div className="grid sm:grid-cols-2 gap-6 mt-8">
-              <Checklist
-                title={t("EmergencyDetails.EmergencyUI.do", "DO")}
-                items={details.dos}
-                type="do"
-              />
-              <Checklist
-                title={t("EmergencyDetails.EmergencyUI.dont", "DON'T")}
-                items={details.donts}
-                type="dont"
-              />
+              <motion.div
+                initial={{ x: -40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Checklist
+                  title={t("EmergencyDetails.EmergencyUI.do", "DO")}
+                  items={details.dos}
+                  type="do"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ x: -40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Checklist
+                  title={t("EmergencyDetails.EmergencyUI.dont", "DON'T")}
+                  items={details.donts}
+                  type="dont"
+                />
+              </motion.div>
             </div>
 
             {/* Helplines - DARK MODE: Transparent Red */}
@@ -216,8 +255,10 @@ export default function EmergencyDetail() {
 
               <div className="grid grid-cols-2 gap-4">
                 {["108", "104", "102", "112"].map((n) => (
-                  <a
+                  <motion.a
                     key={n}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.95 }}
                     href={`tel:${n}`}
                     className="rounded-2xl py-4 text-center font-extrabold transition active:scale-95
                       bg-red-600 text-white hover:bg-red-700
@@ -225,14 +266,14 @@ export default function EmergencyDetail() {
                   >
                     <Phone className="mx-auto mb-1" />
                     {n}
-                  </a>
+                  </motion.a>
                 ))}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }
 

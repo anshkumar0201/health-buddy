@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Shield,
@@ -10,6 +10,8 @@ import {
   Sun,
   CheckCircle,
 } from "lucide-react";
+import SkeletonPrevention from "@/components/skeletons/SkeletonPrevention";
+import { motion } from "framer-motion";
 
 const GENERAL_CARD_ICONS = {
   nutrition: <Apple />,
@@ -30,7 +32,7 @@ const GENERAL_CARD_COLORS = {
 };
 
 export default function Prevention() {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
   const [activeTab, setActiveTab] = useState("general");
 
   const [showTop, setShowTop] = useState(false);
@@ -53,15 +55,39 @@ export default function Prevention() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const diseaseCategories = useMemo(() => {
+    return t("Prevention.disease.categories", { returnObjects: true }) || {};
+  }, [t]);
 
-  const diseaseCategories =
-    t("Prevention.disease.categories", { returnObjects: true }) || {};
+  const generalCards = useMemo(() => {
+    return t("Prevention.generalCardsData", {
+      returnObjects: true,
+      defaultValue: {},
+    });
+  }, [t]);
+
+  if (!ready) return <SkeletonPrevention />;
+
+  const cascade = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.12 },
+    },
+  };
+
+  const reveal = {
+    hidden: { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0 },
+  };
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
     // DARK MODE: Main background slate-950/900
-    <main
-      className="min-h-screen pt-10 pb-32 transition-colors duration-300
+    <motion.main
+      initial={{ opacity: 0, filter: "blur(6px)" }}
+      animate={{ opacity: 1, filter: "blur(0px)" }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="min-h-screen pt-24 pb-32 transition-colors duration-300
       bg-gradient-to-b from-slate-50 to-white 
       dark:from-slate-950 dark:to-slate-900"
     >
@@ -81,80 +107,98 @@ export default function Prevention() {
         <p className="text-center mt-3 text-lg transition-colors duration-300 text-gray-600 dark:text-gray-300">
           {t("Prevention.subtitle")}
         </p>
-
-        {/* Tabs */}
-        <div className="mt-10 max-w-3xl mx-auto">
-          {/* Tab Container: Gray-200 (Light) -> Slate-800 (Dark) */}
-          <div className="relative rounded-xl p-1 flex overflow-hidden transition-colors duration-300 bg-gray-200 dark:bg-slate-800">
-            {/* Sliding Indicator: White (Light) -> Slate-600 (Dark) */}
-            <div
-              className="
+        <motion.div
+          initial={{ x: -40, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          {/* Tabs */}
+          <div className="mt-10 max-w-3xl mx-auto">
+            {/* Tab Container: Gray-200 (Light) -> Slate-800 (Dark) */}
+            <div className="relative rounded-xl p-1 flex overflow-hidden transition-colors duration-300 bg-gray-200 dark:bg-slate-800">
+              {/* Sliding Indicator: White (Light) -> Slate-600 (Dark) */}
+              <div
+                className="
                 absolute inset-y-1 left-1 w-[calc(50%-4px)]
                 rounded-lg shadow transition-all duration-300
                 bg-white dark:bg-slate-300
               "
-              style={{
-                transform:
-                  activeTab === "general"
-                    ? "translateX(0)"
-                    : "translateX(100%)",
-              }}
-            />
+                style={{
+                  transform:
+                    activeTab === "general"
+                      ? "translateX(0)"
+                      : "translateX(100%)",
+                }}
+              />
 
-            <button
-              onClick={() => setActiveTab("general")}
-              className={`relative z-10 w-1/2 py-3 text-sm font-medium cursor-pointer transition-colors duration-300
+              <button
+                onClick={() => setActiveTab("general")}
+                className={`relative z-10 w-1/2 py-3 text-sm font-medium cursor-pointer transition-colors duration-300
                 ${
                   activeTab === "general"
                     ? "text-gray-900 dark:text-black"
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-200"
                 }
               `}
-            >
-              {t("Prevention.tabs.general")}
-            </button>
+              >
+                {t("Prevention.tabs.general")}
+              </button>
 
-            <button
-              onClick={() => setActiveTab("disease")}
-              className={`relative z-10 w-1/2 py-3 text-sm font-medium cursor-pointer transition-colors duration-300
+              <button
+                onClick={() => setActiveTab("disease")}
+                className={`relative z-10 w-1/2 py-3 text-sm font-medium cursor-pointer transition-colors duration-300
                 ${
                   activeTab === "disease"
                     ? "text-gray-900 dark:text-black"
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-200"
                 }
               `}
-            >
-              {t("Prevention.tabs.disease")}
-            </button>
+              >
+                {t("Prevention.tabs.disease")}
+              </button>
+            </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Content */}
         <div className="mt-12">
           {activeTab === "general" && (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
+            <motion.div
+              variants={cascade}
+              initial="hidden"
+              animate="show"
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in"
+            >
               {Object.entries(
                 t("Prevention.generalCardsData", {
                   returnObjects: true,
                   defaultValue: {},
                 }),
               ).map(([key, card]) => (
-                <Card
-                  key={key}
-                  icon={GENERAL_CARD_ICONS[key]}
-                  title={card.title}
-                  color={GENERAL_CARD_COLORS[key]}
-                  tips={Array.isArray(card.tips) ? card.tips : []}
-                />
+                <motion.div variants={reveal}>
+                  <Card
+                    key={key}
+                    icon={GENERAL_CARD_ICONS[key]}
+                    title={card.title}
+                    color={GENERAL_CARD_COLORS[key]}
+                    tips={Array.isArray(card.tips) ? card.tips : []}
+                  />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
 
           {activeTab === "disease" && (
             <div className="animate-fade-in space-y-14">
               {Object.entries(diseaseCategories).map(
                 ([categoryKey, category]) => (
-                  <section key={categoryKey}>
+                  <motion.section
+                    initial={{ x: -60, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.7 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    key={categoryKey}
+                  >
                     <h2 className="text-xl font-bold mb-6 transition-colors duration-300 text-gray-900 dark:text-gray-300">
                       {category.title}
                     </h2>
@@ -226,7 +270,7 @@ export default function Prevention() {
                         ),
                       )}
                     </div>
-                  </section>
+                  </motion.section>
                 ),
               )}
             </div>
@@ -259,7 +303,12 @@ export default function Prevention() {
         )}
 
         {showBottom && (
-          <div className="fixed bottom-[5.2rem] left-1/2 -translate-x-1/2 z-40">
+          <div
+            className="fixed left-1/2 -translate-x-1/2 z-40"
+            style={{
+              bottom: "calc(max(env(safe-area-inset-bottom), 1px) + 4.3rem)",
+            }}
+          >
             <button
               onClick={() =>
                 window.scrollTo({
@@ -271,7 +320,7 @@ export default function Prevention() {
           pointer-events-auto
           w-10 h-10 rounded-full font-bold
           flex items-center justify-center
-          backdrop-blur-md
+          backdrop-blur-md mb-1
           bg-white/25 dark:bg-black/25
           border border-white/20 dark:border-gray-700/40
           shadow-sm
@@ -286,7 +335,7 @@ export default function Prevention() {
           </div>
         )}
       </div>
-    </main>
+    </motion.main>
   );
 }
 

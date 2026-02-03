@@ -1,10 +1,13 @@
 import { Heart, Activity } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import SkeletonCTASection from "./skeletons/SkeletionCTASection";
 
 export default function CTASection() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
+
+ if (!ready) return <SkeletonCTASection />;
 
   return (
     <section className="relative w-full overflow-hidden">

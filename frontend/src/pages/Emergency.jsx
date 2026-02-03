@@ -10,6 +10,10 @@ import {
   Brain,
   Wind,
 } from "lucide-react";
+import { useMemo } from "react";
+import { motion } from "framer-motion";
+import SkeletonEmergency from "@/components/skeletons/SkeletonEmergency";
+
 
 /* ---------- Icons ---------- */
 
@@ -30,18 +34,63 @@ const helplines = ["108", "104", "102", "112"];
 
 export default function Emergency() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
 
-  const emergencies = t("Emergency.cards", {
+const emergencies = useMemo(() => {
+  return t("Emergency.cards", {
     returnObjects: true,
     defaultValue: [],
   });
+}, [t]);
+  
+  if (!ready) return <SkeletonEmergency />;
+
+  const pageShock = {
+    hidden: { opacity: 0, scale: 0.96 },
+    show: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.4, ease: "easeOut" },
+    },
+  };
+
+  const helplinePulse = {
+    animate: {
+      scale: [1, 1.03, 1],
+      transition: {
+        duration: 1.2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const gridStagger = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.08 },
+    },
+  };
+
+  const sirenCard = {
+    hidden: { opacity: 0, y: 60, scale: 0.9 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
     // DARK MODE: Main background slate-950/900
-    <main
-      className="min-h-screen pt-10 pb-32 transition-colors duration-300
+    <motion.main
+      variants={pageShock}
+      initial="hidden"
+      animate="show"
+      className="min-h-screen pt-24 pb-32 transition-colors duration-300
       bg-gradient-to-b from-slate-50 to-white 
       dark:from-slate-950 dark:to-slate-900"
     >
@@ -73,7 +122,11 @@ export default function Emergency() {
             {t("Emergency.helplinesTitle")}
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <motion.div
+            variants={helplinePulse}
+            animate="animate"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+          >
             {helplines.map((number) => (
               <a
                 key={number}
@@ -90,19 +143,27 @@ export default function Emergency() {
                 </p>
               </a>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Emergency Cards */}
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={gridStagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {Array.isArray(emergencies) &&
             emergencies.map((e) => {
               const Icon = ICONS[e.icon] || AlertCircle;
 
               return (
-                <div
+                <motion.div
                   key={e.id}
+                  variants={sirenCard}
                   onClick={() => navigate(`/emergency/${e.id}`)}
+                  whileHover={{ scale: 1.04 }}
                   className="group rounded-2xl border
                            shadow-sm transition-all duration-300 cursor-pointer
                            hover:shadow-xl hover:-translate-y-1 overflow-hidden
@@ -151,11 +212,11 @@ export default function Emergency() {
                       {t("Emergency.viewGuide")}
                     </button>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-        </div>
+        </motion.div>
       </div>
-    </main>
+    </motion.main>
   );
 }
