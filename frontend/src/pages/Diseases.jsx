@@ -23,7 +23,7 @@ const CATEGORY_ORDER = [
 ];
 
 export default function Diseases() {
-  const { t, ready } = useTranslation();
+  const { t, ready, i18n } = useTranslation();
 
   const [showTop, setShowTop] = useState(false);
   const [showBottom, setShowBottom] = useState(false);
@@ -104,6 +104,10 @@ export default function Diseases() {
     show: { opacity: 1, y: 0 },
   };
 
+  const motionKey = useMemo(
+      () => `${activeCategory}-${search}-${i18n.language}`,
+      [activeCategory, search, i18n.language]
+  );
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
@@ -161,9 +165,15 @@ export default function Diseases() {
                 key === "all" ? diseases.length : categoryCounts[key] || 0;
 
               return (
-                <button
+                <motion.button
                   key={key}
                   onClick={() => setActiveCategory(key)}
+                  whileHover={{
+                    scale: 1.07,
+                    filter: "brightness(1.1)"
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
                   className={`px-4 py-2 rounded-xl text-sm font-medium cursor-pointer flex items-center gap-2 transition border 
                     ${
                       activeCategory === key
@@ -182,7 +192,7 @@ export default function Diseases() {
                   >
                     {count}
                   </span>
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -230,13 +240,14 @@ export default function Diseases() {
 
         {/* Disease Cards */}
         <motion.div
-          variants={grid}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
+            key={motionKey}   // 🔥 force remount on filters
+            variants={grid}
+            initial="hidden"
+            animate="show"
+            className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
         >
-          {filteredDiseases.map((d) => (
+
+        {filteredDiseases.map((d) => (
             <motion.div
               key={d.id}
               variants={card}

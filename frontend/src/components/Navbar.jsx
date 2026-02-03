@@ -144,7 +144,7 @@ export default function Navbar() {
             <span
               className={`text-xl font-bold tracking-tight ${showDarkUI ? "text-white" : "text-slate-800"}`}
             >
-              Qura
+              Rurivia.AI
             </span>
             <span
               className={`text-[10px] font-semibold hidden sm:block ${showDarkUI ? "text-slate-200" : "text-slate-800"}`}
