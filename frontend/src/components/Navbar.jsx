@@ -123,21 +123,15 @@ export default function Navbar() {
           onClick={() => requestAnimationFrame(() => window.scrollTo(0, 0))}
         >
           <div
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-md"
+            className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shadow-md"
             style={{ background: "linear-gradient(135deg, #4F8CFF, #34D399)" }}
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20.8 4.6c-1.9-1.7-4.9-1.4-6.6.6L12 7.4l-2.2-2.2c-1.7-2-4.7-2.3-6.6-.6-2.1 1.9-2.2 5.1-.3 7.1l8.1 8.1 8.1-8.1c1.9-2 1.8-5.2-.3-7.1z" />
-            </svg>
+            <img
+                src="/logo.png"
+                alt="Rurivia AI Logo"
+                className="w-full h-full object-contain "
+                draggable={false}
+            />
           </div>
           <div className="flex flex-col leading-tight">
             {/* Text size automatically adjusts or hides on very small mobile screens via CSS if needed, but here we keep it simple */}
