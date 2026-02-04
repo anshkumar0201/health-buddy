@@ -58,6 +58,7 @@ export default function HeroStats() {
            - lg:mt-10: On laptops+, adds the requested gap below the 'Start Assessment' button.
         */
         mt-10 lg:mt-50
+
       "
     >
       <div className="max-w-7xl mx-auto">
@@ -84,9 +85,9 @@ export default function HeroStats() {
                   p-4 sm:p-8 
                   rounded-2xl
                   bg-white dark:bg-[#1e2329]
-                  border border-gray-100 dark:border-gray-800
+                  border border-gray-200 dark:border-gray-800
                   shadow-xl shadow-gray-200/50 dark:shadow-black/40
-                  hover:-translate-y-1 hover:shadow-2xl hover:border-blue-200 dark:hover:border-gray-600
+                  hover:-translate-y-1 hover:shadow-2xl hover:border-blue-300 dark:hover:border-gray-600
                   transition-all duration-300
                 "
               >

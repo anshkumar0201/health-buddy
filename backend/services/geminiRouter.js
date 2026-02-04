@@ -1,4 +1,5 @@
 const { GoogleGenAI } = require("@google/genai");
+const { sanitize, restore, outputHasPII } = require("./piiVault");
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
@@ -21,6 +22,12 @@ function selectModel(prompt) {
 async function runGemini(prompt) {
     const model = selectModel(prompt);
     console.log(`🧠 Gemini Router → ${model}`);
+
+    /* 🔒 SANITIZE BEFORE MODEL */
+    const { clean, hasPII } = sanitize(prompt);
+    if (hasPII) {
+        console.log("🔐 PII detected & tokenized before Gemini");
+    }
 
     const response = await ai.models.generateContent({
         model,
@@ -57,7 +64,15 @@ async function runGemini(prompt) {
         throw new Error(`Gemini returned empty response (${model})`);
     }
 
-    return text;
+    /* 🔄 RESTORE AFTER MODEL */
+    const restored = restore(text);
+    /* 🚨 BLOCK MODEL IF IT TRIES TO OUTPUT REAL PII */
+    if (outputHasPII(restored)) {
+        console.error("❌ Gemini attempted to emit PII");
+        throw new Error("PII leak blocked");
+    }
+
+    return restored;
 }
 
 module.exports = { runGemini };
