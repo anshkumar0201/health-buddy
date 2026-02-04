@@ -14,10 +14,12 @@
   "type": "commonjs",
   "dependencies": {
     "@google/genai": "^1.37.0",
+    "@langchain/google-genai": "^2.1.15",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "langchain": "^1.2.17"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
