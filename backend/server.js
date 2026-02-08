@@ -15,11 +15,6 @@ app.use("/api/analyze-symptoms", analyzeRoutes);
 
 app.get("/", (req, res) => res.send("OK"));
 
-if (process.env.NODE_ENV !== "production") {
-    app.listen(PORT, () => {
-        console.log(`Server listening on http://localhost:${PORT}`);
-    });
-}
-else {
-    app.listen(PORT);
-}
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
