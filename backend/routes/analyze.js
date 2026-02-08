@@ -4,7 +4,7 @@ const {
 } = require("../services/geminiService");
 
 const router = express.Router();
-const medicalTerms = require("../../frontend/shared/medical/medical-terms.json");
+const medicalTerms = require("../shared/medical/medical-terms.json");
 
 /* ======================================================
    INPUT VALIDATION (STRICT INVALID BLOCK)
