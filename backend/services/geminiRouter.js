@@ -1,10 +1,6 @@
 const { GoogleGenAI } = require("@google/genai");
 const { sanitize, restore, outputHasPII } = require("./piiVault");
 
-const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-});
-
 const MODELS = {
     small: "gemini-2.5-flash-lite",
     medium: "gemini-2.5-flash",
@@ -17,6 +13,19 @@ function selectModel(prompt) {
     if (chars < 6000) return MODELS.small;
     if (chars < 20000) return MODELS.medium;
     return MODELS.large;
+}
+
+/* ======================================================
+   🔐 LAZY GEMINI CLIENT (CRITICAL FIX)
+   ====================================================== */
+function getGeminiClient() {
+    if (!process.env.GEMINI_API_KEY) {
+        throw new Error("GEMINI_API_KEY is not set");
+    }
+
+    return new GoogleGenAI({
+        apiKey: process.env.GEMINI_API_KEY,
+    });
 }
 
 async function runGemini(prompt) {
