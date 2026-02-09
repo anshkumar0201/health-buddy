@@ -15,6 +15,8 @@ function selectModel(prompt) {
     return MODELS.large;
 }
 
+let ai;
+
 /* ======================================================
    🔐 LAZY GEMINI CLIENT (CRITICAL FIX)
    ====================================================== */
@@ -22,15 +24,18 @@ function getGeminiClient() {
     if (!process.env.GEMINI_API_KEY) {
         throw new Error("GEMINI_API_KEY is not set");
     }
-
-    return new GoogleGenAI({
-        apiKey: process.env.GEMINI_API_KEY,
-    });
+    if (!ai) {
+        ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    }
+    return ai;
 }
 
 async function runGemini(prompt) {
     const model = selectModel(prompt);
     console.log(`🧠 Gemini Router → ${model}`);
+
+    /* ✅ INITIALIZE CLIENT */
+    const client = getGeminiClient();
 
     /* 🔒 SANITIZE BEFORE MODEL */
     const { clean, hasPII } = sanitize(prompt);
@@ -38,7 +43,7 @@ async function runGemini(prompt) {
         console.log("🔐 PII detected & tokenized before Gemini");
     }
 
-    const response = await ai.models.generateContent({
+    const response = await client.models.generateContent({
         model,
         generationConfig: {
             temperature: 0.4,
@@ -53,7 +58,7 @@ async function runGemini(prompt) {
             { category: "HARM_CATEGORY_MEDICAL", threshold: "BLOCK_NONE" }
         ],
         contents: [
-            { role: "user", parts: [{ text: prompt }] }
+            { role: "user", parts: [{ text: clean }] }
         ]
     });
 
