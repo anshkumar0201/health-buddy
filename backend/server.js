@@ -3,7 +3,12 @@ const express = require("express");
 const cors = require("cors");
 
 
-const analyzeRoutes = require("./routes/analyze");
+try {
+    analyzeRoutes = require("./routes/analyze");
+    console.log("✅ analyze routes loaded");
+} catch (err) {
+    console.error("❌ Failed to load analyze routes:", err);
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -11,7 +16,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/analyze-symptoms", analyzeRoutes);
+if (analyzeRoutes) {
+    app.use("/api/analyze-symptoms", analyzeRoutes);
+}
 
 app.get("/", (req, res) => res.send("OK"));
 
