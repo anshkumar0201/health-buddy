@@ -390,7 +390,7 @@ export default function Navbar() {
                   ref={mobileEmergencyBtnRef}
                   onClick={() => setMobileEmergencyOpen((v) => !v)}
                   onBlur={() => setMobileEmergencyOpen(false)}
-                  className="material-symbols-rounded text-xl text-red-600 mx-2"
+                  className="material-symbols-rounded text-xl text-red-600 mx-2 my-1.5"
                 >
                   phone
                 </button>
