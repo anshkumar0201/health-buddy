@@ -13,7 +13,16 @@ try {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+/* ✅ CORS — MUST be before routes */
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "https://your-frontend-domain.vercel.app",
+        ],
+        credentials: true,
+    })
+);
 app.use(express.json());
 
 if (analyzeRoutes) {
@@ -23,5 +32,5 @@ if (analyzeRoutes) {
 app.get("/", (req, res) => res.send("OK"));
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
