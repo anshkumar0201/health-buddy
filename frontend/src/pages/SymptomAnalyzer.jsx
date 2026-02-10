@@ -9,7 +9,6 @@ import {
   ArrowRight,
   ExternalLink,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 // Assuming you have a shared file for terms. If not, ensure this import is correct or mock it.
@@ -89,7 +88,6 @@ const MEDICAL_PHRASES = [
   "burning urination",
   "severe headache",
 ];
-
 
 function normalizeWord(word) {
   return word
@@ -199,7 +197,6 @@ function isMetaInput(text) {
    ====================================================== */
 export default function SymptomAnalyzer() {
   const { t, i18n, ready } = useTranslation();
-  // const navigate = useNavigate();
   const fallbackConfig = useMemo(() => {
     return t("SymptomAnalyzer.config", {
       returnObjects: true,
@@ -208,10 +205,16 @@ export default function SymptomAnalyzer() {
   }, [t]);
 
   const MIN_CHARS = fallbackConfig.minCharCount ?? 30;
+  const MAX_WORDS = 2000;
+  const MAX_CHARS = 12000;
+
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState({ status: "idle" });
   const charCount = text.trim().length;
+  const wordCount = useMemo(() => {
+    return text.trim().split(/\s+/).filter(Boolean).length;
+  }, [text]);
 
   /* ---------------- Motion presets ---------------- */
 
@@ -254,6 +257,13 @@ export default function SymptomAnalyzer() {
   };
 
   const analyzeSymptoms = async () => {
+    if (charCount > MAX_CHARS) {
+      return fail("Character limit exceeded");
+    }
+    if (wordCount > MAX_WORDS) {
+      return fail("Word limit exceeded");
+    }
+
     if (!text.trim() || charCount < MIN_CHARS) {
       return fail("Character count is less than minimum");
     }
@@ -322,9 +332,26 @@ export default function SymptomAnalyzer() {
   };
 
   const handleTextChange = (e) => {
-    setText(e.target.value);
-    e.target.style.height = "auto";
-    e.target.style.height = `${e.target.scrollHeight}px`;
+    let value = e.target.value;
+
+    // 1️⃣ Hard cap characters first (fast & cheap)
+    if (value.length > MAX_CHARS) {
+      value = value.slice(0, MAX_CHARS);
+    }
+
+    // 2️⃣ Then cap words (semantic guard)
+    const words = value.trim().split(/\s+/).filter(Boolean);
+    if (words.length > MAX_WORDS) {
+      value = words.slice(0, MAX_WORDS).join(" ");
+    }
+
+    setText(value);
+
+    // 3️⃣ Auto-resize textarea
+    requestAnimationFrame(() => {
+      e.target.style.height = "auto";
+      e.target.style.height = `${e.target.scrollHeight}px`;
+    });
   };
 
   const handleKeyDown = (e) => {
@@ -332,7 +359,9 @@ export default function SymptomAnalyzer() {
       e.key === "Enter" &&
       !e.shiftKey &&
       !loading &&
-      charCount >= MIN_CHARS
+      charCount >= MIN_CHARS &&
+      charCount <= MAX_CHARS &&
+      wordCount <= MAX_WORDS
     ) {
       e.preventDefault();
       analyzeSymptoms();
@@ -470,12 +499,29 @@ export default function SymptomAnalyzer() {
               <span>Powered by Google Gemini</span>
             </div>
           </div>
+          <div className="mt-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-xs">
+            <p
+              className={
+                charCount < MIN_CHARS
+                  ? "text-red-500"
+                  : "text-green-600 dark:text-green-400"
+              }
+            >
+              {charCount}/{MIN_CHARS} {t("SymptomAnalyzer.minChars")} · max{" "}
+              {MAX_CHARS}
+            </p>
 
-          <p
-            className={`mt-1 text-xs ${charCount < MIN_CHARS ? "text-red-500" : "text-green-600 dark:text-green-400"}`}
-          >
-            {charCount}/{MIN_CHARS} {t("SymptomAnalyzer.minChars")}
-          </p>
+            <p className="text-gray-500 dark:text-gray-400">
+              {wordCount}/{MAX_WORDS} words
+            </p>
+
+            {(wordCount > MAX_WORDS * 0.9 || charCount > MAX_CHARS * 0.9) && (
+              <p className="text-yellow-600 dark:text-yellow-400 sm:ml-auto">
+                Approaching maximum input length
+              </p>
+            )}
+          </div>
+
           <p className="mt-1 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
             <Lightbulb className="h-3 w-3" />
             {t("SymptomAnalyzer.tip")}

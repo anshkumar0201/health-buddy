@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import {
-  MessageSquare,
+  Activity,
   Info,
   Sparkles,
   Search,
@@ -414,7 +414,7 @@ export default function SymptomAnalyzer() {
           className="flex justify-center mb-6"
         >
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center shadow-lg">
-            <MessageSquare className="w-8 h-8 text-white" />
+            <Activity className="w-8 h-8 text-white" />
           </div>
         </motion.div>
 
