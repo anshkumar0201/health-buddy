@@ -1,6 +1,7 @@
 import { MapPin, Search, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { use, useMemo } from "react";
 
 /* ---------------- Quick search config ---------------- */
 
@@ -20,52 +21,64 @@ const QUICK_SEARCHES = [
 export default function FindClinics() {
   const { t } = useTranslation();
 
-  const pageReveal = {
-    hidden: { opacity: 0, scale: 0.97 },
-    show: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
-  const floatPin = {
-    animate: {
-      y: [0, -6, 0],
-      transition: {
-        duration: 2.5,
-        repeat: Infinity,
-        ease: "easeInOut",
+  const pageReveal = useMemo(
+    () => ({
+      hidden: { opacity: 0, scale: 0.97 },
+      show: {
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.6, ease: "easeOut" },
       },
-    },
-  };
+    }),
+    [],
+  );
 
-  const pulseCTA = {
-    animate: {
-      scale: [1, 1.04, 1],
-      transition: {
-        duration: 1.6,
-        repeat: Infinity,
-        ease: "easeInOut",
+  const floatPin = useMemo(
+    () => ({
+      animate: {
+        y: [0, -6, 0],
+        transition: {
+          duration: 2.5,
+          repeat: 3,
+          ease: "easeInOut",
+        },
       },
-    },
-  };
+    }),
+    [],
+  );
 
-  const gridStagger = {
-    hidden: {},
-    show: {
-      transition: { staggerChildren: 0.08 },
-    },
-  };
+  // const pulseCTA = useMemo(
+  //   () => ({
+  //     animate: {
+  //       scale: [1, 1.03, 1],
+  //       transition: {
+  //         duration: 1.6,
+  //         repeat: 2,
+  //         ease: "easeInOut",
+  //       },
+  //     },
+  //   }),
+  //   [],
+  // );
 
-  const cardReveal = {
+  const gridStagger = useMemo(
+    () => ({
+      hidden: {},
+      show: {
+        transition: { staggerChildren: 0.08 },
+      },
+    }),
+    [],
+  );
+
+  const cardReveal = useMemo(() => ({
     hidden: { opacity: 0, y: 30 },
     show: {
       opacity: 1,
       y: 0,
       transition: { duration: 0.5, ease: "easeOut" },
     },
-  };
+  }), []);
 
   const openMaps = (query) => {
     const url = `https://www.google.com/maps/search/${encodeURIComponent(
@@ -92,7 +105,7 @@ export default function FindClinics() {
           animate="animate"
           className="flex justify-center mb-6"
         >
-          <div className="w-16 h-16 rounded-2xl bg-orange-500 flex items-center justify-center shadow-lg">
+          <div className="w-16 h-16 rounded-2xl bg-orange-500 flex items-center justify-center shadow-lg transform-gpu will-change-transform">
             <MapPin className="w-8 h-8 text-white" />
           </div>
         </motion.div>
@@ -121,11 +134,7 @@ export default function FindClinics() {
         </div>
 
         {/* Primary CTA */}
-        <motion.div
-          variants={pulseCTA}
-          animate="animate"
-          className="mt-8 flex justify-center"
-        >
+        <div className="mt-8 flex justify-center">
           <button
             onClick={() => openMaps("Healthcare facilities")}
             className="
@@ -133,7 +142,7 @@ export default function FindClinics() {
       min-h-[56px]
       bg-blue-600 text-white px-6 py-3 rounded-xl
       font-medium shadow-xl cursor-pointer
-      transition-all duration-300
+      transition-all duration-300 transform-gpu will-change-transform
       hover:bg-blue-700 hover:shadow-2xl hover:-translate-y-0.5
       dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-gray-300
     "
@@ -142,7 +151,7 @@ export default function FindClinics() {
             {t("FindClinics.primaryCTA")}
             <ExternalLink className="w-4 h-4 shrink-0 opacity-80" />
           </button>
-        </motion.div>
+        </div>
 
         <div className="max-w-6xl mx-auto px-6 mt-4 pt-4 pb-10 my-5">
           {/* Quick Search Heading */}
@@ -170,18 +179,10 @@ export default function FindClinics() {
 
           {/* Emergency Section - DARK MODE: Transparent red bg */}
           <motion.div
-            animate={{
-              boxShadow: [
-                "0 0 0 rgba(220,38,38,0)",
-                "0 0 25px rgba(220,38,38,0.35)",
-                "0 0 0 rgba(220,38,38,0)",
-              ],
+            whileHover={{
+              boxShadow: "0 0 25px rgba(220,38,38,0.35)",
             }}
-            transition={{
-              duration: 2.2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            transition={{ duration: 0.3 }}
             className="mt-14 w-full sm:max-w-3xl sm:mx-auto rounded-2xl border p-6 text-left transition-colors duration-300
             bg-red-50 border-red-200 
             dark:bg-red-900/20 dark:border-red-800"
@@ -239,7 +240,7 @@ function QuickCard({ emoji, label, onClick, motionVariants }) {
       className="group rounded-2xl p-5 border
         flex flex-col items-center gap-3 text-sm font-medium
         transition-all duration-300 ease-out
-        cursor-pointer
+        cursor-pointer transform-gpu will-change-transform
         hover:-translate-y-2 hover:scale-[1.05]
         focus:outline-none
         
@@ -266,14 +267,13 @@ function QuickCard({ emoji, label, onClick, motionVariants }) {
   );
 }
 
-
 function EmergencyBadge({ label, phone }) {
   return (
     <a
       href={`tel:${phone}`}
       className="
         group border rounded-xl py-3 px-2 text-sm font-semibold
-        flex items-center justify-center gap-2
+        flex items-center justify-center gap-2 transform-gpu will-change-transform
         transition-all duration-300 ease-out
         cursor-pointer
         hover:-translate-y-1 hover:scale-[1.04]

@@ -2,15 +2,18 @@ import { Heart, Activity } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import SkeletonCTASection from "./skeletons/SkeletionCTASection";
+import React from "react";
 
-export default function CTASection() {
+function CTASection() {
   const navigate = useNavigate();
   const { t, ready } = useTranslation();
 
- if (!ready) return <SkeletonCTASection />;
+  if (!ready) return <SkeletonCTASection />;
+  
+  const handleClick = () => navigate("/symptom-checker");
 
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-hidden min-h-[380px]">
       {/* Gradient background 
           - Light: Bright Blue -> Green
           - Dark: Deep Blue -> Deep Green (Reduces eye strain while keeping color)
@@ -18,7 +21,8 @@ export default function CTASection() {
       <div
         className="absolute inset-0 transition-colors duration-300
         bg-gradient-to-r from-blue-600 via-teal-600 to-green-600
-        dark:from-blue-950 dark:via-teal-950 dark:to-green-950"
+        dark:from-blue-950 dark:via-teal-950 dark:to-green-950 
+        will-change-transform"
       />
 
       {/* Content */}
@@ -26,7 +30,7 @@ export default function CTASection() {
         {/* Icon */}
         <div className="flex justify-center mb-6 dark:text-gray-300">
           <Heart
-            className="w-16 h-16 text-white pointer-events-none drop-shadow-md"
+            className="w-16 h-16 text-white pointer-events-none drop-shadow-md transform-gpu"
             strokeWidth={1.5}
           />
         </div>
@@ -44,11 +48,12 @@ export default function CTASection() {
         {/* CTA */}
         <div className="mt-10 flex justify-center">
           <button
-            onClick={() => navigate("/symptom-checker")}
+            onClick={handleClick}
             className="
               inline-flex items-center gap-2
               px-6 py-3 rounded-xl font-bold
-              shadow-lg transform transition-all duration-300 ease-out
+              shadow-lg transform-gpu will-change-transform
+              transition-all duration-300 ease-out
               hover:scale-105 hover:-translate-y-0.5
               active:scale-95 cursor-pointer
               
@@ -64,3 +69,6 @@ export default function CTASection() {
     </section>
   );
 }
+
+export default React.memo(CTASection);
+

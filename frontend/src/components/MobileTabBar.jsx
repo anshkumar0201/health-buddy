@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import { useMemo } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const tabs = [
@@ -43,16 +43,15 @@ const tabs = [
   },
 ];
 
-export default function MobileTabBar() {
+function MobileTabBar() {
   const location = useLocation();
   const { theme } = useTheme();
   const isDark = theme === "dark";
-
-  const memoTabs = useMemo(() => tabs, []);
+  const pathname = location.pathname;
 
   return (
     <div
-      className="sm:hidden fixed inset-x-0 z-[1000] flex justify-center"
+      className="sm:hidden fixed inset-x-0 z-[1000] flex justify-center will-change-transform"
       style={{ bottom: "calc(env(safe-area-inset-bottom) + 6px)" }}
     >
       <div
@@ -63,6 +62,7 @@ export default function MobileTabBar() {
           max-w-[520px]
           rounded-full
           border backdrop-blur-md
+          transform-gpu will-change-transform
           ${
             isDark
               ? "bg-[#161a22]/90 border-white/10 shadow-[0_8px_28px_rgba(0,0,0,0.8)]"
@@ -70,11 +70,9 @@ export default function MobileTabBar() {
           }
         `}
       >
-        {memoTabs.map((tab) => {
+        {tabs.map((tab) => {
           const active =
-            tab.path === "/"
-              ? location.pathname === "/"
-              : location.pathname.startsWith(tab.path);
+            tab.path === "/" ? pathname === "/" : pathname.startsWith(tab.path);
 
           return (
             <Link
@@ -83,7 +81,7 @@ export default function MobileTabBar() {
               className="relative flex items-center justify-center w-12 h-12 rounded-full"
             >
               {/* Blossom background */}
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {active && (
                   <motion.div
                     key="active-bg"
@@ -108,7 +106,7 @@ export default function MobileTabBar() {
               {/* Icon */}
               <span
                 className={`
-                  relative z-10 material-symbols-rounded text-xl
+                  relative z-10 material-symbols-rounded text-xl transform-gpu
                   transition-colors duration-150
                   ${
                     active
@@ -128,3 +126,4 @@ export default function MobileTabBar() {
     </div>
   );
 }
+export default React.memo(MobileTabBar);

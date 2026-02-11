@@ -2,8 +2,9 @@ import { CheckCircle } from "lucide-react";
 import whychoose from "../assets/whychoose.jpeg";
 import { useTranslation } from "react-i18next";
 import SkeletonWhyChoose from "./skeletons/SkeletonWhyChoose";
+import React from "react";
 
-export default function WhyChoose() {
+function WhyChoose() {
   const { t, ready } = useTranslation();
 
   // Fetch points array from JSON
@@ -35,8 +36,8 @@ export default function WhyChoose() {
           </p>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {points.map((point, index) => (
-              <div key={index} className="flex items-start gap-2">
+            {points.map((point) => (
+              <div key={point} className="flex items-start gap-2">
                 {/* Icon - DARK MODE: Lighter green */}
                 <CheckCircle
                   className="mt-0.5 shrink-0 transition-colors duration-300 text-green-600 dark:text-green-400"
@@ -54,14 +55,21 @@ export default function WhyChoose() {
         {/* Right image */}
         <div className="w-full">
           <div
-            className="rounded-3xl overflow-hidden shadow-2xl transition-all duration-300
-            border border-transparent
-            dark:border-gray-800 dark:shadow-black/50"
+            className="rounded-3xl overflow-hidden shadow-2xl
+  transition-all duration-300
+  border border-transparent
+  dark:border-gray-800 dark:shadow-black/50
+  transform-gpu will-change-transform"
           >
             <img
               src={whychoose}
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height="800"
               alt={t("WhyChoose.imageAlt")}
               className="w-full h-full object-cover"
+              style={{ aspectRatio: "3 / 2" }}
             />
           </div>
         </div>
@@ -69,3 +77,6 @@ export default function WhyChoose() {
     </section>
   );
 }
+
+export default React.memo(WhyChoose);
+

@@ -9,11 +9,11 @@ import {
   Download,
   Stethoscope,
 } from "lucide-react";
-import { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import SkeletonAssessmentResult from "../components/skeletons/SkeletonAssessmentResult";
 
-export default function AssessmentResult() {
+function AssessmentResult() {
   const location = useLocation();
   const navigate = useNavigate();
   const { t, i18n, ready } = useTranslation();
@@ -38,7 +38,6 @@ export default function AssessmentResult() {
     );
   }, [disease, i18n]);
 
-
   /* ---------- ROBUST RISK LOGIC ---------- */
   const percentage = useMemo(
     () => Math.round((score / maxScore) * 100),
@@ -54,15 +53,23 @@ export default function AssessmentResult() {
     return { key: "low", theme: "green" };
   }, [score, thresholds, percentage, criticalHit]);
 
-    if (!disease || !ready || !assessment) {
-      navigate("/symptom-checker", { replace: true });
-      return <SkeletonAssessmentResult />;
-    }
-
   const riskKey = riskMeta.key;
   const theme = riskMeta.theme;
 
-  const showEmergencyBanner = criticalHit || riskKey === "high";
+  const showEmergencyBanner = useMemo(
+    () => criticalHit || riskKey === "high",
+    [criticalHit, riskKey],
+  );
+
+  useEffect(() => {
+    if (!disease || !assessment) {
+      navigate("/symptom-checker", { replace: true });
+    }
+  }, [disease, assessment, navigate]);
+
+  if (!disease || !ready || !assessment) {
+    return <SkeletonAssessmentResult />;
+  }
 
   /* UPDATED THEMES FOR DARK MODE:
      - Light Mode: Uses pastel backgrounds (e.g., bg-green-200)
@@ -161,51 +168,11 @@ export default function AssessmentResult() {
 
             {/* 🚨 Emergency Banner */}
             {showEmergencyBanner && (
-              <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ repeat: 3, duration: 0.6, ease: "easeInOut" }}
-                className="mx-2 sm:mx-6 mt-6 rounded-2xl border p-5 flex gap-4 transition-colors duration-300
-              bg-red-50 border-red-300 
-              dark:bg-red-900/20 dark:border-red-800"
-              >
-                <div className="shrink-0">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 text-red-600 dark:text-red-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 9v4m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"
-                    />
-                  </svg>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-xs sm:text-base mb-1 transition-colors duration-300 text-red-700 dark:text-red-300">
-                    {criticalHit
-                      ? t("AssessmentResult.emergency.title")
-                      : t(
-                          "AssessmentResult.highRisk.title",
-                          "High Risk Detected",
-                        )}
-                  </h3>
-
-                  <p className="text-sm leading-relaxed transition-colors duration-300 text-red-700 dark:text-red-200">
-                    {criticalHit
-                      ? t("AssessmentResult.emergency.message")
-                      : t(
-                          "AssessmentResult.highRisk.message",
-                          "Your responses indicate a high health risk. Prompt medical consultation is strongly advised.",
-                        )}
-                  </p>
-                </div>
-              </motion.div>
+              <EmergencyBanner
+                criticalHit={criticalHit}
+                isHighRisk={riskKey === "high"}
+                t={t}
+              />
             )}
 
             {/* Risk Card */}
@@ -301,7 +268,7 @@ export default function AssessmentResult() {
             {/* Actions */}
             <div className="grid sm:grid-cols-3 gap-4 px-8 mt-6 mb-8">
               <motion.button
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => navigate("/symptom-checker")}
                 className="rounded-xl border py-3 cursor-pointer font-semibold transition-colors duration-300
@@ -313,7 +280,7 @@ export default function AssessmentResult() {
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => window.print()}
                 className="rounded-xl border cursor-pointer py-3 font-semibold transition-colors duration-300
@@ -325,7 +292,7 @@ export default function AssessmentResult() {
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => navigate("/clinics")}
                 className="rounded-xl py-3 font-semibold cursor-pointer transition-colors duration-300
@@ -342,3 +309,53 @@ export default function AssessmentResult() {
     </motion.main>
   );
 }
+
+const EmergencyBanner = React.memo(function EmergencyBanner({
+  criticalHit,
+  isHighRisk,
+  t,
+}) {
+  const title = criticalHit
+    ? t("AssessmentResult.emergency.title")
+    : t("AssessmentResult.highRisk.title");
+
+  const message = criticalHit
+    ? t("AssessmentResult.emergency.message")
+    : t("AssessmentResult.highRisk.message");
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="mx-2 sm:mx-6 mt-6 rounded-2xl border p-5 flex gap-4
+        bg-red-50 border-red-300 
+        dark:bg-red-900/20 dark:border-red-800"
+    >
+      <div className="shrink-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6 text-red-600 dark:text-red-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 9v4m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"
+          />
+        </svg>
+      </div>
+
+      <div>
+        <h3 className="font-bold text-xs sm:text-base mb-1 text-red-700 dark:text-red-300">
+          {title}
+        </h3>
+        <p className="text-sm text-red-700 dark:text-red-200">{message}</p>
+      </div>
+    </motion.div>
+  );
+});
+export default React.memo(AssessmentResult);

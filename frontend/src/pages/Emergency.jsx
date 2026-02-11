@@ -14,7 +14,6 @@ import { useMemo } from "react";
 import { motion } from "framer-motion";
 import SkeletonEmergency from "@/components/skeletons/SkeletonEmergency";
 
-
 /* ---------- Icons ---------- */
 
 const ICONS = {
@@ -36,52 +35,49 @@ export default function Emergency() {
   const navigate = useNavigate();
   const { t, ready } = useTranslation();
 
-const emergencies = useMemo(() => {
-  return t("Emergency.cards", {
-    returnObjects: true,
-    defaultValue: [],
-  });
-}, [t]);
-  
-  if (!ready) return <SkeletonEmergency />;
+  const emergencies = useMemo(() => {
+    return t("Emergency.cards", {
+      returnObjects: true,
+      defaultValue: [],
+    });
+  }, [t]);
 
-  const pageShock = {
-    hidden: { opacity: 0, scale: 0.96 },
-    show: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-  };
-
-  const helplinePulse = {
-    animate: {
-      scale: [1, 1.03, 1],
-      transition: {
-        duration: 1.2,
-        repeat: Infinity,
-        ease: "easeInOut",
+  const pageShock = useMemo(
+    () => ({
+      hidden: { opacity: 0, scale: 0.96 },
+      show: {
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.4, ease: "easeOut" },
       },
-    },
-  };
+    }),
+    [],
+  );
 
-  const gridStagger = {
-    hidden: {},
-    show: {
-      transition: { staggerChildren: 0.08 },
-    },
-  };
+  const gridStagger = useMemo(
+    () => ({
+      hidden: {},
+      show: {
+        transition: { staggerChildren: 0.08 },
+      },
+    }),
+    [],
+  );
 
-  const sirenCard = {
-    hidden: { opacity: 0, y: 60, scale: 0.9 },
-    show: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  };
+  const sirenCard = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: 60, scale: 0.9 },
+      show: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: { duration: 0.5, ease: "easeOut" },
+      },
+    }),
+    [],
+  );
 
+  if (!ready) return <SkeletonEmergency />;
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
@@ -122,11 +118,7 @@ const emergencies = useMemo(() => {
             {t("Emergency.helplinesTitle")}
           </p>
 
-          <motion.div
-            variants={helplinePulse}
-            animate="animate"
-            className="grid grid-cols-2 sm:grid-cols-4 gap-3"
-          >
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {helplines.map((number) => (
               <a
                 key={number}
@@ -143,7 +135,7 @@ const emergencies = useMemo(() => {
                 </p>
               </a>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Emergency Cards */}
@@ -163,11 +155,11 @@ const emergencies = useMemo(() => {
                   key={e.id}
                   variants={sirenCard}
                   onClick={() => navigate(`/emergency/${e.id}`)}
-                  whileHover={{ scale: 1.04 }}
+                  whileHover={{ y: -4 }}
                   className="group rounded-2xl border
                            shadow-sm transition-all duration-300 cursor-pointer
                            hover:shadow-xl hover:-translate-y-1 overflow-hidden
-                           bg-white border-gray-200
+                           bg-white border-gray-200 transform-gpu will-change-transform
                            dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-red-500/50 dark:hover:shadow-gray-800"
                 >
                   <div className="h-1 bg-red-600 w-full" />
