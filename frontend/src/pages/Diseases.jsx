@@ -29,21 +29,39 @@ export default function Diseases() {
   const [showBottom, setShowBottom] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const onScroll = () => {
-      const y = window.scrollY;
-      const max = document.body.scrollHeight - window.innerHeight;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          const max = document.body.scrollHeight - window.innerHeight;
 
-      const scrolledEnough = y > 1500;
-      const nearBottom = y > max - 80;
+          const scrolledEnough = y > 1500;
+          const nearBottom = y > max - 80;
 
-      setShowTop(scrolledEnough);
-      setShowBottom(scrolledEnough && !nearBottom);
+          setShowTop((prev) =>
+            prev !== scrolledEnough ? scrolledEnough : prev,
+          );
+          setShowBottom((prev) =>
+            prev !== (scrolledEnough && !nearBottom)
+              ? scrolledEnough && !nearBottom
+              : prev,
+          );
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
     };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
 
 
   useEffect(() => {
@@ -59,6 +77,16 @@ export default function Diseases() {
   /* ---------------- State ---------------- */
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 150);
+
+    return () => clearTimeout(id);
+  }, [search]);
+
 
   /* ---------------- Get diseases from i18n ---------------- */
   const diseases = useMemo(() => {
@@ -85,29 +113,28 @@ export default function Diseases() {
 
   /* ---------------- Filtering ---------------- */
   const filteredDiseases = useMemo(() => {
+    const lower = debouncedSearch.toLowerCase();
+
     return diseases.filter(
       (d) =>
         (activeCategory === "all" || d.category === activeCategory) &&
-        d.name.toLowerCase().includes(search.toLowerCase()),
+        d.name.toLowerCase().includes(lower),
     );
-  }, [diseases, activeCategory, search]);
+  }, [diseases, activeCategory, debouncedSearch]);
+
 
   if (!ready) return <SkeletonDiseases />;
 
   const grid = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.06 } },
+    // show: { transition: { staggerChildren: 0.06 } },
+    show: {},
   };
 
   const card = {
     hidden: { opacity: 0, y: 40 },
     show: { opacity: 1, y: 0 },
   };
-
-  const motionKey = useMemo(
-      () => `${activeCategory}-${search}-${i18n.language}`,
-      [activeCategory, search, i18n.language]
-  );
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
@@ -170,7 +197,7 @@ export default function Diseases() {
                   onClick={() => setActiveCategory(key)}
                   whileHover={{
                     scale: 1.07,
-                    filter: "brightness(1.1)"
+                    filter: "brightness(1.1)",
                   }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
@@ -240,18 +267,16 @@ export default function Diseases() {
 
         {/* Disease Cards */}
         <motion.div
-            key={motionKey}   // 🔥 force remount on filters
-            variants={grid}
-            initial="hidden"
-            animate="show"
-            className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
+          variants={grid}
+          initial="hidden"
+          animate="show"
+          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
         >
-
-        {filteredDiseases.map((d) => (
+          {filteredDiseases.map((d) => (
             <motion.div
               key={d.id}
               variants={card}
-              className="group rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col transition-all duration-300
+              className="group rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col transition-all duration-300 transform-gpu will-change-transform
                 bg-white border-gray-200
                 dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-blue-400 dark:hover:shadow-gray-700"
             >
