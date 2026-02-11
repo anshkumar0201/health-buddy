@@ -2,16 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- HealthBuddy Favicon -->
-    <link rel="icon" type="image/svg+xml"  href="/logo.svg" />
-    <link rel="icon" type="image/png" sizes="40x40" href="/logo.png" />
+
+    <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Theme Color (Improves Lighthouse + PWA feel) -->
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- SEO Basics -->
     <title>Rurivia.AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+    <meta name="description" content="Rurivia.AI – AI-powered multilingual health assistant for symptom analysis, disease guidance, prevention, and emergency support." />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="icon" type="image/png" sizes="40x40" href="/logo.png" />
+
+    <!-- Preconnect for Google Fonts (Performance Boost) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Material Symbols -->
+    <link
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded&display=swap"
+  rel="stylesheet"
+/>
+
+
   </head>
   <body>
     <div id="root"></div>
     <div id="overlay-root"></div>
+
+    <!-- Vite entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

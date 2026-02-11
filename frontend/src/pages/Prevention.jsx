@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Shield,
@@ -38,26 +38,62 @@ export default function Prevention() {
   const [showTop, setShowTop] = useState(false);
   const [showBottom, setShowBottom] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      const max = document.body.scrollHeight - window.innerHeight;
-
-      const scrolledEnough = y > 1500;
-      const nearBottom = y > max - 80;
-
-      setShowTop(scrolledEnough);
-      setShowBottom(scrolledEnough && !nearBottom);
-    };
-
-    window.addEventListener("scroll", onScroll);
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const diseaseCategories = useMemo(() => {
     return t("Prevention.disease.categories", { returnObjects: true }) || {};
   }, [t]);
+
+  const cascade = useMemo(
+    () => ({
+      hidden: {},
+      show: { transition: { staggerChildren: 0.08 } },
+    }),
+    [],
+  );
+
+  const reveal = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: 30 },
+      show: { opacity: 1, y: 0 },
+    }),
+    [],
+  );
+
+  const diseaseEntries = useMemo(
+    () => Object.entries(diseaseCategories),
+    [diseaseCategories],
+  );
+
+  useEffect(() => {
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          const max = document.body.scrollHeight - window.innerHeight;
+
+          const scrolledEnough = y > 1500;
+          const nearBottom = y > max - 80;
+
+          setShowTop((prev) =>
+            prev === scrolledEnough ? prev : scrolledEnough,
+          );
+
+          const bottomState = scrolledEnough && !nearBottom;
+          setShowBottom((prev) => (prev === bottomState ? prev : bottomState));
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const generalCards = useMemo(() => {
     return t("Prevention.generalCardsData", {
@@ -68,24 +104,12 @@ export default function Prevention() {
 
   if (!ready) return <SkeletonPrevention />;
 
-  const cascade = {
-    hidden: {},
-    show: {
-      transition: { staggerChildren: 0.12 },
-    },
-  };
-
-  const reveal = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0 },
-  };
-
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
     // DARK MODE: Main background slate-950/900
     <motion.main
-      initial={{ opacity: 0, filter: "blur(6px)" }}
-      animate={{ opacity: 1, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="min-h-screen pt-24 pb-32 transition-colors duration-300
       bg-gradient-to-b from-slate-50 to-white 
@@ -118,17 +142,13 @@ export default function Prevention() {
             <div className="relative rounded-xl p-1 flex overflow-hidden transition-colors dark:border dark:border-gray-300 duration-300 bg-gray-200 dark:bg-slate-800">
               {/* Sliding Indicator: White (Light) -> Slate-600 (Dark) */}
               <div
-                className="
+                className={`
                 absolute inset-y-1 left-1 w-[calc(50%-4px)]
                 rounded-lg shadow transition-all duration-300
-                bg-white dark:bg-slate-300
-              "
-                style={{
-                  transform:
-                    activeTab === "general"
-                      ? "translateX(0)"
-                      : "translateX(100%)",
-                }}
+                bg-white dark:bg-slate-300 transition-transform duration-300 ${
+                  activeTab === "disease" ? "translate-x-full" : ""
+                }
+              `}
               />
 
               <button
@@ -169,12 +189,7 @@ export default function Prevention() {
               animate="show"
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in"
             >
-              {Object.entries(
-                t("Prevention.generalCardsData", {
-                  returnObjects: true,
-                  defaultValue: {},
-                }),
-              ).map(([key, card]) => (
+              {Object.entries(generalCards).map(([key, card]) => (
                 <motion.div variants={reveal}>
                   <Card
                     key={key}
@@ -190,89 +205,86 @@ export default function Prevention() {
 
           {activeTab === "disease" && (
             <div className="animate-fade-in space-y-14">
-              {Object.entries(diseaseCategories).map(
-                ([categoryKey, category]) => (
-                  <motion.section
-                    initial={{ x: -60, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 0.7 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    key={categoryKey}
-                  >
-                    <h2 className="text-xl font-bold mb-6 transition-colors duration-300 text-gray-900 dark:text-gray-300">
-                      {category.title}
-                    </h2>
+              {diseaseEntries.map(([categoryKey, category]) => (
+                <motion.section
+                  initial={{ x: -60, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.7 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  key={categoryKey}
+                >
+                  <h2 className="text-xl font-bold mb-6 transition-colors duration-300 text-gray-900 dark:text-gray-300">
+                    {category.title}
+                  </h2>
 
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                      {Object.entries(category.items || {}).map(
-                        ([diseaseKey, disease]) => (
-                          <div
-                            key={diseaseKey}
-                            /* ADDED: dark:hover:shadow-gray-700 */
-                            className="
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {Object.entries(category.items || {}).map(
+                      ([diseaseKey, disease]) => (
+                        <div
+                          key={diseaseKey}
+                          /* ADDED: dark:hover:shadow-gray-700 */
+                          className="
                               rounded-2xl border p-6
-                              shadow-sm transition-all duration-300
+                              shadow-sm transition-all transform-gpu will-change-transform duration-300
                               hover:shadow-xl hover:-translate-y-1
                               bg-white border-gray-200
                               dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-green-500 dark:hover:shadow-gray-700
                             "
-                          >
-                            <div className="flex items-start justify-between mb-2">
-                              <h3 className="font-bold transition-colors duration-300 text-gray-900 dark:text-gray-300">
-                                {disease.name}
-                              </h3>
-                              <span
-                                className="text-xs px-2 py-0.5 rounded-2xl font-bold
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className="font-bold transition-colors duration-300 text-gray-900 dark:text-gray-300">
+                              {disease.name}
+                            </h3>
+                            <span
+                              className="text-xs px-2 py-0.5 rounded-2xl font-bold
                                 bg-gray-200 text-gray-600
                                 dark:bg-slate-700 dark:text-gray-300"
-                              >
-                                {category.title}
-                              </span>
-                            </div>
-
-                            <p className="text-sm mb-4 transition-colors duration-300 text-gray-600 dark:text-gray-300">
-                              {disease.description}
-                            </p>
-
-                            {Array.isArray(disease.prevention_tips) &&
-                              disease.prevention_tips.length > 0 && (
-                                <>
-                                  <p className="text-sm font-semibold mb-2 flex items-center gap-2 transition-colors duration-300 text-gray-800 dark:text-gray-200">
-                                    <Shield className="w-4 h-4 text-green-500" />
-                                    {t("Prevention.disease.preventionTips")}
-                                  </p>
-
-                                  <ul className="space-y-2 text-sm transition-colors duration-300 text-gray-700 dark:text-gray-300">
-                                    {disease.prevention_tips
-                                      .slice(0, 5)
-                                      .map((tip, idx) => (
-                                        <li
-                                          key={idx}
-                                          className="flex gap-2 items-start"
-                                        >
-                                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
-                                          <span>{tip}</span>
-                                        </li>
-                                      ))}
-                                  </ul>
-
-                                  {disease.prevention_tips.length > 5 && (
-                                    <p className="mt-2 text-xs italic transition-colors duration-300 text-gray-500 dark:text-gray-400">
-                                      {t("Prevention.disease.moreTips", {
-                                        count:
-                                          disease.prevention_tips.length - 5,
-                                      })}
-                                    </p>
-                                  )}
-                                </>
-                              )}
+                            >
+                              {category.title}
+                            </span>
                           </div>
-                        ),
-                      )}
-                    </div>
-                  </motion.section>
-                ),
-              )}
+
+                          <p className="text-sm mb-4 transition-colors duration-300 text-gray-600 dark:text-gray-300">
+                            {disease.description}
+                          </p>
+
+                          {Array.isArray(disease.prevention_tips) &&
+                            disease.prevention_tips.length > 0 && (
+                              <>
+                                <p className="text-sm font-semibold mb-2 flex items-center gap-2 transition-colors duration-300 text-gray-800 dark:text-gray-200">
+                                  <Shield className="w-4 h-4 text-green-500" />
+                                  {t("Prevention.disease.preventionTips")}
+                                </p>
+
+                                <ul className="space-y-2 text-sm transition-colors duration-300 text-gray-700 dark:text-gray-300">
+                                  {disease.prevention_tips
+                                    .slice(0, 5)
+                                    .map((tip, idx) => (
+                                      <li
+                                        key={idx}
+                                        className="flex gap-2 items-start"
+                                      >
+                                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                                        <span>{tip}</span>
+                                      </li>
+                                    ))}
+                                </ul>
+
+                                {disease.prevention_tips.length > 5 && (
+                                  <p className="mt-2 text-xs italic transition-colors duration-300 text-gray-500 dark:text-gray-400">
+                                    {t("Prevention.disease.moreTips", {
+                                      count: disease.prevention_tips.length - 5,
+                                    })}
+                                  </p>
+                                )}
+                              </>
+                            )}
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </motion.section>
+              ))}
             </div>
           )}
         </div>
@@ -341,7 +353,7 @@ export default function Prevention() {
 
 /* ---------- Card ---------- */
 
-function Card({ icon, title, tips = [], color }) {
+const Card = React.memo(function Card({ icon, title, tips = [], color }) {
   const safeTips = Array.isArray(tips) ? tips : [];
 
   return (
@@ -376,4 +388,4 @@ function Card({ icon, title, tips = [], color }) {
       </ul>
     </div>
   );
-}
+});

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Activity,
   Info,
@@ -154,32 +154,39 @@ function hasMedicalSignal(text, minMatches = 2) {
   return false;
 }
 
-function hasSymptomStructure(text) {
+function hasSymptomStructure(tokens) {
   let flags = { symptom: false, body: false, duration: false, severity: false };
-  for (const w of tokenize(text)) {
+
+  for (const w of tokens) {
     if (MEDICAL_SETS.symptoms.has(w) || isCloseSymptom(w)) flags.symptom = true;
     if (MEDICAL_SETS.bodyParts.has(w)) flags.body = true;
     if (MEDICAL_SETS.duration.has(w)) flags.duration = true;
     if (MEDICAL_SETS.severity.has(w)) flags.severity = true;
   }
+
   return Object.values(flags).filter(Boolean).length >= 2;
 }
-function medicalDensity(text, minRatio = 0.03) {
-  const words = tokenize(text);
-  if (words.length < 5) return false;
+
+function medicalDensity(tokens, minRatio = 0.03) {
+  if (tokens.length < 5) return false;
+
   let medicalCount = 0;
-  for (const w of words) {
+
+  for (const w of tokens) {
     if (
       MEDICAL_SETS.symptoms.has(w) ||
       MEDICAL_SETS.bodyParts.has(w) ||
       MEDICAL_SETS.severity.has(w) ||
       MEDICAL_SETS.duration.has(w) ||
       isCloseSymptom(w)
-    )
+    ) {
       medicalCount++;
+    }
   }
-  return medicalCount / words.length >= minRatio;
+
+  return medicalCount / tokens.length >= minRatio;
 }
+
 const META_PATTERNS = [
   /can you/i,
   /please analyze/i,
@@ -213,21 +220,32 @@ export default function SymptomAnalyzer() {
   const [result, setResult] = useState({ status: "idle" });
   const charCount = text.trim().length;
   const wordCount = useMemo(() => {
-    return text.trim().split(/\s+/).filter(Boolean).length;
+    if (!text) return 0;
+    let count = 0;
+    let inWord = false;
+    for (let i = 0; i < text.length; i++) {
+      const isSpace = text[i] === " " || text[i] === "\n";
+      if (!isSpace && !inWord) {
+        inWord = true;
+        count++;
+      }
+      if (isSpace) inWord = false;
+    }
+    return count;
   }, [text]);
 
   /* ---------------- Motion presets ---------------- */
 
-  const pageReveal = {
+  const pageReveal = useMemo(() => ({
     hidden: { opacity: 0, scale: 0.98 },
     show: {
       opacity: 1,
       scale: 1,
       transition: { duration: 0.6, ease: "easeOut" },
     },
-  };
+  }),[]);
 
-  const floatBrain = {
+  const floatBrain = useMemo(() => ({
     animate: {
       y: [0, -6, 0],
       transition: {
@@ -236,9 +254,9 @@ export default function SymptomAnalyzer() {
         ease: "easeInOut",
       },
     },
-  };
+  }),[]);
 
-  const pulseCTA = {
+  const pulseCTA = useMemo(() => ({
     animate: {
       scale: [1, 1.03, 1],
       transition: {
@@ -247,7 +265,7 @@ export default function SymptomAnalyzer() {
         ease: "easeInOut",
       },
     },
-  };
+  }),[]);
 
   const fail = (reason) => {
     console.warn("SYMPTOM ANALYZER BLOCKED:", reason);
@@ -267,16 +285,19 @@ export default function SymptomAnalyzer() {
     if (!text.trim() || charCount < MIN_CHARS) {
       return fail("Character count is less than minimum");
     }
+
+    const tokens = tokenize(text);
+
     if (!isTextClearEnough(text, 0.4)) {
       return fail("Text not clear enough");
     }
     if (!hasMedicalSignal(text, 2)) {
       return fail("No medical signal detected");
     }
-    if (!hasSymptomStructure(text)) {
+    if (!hasSymptomStructure(tokens)) {
       return fail("No symptom structure");
     }
-    if (!medicalDensity(text, 0.08)) {
+    if (!medicalDensity(tokens, 0.08)) {
       return fail("Medical density too low");
     }
     if (isMetaInput(text)) {
@@ -301,10 +322,11 @@ export default function SymptomAnalyzer() {
         moderate: 10,
       };
       let score = 0;
-      Object.entries(scores).forEach(([keyword, value]) => {
+      for (const keyword in scores) {
+        const value = scores[keyword];
         const occurrences = input.split(keyword).length - 1;
         if (occurrences > 0) score += occurrences * value;
-      });
+      }
       let urgencyLevel =
         score >= thresholds.high
           ? "high"
@@ -349,8 +371,12 @@ export default function SymptomAnalyzer() {
 
     // 3️⃣ Auto-resize textarea
     requestAnimationFrame(() => {
-      e.target.style.height = "auto";
-      e.target.style.height = `${e.target.scrollHeight}px`;
+      const el = e.target;
+      el.style.height = "auto";
+      const newHeight = el.scrollHeight + "px";
+      if (el.style.height !== newHeight) {
+        el.style.height = newHeight;
+      }
     });
   };
 
@@ -387,10 +413,14 @@ export default function SymptomAnalyzer() {
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem(
-      "symptomAnalyzerState",
-      JSON.stringify({ text, result }),
-    );
+    const id = setTimeout(() => {
+      sessionStorage.setItem(
+        "symptomAnalyzerState",
+        JSON.stringify({ text, result }),
+      );
+    }, 500);
+
+    return () => clearTimeout(id);
   }, [text, result]);
 
   const clearAnalyzerState = () => {
@@ -399,30 +429,30 @@ export default function SymptomAnalyzer() {
     setResult({ status: "idle" });
   };
 
-  const doneContainer = {
+  const doneContainer = useMemo(() => ({
     hidden: {},
     show: {
       transition: { staggerChildren: 0.12 },
     },
-  };
+  }),[]);
 
-  const doneItem = {
+  const doneItem = useMemo(() => ({
     hidden: { opacity: 0, y: 16 },
     show: {
       opacity: 1,
       y: 0,
       transition: { duration: 0.45, ease: "easeOut" },
     },
-  };
+  }),[]);
 
-  const softPop = {
+  const softPop = useMemo(() => ({
     hidden: { opacity: 0, scale: 0.96 },
     show: {
       opacity: 1,
       scale: 1,
       transition: { duration: 0.4, ease: "easeOut" },
     },
-  };
+  }),[]);
 
   if (!ready) return <SkeletonSymptomAnalyzer />;
 
@@ -443,7 +473,10 @@ export default function SymptomAnalyzer() {
           animate="animate"
           className="flex justify-center mb-6"
         >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center shadow-lg">
+          <div
+            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center shadow-lg transform-gpu will-change-transform
+"
+          >
             <Activity className="w-8 h-8 text-white" />
           </div>
         </motion.div>
@@ -461,7 +494,8 @@ export default function SymptomAnalyzer() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="mt-8 rounded-2xl shadow-lg border p-4 sm:p-6 transition-colors duration-300 
+          className="mt-8 rounded-2xl shadow-lg transform-gpu will-change-transform
+ border p-4 sm:p-6 transition-colors duration-300 
           bg-white border-gray-300 
           dark:bg-[#1e293b] dark:border-gray-700 dark:shadow-gray-700"
         >
@@ -529,7 +563,7 @@ export default function SymptomAnalyzer() {
 
           <motion.button
             variants={pulseCTA}
-            animate={charCount >= MIN_CHARS && !loading ? "animate" : undefined}
+            animate={!loading ? "animate" : undefined}
             onClick={analyzeSymptoms}
             disabled={loading || charCount < MIN_CHARS}
             className={`mt-6 w-full flex cursor-pointer items-center justify-center gap-2 py-3 rounded-xl font-medium transition ${
@@ -559,7 +593,8 @@ export default function SymptomAnalyzer() {
         {(result.status === "invalid" || shouldShowInvalid) && (
           <>
             <div
-              className="mt-10 rounded-xl border px-5 py-4 flex gap-3 shadow-lg transition-colors duration-300
+              className="mt-10 rounded-xl border px-5 py-4 flex gap-3  transform-gpu will-change-transform
+ transition-colors duration-300
               bg-yellow-100 border-yellow-400 text-yellow-700
               dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-200"
             >
@@ -576,7 +611,8 @@ export default function SymptomAnalyzer() {
             <div className="mt-4 flex text-center">
               <button
                 onClick={clearAnalyzerState}
-                className="flex-1 inline-flex justify-center items-center border py-2.5 cursor-pointer shadow-lg rounded-xl transition-colors duration-300
+                className="flex-1 inline-flex justify-center items-center border py-2.5 cursor-pointer  transform-gpu will-change-transform
+ rounded-xl transition-colors duration-300
                   bg-gray-500 text-white hover:bg-gray-200 hover:text-black
                   dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-white"
               >
@@ -588,131 +624,162 @@ export default function SymptomAnalyzer() {
 
         {/* DONE STATE */}
         {result.status === "done" && (
-          <motion.div variants={doneContainer} initial="hidden" animate="show">
-            <motion.div variants={doneItem}>
-              <motion.div
-                animate={{
-                  boxShadow: [
-                    "0 0 0 rgba(99,102,241,0)",
-                    "0 0 18px rgba(99,102,241,0.25)",
-                    "0 0 0 rgba(99,102,241,0)",
-                  ],
-                }}
-                transition={{ duration: 1.6 }}
-                className={`mt-10 rounded-xl border px-5 py-4 flex gap-3 shadow-lg transition-colors duration-300 ${
-                  result.color === "red"
-                    ? "bg-red-100 border-red-200 text-red-700 dark:bg-red-900/30 dark:border-red-800 dark:text-red-200"
-                    : result.color === "yellow"
-                      ? "bg-yellow-100 border-yellow-400 text-yellow-700 dark:bg-yellow-900/30 dark:border-yellow-800 dark:text-yellow-200"
-                      : "bg-green-100 border-green-400 text-green-700 dark:bg-green-900/30 dark:border-green-800 dark:text-green-200"
-                }`}
-              >
-                <AlertCircle className="w-6 h-6 mt-1" />
-                <div>
-                  <p className="font-semibold text-lg">
-                    {t("SymptomAnalyzer.urgencyLevel")}:{" "}
-                    <strong>
-                      {t(`SymptomAnalyzer.urgency.${result.urgency}.label`)}
-                    </strong>
-                  </p>
-                  <p className="text-sm mt-1">{result.description}</p>
-                </div>
-              </motion.div>
-            </motion.div>
-            {result.advice && (
-              <motion.div variants={doneItem}>
-                <div
-                  className="mt-6 rounded-xl border shadow-lg px-5 py-4 flex gap-3 transition-colors duration-300
-                bg-blue-100 border-blue-300 
-                dark:bg-blue-900/30 dark:border-blue-800"
-                >
-                  <Lightbulb className="w-6 h-6 mt-0.5 text-blue-700 dark:text-blue-300" />
-                  <div>
-                    <p className="font-semibold text-blue-800 dark:text-blue-200">
-                      {t("SymptomAnalyzer.immediateAdvice")}
-                    </p>
-                    <p className="text-sm mt-1 text-blue-700 dark:text-blue-100">
-                      {result.advice}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            <h3 className="mt-10 font-bold text-lg transition-colors duration-300 text-black dark:text-white">
-              {t("SymptomAnalyzer.suggestedConditions")}
-            </h3>
-
-            <div className="mt-2 space-y-4">
-              {result.conditions.map((c, i) => (
-                <motion.div key={i} variants={doneItem}>
-                  <div
-                    className="border rounded-xl shadow-lg p-4 flex justify-between items-center transition-colors duration-300
-                  bg-white border-gray-300
-                  dark:bg-[#1e293b] dark:border-gray-700"
-                  >
-                    <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">
-                        {c.name}
-                      </p>
-                      <p className="text-sm mt-1 text-gray-600 dark:text-gray-400">
-                        {c.description}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => window.open("/symptom-checker", "_blank")}
-                      className="inline-flex items-center cursor-pointer gap-1.5 h-9 px-4 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition"
-                    >
-                      {t("SymptomAnalyzer.check")}
-                      <ArrowRight size={14} />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div
-              className="mt-6 px-3 py-3 text-xs flex items-center gap-2 rounded-xl shadow-md border transition-colors duration-300
-              bg-gray-100 text-gray-600
-              dark:bg-slate-800 dark:text-gray-400 dark:border-gray-700"
-            >
-              <Info size={14} />
-              {t("SymptomAnalyzer.disclaimer")}
-            </div>
-
-            <motion.div variants={softPop} className="mt-6 flex gap-4">
-              <button
-                onClick={() => window.open("/symptom-checker", "_blank")}
-                className="flex-1 cursor-pointer shadow-lg py-2.5 rounded-xl transition-colors duration-300
-                  bg-black text-white hover:bg-gray-800
-                  dark:bg-white dark:text-black dark:hover:bg-gray-200"
-              >
-                {t("SymptomAnalyzer.actions.symptomChecker")}
-              </button>
-              <button
-                onClick={() => window.open("/clinics", "_blank")}
-                className="flex-1 inline-flex justify-center items-center border py-2.5 cursor-pointer shadow-lg rounded-xl transition-colors duration-300
-                  hover:bg-gray-200
-                  dark:border-gray-600 dark:text-white dark:hover:bg-gray-800"
-              >
-                {t("SymptomAnalyzer.actions.findClinics")}
-                <ExternalLink className="w-4 h-4 mx-2 opacity-80" />
-              </button>
-            </motion.div>
-
-            <div className="mt-4 flex text-center">
-              <button
-                onClick={clearAnalyzerState}
-                className="flex-1 inline-flex justify-center items-center border py-2.5 cursor-pointer shadow-lg rounded-xl transition-colors duration-300
-                  bg-gray-500 text-white hover:bg-gray-200 hover:text-black
-                  dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                {t("SymptomAnalyzer.reset")}
-              </button>
-            </div>
-          </motion.div>
+          <DoneState
+            result={result}
+            t={t}
+            clearAnalyzerState={clearAnalyzerState}
+            doneContainer={doneContainer}
+            doneItem={doneItem}
+            softPop={softPop}
+          />
         )}
       </div>
     </motion.main>
   );
 }
+
+const DoneState = React.memo(function DoneState({
+  result,
+  t,
+  clearAnalyzerState,
+  doneContainer,
+  doneItem,
+  softPop,
+}) {
+  return (
+    <motion.div
+      variants={doneContainer}
+      viewport={{ once: true }}
+      initial="hidden"
+      animate="show"
+    >
+      <motion.div variants={doneItem}>
+        <motion.div
+          animate={{
+            boxShadow: [
+              "0 0 0 rgba(99,102,241,0)",
+              "0 0 18px rgba(99,102,241,0.25)",
+              "0 0 0 rgba(99,102,241,0)",
+            ],
+          }}
+          transition={{ duration: 1.6 }}
+          className={`mt-10 rounded-xl border px-5 py-4 flex gap-3 shadow-lg transform-gpu will-change-transform
+ transition-colors duration-300 ${
+   result.color === "red"
+     ? "bg-red-100 border-red-200 text-red-700 dark:bg-red-900/30 dark:border-red-800 dark:text-red-200"
+     : result.color === "yellow"
+       ? "bg-yellow-100 border-yellow-400 text-yellow-700 dark:bg-yellow-900/30 dark:border-yellow-800 dark:text-yellow-200"
+       : "bg-green-100 border-green-400 text-green-700 dark:bg-green-900/30 dark:border-green-800 dark:text-green-200"
+ }`}
+        >
+          <AlertCircle className="w-6 h-6 mt-1" />
+          <div>
+            <p className="font-semibold text-lg">
+              {t("SymptomAnalyzer.urgencyLevel")}:{" "}
+              <strong>
+                {t(`SymptomAnalyzer.urgency.${result.urgency}.label`)}
+              </strong>
+            </p>
+            <p className="text-sm mt-1">{result.description}</p>
+          </div>
+        </motion.div>
+      </motion.div>
+      {result.advice && (
+        <motion.div variants={doneItem}>
+          <div
+            className="mt-6 rounded-xl border shadow-lg transform-gpu will-change-transform
+ px-5 py-4 flex gap-3 transition-colors duration-300
+                bg-blue-100 border-blue-300 
+                dark:bg-blue-900/30 dark:border-blue-800"
+          >
+            <Lightbulb className="w-6 h-6 mt-0.5 text-blue-700 dark:text-blue-300" />
+            <div>
+              <p className="font-semibold text-blue-800 dark:text-blue-200">
+                {t("SymptomAnalyzer.immediateAdvice")}
+              </p>
+              <p className="text-sm mt-1 text-blue-700 dark:text-blue-100">
+                {result.advice}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      <h3 className="mt-10 font-bold text-lg transition-colors duration-300 text-black dark:text-white">
+        {t("SymptomAnalyzer.suggestedConditions")}
+      </h3>
+
+      <div className="mt-2 space-y-4">
+        {result.conditions.map((c) => (
+          <motion.div key={c.name} variants={doneItem}>
+            <div
+              className="border rounded-xl shadow-lg transform-gpu will-change-transform
+ p-4 flex justify-between items-center transition-colors duration-300
+                  bg-white border-gray-300
+                  dark:bg-[#1e293b] dark:border-gray-700"
+            >
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  {c.name}
+                </p>
+                <p className="text-sm mt-1 text-gray-600 dark:text-gray-400">
+                  {c.description}
+                </p>
+              </div>
+              <button
+                onClick={() => window.open("/symptom-checker", "_blank")}
+                className="inline-flex items-center cursor-pointer gap-1.5 h-9 px-4 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition"
+              >
+                {t("SymptomAnalyzer.check")}
+                <ArrowRight size={14} />
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div
+        className="mt-6 px-3 py-3 text-xs flex items-center gap-2 rounded-xl shadow-md border transition-colors duration-300
+              bg-gray-100 text-gray-600
+              dark:bg-slate-800 dark:text-gray-400 dark:border-gray-700"
+      >
+        <Info size={14} />
+        {t("SymptomAnalyzer.disclaimer")}
+      </div>
+
+      <motion.div variants={softPop} className="mt-6 flex gap-4">
+        <button
+          onClick={() => window.open("/symptom-checker", "_blank")}
+          className="flex-1 cursor-pointer shadow-lg transform-gpu will-change-transform
+ py-2.5 rounded-xl transition-colors duration-300
+                  bg-black text-white hover:bg-gray-800
+                  dark:bg-white dark:text-black dark:hover:bg-gray-200"
+        >
+          {t("SymptomAnalyzer.actions.symptomChecker")}
+        </button>
+        <button
+          onClick={() => window.open("/clinics", "_blank")}
+          className="flex-1 inline-flex justify-center items-center border py-2.5 cursor-pointer shadow-lg transform-gpu will-change-transform
+ rounded-xl transition-colors duration-300
+                  hover:bg-gray-200
+                  dark:border-gray-600 dark:text-white dark:hover:bg-gray-800"
+        >
+          {t("SymptomAnalyzer.actions.findClinics")}
+          <ExternalLink className="w-4 h-4 mx-2 opacity-80" />
+        </button>
+      </motion.div>
+
+      <div className="mt-4 flex text-center">
+        <button
+          onClick={clearAnalyzerState}
+          className="flex-1 inline-flex justify-center items-center border py-2.5 cursor-pointer shadow-lg transform-gpu will-change-transform
+ rounded-xl transition-colors duration-300
+                  bg-gray-500 text-white hover:bg-gray-200 hover:text-black
+                  dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          {t("SymptomAnalyzer.reset")}
+        </button>
+      </div>
+    </motion.div>
+  );
+});

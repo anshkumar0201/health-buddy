@@ -1,7 +1,7 @@
 import { BookOpen, Shield, Users, AlertCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, useInView, animate } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const ICON_MAP = {
   diseases: BookOpen,
@@ -10,19 +10,21 @@ const ICON_MAP = {
   emergency: AlertCircle,
 };
 
-function AnimatedCounter({ value }) {
+const AnimatedCounter = React.memo(function AnimatedCounter({ value }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-  const [display, setDisplay] = useState("0");
+
+  // Initialize state correctly
+  const [display, setDisplay] = useState(() => {
+    const match = value?.match(/^(\d+)(.*)$/);
+    return match ? "0" : value;
+  });
 
   useEffect(() => {
     if (!isInView || !value) return;
 
     const match = value.match(/^(\d+)(.*)$/);
-    if (!match) {
-      setDisplay(value);
-      return;
-    }
+    if (!match) return;
 
     const target = parseInt(match[1], 10);
     const suffix = match[2] || "";
@@ -31,7 +33,10 @@ function AnimatedCounter({ value }) {
       duration: 2,
       ease: "easeOut",
       onUpdate(v) {
-        setDisplay(Math.floor(v) + suffix);
+        setDisplay((prev) => {
+          const next = Math.floor(v) + suffix;
+          return prev === next ? prev : next;
+        });
       },
     });
 
@@ -39,9 +44,10 @@ function AnimatedCounter({ value }) {
   }, [isInView, value]);
 
   return <span ref={ref}>{display}</span>;
-}
+});
 
-export default function HeroStats() {
+
+function HeroStats() {
   const { t } = useTranslation();
   const stats = t("HeroStats.items", { returnObjects: true });
 
@@ -122,3 +128,5 @@ export default function HeroStats() {
     </section>
   );
 }
+
+export default React.memo(HeroStats);

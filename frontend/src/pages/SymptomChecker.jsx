@@ -12,21 +12,37 @@ export default function SymptomChecker() {
   const [showBottom, setShowBottom] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const onScroll = () => {
-      const y = window.scrollY;
-      const max = document.body.scrollHeight - window.innerHeight;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          const max = document.body.scrollHeight - window.innerHeight;
 
-      const scrolledEnough = y > 1500;
-      const nearBottom = y > max - 80;
+          const scrolledEnough = y > 1500;
+          const nearBottom = y > max - 80;
 
-      setShowTop(scrolledEnough);
-      setShowBottom(scrolledEnough && !nearBottom);
+          setShowTop((prev) =>
+            prev !== scrolledEnough ? scrolledEnough : prev,
+          );
+          setShowBottom((prev) =>
+            prev !== (scrolledEnough && !nearBottom)
+              ? scrolledEnough && !nearBottom
+              : prev,
+          );
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", onScroll);
-    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
 
   const categories = [
     "all",
@@ -45,6 +61,16 @@ export default function SymptomChecker() {
 
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 150);
+
+    return () => clearTimeout(id);
+  }, [search]);
+
 
   useEffect(() => {
     const y = sessionStorage.getItem("symptomScroll");
@@ -64,11 +90,18 @@ export default function SymptomChecker() {
     }));
   }, [t]);
 
-  const filteredDiseases = diseases.filter(
-    (d) =>
-      (activeCategory === "all" || d.category === activeCategory) &&
-      d.name.toLowerCase().includes(search.toLowerCase()),
-  );
+  const isDesktop = useMemo(() => window.innerWidth > 640, []);
+
+  const filteredDiseases = useMemo(() => {
+    const lowerSearch = debouncedSearch.toLowerCase();
+
+    return diseases.filter(
+      (d) =>
+        (activeCategory === "all" || d.category === activeCategory) &&
+        d.name.toLowerCase().includes(lowerSearch),
+    );
+  }, [diseases, activeCategory, debouncedSearch]);
+
 
   if (!ready) return <SkeletonSymptomChecker />;
 
@@ -84,12 +117,7 @@ export default function SymptomChecker() {
     show: { opacity: 1, y: 0 },
   };
 
-
-  const motionKey = useMemo(
-      () => `${activeCategory}-${search}-${i18n.language}`,
-      [activeCategory, search, i18n.language]
-  );
-
+  
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b (valid Tailwind class)
@@ -102,7 +130,7 @@ export default function SymptomChecker() {
     bg-gradient-to-b from-slate-50 to-white
     dark:from-slate-950 dark:to-slate-900"
     >
-      <motion.div
+      <div
         className="max-w-7xl mx-auto px-4"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -181,10 +209,7 @@ export default function SymptomChecker() {
               <motion.button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                whileHover={{
-                  scale: 1.07,
-                  filter: "brightness(1.1)"
-                }}
+                whileHover={isDesktop ? { scale: 1.07 } : undefined}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
                 title={t(`SymptomChecker.categories.${cat}`)} // full text on hover
@@ -250,19 +275,19 @@ export default function SymptomChecker() {
 
         {/* Cards */}
         {filteredDiseases.length > 0 && (
-            <motion.div
-                key={motionKey}   // 🔥 forces correct re-render
-                className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-                variants={grid}
-                initial="hidden"
-                animate="show"
-            >
+          <motion.div
+            className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            variants={grid}
+            initial="hidden"
+            animate="show"
+            viewport={{ once: true }}
+          >
             {filteredDiseases.map((d) => (
               <motion.div
                 key={d.id}
                 variants={card}
                 className="group rounded-2xl border p-6
-                shadow-sm
+                shadow-sm transform-gpu will-change-transform
                 transition-all duration-300 ease-out
                 hover:-translate-y-1 hover:shadow-xl hover:border-blue-500
                 flex flex-col justify-between
@@ -302,7 +327,7 @@ export default function SymptomChecker() {
             ))}
           </motion.div>
         )}
-      </motion.div>
+      </div>
 
       {/* Mobile Scroll Helpers */}
       <div className="sm:hidden pointer-events-none">

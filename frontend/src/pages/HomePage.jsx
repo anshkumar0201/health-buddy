@@ -6,11 +6,6 @@ import CTASection from "../components/CTASection";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
 const staggerContainer = {
   initial: {},
   animate: {
@@ -23,21 +18,33 @@ export default function HomePage() {
   const [showBottom, setShowBottom] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const onScroll = () => {
-      const y = window.scrollY;
-      const max = document.body.scrollHeight - window.innerHeight;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          const max = document.body.scrollHeight - window.innerHeight;
 
-      const scrolledEnough = y > 1500;
-      const nearBottom = y > max - 80;
+          const scrolledEnough = y > 1500;
+          const nearBottom = y > max - 80;
 
-      setShowTop(scrolledEnough);
-      setShowBottom(scrolledEnough && !nearBottom);
+          setShowTop(scrolledEnough);
+          setShowBottom(scrolledEnough && !nearBottom);
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
     };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
 
   return (
     <div className="relative">
@@ -118,7 +125,13 @@ export default function HomePage() {
       {/* Mobile Scroll Helpers */}
       <div className="sm:hidden pointer-events-none">
         {showTop && (
-          <div className="fixed top-17 left-1/2 -translate-x-1/2 z-40">
+          <motion.div
+            className="fixed top-17 left-1/2 -translate-x-1/2 z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showTop ? 1 : 0 }}
+            transition={{ duration: 0.25 }}
+            style={{ pointerEvents: showTop ? "auto" : "none" }}
+          >
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="
@@ -137,15 +150,19 @@ export default function HomePage() {
                 keyboard_arrow_up
               </span>
             </button>
-          </div>
+          </motion.div>
         )}
 
         {showBottom && (
-          <div
+          <motion.div
             className="fixed left-1/2 -translate-x-1/2 z-40"
             style={{
               bottom: "calc(max(env(safe-area-inset-bottom), 1px) + 4.3rem)",
+              pointerEvents: showBottom ? "auto" : "none",
             }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showBottom ? 1 : 0 }}
+            transition={{ duration: 0.25 }}
           >
             <button
               onClick={() =>
@@ -170,7 +187,7 @@ export default function HomePage() {
                 keyboard_arrow_down
               </span>
             </button>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

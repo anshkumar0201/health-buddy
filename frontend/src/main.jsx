@@ -4,6 +4,8 @@ import "./i18n";
 import App from "./App";
 import "./index.css";
 import { ThemeProvider } from "./context/ThemeContext";
+import { LazyMotion, domAnimation } from "framer-motion";
+
 
 function Root() {
   useEffect(() => {
@@ -18,7 +20,9 @@ function Root() {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
-      <Root />
+      <LazyMotion features={domAnimation}>
+        <Root />
+      </LazyMotion>
     </ThemeProvider>
   </React.StrictMode>,
 );

@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { use, useMemo } from "react";
 import {
   AlertTriangle,
   CheckCircle,
@@ -33,6 +33,24 @@ export default function DiseaseDetails() {
     };
   }, [id, t]);
 
+  const listStagger = useMemo(
+    () => ({
+      hidden: {},
+      show: {
+        transition: { staggerChildren: 0.05 },
+      },
+    }),
+    [],
+  );
+
+  const listItem = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: 10 },
+      show: { opacity: 1, y: 0 },
+    }),
+    [],
+  );
+
   if (!ready) {
     return <SkeletonDiseaseDetails />;
   }
@@ -41,8 +59,8 @@ export default function DiseaseDetails() {
   if (!disease) {
     return (
       <motion.main
-        initial={{ opacity: 0, scale: 0.97 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="min-h-[70vh] px-4 text-center justify-center flex flex-col items-center dark:bg-slate-900"
       >
@@ -97,7 +115,7 @@ export default function DiseaseDetails() {
 
         {/* Main Content Card */}
         <div
-          className="rounded-2xl px-8 py-8 w-full shadow-lg border transition-colors duration-300
+          className="rounded-2xl px-8 py-8 w-full shadow-lg border transition-colors duration-300 transform-gpu will-change-transform
           bg-white border-gray-200
           dark:bg-[#1e293b] dark:border-gray-700"
         >
@@ -107,12 +125,13 @@ export default function DiseaseDetails() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="w-full h-56 rounded-2xl overflow-hidden mb-8 shadow-md hover:shadow-xl transition-all duration-300 ease-out"
+              className="w-full h-56 rounded-2xl overflow-hidden mb-8 shadow-md sm:hover:shadow-xl transition-all duration-300 ease-out"
             >
               <img
                 src={disease.image_url}
                 alt={disease.name}
-                className="w-full h-full object-cover transition-transform duration-500 ease-out hover:scale-[1.03]"
+                className="w-full h-full object-cover transition-transform duration-500 ease-out sm:hover:scale-[1.03]
+"
               />
             </motion.div>
           )}
@@ -135,24 +154,16 @@ export default function DiseaseDetails() {
           {/* CTAs */}
 
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
-            <motion.div
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="w-full"
-            >
+            <div className="w-full transition-transform active:scale-95 sm:hover:scale-105">
               <Link
                 to="/symptom-checker"
-                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl active:scale-[0.97] transition-all duration-300 ease-out"
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:from-blue-700 hover:to-indigo-700 sm:hover:shadow-xl active:scale-[0.97] transition-all duration-300 ease-out"
               >
                 <Stethoscope className="w-4 h-4" />
                 {t("Diseases.takeAssessment")}
               </Link>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="w-full"
-            >
+            </div>
+            <motion className="w-full transition-transform active:scale-95 sm:hover:scale-105">
               <Link
                 to="/clinics"
                 className="flex-1 flex items-center justify-center px-6 py-3 rounded-xl border font-medium shadow-sm active:scale-[0.97] transition-all duration-200
@@ -161,18 +172,21 @@ export default function DiseaseDetails() {
               >
                 {t("Diseases.findClinics")}
               </Link>
-            </motion.div>
+            </motion>
           </div>
 
           {/* Common Symptoms */}
           <SectionCard title={t("Diseases.commonSymptoms")} icon={<Info />}>
-            <ul className="grid sm:grid-cols-2 gap-y-2 gap-x-6">
+            <motion.ul
+              variants={listStagger}
+              initial="hidden"
+              animate="show"
+              className="grid sm:grid-cols-2 gap-y-2 gap-x-6"
+            >
               {disease.symptoms.map((s, i) => (
                 <motion.li
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
+                  variants={listItem}
                   className="flex items-center gap-2 text-sm transition-colors duration-200
                     text-gray-700 hover:text-gray-900
                     dark:text-gray-300 dark:hover:text-white"
@@ -181,7 +195,7 @@ export default function DiseaseDetails() {
                   {s}
                 </motion.li>
               ))}
-            </ul>
+            </motion.ul>
           </SectionCard>
 
           {/* Causes */}
@@ -273,7 +287,8 @@ function SectionCard({ title, icon, children }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="mt-6 rounded-2xl border p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out
+      className="mt-6 rounded-2xl border p-6 shadow-sm sm:hover:shadow-xl
+ sm:hover:-translate-y-1 transition-all duration-300 ease-out
       bg-white border-gray-200
       dark:bg-[#1e293b] dark:border-gray-700 dark:hover:shadow-gray-700/50"
     >

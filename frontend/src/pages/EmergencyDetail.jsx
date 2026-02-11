@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import SkeletonEmergencyDetail from "@/components/skeletons/SkeletonEmergencyDetail";
 
-
 /* ---------- Icons ---------- */
 
 function AlertIcon({ className = "" }) {
@@ -57,10 +56,27 @@ export default function EmergencyDetail() {
     window.scrollTo({ top: 0 });
   }, [slug]);
 
+  const listStagger = useMemo(
+    () => ({
+      hidden: {},
+      show: {
+        transition: { staggerChildren: 0.06 },
+      },
+    }),
+    [],
+  );
+
+  const listItem = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: 10 },
+      show: { opacity: 1, y: 0 },
+    }),
+    [],
+  );
+
   if (!ready) {
     return <SkeletonEmergencyDetail />;
   }
-
 
   if (!card || !details) {
     return (
@@ -141,10 +157,10 @@ export default function EmergencyDetail() {
             {/* Emergency Callout - DARK MODE: Transparent Red */}
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: [1, 1.03, 1], opacity: 1 }}
-              transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6 }}
               className="flex gap-3 rounded-lg p-4 mb-6 border transition-colors duration-300
-              bg-red-50 border-red-200 
+              bg-red-50 border-red-200 transform-gpu will-change-transform
               dark:bg-red-900/20 dark:border-red-900"
             >
               <AlertTriangle className="w-5 h-5 mt-1 text-red-600 dark:text-red-500" />
@@ -167,13 +183,15 @@ export default function EmergencyDetail() {
               {t("EmergencyDetails.EmergencyUI.recognize", "How to Recognize")}
             </h3>
 
-            <ul className="space-y-3">
+            <motion.ul
+              variants={listStagger}
+              initial="hidden"
+              animate="show"
+              className="space-y-3"
+            >
               {details.recognize?.map((item, i) => (
                 <motion.li
                   key={i}
-                  initial={{ x: -30, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.08 }}
                   className="flex gap-3 border p-3 rounded-xl transition-colors duration-300
                     bg-orange-50 border-orange-100 
                     dark:bg-orange-900/20 dark:border-orange-900 dark:text-gray-200"
@@ -182,12 +200,12 @@ export default function EmergencyDetail() {
                   <span>{item}</span>
                 </motion.li>
               ))}
-            </ul>
+            </motion.ul>
 
             {/* Steps - DARK MODE: Transparent Blue */}
             <div
               className="border-2 p-6 rounded-xl mt-8 transition-colors duration-300
-              bg-blue-50 border-blue-200 
+              bg-blue-50 border-blue-200  transform-gpu will-change-transform
               dark:bg-blue-900/20 dark:border-blue-800"
             >
               <h3 className="text-2xl font-bold mb-4 transition-colors duration-300 text-blue-900 dark:text-blue-200">
@@ -198,13 +216,15 @@ export default function EmergencyDetail() {
                 )}
               </h3>
 
-              <ol className="space-y-3">
+              <motion.ol
+                variants={listItem}
+                initial="hidden"
+                animate="show"
+                className="space-y-3"
+              >
                 {details.steps?.map((step, i) => (
                   <motion.li
                     key={i}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.1 }}
                     className="flex gap-3 transition-colors duration-300 text-gray-900 dark:text-gray-200"
                   >
                     <div className="w-6 h-6 min-w-[1.5rem] min-h-[1.5rem] aspect-square rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold leading-none dark:bg-blue-500">
@@ -213,14 +233,15 @@ export default function EmergencyDetail() {
                     <p>{step}</p>
                   </motion.li>
                 ))}
-              </ol>
+              </motion.ol>
             </div>
 
             {/* DO / DON'T */}
             <div className="grid sm:grid-cols-2 gap-6 mt-8">
               <motion.div
-                initial={{ x: -40, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
+                initial={{ x: -20, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
               >
                 <Checklist
@@ -230,8 +251,9 @@ export default function EmergencyDetail() {
                 />
               </motion.div>
               <motion.div
-                initial={{ x: -40, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
+                initial={{ x: -20, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
               >
                 <Checklist
@@ -257,7 +279,7 @@ export default function EmergencyDetail() {
                 {["108", "104", "102", "112"].map((n) => (
                   <motion.a
                     key={n}
-                    whileHover={{ scale: 1.08 }}
+                    whileHover={{ y: -3 }}
                     whileTap={{ scale: 0.95 }}
                     href={`tel:${n}`}
                     className="rounded-2xl py-4 text-center font-extrabold transition active:scale-95
@@ -307,7 +329,7 @@ function Checklist({ title, items = [], type }) {
   return (
     <div
       className="border rounded-xl p-4 transition-colors duration-300
-      bg-gray-50 border-gray-200 
+      bg-gray-50 border-gray-200 transform-gpu will-change-transform
       dark:bg-slate-800 dark:border-gray-700"
     >
       <h4 className={`font-semibold mb-3 ${colorClass}`}>{title}</h4>
