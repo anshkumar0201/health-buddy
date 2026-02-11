@@ -115,7 +115,7 @@ export default function Prevention() {
           {/* Tabs */}
           <div className="mt-10 max-w-3xl mx-auto">
             {/* Tab Container: Gray-200 (Light) -> Slate-800 (Dark) */}
-            <div className="relative rounded-xl p-1 flex overflow-hidden transition-colors duration-300 bg-gray-200 dark:bg-slate-800">
+            <div className="relative rounded-xl p-1 flex overflow-hidden transition-colors dark:border dark:border-gray-300 duration-300 bg-gray-200 dark:bg-slate-800">
               {/* Sliding Indicator: White (Light) -> Slate-600 (Dark) */}
               <div
                 className="
