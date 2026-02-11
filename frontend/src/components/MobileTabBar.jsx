@@ -78,7 +78,7 @@ function MobileTabBar() {
             <Link
               key={tab.path}
               to={tab.path}
-              className="relative flex items-center justify-center w-12 h-12 rounded-full shrink-0"
+              className="relative flex items-center justify-center w-12 h-12 rounded-full"
             >
               {/* Blossom background */}
               <AnimatePresence mode="wait">
