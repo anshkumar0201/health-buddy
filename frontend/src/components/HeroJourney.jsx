@@ -7,6 +7,7 @@ import {
   useTransform,
   useReducedMotion,
 } from "framer-motion";
+import heroImage from "@/assets/heroJourney5.png";
 
 export default function HeroJourney() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function HeroJourney() {
       className="
         relative w-full overflow-hidden isolate
         /* FLUID HEIGHT: Grows with content, ensures nothing gets cut off */
-        min-h-[auto] lg:min-h-[85svh]
+        min-h-[100svh] lg:min-h-[85svh]
         flex flex-col justify-center
       "
     >
@@ -34,6 +35,7 @@ export default function HeroJourney() {
         style={{
           y: shouldReduceMotion ? 0 : y,
           scale: shouldReduceMotion ? 1 : scale,
+          willChange: "transform",
         }}
         aria-hidden="true"
         data-testid="hero-visual-layer"
@@ -44,16 +46,18 @@ export default function HeroJourney() {
           <motion.div
             animate={!shouldReduceMotion ? { rotate: 360 } : undefined}
             transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+            style={{ willChange: "transform" }}
             data-testid="hero-gradient-1"
             className="absolute w-[800px] h-[800px] lg:w-[1200px] lg:h-[1200px]
                        bg-gradient-to-r from-blue-500/30 via-cyan-400/30 to-emerald-400/30
-                       blur-[100px] lg:blur-[140px] rounded-full
+                       blur-[100px] lg:blur-[140px] rounded-full will-change-transform
                        top-[-400px] left-[-200px] lg:top-[-500px] lg:left-[-400px]"
           />
 
           <motion.div
             animate={!shouldReduceMotion ? { rotate: -360 } : undefined}
             transition={{ duration: 160, repeat: Infinity, ease: "linear" }}
+            style={{ willChange: "transform" }}
             data-testid="hero-gradient-2"
             className="absolute w-[600px] h-[600px] lg:w-[1000px] lg:h-[1000px]
                        bg-gradient-to-r from-indigo-500/20 via-fuchsia-400/20 to-pink-400/20
@@ -73,7 +77,10 @@ export default function HeroJourney() {
 
         {/* HERO IMAGE */}
         <img
-          src="/src/assets/heroJourney5.png"
+          src={heroImage}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           alt={t(
             "HeroJourney.imageAlt",
             "Medical diagnostic technology device",
@@ -150,19 +157,13 @@ export default function HeroJourney() {
             stiffness: 140,
             damping: 12,
           }}
-          className="mt-10 flex justify-center"
+          className="mt-7 flex justify-center"
           data-testid="hero-cta-container"
         >
           <button
             type="button"
             aria-label={t("HeroJourney.ctaAria", "Open symptom checker")}
             data-testid="hero-cta-button"
-            // whileHover={{
-            //   y: -6,
-            //   scale: 1.08,
-            //   boxShadow: "0 30px 60px rgba(37,99,235,0.4)",
-            // }}
-            // whileTap={{ scale: 0.92 }}
             onClick={() => navigate("/symptom-checker")}
             className="
               group relative inline-flex items-center gap-3
