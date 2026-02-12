@@ -45,18 +45,6 @@ const LazyRoute = ({ component: Component, skeleton: Skeleton }) => (
   </Suspense>
 );
 
-// /* ---------------- Loading Fallback ---------------- */
-
-// function PageLoader() {
-//   const { t } = useTranslation();
-
-//   return (
-//     <div className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-white">
-//       <div className="w-8 h-8 rounded-full border-2 border-gray-300 border-t-black animate-spin mb-3" />
-//       <p className="text-sm text-gray-500">{t("loading")}</p>
-//     </div>
-//   );
-// }
 
 /* ---------------- App ---------------- */
 
@@ -70,9 +58,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      {/* App shell */}
-      <div className="min-h-screen pb-16 sm:pb-0 overflow-visible">
-        <Navbar />
+
+      {/* GLOBAL THEME BACKGROUND: Prevents white flash before React loads */}
+      <div className="min-h-screen pb-16 sm:pb-0 overflow-visible transition-colors duration-300 bg-white dark:bg-[#131314]">
+        <ErrorBoundary>
+          <Navbar />
+        </ErrorBoundary>
 
         <ErrorBoundary>
           <Routes>
@@ -183,10 +174,14 @@ export default function App() {
 
         {/* Desktop emergency bar */}
         <div className="hidden sm:block">
-          <EmergencyBar />
+          <ErrorBoundary>
+            <EmergencyBar />
+          </ErrorBoundary>
         </div>
         {/* Mobile navigation */}
-        <MobileTabBar />
+        <ErrorBoundary>
+          <MobileTabBar />
+        </ErrorBoundary>
       </div>
     </BrowserRouter>
   );

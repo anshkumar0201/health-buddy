@@ -188,7 +188,7 @@ export default function Navbar() {
                 <Link
                   key={item.key}
                   to={item.path}
-                  title={t(item.key)} // Tooltip ensures usability when text is hidden
+                  title={t ? t(item.key) : ""} // Tooltip ensures usability when text is hidden
                   className={`${baseClasses} ${itemClasses}`}
                 >
                   <Icon size={20} className="shrink-0" />
@@ -200,7 +200,7 @@ export default function Navbar() {
                       3. On Zoom In: Browser width shrinks effectively -> Nav auto-switches to Icon Only mode.
                   */}
                   <span className="hidden xl:block max-w-[120px] truncate">
-                    {t(item.key)}
+                    {t ? t(item.key) : item.key}
                   </span>
                 </Link>
               );
