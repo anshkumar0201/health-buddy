@@ -1,20 +1,17 @@
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-
+import "./i18n";
 const App = React.lazy(() => import("./App"));
-const ThemeProvider = React.lazy(() => import("./context/ThemeContext"));
-const LazyMotion = React.lazy(() =>
-  import("framer-motion").then((mod) => ({ default: mod.LazyMotion })),
-);
+import "./index.css";
+import { ThemeProvider } from "./context/ThemeContext";
+import { LazyMotion, domAnimation } from "framer-motion";
+
 
 function Root() {
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
-    // lazy load i18n AFTER first paint
-    import("./i18n");
   }, []);
 
   return <App />;
@@ -22,16 +19,10 @@ function Root() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Suspense fallback={null}>
-      <ThemeProvider>
-        <LazyMotion
-          features={() =>
-            import("framer-motion").then((res) => res.domAnimation)
-          }
-        >
-          <Root />
-        </LazyMotion>
-      </ThemeProvider>
-    </Suspense>
+    <ThemeProvider>
+      <LazyMotion features={domAnimation}>
+        <Root />
+      </LazyMotion>
+    </ThemeProvider>
   </React.StrictMode>,
 );
