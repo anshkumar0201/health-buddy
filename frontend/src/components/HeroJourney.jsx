@@ -7,7 +7,6 @@ import {
   useTransform,
   useReducedMotion,
 } from "framer-motion";
-import heroImage from "@/assets/heroJourney5.png";
 
 export default function HeroJourney() {
   const navigate = useNavigate();
@@ -77,10 +76,9 @@ export default function HeroJourney() {
 
         {/* HERO IMAGE */}
         <img
-          src={heroImage}
-          loading="eager"
+          src="/images/heroJourney6.avif"
+          loading="lazy"
           decoding="async"
-          fetchPriority="high"
           alt={t(
             "HeroJourney.imageAlt",
             "Medical diagnostic technology device",
