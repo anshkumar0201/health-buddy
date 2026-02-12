@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { Stethoscope, Search, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import SkeletonSymptomChecker from "@/components/skeletons/SkeletonSymptomChecker";
 
 export default function SymptomChecker() {
@@ -43,7 +43,6 @@ export default function SymptomChecker() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-
   const categories = [
     "all",
     "cardiovascular",
@@ -70,7 +69,6 @@ export default function SymptomChecker() {
 
     return () => clearTimeout(id);
   }, [search]);
-
 
   useEffect(() => {
     const y = sessionStorage.getItem("symptomScroll");
@@ -102,7 +100,6 @@ export default function SymptomChecker() {
     );
   }, [diseases, activeCategory, debouncedSearch]);
 
-
   if (!ready) return <SkeletonSymptomChecker />;
 
   const grid = {
@@ -116,8 +113,6 @@ export default function SymptomChecker() {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
   };
-
-  
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b (valid Tailwind class)
@@ -277,54 +272,61 @@ export default function SymptomChecker() {
         {filteredDiseases.length > 0 && (
           <motion.div
             className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            variants={grid}
-            initial="hidden"
-            animate="show"
-            viewport={{ once: true }}
+            // variants={grid}
+            // initial="hidden"
+            // animate="show"
+            // viewport={{ once: true }}
           >
-            {filteredDiseases.map((d) => (
-              <motion.div
-                key={d.id}
-                variants={card}
-                className="group rounded-2xl border p-6
+            <AnimatePresence mode="popLayout">
+              {filteredDiseases.map((d) => (
+                <motion.div
+                  layout="position"
+                  key={d.id}
+                  variants={card}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="group rounded-2xl border p-6
                 shadow-sm transform-gpu will-change-transform
                 transition-all duration-300 ease-out
                 hover:-translate-y-1 hover:shadow-xl hover:border-blue-500
                 flex flex-col justify-between
                 bg-white border-gray-200
                 dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-blue-400 dark:hover:shadow-gray-700"
-              >
-                <div>
-                  <span
-                    className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-medium
+                >
+                  <div>
+                    <span
+                      className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-medium
                   bg-black text-white
                   dark:bg-blue-600 dark:text-gray-300"
-                  >
-                    {t(`SymptomChecker.categories.${d.category}`)}
-                  </span>
+                    >
+                      {t(`SymptomChecker.categories.${d.category}`)}
+                    </span>
 
-                  <h3 className="text-lg font-bold mb-2 transition-colors duration-300 text-gray-900 dark:text-white">
-                    {d.name}
-                  </h3>
+                    <h3 className="text-lg font-bold mb-2 transition-colors duration-300 text-gray-900 dark:text-white">
+                      {d.name}
+                    </h3>
 
-                  <p className="text-sm transition-colors duration-300 text-gray-600 dark:text-gray-400">
-                    {d.description || t("SymptomChecker.noDescription")}
-                  </p>
-                </div>
+                    <p className="text-sm transition-colors duration-300 text-gray-600 dark:text-gray-400">
+                      {d.description || t("SymptomChecker.noDescription")}
+                    </p>
+                  </div>
 
-                <Link
-                  to={`/assessment/${d.id}`}
-                  onClick={() => {
-                    sessionStorage.setItem("symptomScroll", window.scrollY);
-                  }}
-                  className="mt-6 w-full py-3 rounded-xl text-center font-medium cursor-pointer transition-colors duration-300
+                  <Link
+                    to={`/assessment/${d.id}`}
+                    onClick={() => {
+                      sessionStorage.setItem("symptomScroll", window.scrollY);
+                    }}
+                    className="mt-6 w-full py-3 rounded-xl text-center font-medium cursor-pointer transition-colors duration-300
                   bg-gray-300 text-black hover:bg-black hover:text-white
                   dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-blue-600"
-                >
-                  {t("SymptomChecker.startAssessment")} →
-                </Link>
-              </motion.div>
-            ))}
+                  >
+                    {t("SymptomChecker.startAssessment")} →
+                  </Link>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </motion.div>
         )}
       </div>

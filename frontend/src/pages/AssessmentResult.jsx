@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Check,
@@ -30,13 +30,14 @@ function AssessmentResult() {
   } = state;
 
   const assessment = useMemo(() => {
-    if (!disease) return null;
-    return i18n.getResource(
-      i18n.language,
-      "translation",
-      `assessments.data.${disease}`,
-    );
-  }, [disease, i18n]);
+    if (!ready || !disease) return null;
+
+    return t(`assessments.data.${disease}`, {
+      returnObjects: true,
+      defaultValue: null,
+    });
+  }, [t, disease, ready]);
+
 
   /* ---------- ROBUST RISK LOGIC ---------- */
   const percentage = useMemo(
@@ -62,14 +63,20 @@ function AssessmentResult() {
   );
 
   useEffect(() => {
+    if (!ready) return;
+
     if (!disease || !assessment) {
       navigate("/symptom-checker", { replace: true });
     }
-  }, [disease, assessment, navigate]);
+  }, [disease, assessment, navigate, ready]);
+
 
   if (!disease || !ready || !assessment) {
     return <SkeletonAssessmentResult />;
   }
+
+  if (!ready) return <SkeletonAssessmentResult />;
+  if (!assessment?.title) return <Navigate to="/symptom-checker" replace />;
 
   /* UPDATED THEMES FOR DARK MODE:
      - Light Mode: Uses pastel backgrounds (e.g., bg-green-200)
