@@ -16,6 +16,11 @@ import medicalTerms from "../../shared/medical/medical-terms.json";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
+console.log("API_BASE:", API_BASE);
+
+if (!import.meta.env.VITE_API_BASE_URL) {
+  console.error("❌ VITE_API_BASE_URL is missing!");
+}
 
 /* ======================================================
    HELPER FUNCTIONS (Validation & Medical Checks)
