@@ -5,10 +5,15 @@ import React, { useMemo } from "react";
 function EmergencyBar() {
   const { t } = useTranslation();
 
-  const helplines = useMemo(
-    () => t("EmergencyBar.helplines", { returnObjects: true }) || [],
-    [t],
-  );
+  const helplines = useMemo(() => {
+    const data = t("EmergencyBar.helplines", { returnObjects: true });
+    // CRITICAL FIX: Ensure it is actually an array.
+    // If 'data' is a string (key fallback) or null, return empty array.
+    return Array.isArray(data) ? data : [];
+  }, [t]);
+
+  // Don't render anything if no helplines (prevents empty red bar)
+  if (helplines.length === 0) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 print-hide pointer-events-auto will-change-transform">

@@ -23,7 +23,7 @@ i18n
         load: "languageOnly",
 
         backend: {
-            loadPath: "/locales/{{lng}}/translation.json",
+            loadPath: `/locales/{{lng}}/translation.json?v=${Date.now()}`,
         },
 
         detection: { order: ["localStorage", "navigator"], caches: ["localStorage"] },
