@@ -1,7 +1,7 @@
 import { Heart, Activity } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import SkeletonCTASection from "./skeletons/SkeletionCTASection";
+import SkeletonCTASection from "./skeletons/SkeletonCTASection";
 import React from "react";
 
 function CTASection() {

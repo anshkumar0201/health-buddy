@@ -2,9 +2,8 @@ import { useState, useMemo, useEffect } from "react";
 import { BookOpen, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import SkeletonDiseases from "@/components/skeletons/SkeletonDiseases";
-
 
 /* ---------------- Category order ---------------- */
 const CATEGORY_ORDER = [
@@ -62,8 +61,6 @@ export default function Diseases() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-
-
   useEffect(() => {
     const y = sessionStorage.getItem("symptomScroll");
     if (y) {
@@ -77,29 +74,16 @@ export default function Diseases() {
   /* ---------------- State ---------------- */
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 150);
-
-    return () => clearTimeout(id);
-  }, [search]);
 
 
   /* ---------------- Get diseases from i18n ---------------- */
-  const diseases = useMemo(() => {
-    const items = t("Diseases.items", {
-      returnObjects: true,
-      defaultValue: {},
-    });
+  const items = t("Diseases.items", { returnObjects: true, defaultValue: {} });
 
-    return Object.entries(items).map(([id, data]) => ({
-      id,
-      ...data,
-    }));
-  }, [t]);
+  const diseases = Object.entries(items).map(([id, data]) => ({
+    id,
+    ...data,
+    _name: (data.name || "").toLowerCase(),
+  }));
 
   /* ---------------- Category counts ---------------- */
   const categoryCounts = useMemo(() => {
@@ -113,15 +97,14 @@ export default function Diseases() {
 
   /* ---------------- Filtering ---------------- */
   const filteredDiseases = useMemo(() => {
-    const lower = debouncedSearch.toLowerCase();
+    const lower = search.trim().toLowerCase();
 
     return diseases.filter(
       (d) =>
         (activeCategory === "all" || d.category === activeCategory) &&
-        d.name.toLowerCase().includes(lower),
+        d._name.includes(lower),
     );
-  }, [diseases, activeCategory, debouncedSearch]);
-
+  }, [diseases, activeCategory, search]);
 
   if (!ready) return <SkeletonDiseases />;
 
@@ -267,54 +250,64 @@ export default function Diseases() {
 
         {/* Disease Cards */}
         <motion.div
-          variants={grid}
-          initial="hidden"
-          animate="show"
-          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
+          // layout
+          // variants={grid}
+          // initial="hidden"
+          // animate="show"
+          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {filteredDiseases.map((d) => (
-            <motion.div
-              key={d.id}
-              variants={card}
-              className="group rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col transition-all duration-300 transform-gpu will-change-transform
+          <AnimatePresence mode="popLayout">
+            {filteredDiseases.map((d) => (
+              <motion.div
+                layout="position"
+                key={d.id}
+                variants={card}
+                // 4. Use inline animations for stability instead of complex variants
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }} // Simple fade-out, no Y-movement
+                // 5. Faster duration (0.2) feels snappier and less "heavy"
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="group rounded-2xl border p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl flex flex-col transition-all duration-300 transform-gpu will-change-transform
                 bg-white border-gray-200
                 dark:bg-[#1e293b] dark:border-gray-700 dark:hover:border-blue-400 dark:hover:shadow-gray-700"
-            >
-              <div className="flex-1">
-                <span
-                  className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-semibold 
+              >
+                <div className="flex-1">
+                  <span
+                    className="inline-block mb-3 px-3 py-1 rounded-xl text-xs font-semibold 
                   bg-black text-white 
                   dark:bg-blue-600 dark:text-white"
-                >
-                  {t(`Diseases.categories.${d.category}`)}
-                </span>
+                  >
+                    {t(`Diseases.categories.${d.category}`)}
+                  </span>
 
-                <h3 className="text-lg font-bold mb-2 transition-colors duration-300 text-gray-900 dark:text-gray-300">
-                  {d.name}
-                </h3>
+                  <h3 className="text-lg font-bold mb-2 transition-colors duration-300 text-gray-900 dark:text-gray-300">
+                    {d.name}
+                  </h3>
 
-                {/* Using text-gray-300 for reduced eye strain in dark mode */}
-                <p className="text-sm mb-4 line-clamp-2 transition-colors duration-300 text-gray-600 dark:text-gray-300">
-                  {d.description}
-                </p>
-              </div>
+                  {/* Using text-gray-300 for reduced eye strain in dark mode */}
+                  <p className="text-sm mb-4 line-clamp-2 transition-colors duration-300 text-gray-600 dark:text-gray-300">
+                    {d.description}
+                  </p>
+                </div>
 
-              <Link
-                to={`/diseases/${d.id}`}
-                onClick={() =>
-                  sessionStorage.setItem("symptomScroll", window.scrollY)
-                }
-                className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium transition
+                <Link
+                  to={`/diseases/${d.id}`}
+                  onClick={() =>
+                    sessionStorage.setItem("symptomScroll", window.scrollY)
+                  }
+                  className="mt-6 inline-flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium transition
                   hover:bg-gray-300 group-hover:text-blue-600
                   dark:text-gray-300 dark:hover:bg-slate-600 dark:group-hover:text-blue-400"
-              >
-                {t("Diseases.learnMore")}
-                <span className="transition-transform group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
-            </motion.div>
-          ))}
+                >
+                  {t("Diseases.learnMore")}
+                  <span className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
       </div>
       {/* Mobile Scroll Helpers */}
