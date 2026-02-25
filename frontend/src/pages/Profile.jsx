@@ -2,14 +2,16 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { Pencil, X, Save } from "lucide-react";
 
-// Import your isolated tab components
+// Import all isolated tab components
 import PersonalInfoTab from "../components/profile/PersonalInfoTab";
 import MedicalConditionsTab from "../components/profile/MedicalConditionsTab";
 import MedicationsTab from "../components/profile/MedicationsTab";
-// import LifestyleTab from "../components/profile/LifestyleTab";
-// import EmergencyContactTab from "../components/profile/EmergencyContactTab";
+import AllergiesTab from "../components/profile/AllergiesTab";
+import SurgeriesTab from "../components/profile/SurgeriesTab";
+import VitalsTab from "../components/profile/VitalsTab";
+import LifestyleTab from "../components/profile/LifestyleTab";
+import EmergencyContactTab from "../components/profile/EmergencyContactTab";
 
 const TABS = [
   "Personal Info",
@@ -28,24 +30,6 @@ export default function Profile() {
   const isDark = theme === "dark";
 
   const [activeTab, setActiveTab] = useState("Personal Info");
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case "Personal Info":
-        // Pass the user down so the child can hydrate its own form
-        return <PersonalInfoTab user={user} />;
-      case "Medical Conditions":
-        return <MedicalConditionsTab user={user} />;
-      case "Medications":
-        return <MedicationsTab user={user} />;
-      // case "Lifestyle":
-      //   return <LifestyleTab />;
-      // case "Emergency Contact":
-      //   return <EmergencyContactTab />;
-      default:
-        return <p className="opacity-60">Section coming soon...</p>;
-    }
-  };
 
   return (
     <div
@@ -77,8 +61,48 @@ export default function Profile() {
           <div
             className={`max-w-4xl mx-auto rounded-2xl border p-6 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
           >
-            {/* The child component handles everything else! */}
-            {renderContent()}
+            {/* 👉 NEW: Instead of a switch statement, we render all components 
+              and use Tailwind's `hidden` vs `block` to toggle visibility.
+              This keeps all draft data safely in memory! 
+            */}
+
+            <div className={activeTab === "Personal Info" ? "block" : "hidden"}>
+              <PersonalInfoTab user={user} />
+            </div>
+
+            <div
+              className={
+                activeTab === "Medical Conditions" ? "block" : "hidden"
+              }
+            >
+              <MedicalConditionsTab user={user} />
+            </div>
+
+            <div className={activeTab === "Medications" ? "block" : "hidden"}>
+              <MedicationsTab user={user} />
+            </div>
+
+            <div className={activeTab === "Allergies" ? "block" : "hidden"}>
+              <AllergiesTab user={user} />
+            </div>
+
+            <div className={activeTab === "Surgeries" ? "block" : "hidden"}>
+              <SurgeriesTab user={user} />
+            </div>
+
+            <div className={activeTab === "Vitals" ? "block" : "hidden"}>
+              <VitalsTab user={user} />
+            </div>
+
+            <div className={activeTab === "Lifestyle" ? "block" : "hidden"}>
+              <LifestyleTab user={user} />
+            </div>
+
+            <div
+              className={activeTab === "Emergency Contact" ? "block" : "hidden"}
+            >
+              <EmergencyContactTab user={user} />
+            </div>
           </div>
         </div>
       </div>
