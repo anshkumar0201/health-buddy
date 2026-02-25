@@ -4,6 +4,7 @@ import "./i18n";
 const App = React.lazy(() => import("./App"));
 import "./index.css";
 import { ThemeProvider } from "./context/ThemeContext";
+import { AuthProvider } from "./context/AuthContext";
 import { LazyMotion, domAnimation } from "framer-motion";
 
 
@@ -20,9 +21,11 @@ function Root() {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
-      <LazyMotion features={domAnimation}>
-        <Root />
-      </LazyMotion>
+      <AuthProvider>
+        <LazyMotion features={domAnimation}>
+          <Root />
+        </LazyMotion>
+      </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );

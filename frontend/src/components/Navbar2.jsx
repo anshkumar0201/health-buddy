@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../context/ThemeContext";
 import {
@@ -13,7 +13,7 @@ import {
   ChevronDown,
   Sun,
   Moon,
-  User,
+  User
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -41,24 +41,13 @@ const languages = [
 ];
 
 export default function Navbar() {
+  const [desktopLangOpen, setDesktopLangOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
   const memoNavItems = useMemo(() => navItems, []);
   const memoLanguages = useMemo(() => languages, []);
   const memoEmergencyNumbers = useMemo(() => emergencyNumbers, []);
-
-  const { user, logout, loading } = useAuth();
-  const navigate = useNavigate();
-
-  const [desktopLangOpen, setDesktopLangOpen] = useState(false);
-  const [mobileLangOpen, setMobileLangOpen] = useState(false);
-  const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
+  const { user, logout } = useAuth();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-
-  const dropdownRef = useRef(null);
-  const buttonRef = useRef(null);
-  const mobileDropdownRef = useRef(null);
-  const mobileButtonRef = useRef(null);
-  const mobileEmergencyRef = useRef(null);
-  const mobileEmergencyBtnRef = useRef(null);
   const userMenuRef = useRef(null);
 
   const location = useLocation();
@@ -68,9 +57,14 @@ export default function Navbar() {
   const isDark = theme === "dark";
   const showDarkUI = isDark;
 
-  /* =========================
-     LANGUAGE CHANGE
-  ========================== */
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
+  const mobileButtonRef = useRef(null);
+  const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
+  const mobileEmergencyRef = useRef(null);
+  const mobileEmergencyBtnRef = useRef(null);
+
   const changeLanguage = (code) => {
     i18n.changeLanguage(code);
     localStorage.setItem("lang", code);
@@ -78,18 +72,6 @@ export default function Navbar() {
     setMobileLangOpen(false);
   };
 
-  /* =========================
-     LOGOUT HANDLER
-  ========================== */
-  const handleLogout = async () => {
-    await logout();
-    setUserMenuOpen(false);
-    navigate("/");
-  };
-
-  /* =========================
-     OUTSIDE CLICK HANDLERS
-  ========================== */
   useEffect(() => {
     function handleClick(e) {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
@@ -118,19 +100,11 @@ export default function Navbar() {
 
   useEffect(() => {
     function handleKeyDown(e) {
-      if (e.key === "Escape") {
-        setDesktopLangOpen(false);
-        setUserMenuOpen(false);
-      }
+      if (e.key === "Escape") setDesktopLangOpen(false);
     }
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-  /* =========================
-     PREVENT FLICKER
-  ========================== */
-  if (loading) return null;
 
   return (
     <header
@@ -139,6 +113,7 @@ export default function Navbar() {
       className={`
         fixed top-0 left-0 right-0 z-50 h-16
         print-hide transition-all duration-300
+        /* Glassmorphism for Desktop */
         lg:backdrop-blur-sm
         ${
           showDarkUI
@@ -147,8 +122,14 @@ export default function Navbar() {
         }
       `}
     >
+      {/* FLUID CONTAINER
+          - gap-4: ensures elements never touch.
+          - justify-between: pushes Logo Left, Nav Center, Controls Right.
+      */}
       <div className="w-full h-full px-4 lg:px-6 flex items-center justify-between gap-4">
-        {/* LOGO */}
+        {/* --- LEFT: LOGO ---
+            shrink-0: Ensures logo NEVER shrinks, even on extreme zoom.
+        */}
         <Link
           to="/"
           replace
@@ -163,28 +144,32 @@ export default function Navbar() {
             <img
               src="/app_logo.png"
               alt="Rurivia AI Logo"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain "
               draggable={false}
             />
           </div>
-
           <div className="flex flex-col leading-tight">
+            {/* Text size automatically adjusts or hides on very small mobile screens via CSS if needed, but here we keep it simple */}
             <span
-              className={`text-xl font-bold ${showDarkUI ? "text-white" : "text-slate-800"}`}
+              className={`text-xl font-bold tracking-tight ${showDarkUI ? "text-white" : "text-slate-800"}`}
             >
               Rurivia.AI
             </span>
             <span
-              className={`text-[10px] hidden sm:block ${showDarkUI ? "text-slate-200" : "text-slate-800"}`}
+              className={`text-[10px] font-semibold hidden sm:block ${showDarkUI ? "text-slate-200" : "text-slate-800"}`}
             >
               Health Companion
             </span>
           </div>
         </Link>
 
+        {/* --- MOBILE SPACER --- */}
         <div className="flex-1 lg:hidden" />
 
-        {/* DESKTOP NAV */}
+        {/* --- CENTER: DESKTOP NAV ---
+            - flex-1: Takes available space.
+            - min-w-0: Critical! Allows the flex child to shrink below its content size if needed.
+        */}
         <nav className="hidden lg:flex items-center justify-center flex-1 min-w-0 px-2">
           <div className="flex items-center gap-1 xl:gap-2">
             {memoNavItems.map((item) => {
@@ -194,22 +179,42 @@ export default function Navbar() {
                   ? location.pathname === "/"
                   : location.pathname.startsWith(item.path);
 
-              const itemClasses = showDarkUI
-                ? isActive
+              const baseClasses = `
+                flex items-center justify-center gap-2
+                h-10 px-3 rounded-lg
+                text-sm font-medium whitespace-nowrap
+                transition-all duration-200 ease-out
+                border border-transparent
+              `;
+
+              let itemClasses = "";
+              if (showDarkUI) {
+                // FIXED: Standard dark hover (slate-800) for items
+                itemClasses = isActive
                   ? "bg-white/10 text-blue-300 border-white/5"
-                  : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-                : isActive
+                  : "text-slate-400 hover:bg-slate-800 hover:text-slate-200";
+              } else {
+                itemClasses = isActive
                   ? "bg-blue-50 text-blue-600 border-blue-100"
                   : "text-slate-600 hover:bg-slate-100 hover:text-slate-900";
+              }
 
               return (
                 <Link
                   key={item.key}
                   to={item.path}
-                  className={`flex items-center gap-2 h-10 px-3 rounded-lg text-sm font-medium border border-transparent transition ${itemClasses}`}
+                  title={t ? t(item.key) : ""} // Tooltip ensures usability when text is hidden
+                  className={`${baseClasses} ${itemClasses}`}
                 >
-                  <Icon size={20} />
-                  <span className="hidden xl:block truncate">
+                  <Icon size={20} className="shrink-0" />
+
+                  {/* --- THE MAGIC FIX ---
+                      hidden xl:block:
+                      1. On Laptops/Tablets (lg): Text is HIDDEN (Icon Only).
+                      2. On Large Screens (xl): Text is SHOWN.
+                      3. On Zoom In: Browser width shrinks effectively -> Nav auto-switches to Icon Only mode.
+                  */}
+                  <span className="hidden xl:block max-w-[120px] truncate">
                     {t ? t(item.key) : item.key}
                   </span>
                 </Link>
@@ -218,24 +223,40 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* RIGHT CONTROLS */}
+        {/* --- RIGHT: CONTROLS ---
+            shrink-0: Ensures these buttons never get crushed.
+        */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* LANGUAGE */}
+          {/* Desktop Language */}
           <div className="relative hidden sm:block">
             <button
               ref={buttonRef}
               onClick={() => setDesktopLangOpen((v) => !v)}
-              className={`flex items-center gap-2 h-9 px-3 rounded-lg cursor-pointer border text-sm ${
-                showDarkUI
-                  ? "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-500"
-                  : "bg-white border-slate-200 text-slate-700 hover:bg-slate-200"
-              }`}
+              className={`
+                flex items-center gap-2
+                h-9 px-3
+                text-sm font-medium
+                rounded-lg border
+                transition-all duration-200 cursor-pointer
+                ${
+                  showDarkUI
+                    ? /* FIX: hover:bg-slate-700 is distinct and visible in dark mode.
+                       Removed 'hover:bg-white' to prevent blinding contrast issues. */
+                      "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-500 hover:text-white"
+                    : "bg-white border-slate-200 text-slate-700 hover:bg-slate-200 hover:border-slate-300"
+                }
+              `}
             >
-              <span className="hidden xl:inline">
-                {memoLanguages.find((l) => l.code === i18n.language)?.label}
+              {/* Responsive Text: Hides label on smaller laptops, shows code */}
+              <span className="hidden xl:inline truncate max-w-[80px]">
+                {memoLanguages.find((l) => l.code === i18n.language)?.label ||
+                  "Lang"}
               </span>
               <span className="xl:hidden">{i18n.language.toUpperCase()}</span>
-              <ChevronDown size={14} />
+              <ChevronDown
+                size={14}
+                className={`transition-transform duration-300 ${desktopLangOpen ? "rotate-180" : ""}`}
+              />
             </button>
 
             {desktopLangOpen && (
@@ -253,7 +274,7 @@ export default function Navbar() {
                     onClick={() => changeLanguage(lang.code)}
                     className={`
                       w-full text-left px-4 py-2 text-sm hover:opacity-80 cursor-pointer
-                      ${showDarkUI ? "text-slate-200 hover:bg-slate-600" : "text-slate-800 hover:bg-slate-300"}
+                      ${showDarkUI ? "text-slate-200 hover:bg-slate-600" : "text-slate-800 hover:bg-slate-200"}
                     `}
                   >
                     {lang.label}
@@ -288,76 +309,74 @@ export default function Navbar() {
             />
           </button>
 
-          {/* AUTH DESKTOP */}
+          {/* Auth Section */}
           <div className="hidden sm:flex items-center gap-2">
             {!user ? (
               <>
                 <Link
                   to="/login"
-                  className={`h-9 px-4 flex items-center rounded-lg text-sm font-medium border ${
-                    showDarkUI
-                      ? "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700"
-                      : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100"
-                  }`}
+                  className={`
+          h-9 px-4 flex items-center rounded-lg text-sm font-medium border transition
+          ${
+            showDarkUI
+              ? "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700"
+              : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100"
+          }
+        `}
                 >
                   Login
                 </Link>
 
                 <Link
                   to="/signup"
-                  className="h-9 px-4 flex items-center rounded-lg text-sm font-medium bg-gradient-to-r from-blue-500 to-emerald-500 text-white"
+                  className="h-9 px-4 flex items-center rounded-lg text-sm font-medium bg-gradient-to-r from-blue-500 to-emerald-500 text-white hover:opacity-90 transition"
                 >
                   Sign Up
                 </Link>
               </>
             ) : (
-              <div ref={userMenuRef} className="relative">
+              <div className="relative group">
                 <button
-                  onClick={() => setUserMenuOpen((v) => !v)}
-                  className={`w-9 h-9 rounded-full flex items-center justify-center border overflow-hidden ${
-                    showDarkUI
-                      ? "bg-slate-800 border-slate-700"
-                      : "bg-white border-slate-200"
-                  }`}
+                  className={`
+          w-9 h-9 rounded-full flex items-center justify-center border
+          ${
+            showDarkUI
+              ? "bg-slate-800 border-slate-700 text-slate-200"
+              : "bg-white border-slate-200 text-slate-700"
+          }
+        `}
                 >
-                  {user?.photoURL ? (
-                    <img
-                      src={user.photoURL}
-                      alt="User"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <User size={18} />
-                  )}
+                  <User size={18} />
                 </button>
 
-                {userMenuOpen && (
-                  <div
-                    className={`absolute right-0 mt-2 w-40 rounded-xl shadow-xl border z-50 ${
-                      showDarkUI
-                        ? "bg-slate-900 border-slate-700"
-                        : "bg-white border-slate-200"
-                    }`}
+                {/* Dropdown */}
+                <div
+                  className={`
+          absolute right-0 mt-2 w-40 rounded-xl shadow-xl border hidden group-hover:block
+          ${showDarkUI ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}
+        `}
+                >
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
                   >
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
-                    >
-                      Profile
-                    </Link>
+                    Profile
+                  </Link>
 
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
+                  <button
+                    onClick={logout}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             )}
           </div>
 
+          {/* ********************************************************************************* */}
+
+          {/* --- MOBILE DRAWER TOGGLE --- */}
           <div className="lg:hidden flex items-center gap-3">
             {/* Right mobile group */}
             <div className="flex items-center gap-3 ml-auto">
@@ -508,7 +527,7 @@ export default function Navbar() {
 
               {/* Mobile Auth */}
               {!user ? (
-                <Link to="/login" className="material-symbols-rounded text-2xl">
+                <Link to="/login" className="material-symbols-rounded text-xl">
                   account_circle
                 </Link>
               ) : (
