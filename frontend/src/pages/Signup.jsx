@@ -81,8 +81,13 @@ export default function Signup() {
 
     try {
       setLoading(true);
-      await signupWithGoogle();
-      navigate("/");
+      const result = await signupWithGoogle();
+
+      if (result.isNewUser) {
+        navigate("/onboarding"); // future page
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError(getFriendlyError(err.code));
     } finally {
@@ -209,13 +214,14 @@ export default function Signup() {
           onClick={handleGoogleSignup}
           disabled={loading}
           className={`
-        w-full py-2 rounded-lg border font-medium transition cursor-pointer
-        ${
-          isDark
-            ? "border-slate-600 hover:bg-slate-800"
-            : "border-slate-300 hover:bg-slate-100"
-        }
-      `}
+  w-full py-2 rounded-lg border font-medium transition cursor-pointer
+  disabled:opacity-60 disabled:cursor-not-allowed
+  ${
+    isDark
+      ? "border-slate-600 hover:bg-slate-800"
+      : "border-slate-300 hover:bg-slate-100"
+  }
+`}
         >
           Continue with Google
         </button>
