@@ -14,6 +14,8 @@ import MobileTabBar from "@/components/MobileTabBar";
 // Import your existing skeletons here
 import SkeletonGlobal from "@/components/skeletons/SkeletonGlobal"; // The one created in Step 2
 import SkeletonHomePage from "@/components/skeletons/SkeletonHomePage";
+import SkeletonLogin from "./components/skeletons/SkeletonLogin";
+import SkeletonSignup from "./components/skeletons/SkeletonSignup";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
 import SkeletonSymptomChecker from "@/components/skeletons/SkeletonSymptomChecker";
 import SkeletonDiseases from "@/components/skeletons/SkeletonDiseases";
@@ -90,7 +92,7 @@ export default function App() {
             <Route
               path="/login"
               element={
-                <LazyRoute component={Login} skeleton={SkeletonGlobal} />
+                <LazyRoute component={Login} skeleton={SkeletonLogin} />
               }
             />
 
@@ -98,7 +100,7 @@ export default function App() {
             <Route
               path="/signup"
               element={
-                <LazyRoute component={Signup} skeleton={SkeletonGlobal} />
+                <LazyRoute component={Signup} skeleton={SkeletonSignup} />
               }
             />
 

@@ -27,37 +27,67 @@ export default function Signup() {
     }));
   };
 
+  const validateForm = () => {
+    if (!form.name.trim()) return "Name is required";
+    if (!form.email.trim()) return "Email is required";
+
+    if (form.password.length < 6) {
+      return "Password must be at least 6 characters";
+    }
+
+    return null;
+  };
+
+  const getFriendlyError = (code) => {
+    switch (code) {
+      case "auth/email-already-in-use":
+        return "An account already exists with this email";
+      case "auth/invalid-email":
+        return "Invalid email address";
+      case "auth/weak-password":
+        return "Password should be stronger";
+      case "auth/network-request-failed":
+        return "Network error. Check your connection";
+      default:
+        return "Signup failed. Please try again";
+    }
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
 
-    
-try {
-  setLoading(true);
-  await signupWithEmail(form.name, form.email, form.password);
-  navigate("/");
-} catch (err) {
-  setError(err.message);
-} finally {
-  setLoading(false);
-}
-;
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await signupWithEmail(form.name.trim(), form.email.trim(), form.password);
+
+      navigate("/");
+    } catch (err) {
+      setError(getFriendlyError(err.code));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleSignup = async () => {
     setError("");
 
-    
-try {
-  setLoading(true);
-  await signupWithGoogle();
-  navigate("/");
-} catch (err) {
-  setError(err.message);
-} finally {
-  setLoading(false);
-}
-;
+    try {
+      setLoading(true);
+      await signupWithGoogle();
+      navigate("/");
+    } catch (err) {
+      setError(getFriendlyError(err.code));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -90,6 +120,7 @@ try {
             <input
               type="text"
               name="name"
+              autoComplete="name"
               placeholder="Full Name"
               required
               value={form.name}
@@ -111,6 +142,7 @@ try {
             <input
               type="email"
               name="email"
+              autoComplete="email"
               placeholder="Email"
               required
               value={form.email}
@@ -133,6 +165,7 @@ try {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
+              autoComplete="new-password"
               placeholder="Password"
               required
               value={form.password}
@@ -160,7 +193,7 @@ try {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 rounded-lg font-medium text-white bg-gradient-to-r from-blue-500 to-emerald-500 hover:opacity-90 transition"
+            className="w-full py-2 rounded-lg font-medium text-white bg-gradient-to-r from-blue-500 to-emerald-500 hover:opacity-90 transition disabled:opacity-60"
           >
             {loading ? "Creating account..." : "Sign Up"}
           </button>

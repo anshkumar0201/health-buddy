@@ -5,9 +5,14 @@ import {
     signInWithPopup,
     GoogleAuthProvider,
     updateProfile,
+    sendEmailVerification
 } from "firebase/auth";
 
 const googleProvider = new GoogleAuthProvider();
+
+googleProvider.setCustomParameters({
+    prompt: "select_account",
+});
 
 export const signupWithEmail = async (name, email, password) => {
     const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -19,6 +24,8 @@ export const signupWithEmail = async (name, email, password) => {
         });
     }
 
+    await sendEmailVerification(result.user);
+
     return result.user;
 };
 
@@ -27,10 +34,20 @@ export const signupWithGoogle = async () => {
     return result.user;
 };
 
+
+
 /* ---------- LOGIN ---------- */
 export const loginWithEmail = async (email, password) => {
     const result = await signInWithEmailAndPassword(auth, email, password);
-    return result.user;
+
+    const user = result.user;
+
+    // 🚨 Block login if email not verified
+    if (!user.emailVerified) {
+        throw new Error("Please verify your email before logging in");
+    }
+
+    return user;
 };
 
 /* ---------- GOOGLE ---------- */

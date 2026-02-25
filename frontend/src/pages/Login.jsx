@@ -112,6 +112,7 @@ FRIENDLY ERRORS
             <input
               type="email"
               name="email"
+              autoComplete="email"
               placeholder="Email"
               required
               value={form.email}
@@ -134,6 +135,7 @@ FRIENDLY ERRORS
             <input
               type={showPassword ? "text" : "password"}
               name="password"
+              autoComplete="current-password"
               placeholder="Password"
               required
               value={form.password}
