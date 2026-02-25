@@ -262,7 +262,6 @@ export default function Navbar() {
               </div>
             )}
           </div>
-
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
@@ -287,7 +286,6 @@ export default function Navbar() {
               className={`absolute transition-all ${showDarkUI ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}
             />
           </button>
-
           {/* AUTH DESKTOP */}
           <div className="hidden sm:flex items-center gap-2">
             {!user ? (
@@ -358,6 +356,8 @@ export default function Navbar() {
             )}
           </div>
 
+          {/* **************************************************************  */}
+          {/* Mobile View*/}
           <div className="lg:hidden flex items-center gap-3">
             {/* Right mobile group */}
             <div className="flex items-center gap-3 ml-auto">
@@ -398,7 +398,6 @@ export default function Navbar() {
     absolute top-full right-0 mt-8 w-28
     rounded-xl
     z-[9999]
-
     border
     shadow-[0_8px_32px_rgba(0,0,0,0.25)]
     animate-fade-in
@@ -461,10 +460,9 @@ export default function Navbar() {
                       onMouseDown={(e) => e.preventDefault()}
                       ref={mobileEmergencyRef}
                       className={`
-    absolute top-full right-0 mt-8 w-48
+    absolute top-full right-0 mt-4 w-48
     rounded-xl
     z-[9999]
-
     border
     shadow-[0_8px_32px_rgba(0,0,0,0.25)]
     animate-fade-in
@@ -507,18 +505,85 @@ export default function Navbar() {
               </div>
 
               {/* Mobile Auth */}
-              {!user ? (
-                <Link to="/login" className="material-symbols-rounded text-2xl">
-                  account_circle
-                </Link>
-              ) : (
+              <div ref={userMenuRef} className="relative">
                 <button
-                  onClick={logout}
-                  className="material-symbols-rounded text-xl"
+                  onClick={() => setUserMenuOpen((v) => !v)}
+                  className="flex items-center justify-center w-8 h-8 mt-1"
                 >
-                  logout
+                  {user?.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="User"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  ) : user?.displayName ? (
+                    <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm">
+                      {user.displayName[0]}
+                    </div>
+                  ) : (
+                    <span className="material-symbols-rounded text-2xl">
+                      account_circle
+                    </span>
+                  )}
                 </button>
-              )}
+
+                {userMenuOpen && (
+                  <div
+                    onMouseDown={(e) => e.preventDefault()}
+                    className={`
+    absolute top-full right-0 mt-4 w-28
+    rounded-xl
+    z-[9999]
+    border
+    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+    animate-fade-in
+    transition-all duration-300
+    ${
+      isDark
+        ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
+        : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
+    }
+  `}
+                  >
+                    {!user ? (
+                      <>
+                        <Link
+                          to="/login"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                        >
+                          Login
+                        </Link>
+
+                        <Link
+                          to="/signup"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                        >
+                          Sign Up
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          to="/profile"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                        >
+                          Profile
+                        </Link>
+
+                        <button
+                          onClick={handleLogout}
+                          className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                        >
+                          Logout
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

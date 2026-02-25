@@ -1,6 +1,8 @@
 import { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
 import EmergencyBar from "@/components/EmergencyBar";
@@ -26,6 +28,9 @@ import SkeletonAssessmentResult from "@/components/skeletons/SkeletonAssessmentR
 
 /* ---------------- Lazy-loaded Pages ---------------- */
 const HomePage = lazy(() => import("@/pages/HomePage"));
+const Signup = lazy(() => import("@/pages/Signup"));
+const Login = lazy(() => import("@/pages/Login"));
+const Profile = lazy(() => import("@/pages/Profile"));
 const SymptomAnalyzer = lazy(() => import("@/pages/SymptomAnalyzer"));
 const SymptomChecker = lazy(() => import("@/pages/SymptomChecker"));
 const Diseases = lazy(() => import("@/pages/Diseases"));
@@ -45,9 +50,16 @@ const LazyRoute = ({ component: Component, skeleton: Skeleton }) => (
   </Suspense>
 );
 
+const PrivateRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <SkeletonGlobal />;
+  if (!user) return <Navigate to="/login" replace />;
+
+  return children;
+};
 
 /* ---------------- App ---------------- */
-
 export default function App() {
   const { i18n } = useTranslation();
 
@@ -74,6 +86,32 @@ export default function App() {
                 <LazyRoute component={HomePage} skeleton={SkeletonHomePage} />
               }
             />
+
+            <Route
+              path="/login"
+              element={
+                <LazyRoute component={Login} skeleton={SkeletonGlobal} />
+              }
+            />
+
+            {/* Signup */}
+            <Route
+              path="/signup"
+              element={
+                <LazyRoute component={Signup} skeleton={SkeletonGlobal} />
+              }
+            />
+
+            {/* ✅ PROFILE (PROTECTED) */}
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <LazyRoute component={Profile} skeleton={SkeletonGlobal} />
+                </PrivateRoute>
+              }
+            />
+
             {/* Symptom Analyzer */}
             <Route
               path="/symptom-analyzer"
