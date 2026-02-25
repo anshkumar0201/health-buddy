@@ -61,15 +61,9 @@ export default function Profile() {
               DESKTOP SIDEBAR
           ======================== */}
           <div
-            className={`hidden md:flex flex-col w-64 border-r p-4 pb-8 ${
-              isDark
-                ? "bg-slate-900 border-slate-700"
-                : "bg-white border-slate-200"
-            }`}
+            className={`hidden md:flex flex-col w-64 border-r ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
           >
-            {/* Scrollable Tabs Section */}
-            {/* 👉 ADDED min-h-0: This forces the scrollbar to actually work instead of squishing the Log Out button! */}
-            <div className="flex-1 overflow-y-auto pr-2 min-h-0">
+            <div className="flex-1 overflow-y-auto p-4 pr-2 min-h-0">
               <h2 className="text-lg font-semibold mb-4">Profile</h2>
               <div className="space-y-1">
                 {TABS.map((tab) => (
@@ -88,9 +82,10 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Anchored Log Out Button */}
-            {/* 👉 Increased mt-6 to give the last tab more breathing room above the line */}
-            <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 shrink-0">
+            {/* Anchored Log Out Section - MATCHING HEIGHT TO DISCLAIMER */}
+            <div
+              className={`shrink-0 border-t h-[60px] flex items-center px-4 ${isDark ? "border-slate-700" : "border-slate-200"}`}
+            >
               <button
                 onClick={() => setShowLogoutModal(true)}
                 className="flex items-center w-full px-3 py-2 rounded-lg cursor-pointer text-sm text-red-500 font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
@@ -101,24 +96,14 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* =======================
-              MOBILE NAVIGATION
-          ======================== */}
+          {/* MOBILE NAVIGATION */}
           <div
-            className={`md:hidden p-4 border-b flex items-center gap-3 shrink-0 ${
-              isDark
-                ? "bg-slate-900 border-slate-700"
-                : "bg-white border-slate-200"
-            }`}
+            className={`md:hidden p-4 border-b flex items-center gap-3 shrink-0 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
           >
             <select
               value={activeTab}
               onChange={(e) => setActiveTab(e.target.value)}
-              className={`flex-1 px-3 py-2 rounded-lg border outline-none ${
-                isDark
-                  ? "bg-slate-800 border-slate-700 text-white"
-                  : "bg-slate-50 border-slate-300"
-              }`}
+              className={`flex-1 px-3 py-2 rounded-lg border outline-none ${isDark ? "bg-slate-800 border-slate-700 text-white" : "bg-slate-50 border-slate-300"}`}
             >
               {TABS.map((tab) => (
                 <option key={tab} value={tab}>
@@ -126,92 +111,81 @@ export default function Profile() {
                 </option>
               ))}
             </select>
-
             <button
               onClick={() => setShowLogoutModal(true)}
               className="p-2 text-red-500 dark:bg-red-900/50 rounded-lg hover:opacity-80 transition hover:bg-red-500"
-              title="Log Out"
             >
               <LogOut className="w-5 h-5" />
             </button>
           </div>
 
-          {/* =======================
-              CONTENT AREA
-          ======================== */}
-          <div className="flex-1 overflow-y-auto p-4 md:p-6">
-            <div
-              className={`max-w-4xl mx-auto rounded-2xl border p-4 md:p-6 ${
-                isDark
-                  ? "bg-slate-900 border-slate-700"
-                  : "bg-white border-slate-200"
-              }`}
-            >
+          {/* MAIN CONTENT AREA */}
+          <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6">
               <div
-                className={activeTab === "Personal Info" ? "block" : "hidden"}
+                className={`max-w-4xl mx-auto rounded-2xl border p-4 md:p-6 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
               >
-                <PersonalInfoTab user={user} />
-              </div>
-
-              <div
-                className={
-                  activeTab === "Medical Conditions" ? "block" : "hidden"
-                }
-              >
-                <MedicalConditionsTab user={user} />
-              </div>
-
-              <div className={activeTab === "Medications" ? "block" : "hidden"}>
-                <MedicationsTab user={user} />
-              </div>
-
-              <div className={activeTab === "Allergies" ? "block" : "hidden"}>
-                <AllergiesTab user={user} />
-              </div>
-
-              <div className={activeTab === "Surgeries" ? "block" : "hidden"}>
-                <SurgeriesTab user={user} />
-              </div>
-
-              <div className={activeTab === "Vitals" ? "block" : "hidden"}>
-                <VitalsTab user={user} />
-              </div>
-
-              <div className={activeTab === "Lifestyle" ? "block" : "hidden"}>
-                <LifestyleTab user={user} />
-              </div>
-
-              <div
-                className={
-                  activeTab === "Emergency Contact" ? "block" : "hidden"
-                }
-              >
-                <EmergencyContactTab user={user} />
+                <div
+                  className={activeTab === "Personal Info" ? "block" : "hidden"}
+                >
+                  <PersonalInfoTab user={user} />
+                </div>
+                <div
+                  className={
+                    activeTab === "Medical Conditions" ? "block" : "hidden"
+                  }
+                >
+                  <MedicalConditionsTab user={user} />
+                </div>
+                <div
+                  className={activeTab === "Medications" ? "block" : "hidden"}
+                >
+                  <MedicationsTab user={user} />
+                </div>
+                <div className={activeTab === "Allergies" ? "block" : "hidden"}>
+                  <AllergiesTab user={user} />
+                </div>
+                <div className={activeTab === "Surgeries" ? "block" : "hidden"}>
+                  <SurgeriesTab user={user} />
+                </div>
+                <div className={activeTab === "Vitals" ? "block" : "hidden"}>
+                  <VitalsTab user={user} />
+                </div>
+                <div className={activeTab === "Lifestyle" ? "block" : "hidden"}>
+                  <LifestyleTab user={user} />
+                </div>
+                <div
+                  className={
+                    activeTab === "Emergency Contact" ? "block" : "hidden"
+                  }
+                >
+                  <EmergencyContactTab user={user} />
+                </div>
               </div>
             </div>
 
-            {/* 👉 NEW: Professional Disclaimer Section */}
-            <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
-              <p
-                className={`text-xs leading-relaxed text-justify opacity-60 ${isDark ? "text-slate-400" : "text-slate-500"}`}
-              >
-                <span className="font-semibold block mb-1 uppercase tracking-wider text-[10px]">
-                  * Medical Disclaimer & Data Usage
-                </span>
-                The information provided in your profile is utilized solely to
-                enhance the relevance and precision of AI-generated insights.{" "}
-                <strong>
-                  This platform does not provide medical diagnoses, clinical
-                  advice, or treatment protocols.
-                </strong>{" "}
-                Rurivia.AI is an assistive tool and is not a substitute for
-                professional medical judgment, diagnosis, or treatment by a
-                qualified healthcare provider. Always seek the advice of your
-                physician or other primary care provider with any questions you
-                may have regarding a medical condition. Do not disregard
-                professional medical advice or delay in seeking it because of
-                information provided by this application.
-              </p>
+            {/* FIXED DISCLAIMER - SINGLE LINE ALIGNED TO LOG OUT */}
+            <div
+              className={`shrink-0 border-t h-[60px] flex items-center px-4 md:px-6 ${isDark ? "bg-[#0f172a] border-slate-800" : "bg-slate-50 border-slate-200"}`}
+            >
+              <div className="max-w-6xl mx-auto w-full">
+                <p
+                  className={`text-[7px] md:text-[10px] leading-tight text-justify opacity-60 ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                >
+                  <span className="font-bold block mb-0.5 uppercase tracking-tighter text-[7px] md:text-[9px]">
+                    * Medical Disclaimer & Data Usage
+                  </span>
+                  The information provided in your profile is utilized solely to
+                  enhance the relevance and precision of AI-generated insights.
+                  <strong>
+                    {" "}
+                    This platform does not provide medical diagnoses, clinical
+                    advice, or treatment protocols.
+                  </strong>
+                  &nbsp;Rurivia.AI is an assistive tool and is not a substitute
+                  for professional medical judgment, diagnosis, or treatment.
+                </p>
+              </div>
             </div>
           </div>
         </div>
