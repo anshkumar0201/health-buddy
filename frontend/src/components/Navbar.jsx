@@ -68,6 +68,8 @@ export default function Navbar() {
   const isDark = theme === "dark";
   const showDarkUI = isDark;
 
+  const currentLang = (i18n.language || "en").split("-")[0];
+
   /* =========================
      LANGUAGE CHANGE
   ========================== */
@@ -87,6 +89,10 @@ export default function Navbar() {
     navigate("/");
   };
 
+  useEffect(() => {
+    setUserMenuOpen(false);
+  }, [location.pathname]);
+
   /* =========================
      OUTSIDE CLICK HANDLERS
   ========================== */
@@ -99,6 +105,7 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -126,6 +133,8 @@ export default function Navbar() {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  
 
   /* =========================
      PREVENT FLICKER
@@ -219,7 +228,10 @@ export default function Navbar() {
         </nav>
 
         {/* RIGHT CONTROLS */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div
+          ref={userMenuRef}
+          className="flex items-center gap-2 sm:gap-3 shrink-0"
+        >
           {/* LANGUAGE */}
           <div className="relative hidden sm:block">
             <button
@@ -231,10 +243,7 @@ export default function Navbar() {
                   : "bg-white border-slate-200 text-slate-700 hover:bg-slate-200"
               }`}
             >
-              <span className="hidden xl:inline">
-                {memoLanguages.find((l) => l.code === i18n.language)?.label}
-              </span>
-              <span className="xl:hidden">{i18n.language.toUpperCase()}</span>
+              <span>{currentLang.toUpperCase()}</span>
               <ChevronDown size={14} />
             </button>
 
@@ -309,10 +318,13 @@ export default function Navbar() {
                 </Link>
               </>
             ) : (
-              <div ref={userMenuRef} className="relative">
+              <div className="relative">
                 <button
-                  onClick={() => setUserMenuOpen((v) => !v)}
-                  className={`w-9 h-9 rounded-full flex items-center justify-center border overflow-hidden ${
+                  onClick={(e) => {
+                    e.stopPropagation(); // ⭐ prevents document handler from firing
+                    setUserMenuOpen((v) => !v);
+                  }}
+                  className={`w-9 h-9 rounded-full flex items-center cursor-pointer justify-center border overflow-hidden ${
                     showDarkUI
                       ? "bg-slate-800 border-slate-700"
                       : "bg-white border-slate-200"
@@ -322,16 +334,22 @@ export default function Navbar() {
                     <img
                       src={user.photoURL}
                       alt="User"
-                      className="w-full h-full object-cover"
+                      className="w-8 h-8 rounded-full object-cover"
                     />
                   ) : (
-                    <User size={18} />
+                    <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold">
+                      {(
+                        user?.displayName?.[0] ||
+                        user?.email?.[0] ||
+                        "U"
+                      ).toUpperCase()}
+                    </div>
                   )}
                 </button>
 
                 {userMenuOpen && (
                   <div
-                    className={`absolute right-0 mt-2 w-40 rounded-xl shadow-xl border z-50 ${
+                    className={`absolute right-0 mt-2 w-40 rounded-xl overflow-hidden shadow-xl border z-50 ${
                       showDarkUI
                         ? "bg-slate-900 border-slate-700"
                         : "bg-white border-slate-200"
@@ -377,7 +395,7 @@ export default function Navbar() {
     }
   `}
               >
-                {i18n.language.toUpperCase()}
+                {currentLang.toUpperCase()}
                 <span
                   className={`
       material-symbols-rounded text-sm
@@ -505,9 +523,12 @@ export default function Navbar() {
               </div>
 
               {/* Mobile Auth */}
-              <div ref={userMenuRef} className="relative">
+              <div className="relative">
                 <button
-                  onClick={() => setUserMenuOpen((v) => !v)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setUserMenuOpen((v) => !v);
+                  }}
                   className="flex items-center justify-center w-8 h-8 mt-1"
                 >
                   {user?.photoURL ? (
