@@ -19,6 +19,22 @@ export const personalInfoSchema = z.object({
     weight: optionalNumber(1, 300, "Invalid weight (1-300kg)"),
 });
 
+export const medicalConditionsSchema = z.object({
+    // We validate it as a string here because the input field outputs a comma-separated string
+    conditions: z.string().optional(),
+    notes: z.string().optional(),
+});
+
+export const medicationsSchema = z.object({
+    medications: z.array(
+        z.object({
+            medName: z.string().min(1, "Medicine name is required"),
+            dosage: z.string().min(1, "Dosage is required"),
+            frequency: z.string().min(1, "Frequency is required"),
+        })
+    ).default([]), // Defaults to an empty array
+});
+
 export const lifestyleSchema = z.object({
     smoking: z.string().optional().or(z.literal("")),
     alcohol: z.string().optional(),

@@ -6,6 +6,8 @@ import { Pencil, X, Save } from "lucide-react";
 
 // Import your isolated tab components
 import PersonalInfoTab from "../components/profile/PersonalInfoTab";
+import MedicalConditionsTab from "../components/profile/MedicalConditionsTab";
+import MedicationsTab from "../components/profile/MedicationsTab";
 // import LifestyleTab from "../components/profile/LifestyleTab";
 // import EmergencyContactTab from "../components/profile/EmergencyContactTab";
 
@@ -32,6 +34,10 @@ export default function Profile() {
       case "Personal Info":
         // Pass the user down so the child can hydrate its own form
         return <PersonalInfoTab user={user} />;
+      case "Medical Conditions":
+        return <MedicalConditionsTab user={user} />;
+      case "Medications":
+        return <MedicationsTab user={user} />;
       // case "Lifestyle":
       //   return <LifestyleTab />;
       // case "Emergency Contact":
