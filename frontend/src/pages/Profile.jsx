@@ -2,8 +2,18 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { useNavigate } from "react-router-dom"; // 👉 Import useNavigate
-import { LogOut } from "lucide-react"; // 👉 Import an icon for the button
+import { useNavigate } from "react-router-dom";
+import {
+  LogOut,
+  User,
+  Stethoscope,
+  Pill,
+  ShieldAlert,
+  Scissors,
+  Activity,
+  Dumbbell,
+  PhoneCall,
+} from "lucide-react";
 
 // Import all isolated tab components
 import PersonalInfoTab from "../components/profile/PersonalInfoTab";
@@ -16,34 +26,28 @@ import LifestyleTab from "../components/profile/LifestyleTab";
 import EmergencyContactTab from "../components/profile/EmergencyContactTab";
 
 const TABS = [
-  "Personal Info",
-  "Medical Conditions",
-  "Medications",
-  "Allergies",
-  "Surgeries",
-  "Vitals",
-  "Lifestyle",
-  "Emergency Contact",
+  { name: "Personal Info", icon: User },
+  { name: "Medical Conditions", icon: Stethoscope },
+  { name: "Medications", icon: Pill },
+  { name: "Allergies", icon: ShieldAlert },
+  { name: "Surgeries", icon: Scissors },
+  { name: "Vitals", icon: Activity },
+  { name: "Lifestyle", icon: Dumbbell },
+  { name: "Emergency Contact", icon: PhoneCall },
 ];
 
 export default function Profile() {
-  // 👉 Make sure your AuthContext provides a 'logout' function!
   const { user, logout } = useAuth();
   const { theme } = useTheme();
-  const navigate = useNavigate(); // 👉 Initialize the router
+  const navigate = useNavigate();
   const isDark = theme === "dark";
 
   const [activeTab, setActiveTab] = useState("Personal Info");
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // 👉 State for the modal
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  // 👉 Handle the actual logout logic
   const handleConfirmLogout = async () => {
     try {
-      // 👉 1. Route them to the public homepage FIRST
       navigate("/");
-
-      // 👉 2. THEN destroy the session.
-      // Because they are already on the homepage, the Protected Route can't kick them to /login!
       await logout();
     } catch (error) {
       console.error("Failed to log out", error);
@@ -53,113 +57,216 @@ export default function Profile() {
 
   return (
     <>
+      {/* 👉 UPDATED: Gemini exact background hex (#131314) */}
       <div
-        className={`min-h-screen pt-16 ${isDark ? "bg-[#0f172a]" : "bg-slate-50"}`}
+        className={`min-h-screen pt-16 transition-colors duration-300 ${
+          isDark ? "bg-[#131314]" : "bg-slate-50"
+        }`}
       >
         <div className="flex flex-col md:flex-row w-full h-[calc(100vh-112px)] overflow-hidden">
           {/* =======================
               DESKTOP SIDEBAR
           ======================== */}
           <div
-            className={`hidden md:flex flex-col w-64 border-r ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
+            className={`hidden md:flex flex-col w-72 border-r ${
+              isDark
+                ? "bg-[#131314] border-[#282A2C]"
+                : "bg-white border-slate-200"
+            }`}
           >
-            <div className="flex-1 overflow-y-auto p-4 pr-2 min-h-0">
-              <h2 className="text-lg font-semibold mb-4">Profile</h2>
-              <div className="space-y-1">
-                {TABS.map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`w-full text-left px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors ${
-                      activeTab === tab
-                        ? "bg-blue-500 text-white"
-                        : "hover:bg-slate-100 dark:hover:bg-slate-800"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
+            <div className="flex-1 overflow-y-auto p-5 pr-3 min-h-0 custom-scrollbar">
+              <h2
+                className={`text-xl font-bold mb-6 pl-2 tracking-tight ${isDark ? "text-gray-100" : "text-slate-800"}`}
+              >
+                My Profile
+              </h2>
+
+              <div className="space-y-1.5">
+                {TABS.map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.name;
+
+                  return (
+                    <button
+                      key={tab.name}
+                      onClick={() => setActiveTab(tab.name)}
+                      className={`w-full flex items-center px-4 py-3 rounded-xl cursor-pointer text-sm font-medium transition-all duration-300 ${
+                        isActive
+                          ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25 scale-[1.02]"
+                          : isDark
+                            ? "text-[#C4C7C5] hover:bg-[#1E1F20] hover:text-gray-100"
+                            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                      }`}
+                    >
+                      <Icon
+                        className={`w-5 h-5 mr-3 transition-colors ${
+                          isActive
+                            ? "text-white"
+                            : isDark
+                              ? "text-[#C4C7C5]"
+                              : "text-slate-400"
+                        }`}
+                      />
+                      {tab.name}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Anchored Log Out Section - UPDATED TO ADD GAP */}
-            <div className="shrink-0 h-[60px] flex items-center px-4">
-              {/* This inner div creates the line with a gap */}
+            {/* Anchored Log Out Section */}
+            <div className="shrink-0 h-[76px] flex items-center px-5">
               <div
-                className={`w-full pt-4 border-t ${isDark ? "border-slate-700" : "border-slate-200"}`}
+                className={`w-full pt-4 border-t ${isDark ? "border-[#282A2C]" : "border-slate-200"}`}
               >
                 <button
                   onClick={() => setShowLogoutModal(true)}
-                  className="flex items-center w-full px-3 py-2 rounded-lg cursor-pointer text-sm text-red-500 font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  className={`flex items-center justify-center w-full px-4 py-2.5 rounded-xl cursor-pointer text-sm font-semibold transition-all duration-300 group ${
+                    isDark
+                      ? "text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                      : "text-red-500 hover:bg-red-50 hover:text-red-600"
+                  }`}
                 >
-                  <LogOut className="w-4 h-4 mr-2" />
+                  <LogOut className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                   Log Out
                 </button>
               </div>
             </div>
           </div>
 
-          {/* MOBILE NAVIGATION */}
+          {/* =======================
+              MOBILE NAVIGATION
+          ======================== */}
           <div
-            className={`md:hidden p-4 border-b flex items-center gap-3 shrink-0 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
+            className={`md:hidden p-4 border-b flex items-center gap-3 shrink-0 shadow-sm z-10 ${
+              isDark
+                ? "bg-[#131314] border-[#282A2C]"
+                : "bg-white border-slate-200"
+            }`}
           >
-            <select
-              value={activeTab}
-              onChange={(e) => setActiveTab(e.target.value)}
-              className={`flex-1 px-3 py-2 rounded-lg border outline-none ${isDark ? "bg-slate-800 border-slate-700 text-white" : "bg-slate-50 border-slate-300"}`}
-            >
-              {TABS.map((tab) => (
-                <option key={tab} value={tab}>
-                  {tab}
-                </option>
-              ))}
-            </select>
+            <div className="relative flex-1 flex items-center">
+              <div className="absolute left-3 pointer-events-none flex items-center justify-center">
+                {(() => {
+                  const ActiveIcon =
+                    TABS.find((t) => t.name === activeTab)?.icon || User;
+                  return (
+                    <ActiveIcon
+                      className={`w-4 h-4 ${isDark ? "text-blue-400" : "text-blue-500"}`}
+                    />
+                  );
+                })()}
+              </div>
+              <select
+                value={activeTab}
+                onChange={(e) => setActiveTab(e.target.value)}
+                className={`w-full pl-10 pr-4 py-2.5 rounded-xl border outline-none font-medium appearance-none transition-colors ${
+                  isDark
+                    ? "bg-[#1E1F20] border-[#282A2C] text-[#E3E3E3] focus:border-blue-500"
+                    : "bg-slate-50 border-slate-300 focus:border-blue-500"
+                }`}
+              >
+                {TABS.map((tab) => (
+                  <option key={tab.name} value={tab.name}>
+                    {tab.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <button
               onClick={() => setShowLogoutModal(true)}
-              className="p-2 text-red-500 dark:bg-red-900/50 rounded-lg hover:opacity-80 transition hover:bg-red-500"
+              className={`p-2.5 rounded-xl transition-all ${
+                isDark
+                  ? "text-red-400 bg-red-500/10 hover:bg-red-500/20"
+                  : "text-red-500 bg-red-50 hover:bg-red-100"
+              }`}
+              title="Log Out"
             >
               <LogOut className="w-5 h-5" />
             </button>
           </div>
 
-          {/* MAIN CONTENT AREA */}
-          <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-            <div className="flex-1 overflow-y-auto p-4 md:p-6">
+          {/* =======================
+              MAIN CONTENT AREA
+          ======================== */}
+          <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+            <div className="flex-1 overflow-y-auto p-4 md:p-8">
+              {/* 👉 UPDATED: Elevated Gemini Card Color (#1E1F20) */}
               <div
-                className={`max-w-4xl mx-auto rounded-2xl border p-4 md:p-6 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
+                className={`max-w-4xl mx-auto rounded-2xl border p-5 md:p-8 transition-colors duration-300 ${
+                  isDark
+                    ? "bg-[#1E1F20] border-[#282A2C] shadow-lg shadow-black/20"
+                    : "bg-white border-slate-200/80 shadow-sm"
+                }`}
               >
                 <div
-                  className={activeTab === "Personal Info" ? "block" : "hidden"}
+                  className={
+                    activeTab === "Personal Info"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
+                  }
                 >
                   <PersonalInfoTab user={user} />
                 </div>
                 <div
                   className={
-                    activeTab === "Medical Conditions" ? "block" : "hidden"
+                    activeTab === "Medical Conditions"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
                   }
                 >
                   <MedicalConditionsTab user={user} />
                 </div>
                 <div
-                  className={activeTab === "Medications" ? "block" : "hidden"}
+                  className={
+                    activeTab === "Medications"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
+                  }
                 >
                   <MedicationsTab user={user} />
                 </div>
-                <div className={activeTab === "Allergies" ? "block" : "hidden"}>
+                <div
+                  className={
+                    activeTab === "Allergies"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
+                  }
+                >
                   <AllergiesTab user={user} />
                 </div>
-                <div className={activeTab === "Surgeries" ? "block" : "hidden"}>
+                <div
+                  className={
+                    activeTab === "Surgeries"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
+                  }
+                >
                   <SurgeriesTab user={user} />
                 </div>
-                <div className={activeTab === "Vitals" ? "block" : "hidden"}>
+                <div
+                  className={
+                    activeTab === "Vitals"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
+                  }
+                >
                   <VitalsTab user={user} />
                 </div>
-                <div className={activeTab === "Lifestyle" ? "block" : "hidden"}>
+                <div
+                  className={
+                    activeTab === "Lifestyle"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
+                  }
+                >
                   <LifestyleTab user={user} />
                 </div>
                 <div
                   className={
-                    activeTab === "Emergency Contact" ? "block" : "hidden"
+                    activeTab === "Emergency Contact"
+                      ? "block animate-in fade-in zoom-in-95 duration-200"
+                      : "hidden"
                   }
                 >
                   <EmergencyContactTab user={user} />
@@ -167,15 +274,17 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* FIXED DISCLAIMER - SINGLE LINE ALIGNED TO LOG OUT */}
-            <div className="shrink-0 h-[60px] flex items-center px-4 md:px-6">
+            {/* FIXED DISCLAIMER */}
+            <div className="shrink-0 h-[76px] flex items-center px-4 md:px-8">
               <div
-                className={`w-full pt-4 border-t max-w-6xl mx-auto ${isDark ? "border-slate-800" : "border-slate-200"}`}
+                className={`w-full pt-4 border-t max-w-6xl mx-auto ${
+                  isDark ? "border-[#282A2C]" : "border-slate-200"
+                }`}
               >
                 <p
-                  className={`text-[7px] md:text-[10px] leading-tight text-justify opacity-60 ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                  className={`text-[8px] md:text-[10px] leading-tight text-justify opacity-60 ${isDark ? "text-[#C4C7C5]" : "text-slate-500"}`}
                 >
-                  <span className="font-bold block mb-0.5 uppercase tracking-tighter text-[7px] md:text-[9px]">
+                  <span className="font-bold block mb-0.5 uppercase tracking-tighter text-[8px] md:text-[9px]">
                     * Medical Disclaimer & Data Usage
                   </span>
                   The information provided in your profile is utilized solely to
@@ -198,31 +307,39 @@ export default function Profile() {
           LOGOUT CONFIRMATION MODAL
       ======================== */}
       {showLogoutModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-in fade-in duration-200">
           <div
-            className={`w-full max-w-sm p-6 rounded-2xl shadow-xl transform transition-all ${
+            className={`w-full max-w-sm p-6 rounded-2xl shadow-2xl transform transition-all scale-100 ${
               isDark
-                ? "bg-slate-800 text-white border border-slate-700"
+                ? "bg-[#1E1F20] text-[#E3E3E3] border border-[#282A2C]"
                 : "bg-white text-slate-900"
             }`}
           >
-            <h3 className="text-xl font-semibold mb-2">Confirm Logout</h3>
-            <p className="text-sm opacity-80 mb-6">
-              Are you sure you want to log out of your account?
+            <h3 className="text-xl font-bold mb-2 flex items-center">
+              <LogOut className="w-5 h-5 mr-2 text-red-500" />
+              Confirm Logout
+            </h3>
+            <p
+              className={`text-sm mb-6 leading-relaxed ${isDark ? "text-[#C4C7C5]" : "opacity-80"}`}
+            >
+              Are you sure you want to log out of your account? You will need to
+              sign in again to access your profile.
             </p>
 
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowLogoutModal(false)}
-                className={`px-4 py-2 text-sm font-medium cursor-pointer rounded-lg transition-colors ${
-                  isDark ? "hover:bg-slate-700" : "hover:bg-slate-100"
+                className={`px-4 py-2.5 text-sm font-semibold cursor-pointer rounded-xl transition-colors ${
+                  isDark
+                    ? "hover:bg-[#282A2C] bg-[#131314] text-[#E3E3E3]"
+                    : "hover:bg-slate-100 bg-white"
                 }`}
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmLogout}
-                className="px-4 py-2 text-sm font-medium cursor-pointer rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
+                className="px-4 py-2.5 text-sm font-semibold cursor-pointer rounded-xl bg-red-500 text-white hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/30 transition-all"
               >
                 Yes, Log Out
               </button>
