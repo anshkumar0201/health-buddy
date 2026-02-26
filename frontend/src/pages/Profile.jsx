@@ -82,17 +82,20 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Anchored Log Out Section - MATCHING HEIGHT TO DISCLAIMER */}
-            <div
-              className={`shrink-0 border-t h-[60px] flex items-center px-4 ${isDark ? "border-slate-700" : "border-slate-200"}`}
-            >
-              <button
-                onClick={() => setShowLogoutModal(true)}
-                className="flex items-center w-full px-3 py-2 rounded-lg cursor-pointer text-sm text-red-500 font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+            {/* Anchored Log Out Section - UPDATED TO ADD GAP */}
+            <div className="shrink-0 h-[60px] flex items-center px-4">
+              {/* This inner div creates the line with a gap */}
+              <div
+                className={`w-full pt-4 border-t ${isDark ? "border-slate-700" : "border-slate-200"}`}
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                Log Out
-              </button>
+                <button
+                  onClick={() => setShowLogoutModal(true)}
+                  className="flex items-center w-full px-3 py-2 rounded-lg cursor-pointer text-sm text-red-500 font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Log Out
+                </button>
+              </div>
             </div>
           </div>
 
@@ -165,10 +168,10 @@ export default function Profile() {
             </div>
 
             {/* FIXED DISCLAIMER - SINGLE LINE ALIGNED TO LOG OUT */}
-            <div
-              className={`shrink-0 border-t h-[60px] flex items-center px-4 md:px-6 ${isDark ? "bg-[#0f172a] border-slate-800" : "bg-slate-50 border-slate-200"}`}
-            >
-              <div className="max-w-6xl mx-auto w-full">
+            <div className="shrink-0 h-[60px] flex items-center px-4 md:px-6">
+              <div
+                className={`w-full pt-4 border-t max-w-6xl mx-auto ${isDark ? "border-slate-800" : "border-slate-200"}`}
+              >
                 <p
                   className={`text-[7px] md:text-[10px] leading-tight text-justify opacity-60 ${isDark ? "text-slate-400" : "text-slate-500"}`}
                 >
