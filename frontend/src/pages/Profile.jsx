@@ -1,4 +1,4 @@
-// src/pages/Profile.jsx
+import SkeletonProfile from "../components/skeletons/profile/SkeletonProfile";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";

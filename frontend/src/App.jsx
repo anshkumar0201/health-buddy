@@ -16,6 +16,7 @@ import SkeletonGlobal from "@/components/skeletons/SkeletonGlobal"; // The one c
 import SkeletonHomePage from "@/components/skeletons/SkeletonHomePage";
 import SkeletonLogin from "./components/skeletons/SkeletonLogin";
 import SkeletonSignup from "./components/skeletons/SkeletonSignup";
+import SkeletonProfile from "./components/skeletons/profile/SkeletonProfile";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
 import SkeletonSymptomChecker from "@/components/skeletons/SkeletonSymptomChecker";
 import SkeletonDiseases from "@/components/skeletons/SkeletonDiseases";
@@ -55,7 +56,7 @@ const LazyRoute = ({ component: Component, skeleton: Skeleton }) => (
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  if (loading) return <SkeletonGlobal />;
+  if (loading) return <SkeletonProfile activeTab="Personal Info" />;
   if (!user) return <Navigate to="/login" replace />;
 
   return children;
@@ -91,9 +92,7 @@ export default function App() {
 
             <Route
               path="/login"
-              element={
-                <LazyRoute component={Login} skeleton={SkeletonLogin} />
-              }
+              element={<LazyRoute component={Login} skeleton={SkeletonLogin} />}
             />
 
             {/* Signup */}
@@ -109,7 +108,7 @@ export default function App() {
               path="/profile"
               element={
                 <PrivateRoute>
-                  <LazyRoute component={Profile} skeleton={SkeletonGlobal} />
+                  <LazyRoute component={Profile} skeleton={SkeletonProfile} />
                 </PrivateRoute>
               }
             />
