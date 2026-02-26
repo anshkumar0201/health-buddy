@@ -199,77 +199,79 @@ export default function Profile() {
                     : "bg-white border-slate-200/80 shadow-sm"
                 }`}
               >
-                <div
-                  className={
-                    activeTab === "Personal Info"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <PersonalInfoTab user={user} />
-                </div>
-                <div
-                  className={
-                    activeTab === "Medical Conditions"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <MedicalConditionsTab user={user} />
-                </div>
-                <div
-                  className={
-                    activeTab === "Medications"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <MedicationsTab user={user} />
-                </div>
-                <div
-                  className={
-                    activeTab === "Allergies"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <AllergiesTab user={user} />
-                </div>
-                <div
-                  className={
-                    activeTab === "Surgeries"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <SurgeriesTab user={user} />
-                </div>
-                <div
-                  className={
-                    activeTab === "Vitals"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <VitalsTab user={user} />
-                </div>
-                <div
-                  className={
-                    activeTab === "Lifestyle"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <LifestyleTab user={user} />
-                </div>
-                <div
-                  className={
-                    activeTab === "Emergency Contact"
-                      ? "block animate-in fade-in zoom-in-95 duration-200"
-                      : "hidden"
-                  }
-                >
-                  <EmergencyContactTab user={user} />
+                <div className="w-full max-w-3xl mx-auto transition-all duration-300">
+                  <div
+                    className={
+                      activeTab === "Personal Info"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <PersonalInfoTab user={user} />
+                  </div>
+                  <div
+                    className={
+                      activeTab === "Medical Conditions"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <MedicalConditionsTab user={user} />
+                  </div>
+                  <div
+                    className={
+                      activeTab === "Medications"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <MedicationsTab user={user} />
+                  </div>
+                  <div
+                    className={
+                      activeTab === "Allergies"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <AllergiesTab user={user} />
+                  </div>
+                  <div
+                    className={
+                      activeTab === "Surgeries"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <SurgeriesTab user={user} />
+                  </div>
+                  <div
+                    className={
+                      activeTab === "Vitals"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <VitalsTab user={user} />
+                  </div>
+                  <div
+                    className={
+                      activeTab === "Lifestyle"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <LifestyleTab user={user} />
+                  </div>
+                  <div
+                    className={
+                      activeTab === "Emergency Contact"
+                        ? "block animate-in fade-in zoom-in-95 duration-200"
+                        : "hidden"
+                    }
+                  >
+                    <EmergencyContactTab user={user} />
+                  </div>
                 </div>
               </div>
             </div>

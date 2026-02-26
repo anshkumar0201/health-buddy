@@ -3,8 +3,8 @@ import { useState, useEffect, forwardRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { vitalsSchema } from "../../schemas/profileSchema";
-import { Pencil, X, Save, CheckCircle2, Loader2 } from "lucide-react"; // 👉 Added missing icons
-import { useTheme } from "../../context/ThemeContext"; // 👉 Imported theme
+import { Pencil, X, Save, CheckCircle2, Loader2 } from "lucide-react";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function VitalsTab({ user }) {
   const { theme } = useTheme();
@@ -12,7 +12,7 @@ export default function VitalsTab({ user }) {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  // 👉 NEW: States for Modal, Toast, and Loading status
+  // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pendingData, setPendingData] = useState(null);
   const [showToast, setShowToast] = useState(false);
@@ -26,7 +26,7 @@ export default function VitalsTab({ user }) {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(vitalsSchema),
-    mode: "onChange", // 👉 NEW: Triggers real-time validation
+    mode: "onChange",
     defaultValues: {
       bloodPressure: "",
       bloodSugar: "",
@@ -38,8 +38,6 @@ export default function VitalsTab({ user }) {
 
   // Hydrate form with Database data
   useEffect(() => {
-    // Simulated fetch from Firestore
-    // e.g., fetched from doc(db, 'users', user.uid).vitals
     const fetchedDataFromDB = {
       bloodPressure: "120/80",
       bloodSugar: 95,
@@ -58,15 +56,13 @@ export default function VitalsTab({ user }) {
     });
   }, [reset, getValues]);
 
-  // 👉 NEW: Intercept submit to show the modal
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
-  // 👉 NEW: Async save function attached to the modal's confirmation button
   const confirmSave = async () => {
-    setIsSaving(true); // Start the spinner
+    setIsSaving(true);
 
     try {
       // We update the 'lastUpdated' to today's date automatically upon saving
@@ -79,17 +75,15 @@ export default function VitalsTab({ user }) {
 
       console.log("Saving Vitals to Firestore:", firestorePayload);
 
-      // 👉 Simulate 1.5 second network delay
+      // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Reset the form baseline with the newly injected date so the UI updates instantly
       reset({ ...pendingData, lastUpdated: today });
 
-      // Close modal and turn off edit mode AFTER successful save
       setShowConfirmModal(false);
       setIsEditing(false);
 
-      // Trigger the success toast
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
@@ -98,16 +92,15 @@ export default function VitalsTab({ user }) {
       console.error("Failed to save changes:", error);
       alert("Something went wrong. Please try again.");
     } finally {
-      setIsSaving(false); // Stop the spinner
+      setIsSaving(false);
     }
   };
 
   const handleCancel = () => {
-    reset(); // Safely reverts back to the established baseline
+    reset();
     setIsEditing(false);
   };
 
-  // 👉 NEW: Check if there are active errors to disable the Save button
   const hasErrors = Object.keys(errors).length > 0;
 
   return (
@@ -115,13 +108,21 @@ export default function VitalsTab({ user }) {
       <div>
         {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">Current Vitals</h2>
+          <h2
+            className={`text-xl font-bold tracking-tight ${isDark ? "text-gray-100" : "text-slate-800"}`}
+          >
+            Current Vitals
+          </h2>
 
           {!isEditing ? (
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="flex items-center px-4 py-2 cursor-pointer text-sm rounded-lg bg-blue-100 text-blue-600 dark:bg-slate-800 dark:text-blue-400 font-medium hover:bg-blue-200 transition"
+              className={`flex items-center px-4 py-2 text-sm cursor-pointer rounded-xl font-semibold transition-all duration-300 ${
+                isDark
+                  ? "bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 hover:text-blue-300"
+                  : "bg-blue-50 text-blue-600 hover:bg-blue-100"
+              }`}
             >
               <Pencil className="w-4 h-4 mr-2" />
               Edit Section
@@ -130,7 +131,11 @@ export default function VitalsTab({ user }) {
             <button
               type="button"
               onClick={handleCancel}
-              className="flex items-center px-4 py-2 cursor-pointer text-sm rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+              className={`flex items-center px-4 py-2 cursor-pointer text-sm rounded-xl font-semibold border transition-all duration-300 ${
+                isDark
+                  ? "bg-[#131314] text-[#C4C7C5] border-[#282A2C] hover:bg-[#282A2C] hover:text-gray-100"
+                  : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
+              }`}
             >
               <X className="w-4 h-4 mr-2" />
               Cancel
@@ -180,30 +185,35 @@ export default function VitalsTab({ user }) {
           </div>
 
           {/* Read-only field showing when it was last updated */}
-          <div className="pt-2">
+          <div className="pt-2 relative">
             <Input
               label="Last Updated Date"
               type="date"
               {...register("lastUpdated")}
               error={errors?.lastUpdated}
-              disabled={true} // Always disabled, updated automatically on save
-              className="opacity-60 cursor-not-allowed bg-slate-100 dark:bg-slate-800"
+              readOnly={true} // Always disabled, updated automatically on save
+              className={`opacity-80 cursor-not-allowed ${isDark ? "bg-[#131314]" : "bg-slate-50"}`}
             />
-            <p className="text-xs text-slate-500 mt-1 ml-1">
+            {/* Using absolute positioning to tuck the hint nicely under the input without breaking spacing */}
+            <p
+              className={`absolute -bottom-5 left-1 text-[10px] md:text-xs font-medium ${isDark ? "text-slate-500" : "text-slate-400"}`}
+            >
               *Date is updated automatically when you save changes.
             </p>
           </div>
         </div>
 
-        {/* 👉 UPDATED: Save Button with disabled state */}
+        {/* Save Button */}
         {isEditing && (
           <button
             onClick={handleSubmit(handlePreSubmit)}
             disabled={hasErrors}
-            className={`flex items-center mt-8 px-6 py-2 rounded-lg text-white transition-all ${
+            className={`flex items-center mt-10 px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
               hasErrors
-                ? "bg-slate-400 cursor-not-allowed opacity-50 dark:bg-slate-600"
-                : "bg-gradient-to-r from-blue-500 to-emerald-500 hover:opacity-90 cursor-pointer"
+                ? isDark
+                  ? "bg-[#131314] text-[#C4C7C5] border border-[#282A2C] cursor-not-allowed"
+                  : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] cursor-pointer"
             }`}
           >
             <Save className="w-4 h-4 mr-2" />
@@ -216,16 +226,18 @@ export default function VitalsTab({ user }) {
           CONFIRMATION MODAL
       ======================== */}
       {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-in fade-in duration-200">
           <div
-            className={`w-full max-w-sm p-6 rounded-2xl shadow-xl transform transition-all ${
+            className={`w-full max-w-sm p-6 rounded-2xl shadow-2xl transform transition-all ${
               isDark
-                ? "bg-slate-800 text-white border border-slate-700"
+                ? "bg-[#1E1F20] text-[#E3E3E3] border border-[#282A2C]"
                 : "bg-white text-slate-900"
             }`}
           >
-            <h3 className="text-xl font-semibold mb-2">Save Changes?</h3>
-            <p className="text-sm opacity-80 mb-6">
+            <h3 className="text-xl font-bold mb-2">Save Changes?</h3>
+            <p
+              className={`text-sm mb-6 leading-relaxed ${isDark ? "text-[#C4C7C5]" : "opacity-80"}`}
+            >
               Are you sure you want to update your Vitals?
             </p>
 
@@ -233,8 +245,10 @@ export default function VitalsTab({ user }) {
               <button
                 onClick={() => setShowConfirmModal(false)}
                 disabled={isSaving}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  isDark ? "hover:bg-slate-700" : "hover:bg-slate-100"
+                className={`px-4 py-2.5 text-sm font-semibold rounded-xl border transition-colors ${
+                  isDark
+                    ? "bg-[#131314] text-[#E3E3E3] border-[#282A2C] hover:bg-[#282A2C]"
+                    : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                 } ${isSaving ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
               >
                 Cancel
@@ -243,10 +257,10 @@ export default function VitalsTab({ user }) {
               <button
                 onClick={confirmSave}
                 disabled={isSaving}
-                className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg text-white transition-colors ${
+                className={`flex items-center px-4 py-2.5 text-sm font-semibold rounded-xl text-white transition-all ${
                   isSaving
                     ? "bg-blue-400 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                    : "bg-blue-500 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer"
                 }`}
               >
                 {isSaving ? (
@@ -267,9 +281,9 @@ export default function VitalsTab({ user }) {
           SUCCESS TOAST
       ======================== */}
       {showToast && (
-        <div className="fixed bottom-24 right-6 z-50 flex items-center bg-emerald-500 text-white px-4 py-3 rounded-lg shadow-xl animate-fade-in-up">
+        <div className="fixed bottom-24 right-6 z-50 flex items-center bg-emerald-500 text-white px-5 py-3.5 rounded-xl shadow-xl animate-in slide-in-from-bottom-5 duration-300">
           <CheckCircle2 className="w-5 h-5 mr-2" />
-          <span className="text-sm font-medium">
+          <span className="text-sm font-semibold">
             Vitals saved successfully!
           </span>
         </div>
@@ -283,17 +297,28 @@ INPUT COMPONENT
 ========================== */
 const Input = forwardRef(
   (
-    { label, placeholder, error, type, className = "", disabled, ...props },
+    {
+      label,
+      placeholder,
+      error,
+      type,
+      className = "",
+      disabled,
+      readOnly,
+      ...props
+    },
     ref,
   ) => {
     return (
       <div>
-        <label className="text-sm opacity-70">{label}</label>
-
+        <label className="text-sm font-medium opacity-80 mb-1.5 block">
+          {label}
+        </label>
         <input
           ref={ref}
           type={type}
           disabled={disabled}
+          readOnly={readOnly}
           placeholder={placeholder || `Enter ${label}`}
           {...props}
           onWheel={(e) => e.target.blur()}
@@ -302,13 +327,24 @@ const Input = forwardRef(
               e.preventDefault();
             }
           }}
-          className={`w-full mt-1 px-3 py-2 rounded-lg border outline-none bg-transparent placeholder:text-gray-400 transition-colors
-        ${error ? "border-red-500 focus:border-red-500" : "border-slate-300 dark:border-slate-600 focus:border-blue-500"}
-        ${disabled ? "opacity-60 cursor-not-allowed bg-slate-100 dark:bg-slate-800 text-gray-500" : ""}
+          className={`w-full px-4 py-2.5 rounded-xl border outline-none transition-all duration-300
+        ${
+          error
+            ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+            : "border-slate-200 dark:border-[#282A2C] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+        }
+        ${
+          disabled || readOnly
+            ? "opacity-60 cursor-not-allowed bg-slate-100 dark:bg-[#131314] text-slate-500 dark:text-[#C4C7C5]"
+            : "bg-slate-50 dark:bg-[#131314] text-slate-900 dark:text-[#E3E3E3] hover:border-slate-300 dark:hover:border-slate-600"
+        }
         ${className}`}
         />
-
-        {error && <p className="text-red-500 text-xs mt-1">{error.message}</p>}
+        {error && (
+          <p className="text-red-500 text-xs mt-1.5 font-medium">
+            {error.message}
+          </p>
+        )}
       </div>
     );
   },
