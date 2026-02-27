@@ -1,8 +1,47 @@
 import { useTheme } from "../../../context/ThemeContext";
+import SkeletonPersonalInfoTab from "./SkeletonPersonalInfoTab";
+import SkeletonMedicalConditionsTab from "./SkeletonMedicalConditionsTab";
+import SkeletonMedicationsTab from "./SkeletonMedicationsTab";
+import SkeletonAllergiesTab from "./SkeletonAllergiesTab";
+import SkeletonEmergencyContactTab from "./SkeletonEmergencyContactTab";
+import SkeletonLifestyleTab from "./SkeletonLifestyleTab";
+import SkeletonSurgeriesTab from "./SkeletonSurgeriesTab";
+import SkeletonVitalsTab from "./SkeletonVitalsTab";
 
-export default function SkeletonProfile() {
+export default function SkeletonProfile({ activeTab = "Personal Info" }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  const renderInnerSkeleton = () => {
+    switch (activeTab) {
+      case "Personal Info":
+        return <SkeletonPersonalInfoTab />;
+
+      case "Medical Conditions":
+        return <SkeletonMedicalConditionsTab />;
+
+      case "Medications":
+        return <SkeletonMedicationsTab />;
+
+      case "Allergies":
+        return <SkeletonAllergiesTab />;
+
+      case "Surgeries":
+        return <SkeletonSurgeriesTab />;
+
+      case "Vitals":
+        return <SkeletonVitalsTab />;
+
+      case "Lifestyle":
+        return <SkeletonLifestyleTab />;
+
+      case "Emergency Contact":
+        return <SkeletonEmergencyContactTab />;
+
+      default:
+        return <SkeletonPersonalInfoTab />;
+    }
+  };
 
   return (
     <div
@@ -64,23 +103,8 @@ export default function SkeletonProfile() {
                   : "bg-white border-slate-200"
               }`}
             >
-              <div className="w-full max-w-3xl mx-auto space-y-6">
-                {/* Header */}
-                <div className="flex justify-between items-center">
-                  <div className="h-6 w-40 rounded bg-gray-200 dark:bg-gray-700" />
-                  <div className="h-9 w-28 rounded-xl bg-gray-200 dark:bg-gray-700" />
-                </div>
-
-                {/* Form Fields */}
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="space-y-2">
-                    <div className="h-4 w-32 rounded bg-gray-200 dark:bg-gray-700" />
-                    <div className="h-10 rounded-xl bg-gray-200 dark:bg-gray-700" />
-                  </div>
-                ))}
-
-                {/* Button */}
-                <div className="h-10 w-40 rounded-xl bg-gray-200 dark:bg-gray-700 mt-6" />
+              <div className="w-full max-w-3xl mx-auto">
+                {renderInnerSkeleton()}
               </div>
             </div>
           </div>

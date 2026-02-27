@@ -2,7 +2,7 @@ import SkeletonProfile from "../components/skeletons/profile/SkeletonProfile";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   LogOut,
   User,
@@ -42,7 +42,14 @@ export default function Profile() {
   const navigate = useNavigate();
   const isDark = theme === "dark";
 
-  const [activeTab, setActiveTab] = useState("Personal Info");
+  // const [profileLoading, setProfileLoading] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const activeTab = searchParams.get("tab") || "Personal Info";
+
+  const setActiveTab = (tab) => {
+    setSearchParams({ tab });
+  };
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleConfirmLogout = async () => {
@@ -54,6 +61,10 @@ export default function Profile() {
       alert("Failed to log out. Please try again.");
     }
   };
+
+  // if (profileLoading) {
+  //   return <SkeletonProfile activeTab={activeTab} />;
+  // }
 
   return (
     <>
@@ -207,7 +218,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <PersonalInfoTab user={user} />
+                    <PersonalInfoTab
+                      user={user}
+                    />
                   </div>
                   <div
                     className={
@@ -216,7 +229,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <MedicalConditionsTab user={user} />
+                    <MedicalConditionsTab
+                      user={user}
+                    />
                   </div>
                   <div
                     className={
@@ -225,7 +240,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <MedicationsTab user={user} />
+                    <MedicationsTab
+                      user={user}
+                    />
                   </div>
                   <div
                     className={
@@ -234,7 +251,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <AllergiesTab user={user} />
+                    <AllergiesTab
+                      user={user}
+                    />
                   </div>
                   <div
                     className={
@@ -243,7 +262,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <SurgeriesTab user={user} />
+                    <SurgeriesTab
+                      user={user}
+                    />
                   </div>
                   <div
                     className={
@@ -252,7 +273,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <VitalsTab user={user} />
+                    <VitalsTab
+                      user={user}
+                    />
                   </div>
                   <div
                     className={
@@ -261,7 +284,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <LifestyleTab user={user} />
+                    <LifestyleTab
+                      user={user}
+                    />
                   </div>
                   <div
                     className={
@@ -270,7 +295,9 @@ export default function Profile() {
                         : "hidden"
                     }
                   >
-                    <EmergencyContactTab user={user} />
+                    <EmergencyContactTab
+                      user={user}
+                    />
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-// src/components/profile/MedicationsTab.jsx
+import SkeletonMedicationsTab from "../skeletons/profile/SkeletonMedicationsTab";
 import { useState, useEffect, forwardRef } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,8 @@ export default function MedicationsTab({ user }) {
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isFetching, setIsFetching] = useState(true); // 👉 NEW: Loading state
+  const [loading, setLoading] = useState(true); // initial skeleton
+  const [isFetching, setIsFetching] = useState(false); // cancel reset loader
 
   // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -51,7 +52,6 @@ export default function MedicationsTab({ user }) {
     name: "medications",
   });
 
-  // 👉 UPDATED: Fetch data from Firestore on mount
   useEffect(() => {
     const fetchMedications = async () => {
       if (!user?.uid) return;
@@ -71,12 +71,12 @@ export default function MedicationsTab({ user }) {
       } catch (error) {
         console.error("Error fetching medications:", error);
       } finally {
-        setIsFetching(false);
+        setLoading(false);
       }
     };
 
     fetchMedications();
-  }, [user, reset, getValues]);
+  }, [user?.uid]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
@@ -134,14 +134,8 @@ export default function MedicationsTab({ user }) {
 
   const hasErrors = Object.keys(errors).length > 0;
 
-  if (isFetching) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <Loader2
-          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
-        />
-      </div>
-    );
+  if (loading) {
+    return <SkeletonMedicationsTab />;
   }
 
   return (
@@ -172,14 +166,24 @@ export default function MedicationsTab({ user }) {
             <button
               type="button"
               onClick={handleCancel}
-              className={`flex items-center px-4 py-2 cursor-pointer text-sm rounded-xl font-semibold border transition-all duration-300 ${
+              disabled={isFetching}
+              className={`flex items-center px-4 py-2 text-sm rounded-xl font-semibold border transition-all duration-300 ${
                 isDark
                   ? "bg-[#131314] text-[#C4C7C5] border-[#282A2C] hover:bg-[#282A2C] hover:text-gray-100"
                   : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
-              }`}
+              } ${isFetching ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
             >
-              <X className="w-4 h-4 mr-2" />
-              Cancel
+              {isFetching ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Resetting...
+                </>
+              ) : (
+                <>
+                  <X className="w-4 h-4 mr-2" />
+                  Cancel
+                </>
+              )}
             </button>
           )}
         </div>

@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
 import EmergencyBar from "@/components/EmergencyBar";
@@ -55,20 +55,40 @@ const LazyRoute = ({ component: Component, skeleton: Skeleton }) => (
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
-  if (loading) return <SkeletonProfile activeTab="Personal Info" />;
+  const params = new URLSearchParams(location.search);
+  const activeTab = params.get("tab") || "Personal Info";
+
+  // While auth state restoring
+  if (loading) {
+    return <SkeletonProfile activeTab={activeTab} />;
+  }
+
   if (!user) return <Navigate to="/login" replace />;
 
-  return children;
+  // Lazy loading + auth unified
+  return (
+    <Suspense fallback={<SkeletonProfile activeTab={activeTab} />}>
+      {children}
+    </Suspense>
+  );
 };
 
 /* ---------------- App ---------------- */
 export default function App() {
   const { i18n } = useTranslation();
+  const { user } = useAuth(); 
 
   useEffect(() => {
     document.documentElement.dir = i18n.dir();
   }, [i18n.language]);
+
+  useEffect(() => {
+    if (user) {
+      import("@/pages/Profile");
+    }
+  }, [user]);
 
   return (
     <BrowserRouter>
@@ -108,7 +128,7 @@ export default function App() {
               path="/profile"
               element={
                 <PrivateRoute>
-                  <LazyRoute component={Profile} skeleton={SkeletonProfile} />
+                  <Profile />
                 </PrivateRoute>
               }
             />
