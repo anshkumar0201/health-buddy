@@ -64,7 +64,7 @@ export default function PersonalInfoTab({ user }) {
 
   useEffect(() => {
     const fetchPersonalInfo = async () => {
-      if (!user?.uid) return;
+      if (!user?.uid || !user?.email) return;
 
       try {
         const docRef = doc(db, "users", user.uid);
@@ -98,7 +98,7 @@ export default function PersonalInfoTab({ user }) {
     };
 
     fetchPersonalInfo();
-  }, [user?.uid]);
+  }, [user?.uid, user?.email, user?.displayName]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
