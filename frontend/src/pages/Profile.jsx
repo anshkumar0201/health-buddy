@@ -37,7 +37,7 @@ const TABS = [
 ];
 
 export default function Profile() {
-  const { user, logout } = useAuth();
+  const { user, logout, authLoading } = useAuth();
   const { theme } = useTheme();
   const navigate = useNavigate();
   const isDark = theme === "dark";
@@ -62,9 +62,9 @@ export default function Profile() {
     }
   };
 
-  // if (profileLoading) {
-  //   return <SkeletonProfile activeTab={activeTab} />;
-  // }
+  if (authLoading || !user?.uid) {
+    return <SkeletonProfile activeTab={activeTab} />;
+  }
 
   return (
     <>
