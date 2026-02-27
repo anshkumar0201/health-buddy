@@ -1,6 +1,8 @@
 import { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/context/AuthContext";
+import { Navigate, useLocation } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
 import EmergencyBar from "@/components/EmergencyBar";
@@ -12,6 +14,9 @@ import MobileTabBar from "@/components/MobileTabBar";
 // Import your existing skeletons here
 import SkeletonGlobal from "@/components/skeletons/SkeletonGlobal"; // The one created in Step 2
 import SkeletonHomePage from "@/components/skeletons/SkeletonHomePage";
+import SkeletonLogin from "./components/skeletons/SkeletonLogin";
+import SkeletonSignup from "./components/skeletons/SkeletonSignup";
+import SkeletonProfile from "./components/skeletons/profile/SkeletonProfile";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
 import SkeletonSymptomChecker from "@/components/skeletons/SkeletonSymptomChecker";
 import SkeletonDiseases from "@/components/skeletons/SkeletonDiseases";
@@ -26,6 +31,9 @@ import SkeletonAssessmentResult from "@/components/skeletons/SkeletonAssessmentR
 
 /* ---------------- Lazy-loaded Pages ---------------- */
 const HomePage = lazy(() => import("@/pages/HomePage"));
+const Signup = lazy(() => import("@/pages/Signup"));
+const Login = lazy(() => import("@/pages/Login"));
+const Profile = lazy(() => import("@/pages/Profile"));
 const SymptomAnalyzer = lazy(() => import("@/pages/SymptomAnalyzer"));
 const SymptomChecker = lazy(() => import("@/pages/SymptomChecker"));
 const Diseases = lazy(() => import("@/pages/Diseases"));
@@ -45,15 +53,42 @@ const LazyRoute = ({ component: Component, skeleton: Skeleton }) => (
   </Suspense>
 );
 
+const PrivateRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+  const activeTab = params.get("tab") || "Personal Info";
+
+  // While auth state restoring
+  if (loading) {
+    return <SkeletonProfile activeTab={activeTab} />;
+  }
+
+  if (!user) return <Navigate to="/login" replace />;
+
+  // Lazy loading + auth unified
+  return (
+    <Suspense fallback={<SkeletonProfile activeTab={activeTab} />}>
+      {children}
+    </Suspense>
+  );
+};
 
 /* ---------------- App ---------------- */
-
 export default function App() {
   const { i18n } = useTranslation();
+  const { user } = useAuth(); 
 
   useEffect(() => {
     document.documentElement.dir = i18n.dir();
   }, [i18n.language]);
+
+  useEffect(() => {
+    if (user) {
+      import("@/pages/Profile");
+    }
+  }, [user]);
 
   return (
     <BrowserRouter>
@@ -74,6 +109,30 @@ export default function App() {
                 <LazyRoute component={HomePage} skeleton={SkeletonHomePage} />
               }
             />
+
+            <Route
+              path="/login"
+              element={<LazyRoute component={Login} skeleton={SkeletonLogin} />}
+            />
+
+            {/* Signup */}
+            <Route
+              path="/signup"
+              element={
+                <LazyRoute component={Signup} skeleton={SkeletonSignup} />
+              }
+            />
+
+            {/* ✅ PROFILE (PROTECTED) */}
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+
             {/* Symptom Analyzer */}
             <Route
               path="/symptom-analyzer"

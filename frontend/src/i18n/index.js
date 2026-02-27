@@ -11,7 +11,7 @@ i18n
         fallbackLng: "en",
 
         // allow detector to choose language (faster + non-blocking)
-        lng: undefined,
+        lng: localStorage.getItem("lang") || undefined,
 
         supportedLngs: [
             "as", "bn", "dg", "en", "gu", "hi", "kc", "kn",
