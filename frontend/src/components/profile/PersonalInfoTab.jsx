@@ -3,6 +3,7 @@ import { useState, useEffect, forwardRef, useRef } from "react"; // 👉 Added u
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { personalInfoSchema } from "../../schemas/profileSchema";
+import { useAuth } from "../../context/AuthContext";
 import {
   Pencil,
   X,
@@ -27,6 +28,7 @@ const GENDER_OPTIONS = [
 ];
 
 export default function PersonalInfoTab({ user }) {
+  const { authLoading } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -63,9 +65,9 @@ export default function PersonalInfoTab({ user }) {
   });
 
   useEffect(() => {
-    const fetchPersonalInfo = async () => {
-      if (!user?.uid || !user?.email) return;
+    if (!user?.uid || !user?.email) return;
 
+    const fetchPersonalInfo = async () => {
       try {
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
@@ -150,7 +152,7 @@ export default function PersonalInfoTab({ user }) {
 
   const hasErrors = Object.keys(errors).length > 0;
 
-  if (loading) {
+  if (authLoading || !user?.uid || loading) {
     return <SkeletonPersonalInfoTab />;
   }
 
@@ -214,8 +216,8 @@ export default function PersonalInfoTab({ user }) {
           <Input
             label="Email"
             {...register("email")}
-            error={errors?.email}
-            readOnly={true}
+            value={watch("email") || ""}
+            readOnly
             className={isDark ? "bg-[#131314]" : "bg-slate-50"}
           />
 
