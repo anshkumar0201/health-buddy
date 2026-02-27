@@ -150,7 +150,7 @@ function hasSymptomStructure(text) {
    ====================================================== */
 router.post("/", async (req, res) => {
     try {
-        const { text, locale } = req.body;
+        const { text, locale, profileData } = req.body;
 
         if (!text || typeof text !== "string") {
             return res.status(400).json({ error: "Invalid input" });
@@ -194,7 +194,8 @@ router.post("/", async (req, res) => {
 
         const result = await analyzeSymptomsWithGemini(
             text,
-            locale || "en"
+            locale || "en",
+            profileData
         );
 
         return res.json(result);

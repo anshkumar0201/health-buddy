@@ -14,12 +14,64 @@ import { motion } from "framer-motion";
 // Assuming you have a shared file for terms. If not, ensure this import is correct or mock it.
 import medicalTerms from "../../shared/medical/medical-terms.json";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
+import { useAuth } from "../context/AuthContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 if (!import.meta.env.VITE_API_BASE_URL) {
   console.error("❌ VITE_API_BASE_URL is missing!");
 }
+
+/* ======================================================
+   MOCK DATABASE FETCH (To be replaced with Firestore)
+   ====================================================== */
+const fetchUserProfile = async (uid) => {
+  // In production: const docSnap = await getDoc(doc(db, "users", uid)); return docSnap.data();
+  // We simulate fetching the consolidated profile data here.
+  // We only send fields that are filled out to save on AI Tokens!
+  return {
+    personalInfo: {
+      age: 34,
+      gender: "Male",
+      bloodGroup: "O+",
+      height: 165,
+      weight: 70,
+    },
+    medicalConditions: {
+      conditions: ["Asthma", "High Blood Pressure"],
+      notes: "Allergic to penicillin.",
+    },
+    medications: [
+      { medName: "Lisinopril", dosage: "10mg", frequency: "Once daily" },
+    ],
+    allergies: {
+      food: ["Peanuts"],
+      medicines: ["Penicillin"],
+      others: ["Cats"],
+    },
+    surgeries: [
+      {
+        surgeryName: "Knee Replacement",
+        year: 2020,
+        hospital: "Fortis Healthcare",
+      },
+    ],
+    vitals: {
+      bloodPressure: "120/80",
+      bloodSugar: 92,
+      heartRate: 72,
+      oxygenLevel: 92,
+      lastUpdate: "25-02-2026",
+    },
+    lifestyle: {
+      smoking: "Never",
+      alcohol: "Occasionally on weekends",
+      exercise: "3 times a week (Cardio)",
+      diet: "Vegeterian",
+      sleepHours: 8,
+    },
+  };
+};
 
 /* ======================================================
    HELPER FUNCTIONS (Validation & Medical Checks)
@@ -192,12 +244,12 @@ function medicalDensity(tokens, minRatio = 0.03) {
 }
 
 const META_PATTERNS = [
-  /can you/i,
-  /please analyze/i,
-  /what is wrong/i,
-  /help me/i,
-  /doctor/i,
-  /hi|hello/i,
+  /\bcan you\b/i,
+  /\bplease analyze\b/i,
+  /\bwhat is wrong\b/i,
+  /\bhelp me\b/i,
+  /\bdoctor\b/i,
+  /\b(hi|hello|hey)\b/i,
 ];
 function isMetaInput(text) {
   return META_PATTERNS.some((r) => r.test(text));
@@ -208,6 +260,7 @@ function isMetaInput(text) {
    ====================================================== */
 export default function SymptomAnalyzer() {
   const { t, i18n, ready } = useTranslation();
+  const { user } = useAuth();
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -314,10 +367,11 @@ export default function SymptomAnalyzer() {
     setResult({ status: "loading" });
 
     try {
+      const profileData = user ? await fetchUserProfile(user.uid) : null;
       const response = await fetch(`${API_BASE}/api/analyze-symptoms`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, locale: i18n.language }),
+        body: JSON.stringify({ text, locale: i18n.language, profileData }),
       });
 
       if (!response.ok) throw new Error("AI analysis failed");
