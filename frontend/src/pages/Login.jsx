@@ -57,8 +57,8 @@ GOOGLE LOGIN
       setLoading(true);
       const result = await loginWithGoogle();
 
-      if (result.isNewUser) {
-        navigate("/onboarding"); // future page
+      if (result?.isNewUser) {
+        navigate("/"); // fallback until onboarding exists
       } else {
         navigate("/");
       }
