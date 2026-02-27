@@ -176,50 +176,80 @@ export default function SymptomChecker() {
             </p>
           </motion.div>
 
-          {/* Search */}
-          <motion.div
-            className="mt-8 max-w-3xl mx-auto"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 120, damping: 14 }}
+          {/* {!user && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-8 max-w-3xl mx-auto rounded-2xl bg-indigo-600 p-1 shadow-lg shadow-indigo-500/20"
+            >
+              <div className="bg-white dark:bg-slate-900 rounded-[14px] px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600">
+                    <Lock size={20} />
+                  </div>
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                    Log in to unlock full search, categories, and medical
+                    assessments.
+                  </p>
+                </div>
+                <button
+                  onClick={() => navigate("/login")}
+                  className="whitespace-nowrap px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-all cursor-pointer"
+                >
+                  Log In Now
+                </button>
+              </div>
+            </motion.div>
+          )} */}
+
+          {/* 👉 WRAPPER: Disable and Fade Search, Categories, and Cards if not logged in */}
+          <div
+            className={`transition-all duration-500 ${!user ? "opacity-40 pointer-events-none select-none grayscale-[20%]" : ""}`}
           >
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder={t("SymptomChecker.searchPlaceholder")}
-                className="w-full pl-11 pr-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-400 transition-colors duration-300
+            {/* Search */}
+            <motion.div
+              className="mt-8 max-w-3xl mx-auto"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: "spring", stiffness: 120, damping: 14 }}
+            >
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("SymptomChecker.searchPlaceholder")}
+                  className="w-full pl-11 pr-4 py-3 rounded-xl border focus:ring-2 focus:ring-blue-400 transition-colors duration-300
                 border-gray-200 bg-white text-gray-900 placeholder-gray-500
                 dark:bg-[#1e293b] dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
-              />
-            </div>
-          </motion.div>
+                />
+              </div>
+            </motion.div>
 
-          {/* Categories */}
-          <motion.div
-            className="mt-8"
-            initial={{ x: -60, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            <div
-              className="
+            {/* Categories */}
+            <motion.div
+              className="mt-8"
+              initial={{ x: -60, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <div
+                className="
               flex gap-2 overflow-x-auto pb-2
               -mx-4 px-4
               sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6
               sm:gap-3 sm:overflow-visible
             "
-            >
-              {categories.map((cat) => (
-                <motion.button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  whileHover={isDesktop ? { scale: 1.07 } : undefined}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                  title={t(`SymptomChecker.categories.${cat}`)} // full text on hover
-                  className={`whitespace-nowrap shrink-0
+              >
+                {categories.map((cat) => (
+                  <motion.button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    whileHover={isDesktop ? { scale: 1.07 } : undefined}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
+                    title={t(`SymptomChecker.categories.${cat}`)} // full text on hover
+                    className={`whitespace-nowrap shrink-0
       px-4 py-2 rounded-xl cursor-pointer
       text-sm font-medium flex items-center
       transition-all duration-300
@@ -230,14 +260,15 @@ export default function SymptomChecker() {
           ? "bg-black text-white shadow-sm dark:bg-gray-300 dark:text-black"
           : "border hover:bg-gray-100 bg-white text-black border-gray-200 dark:bg-slate-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-700"
       }`}
-                >
-                  <span className="truncate block w-full text-center">
-                    {t(`SymptomChecker.categories.${cat}`)}
-                  </span>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+                  >
+                    <span className="truncate block w-full text-center">
+                      {t(`SymptomChecker.categories.${cat}`)}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Empty State */}
           {filteredDiseases.length === 0 && (
