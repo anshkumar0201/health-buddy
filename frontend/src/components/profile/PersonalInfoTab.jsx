@@ -65,7 +65,7 @@ export default function PersonalInfoTab({ user }) {
   });
 
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user?.uid || !user?.email) return;
 
     const fetchPersonalInfo = async () => {
       try {
@@ -216,8 +216,8 @@ export default function PersonalInfoTab({ user }) {
           <Input
             label="Email"
             {...register("email")}
-            error={errors?.email}
-            readOnly={true}
+            value={watch("email") || ""}
+            readOnly
             className={isDark ? "bg-[#131314]" : "bg-slate-50"}
           />
 
