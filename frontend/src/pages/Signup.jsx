@@ -84,7 +84,7 @@ export default function Signup() {
       const result = await signupWithGoogle();
 
       if (result.isNewUser) {
-        navigate("/onboarding"); // future page
+        navigate("/"); // future page
       } else {
         navigate("/");
       }
