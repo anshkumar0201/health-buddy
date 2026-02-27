@@ -8,9 +8,12 @@ import {
   Lightbulb,
   ArrowRight,
   ExternalLink,
+  Lock,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+
+import { useNavigate } from "react-router-dom";
 // Assuming you have a shared file for terms. If not, ensure this import is correct or mock it.
 import medicalTerms from "../../shared/medical/medical-terms.json";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
@@ -234,6 +237,7 @@ function isMetaInput(text) {
 export default function SymptomAnalyzer() {
   const { t, i18n, ready } = useTranslation();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Ref to track if component is mounted
   const isMounted = useRef(true);
@@ -324,6 +328,10 @@ export default function SymptomAnalyzer() {
   };
 
   const analyzeSymptoms = async () => {
+    if (!user) {
+      return fail("Authentication required to use AI features.");
+    }
+
     if (charCount > MAX_CHARS) return fail("Character limit exceeded");
     if (wordCount > MAX_WORDS) return fail("Word limit exceeded");
     if (!text.trim() || charCount < MIN_CHARS)
@@ -433,7 +441,8 @@ export default function SymptomAnalyzer() {
       !loading &&
       charCount >= MIN_CHARS &&
       charCount <= MAX_CHARS &&
-      wordCount <= MAX_WORDS
+      wordCount <= MAX_WORDS &&
+      user
     ) {
       e.preventDefault();
       analyzeSymptoms();
@@ -563,11 +572,38 @@ export default function SymptomAnalyzer() {
           bg-white border-gray-300 
           dark:bg-[#1e293b] dark:border-gray-700 dark:shadow-gray-700"
         >
-          <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5 text-purple-500" />
-            <h2 className="font-semibold transition-colors duration-300 text-gray-900 dark:text-gray-100">
-              {t("SymptomAnalyzer.inputTitle")}
-            </h2>
+          {/* 👉 NEW: Not Logged In Warning Banner */}
+          {!user && (
+            <div className="mb-6 rounded-xl bg-blue-50 border border-blue-200 p-4 text-blue-800 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-start gap-3">
+                <Lock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold mb-1">Authentication Required</p>
+                  <p className="text-sm opacity-90">
+                    Please log in to use the AI Symptom Analyzer. This ensures
+                    the AI can securely read your personal health profile
+                    (medications, allergies, and vitals) to provide highly
+                    personalized medical triage.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => navigate("/login")} // Change '/login' if your route is named differently!
+                className="whitespace-nowrap w-full sm:w-auto px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md cursor-pointer"
+              >
+                Log In Now
+              </button>
+            </div>
+          )}
+          <div
+            className={`transition-all duration-500 ${!user ? "opacity-40 pointer-events-none select-none grayscale-[20%]" : ""}`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-5 h-5 text-purple-500" />
+              <h2 className="font-semibold transition-colors duration-300 text-gray-900 dark:text-gray-100">
+                {t("SymptomAnalyzer.inputTitle")}
+              </h2>
+            </div>
           </div>
 
           <div className="relative">
@@ -576,6 +612,7 @@ export default function SymptomAnalyzer() {
               value={text}
               onChange={handleTextChange}
               onKeyDown={handleKeyDown}
+              disabled={!user}
               className="resize-y w-full rounded-xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-300
                 bg-white border-gray-200 text-gray-900 placeholder-gray-500
                 dark:bg-[#0f172a] dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
