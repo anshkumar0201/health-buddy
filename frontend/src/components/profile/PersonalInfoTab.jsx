@@ -65,7 +65,13 @@ export default function PersonalInfoTab({ user }) {
   });
 
   useEffect(() => {
-    if (!user?.uid || !user?.email) return;
+    if (user?.email) {
+      setValue("email", user.email);
+    }
+  }, [user?.email, setValue]);
+
+  useEffect(() => {
+    if (!user?.uid) return;
 
     const fetchPersonalInfo = async () => {
       try {
@@ -78,7 +84,7 @@ export default function PersonalInfoTab({ user }) {
           reset({
             ...getValues(),
             name: data.name || user.displayName || "",
-            email: user.email || "",
+            email: user.email || "", // Ensure email is pulled from auth here too
             age: data.age || "",
             gender: data.gender || "",
             bloodGroup: data.bloodGroup || "",
@@ -100,7 +106,7 @@ export default function PersonalInfoTab({ user }) {
     };
 
     fetchPersonalInfo();
-  }, [user?.uid, user?.email, user?.displayName]);
+  }, [user?.uid, user?.email, user?.displayName, reset]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
@@ -216,9 +222,10 @@ export default function PersonalInfoTab({ user }) {
           <Input
             label="Email"
             {...register("email")}
-            value={watch("email") || ""}
-            readOnly
-            className={isDark ? "bg-[#131314]" : "bg-slate-50"}
+            disabled={true} // Use disabled instead of readOnly for clearer UI
+            className={
+              isDark ? "bg-[#131314] opacity-70" : "bg-slate-50 opacity-70"
+            }
           />
 
           <div className="grid grid-cols-2 gap-4">
