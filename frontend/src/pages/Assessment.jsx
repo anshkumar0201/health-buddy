@@ -1,4 +1,4 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, Navigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import React, { useEffect, useState, useMemo } from "react";
 import i18n from "@/i18n";
@@ -9,38 +9,45 @@ import SkeletonAssessment from "@/components/skeletons/SkeletonAssessment";
 export default function Assessment() {
   const { disease } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
 
   // ✅ Fetch ONLY the current disease assessment
   const assessment = useMemo(() => {
-    return i18n.getResource(
-      i18n.language,
-      "translation",
-      `assessments.data.${disease}`,
-    );
-  }, [disease, i18n.language]);
+    if (!ready || !disease) return null;
+
+    return t(`assessments.data.${disease}`, {
+      returnObjects: true,
+      defaultValue: null,
+    });
+  }, [t, disease, ready]);
+
+
+  console.log("ASSESSMENT:", assessment);
+
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState(
-    Array(assessment?.questions?.length || 0).fill(null),
-  );
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
-    if (!assessment || !assessment.questions) {
-      navigate("/symptom-checker", { replace: true });
+    if (assessment?.questions) {
+      setAnswers(Array(assessment.questions.length).fill(null));
     }
-  }, [assessment, navigate]);
+  }, [assessment]);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const QUESTIONS = useMemo(() => assessment?.questions || [], [assessment]);
   const totalQuestions = QUESTIONS.length;
 
   const maxPossibleScore = useMemo(() => {
     return QUESTIONS.reduce((sum, q) => {
-      const max = Math.max(...q.options.map((o) => o.score || 0));
+      if (!q.options || !Array.isArray(q.options)) return sum;
+
+      const max = Math.max(...q.options.map((o) => o?.score || 0));
       return sum + max;
     }, 0);
   }, [QUESTIONS]);
+
 
   const optionContainer = useMemo(
     () => ({
@@ -104,9 +111,18 @@ export default function Assessment() {
     }
   };
 
-  if (!assessment || !assessment.questions) {
+  // wait until translations load
+  if (!ready || !assessment) {
     return <SkeletonAssessment />;
   }
+
+  // if invalid disease slug → redirect
+  if (!assessment || !assessment.questions) {
+    return <Navigate to="/symptom-checker" replace />;
+  }
+
+  const current = QUESTIONS[currentQuestion];
+  if (!current) return <SkeletonAssessment />;
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b
@@ -163,8 +179,8 @@ export default function Assessment() {
           dark:bg-[#1e293b] dark:border-gray-700"
         >
           <QuestionBlock
-            question={QUESTIONS[currentQuestion].question}
-            options={QUESTIONS[currentQuestion].options}
+            question={current.question}
+            options={current.options}
             selectedOption={selectedOption}
             onSelect={handleOptionSelect}
             optionContainer={optionContainer}

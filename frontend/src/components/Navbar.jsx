@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../context/ThemeContext";
 import {
@@ -13,7 +13,10 @@ import {
   ChevronDown,
   Sun,
   Moon,
+  User,
+  LogOut,
 } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const navItems = [
   { key: "Navbar.home", icon: Home, path: "/" },
@@ -39,11 +42,26 @@ const languages = [
 ];
 
 export default function Navbar() {
-  const [desktopLangOpen, setDesktopLangOpen] = useState(false);
-  const [mobileLangOpen, setMobileLangOpen] = useState(false);
   const memoNavItems = useMemo(() => navItems, []);
   const memoLanguages = useMemo(() => languages, []);
   const memoEmergencyNumbers = useMemo(() => emergencyNumbers, []);
+
+  const { user, logout, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const [desktopLangOpen, setDesktopLangOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
+  const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
+  const mobileButtonRef = useRef(null);
+  const mobileEmergencyRef = useRef(null);
+  const mobileEmergencyBtnRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   const location = useLocation();
   const { t, i18n } = useTranslation();
@@ -52,20 +70,48 @@ export default function Navbar() {
   const isDark = theme === "dark";
   const showDarkUI = isDark;
 
-  const dropdownRef = useRef(null);
-  const buttonRef = useRef(null);
-  const mobileDropdownRef = useRef(null);
-  const mobileButtonRef = useRef(null);
-  const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
-  const mobileEmergencyRef = useRef(null);
-  const mobileEmergencyBtnRef = useRef(null);
+  const currentLang = (i18n.language || "en").split("-")[0];
 
+  /* =========================
+     LANGUAGE CHANGE
+  ========================== */
   const changeLanguage = (code) => {
     i18n.changeLanguage(code);
     localStorage.setItem("lang", code);
     setDesktopLangOpen(false);
     setMobileLangOpen(false);
   };
+
+  /* =========================
+     LOGOUT HANDLER
+  ========================== */
+  const handleLogout = () => {
+    setUserMenuOpen(false);
+    setShowLogoutModal(true);
+  };
+
+  const handleConfirmLogout = async () => {
+    await logout();
+    setShowLogoutModal(false);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    setUserMenuOpen(false);
+  }, [location.pathname]);
+
+  /* =========================
+     OUTSIDE CLICK HANDLERS
+  ========================== */
+  useEffect(() => {
+    function handleClick(e) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -85,20 +131,28 @@ export default function Navbar() {
 
   useEffect(() => {
     function handleKeyDown(e) {
-      if (e.key === "Escape") setDesktopLangOpen(false);
+      if (e.key === "Escape") {
+        setDesktopLangOpen(false);
+        setUserMenuOpen(false);
+      }
     }
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  /* =========================
+     PREVENT FLICKER
+  ========================== */
+  if (loading) return null;
+
   return (
-    <header
-      role="banner"
-      data-testid="navbar"
-      className={`
+    <>
+      <header
+        role="banner"
+        data-testid="navbar"
+        className={`
         fixed top-0 left-0 right-0 z-50 h-16
         print-hide transition-all duration-300
-        /* Glassmorphism for Desktop */
         lg:backdrop-blur-sm
         ${
           showDarkUI
@@ -106,176 +160,131 @@ export default function Navbar() {
             : "lg:bg-white/80 lg:border-b lg:border-white/30 lg:shadow-lg bg-[#f8fafc] border-b border-black/5"
         }
       `}
-    >
-      {/* FLUID CONTAINER 
-          - gap-4: ensures elements never touch.
-          - justify-between: pushes Logo Left, Nav Center, Controls Right.
-      */}
-      <div className="w-full h-full px-4 lg:px-6 flex items-center justify-between gap-4">
-        {/* --- LEFT: LOGO --- 
-            shrink-0: Ensures logo NEVER shrinks, even on extreme zoom.
-        */}
-        <Link
-          to="/"
-          replace
-          aria-label="App Logo"
-          className="flex items-center gap-2 shrink-0 select-none"
-          onClick={() => requestAnimationFrame(() => window.scrollTo(0, 0))}
-        >
-          <div
-            className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shadow-xl border border-gray-300"
-            style={{ background: "linear-gradient(135deg, #4F8CFF, #34D399)" }}
+      >
+        <div className="w-full h-full px-4 lg:px-6 flex items-center justify-between gap-4">
+          {/* LOGO */}
+          <Link
+            to="/"
+            replace
+            aria-label="App Logo"
+            className="flex items-center gap-2 shrink-0 select-none"
+            onClick={() => requestAnimationFrame(() => window.scrollTo(0, 0))}
           >
-            <img
+            <div
+              className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shadow-xl border border-gray-300"
+              style={{
+                background: "linear-gradient(135deg, #4F8CFF, #34D399)",
+              }}
+            >
+              <img
                 src="/app_logo.png"
                 alt="Rurivia AI Logo"
-                className="w-full h-full object-contain "
+                className="w-full h-full object-contain"
                 draggable={false}
-            />
-          </div>
-          <div className="flex flex-col leading-tight">
-            {/* Text size automatically adjusts or hides on very small mobile screens via CSS if needed, but here we keep it simple */}
-            <span
-              className={`text-xl font-bold tracking-tight ${showDarkUI ? "text-white" : "text-slate-800"}`}
-            >
-              Rurivia.AI
-            </span>
-            <span
-              className={`text-[10px] font-semibold hidden sm:block ${showDarkUI ? "text-slate-200" : "text-slate-800"}`}
-            >
-              Health Companion
-            </span>
-          </div>
-        </Link>
-
-        {/* --- MOBILE SPACER --- */}
-        <div className="flex-1 lg:hidden" />
-
-        {/* --- CENTER: DESKTOP NAV --- 
-            - flex-1: Takes available space.
-            - min-w-0: Critical! Allows the flex child to shrink below its content size if needed.
-        */}
-        <nav className="hidden lg:flex items-center justify-center flex-1 min-w-0 px-2">
-          <div className="flex items-center gap-1 xl:gap-2">
-            {memoNavItems.map((item) => {
-              const Icon = item.icon;
-              const isActive =
-                item.path === "/"
-                  ? location.pathname === "/"
-                  : location.pathname.startsWith(item.path);
-
-              const baseClasses = `
-                flex items-center justify-center gap-2
-                h-10 px-3 rounded-lg
-                text-sm font-medium whitespace-nowrap
-                transition-all duration-200 ease-out
-                border border-transparent
-              `;
-
-              let itemClasses = "";
-              if (showDarkUI) {
-                // FIXED: Standard dark hover (slate-800) for items
-                itemClasses = isActive
-                  ? "bg-white/10 text-blue-300 border-white/5"
-                  : "text-slate-400 hover:bg-slate-800 hover:text-slate-200";
-              } else {
-                itemClasses = isActive
-                  ? "bg-blue-50 text-blue-600 border-blue-100"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900";
-              }
-
-              return (
-                <Link
-                  key={item.key}
-                  to={item.path}
-                  title={t(item.key)} // Tooltip ensures usability when text is hidden
-                  className={`${baseClasses} ${itemClasses}`}
-                >
-                  <Icon size={20} className="shrink-0" />
-
-                  {/* --- THE MAGIC FIX ---
-                      hidden xl:block:
-                      1. On Laptops/Tablets (lg): Text is HIDDEN (Icon Only).
-                      2. On Large Screens (xl): Text is SHOWN.
-                      3. On Zoom In: Browser width shrinks effectively -> Nav auto-switches to Icon Only mode.
-                  */}
-                  <span className="hidden xl:block max-w-[120px] truncate">
-                    {t(item.key)}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
-
-        {/* --- RIGHT: CONTROLS --- 
-            shrink-0: Ensures these buttons never get crushed.
-        */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Desktop Language */}
-          <div className="relative hidden sm:block">
-            <button
-              ref={buttonRef}
-              onClick={() => setDesktopLangOpen((v) => !v)}
-              className={`
-                flex items-center gap-2
-                h-9 px-3
-                text-sm font-medium
-                rounded-lg border
-                transition-all duration-200 cursor-pointer
-                ${
-                  showDarkUI
-                    ? /* FIX: hover:bg-slate-700 is distinct and visible in dark mode. 
-                       Removed 'hover:bg-white' to prevent blinding contrast issues. */
-                      "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-500 hover:text-white"
-                    : "bg-white border-slate-200 text-slate-700 hover:bg-slate-200 hover:border-slate-300"
-                }
-              `}
-            >
-              {/* Responsive Text: Hides label on smaller laptops, shows code */}
-              <span className="hidden xl:inline truncate max-w-[80px]">
-                {memoLanguages.find((l) => l.code === i18n.language)?.label ||
-                  "Lang"}
-              </span>
-              <span className="xl:hidden">{i18n.language.toUpperCase()}</span>
-              <ChevronDown
-                size={14}
-                className={`transition-transform duration-300 ${desktopLangOpen ? "rotate-180" : ""}`}
               />
-            </button>
+            </div>
 
-            {desktopLangOpen && (
-              <div
-                ref={dropdownRef}
-                className={`
+            <div className="flex flex-col leading-tight">
+              <span
+                className={`text-xl font-bold ${showDarkUI ? "text-white" : "text-slate-800"}`}
+              >
+                Rurivia.AI
+              </span>
+              <span
+                className={`text-[10px] hidden sm:block ${showDarkUI ? "text-slate-200" : "text-slate-800"}`}
+              >
+                Health Companion
+              </span>
+            </div>
+          </Link>
+
+          <div className="flex-1 lg:hidden" />
+
+          {/* DESKTOP NAV */}
+          <nav className="hidden lg:flex items-center justify-center flex-1 min-w-0 px-2">
+            <div className="flex items-center gap-1 xl:gap-2">
+              {memoNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive =
+                  item.path === "/"
+                    ? location.pathname === "/"
+                    : location.pathname.startsWith(item.path);
+
+                const itemClasses = showDarkUI
+                  ? isActive
+                    ? "bg-white/10 text-blue-300 border-white/5"
+                    : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                  : isActive
+                    ? "bg-blue-50 text-blue-600 border-blue-100"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900";
+
+                return (
+                  <Link
+                    key={item.key}
+                    to={item.path}
+                    className={`flex items-center gap-2 h-10 px-3 rounded-lg text-sm font-medium border border-transparent transition ${itemClasses}`}
+                  >
+                    <Icon size={20} />
+                    <span className="hidden xl:block truncate">
+                      {t ? t(item.key) : item.key}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+
+          {/* RIGHT CONTROLS */}
+          <div
+            ref={userMenuRef}
+            className="flex items-center gap-2 sm:gap-3 shrink-0"
+          >
+            {/* LANGUAGE */}
+            <div className="relative hidden sm:block">
+              <button
+                ref={buttonRef}
+                onClick={() => setDesktopLangOpen((v) => !v)}
+                className={`flex items-center gap-2 h-9 px-3 rounded-lg cursor-pointer border text-sm ${
+                  showDarkUI
+                    ? "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-500"
+                    : "bg-white border-slate-200 text-slate-700 hover:bg-slate-200"
+                }`}
+              >
+                <span>{currentLang.toUpperCase()}</span>
+                <ChevronDown size={14} />
+              </button>
+
+              {desktopLangOpen && (
+                <div
+                  ref={dropdownRef}
+                  className={`
                   absolute right-0 mt-2 w-40
                   border rounded-xl shadow-xl z-50 overflow-hidden cursor-pointer
                   ${showDarkUI ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}
                 `}
-              >
-                {memoLanguages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => changeLanguage(lang.code)}
-                    className={`
+                >
+                  {memoLanguages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => changeLanguage(lang.code)}
+                      className={`
                       w-full text-left px-4 py-2 text-sm hover:opacity-80 cursor-pointer
-                      ${showDarkUI ? "text-slate-200 hover:bg-slate-600" : "text-slate-800 hover:bg-slate-200"}
+                      ${showDarkUI ? "text-slate-200 hover:bg-slate-600" : "text-slate-800 hover:bg-slate-300"}
                     `}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className={`
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className={`
               relative w-9 h-9 hidden sm:flex
               items-center justify-center
-              rounded-lg border cursor-pointer 
+              rounded-lg border cursor-pointer
               transition-colors
               ${
                 showDarkUI
@@ -283,29 +292,106 @@ export default function Navbar() {
                   : "bg-white border-slate-200 text-yellow-400 hover:text-slate-600 hover:bg-amber-100"
               }
             `}
-          >
-            <Sun
-              size={18}
-              className={`absolute transition-all ${showDarkUI ? "opacity-0 scale-50" : "opacity-100 scale-100"}`}
-            />
-            <Moon
-              size={18}
-              className={`absolute transition-all ${showDarkUI ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}
-            />
-          </button>
+            >
+              <Sun
+                size={18}
+                className={`absolute transition-all ${showDarkUI ? "opacity-0 scale-50" : "opacity-100 scale-100"}`}
+              />
+              <Moon
+                size={18}
+                className={`absolute transition-all ${showDarkUI ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}
+              />
+            </button>
+            {/* AUTH DESKTOP */}
+            <div className="hidden sm:flex items-center gap-2">
+              {!user ? (
+                <>
+                  <Link
+                    to="/login"
+                    className={`h-9 px-4 flex items-center rounded-lg text-sm font-medium border ${
+                      showDarkUI
+                        ? "bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700"
+                        : "bg-white border-slate-200 text-slate-700 hover:bg-slate-100"
+                    }`}
+                  >
+                    Login
+                  </Link>
 
-          {/* ********************************************************************************* */}
+                  <Link
+                    to="/signup"
+                    className="h-9 px-4 flex items-center rounded-lg text-sm font-medium bg-gradient-to-r from-blue-500 to-emerald-500 text-white"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              ) : (
+                <div className="relative">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // ⭐ prevents document handler from firing
+                      setUserMenuOpen((v) => !v);
+                    }}
+                    className={`w-9 h-9 rounded-full flex items-center cursor-pointer justify-center border overflow-hidden ${
+                      showDarkUI
+                        ? "bg-slate-800 border-slate-700"
+                        : "bg-white border-slate-200"
+                    }`}
+                  >
+                    {user?.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        alt="User"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold">
+                        {(
+                          user?.displayName?.[0] ||
+                          user?.email?.[0] ||
+                          "U"
+                        ).toUpperCase()}
+                      </div>
+                    )}
+                  </button>
 
-          {/* --- MOBILE DRAWER TOGGLE --- */}
-          <div className="lg:hidden flex items-center gap-3">
-            {/* Right mobile group */}
-            <div className="flex items-center gap-3 ml-auto">
-              {/* Mobile Language */}
-              <button
-                ref={mobileButtonRef}
-                onClick={() => setMobileLangOpen((prev) => !prev)}
-                onBlur={() => setMobileLangOpen(false)}
-                className={`
+                  {userMenuOpen && (
+                    <div
+                      className={`absolute right-0 mt-2 w-40 rounded-xl overflow-hidden shadow-xl border z-50 ${
+                        showDarkUI
+                          ? "bg-slate-900 border-slate-700"
+                          : "bg-white border-slate-200"
+                      }`}
+                    >
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                      >
+                        Profile
+                      </Link>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 cursor-pointer text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* **************************************************************  */}
+            {/* Mobile View*/}
+            <div className="lg:hidden flex items-center gap-3">
+              {/* Right mobile group */}
+              <div className="flex items-center gap-3 ml-auto">
+                {/* Mobile Language */}
+                <button
+                  ref={mobileButtonRef}
+                  onClick={() => setMobileLangOpen((prev) => !prev)}
+                  onBlur={() => setMobileLangOpen(false)}
+                  className={`
     flex items-center gap-1
     px-1 py-1 rounded-lg
     text-xs font-semibold
@@ -315,95 +401,28 @@ export default function Navbar() {
         : "bg-white text-gray-600 border border-gray-400 shadow-gray-700"
     }
   `}
-              >
-                {i18n.language.toUpperCase()}
-                <span
-                  className={`
+                >
+                  {currentLang.toUpperCase()}
+                  <span
+                    className={`
       material-symbols-rounded text-sm
       transition-transform duration-300
       ${mobileLangOpen ? "rotate-180" : ""}
     `}
-                >
-                  expand_more
-                </span>
-              </button>
+                  >
+                    expand_more
+                  </span>
+                </button>
 
-              <div className="lg:hidden relative flex items-center gap-1">
-                {mobileLangOpen && (
-                  <div
-                    onMouseDown={(e) => e.preventDefault()}
-                    ref={mobileDropdownRef}
-                    className={`
+                <div className="lg:hidden relative flex items-center gap-1">
+                  {mobileLangOpen && (
+                    <div
+                      onMouseDown={(e) => e.preventDefault()}
+                      ref={mobileDropdownRef}
+                      className={`
     absolute top-full right-0 mt-8 w-28
     rounded-xl
     z-[9999]
-    
-    border
-    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
-    animate-fade-in
-    transition-all duration-300
-          ${
-            isDark
-              ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
-              : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
-          }
-        `}
-                  >
-                    {memoLanguages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => {
-                          changeLanguage(lang.code);
-                          setMobileLangOpen(false);
-                        }}
-                        className={`
-    w-full text-left px-4 py-2 text-sm
-    transition-all duration-200
-    flex items-center justify-between
-    ${showDarkUI ? "text-gray-300 hover:bg-white/10" : "hover:bg-blue-100"}
-    ${lang.code === i18n.language ? "font-semibold scale-[1.02]" : ""}
-  `}
-                      >
-                        {lang.label}
-                        {lang.code === i18n.language && (
-                          <span className="material-symbols-rounded text-base">
-                            check
-                          </span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Mobile Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="material-symbols-rounded text-xl font-light"
-              >
-                {showDarkUI ? "dark_mode" : "light_mode"}
-              </button>
-
-              {/* Mobile Emergency */}
-              <div className="relative">
-                <button
-                  ref={mobileEmergencyBtnRef}
-                  onClick={() => setMobileEmergencyOpen((v) => !v)}
-                  onBlur={() => setMobileEmergencyOpen(false)}
-                  className="material-symbols-rounded text-xl text-red-600 mx-2 my-1.5"
-                >
-                  phone
-                </button>
-                <div className="lg:hidden relative flex items-center gap-1">
-                  {mobileEmergencyOpen && (
-                    <div
-                      onMouseDown={(e) => e.preventDefault()}
-                      ref={mobileEmergencyRef}
-                      className={`
-    absolute top-full right-0 mt-8 w-48
-    rounded-xl
-    z-[9999]
-    
     border
     shadow-[0_8px_32px_rgba(0,0,0,0.25)]
     animate-fade-in
@@ -415,14 +434,79 @@ export default function Navbar() {
           }
         `}
                     >
-                      {memoEmergencyNumbers.map((item) => (
+                      {memoLanguages.map((lang) => (
                         <button
-                          key={item.number}
+                          key={lang.code}
                           onClick={() => {
-                            window.location.href = `tel:${item.number}`;
-                            setMobileEmergencyOpen(false);
+                            changeLanguage(lang.code);
+                            setMobileLangOpen(false);
                           }}
                           className={`
+    w-full text-left px-4 py-2 text-sm
+    transition-all duration-200
+    flex items-center justify-between
+    ${showDarkUI ? "text-gray-300 hover:bg-white/10" : "hover:bg-blue-100"}
+    ${lang.code === i18n.language ? "font-semibold scale-[1.02]" : ""}
+  `}
+                        >
+                          {lang.label}
+                          {lang.code === i18n.language && (
+                            <span className="material-symbols-rounded text-base">
+                              check
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Mobile Theme Toggle */}
+                <button
+                  onClick={toggleTheme}
+                  className="material-symbols-rounded text-xl font-light"
+                >
+                  {showDarkUI ? "dark_mode" : "light_mode"}
+                </button>
+
+                {/* Mobile Emergency */}
+                <div className="relative">
+                  <button
+                    ref={mobileEmergencyBtnRef}
+                    onClick={() => setMobileEmergencyOpen((v) => !v)}
+                    onBlur={() => setMobileEmergencyOpen(false)}
+                    className="material-symbols-rounded text-xl text-red-600 mx-2 my-1.5"
+                  >
+                    phone
+                  </button>
+                  <div className="lg:hidden relative flex items-center gap-1">
+                    {mobileEmergencyOpen && (
+                      <div
+                        onMouseDown={(e) => e.preventDefault()}
+                        ref={mobileEmergencyRef}
+                        className={`
+    absolute top-full right-0 mt-4 w-48
+    rounded-xl
+    z-[9999]
+    border
+    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+    animate-fade-in
+    transition-all duration-300
+          ${
+            isDark
+              ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
+              : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
+          }
+        `}
+                      >
+                        {memoEmergencyNumbers.map((item) => (
+                          <button
+                            key={item.number}
+                            onClick={() => {
+                              window.location.href = `tel:${item.number}`;
+                              setMobileEmergencyOpen(false);
+                            }}
+                            className={`
             w-full text-left px-2 py-2 text-sm
             flex justify-between items-center
             transition-all
@@ -432,14 +516,99 @@ export default function Navbar() {
                 : "hover:bg-white/40"
             }
           `}
-                        >
-                          {" "}
-                          {item.label}
-                          <span className="font-mono font-bold">
-                            {item.number}
-                          </span>
-                        </button>
-                      ))}
+                          >
+                            {" "}
+                            {item.label}
+                            <span className="font-mono font-bold">
+                              {item.number}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Mobile Auth */}
+                <div className="relative">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setUserMenuOpen((v) => !v);
+                    }}
+                    className="flex items-center justify-center w-8 h-8 mt-1"
+                  >
+                    {user?.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        alt="User"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : user?.displayName ? (
+                      <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm">
+                        {user.displayName[0]}
+                      </div>
+                    ) : (
+                      <span className="material-symbols-rounded text-2xl">
+                        account_circle
+                      </span>
+                    )}
+                  </button>
+
+                  {userMenuOpen && (
+                    <div
+                      onMouseDown={(e) => e.preventDefault()}
+                      className={`
+    absolute top-full right-0 mt-4 w-28
+    rounded-xl
+    z-[9999]
+    border
+    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+    animate-fade-in
+    transition-all duration-300
+    ${
+      isDark
+        ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
+        : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
+    }
+  `}
+                    >
+                      {!user ? (
+                        <>
+                          <Link
+                            to="/login"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                          >
+                            Login
+                          </Link>
+
+                          <Link
+                            to="/signup"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                          >
+                            Sign Up
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            to="/profile"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                          >
+                            Profile
+                          </Link>
+
+                          <button
+                            onClick={handleLogout}
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                          >
+                            Logout
+                          </button>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -447,7 +616,51 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+      {/* =======================
+          LOGOUT CONFIRMATION MODAL
+      ======================== */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-in fade-in duration-200">
+          <div
+            className={`w-full max-w-sm p-6 rounded-2xl shadow-2xl transform transition-all scale-100 ${
+              isDark
+                ? "bg-[#1E1F20] text-[#E3E3E3] border border-[#282A2C]"
+                : "bg-white text-slate-900"
+            }`}
+          >
+            <h3 className="text-xl font-bold mb-2 flex items-center">
+              <LogOut className="w-5 h-5 mr-2 text-red-500" />
+              Confirm Logout
+            </h3>
+            <p
+              className={`text-sm mb-6 leading-relaxed ${isDark ? "text-[#C4C7C5]" : "opacity-80"}`}
+            >
+              Are you sure you want to log out of your account? You will need to
+              sign in again to access your profile.
+            </p>
+
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className={`px-4 py-2.5 text-sm font-semibold cursor-pointer rounded-xl transition-colors ${
+                  isDark
+                    ? "hover:bg-[#282A2C] bg-[#131314] text-[#E3E3E3]"
+                    : "hover:bg-slate-100 bg-white"
+                }`}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmLogout}
+                className="px-4 py-2.5 text-sm font-semibold cursor-pointer rounded-xl bg-red-500 text-white hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/30 transition-all"
+              >
+                Yes, Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

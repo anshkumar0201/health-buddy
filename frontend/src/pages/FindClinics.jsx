@@ -1,7 +1,8 @@
 import { MapPin, Search, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { use, useMemo } from "react";
+import { useMemo } from "react";
+import SkeletonFindClinics from "@/components/skeletons/SkeletonFindClinics";
 
 /* ---------------- Quick search config ---------------- */
 
@@ -19,7 +20,7 @@ const QUICK_SEARCHES = [
 ];
 
 export default function FindClinics() {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
 
   const pageReveal = useMemo(
     () => ({
@@ -47,20 +48,6 @@ export default function FindClinics() {
     [],
   );
 
-  // const pulseCTA = useMemo(
-  //   () => ({
-  //     animate: {
-  //       scale: [1, 1.03, 1],
-  //       transition: {
-  //         duration: 1.6,
-  //         repeat: 2,
-  //         ease: "easeInOut",
-  //       },
-  //     },
-  //   }),
-  //   [],
-  // );
-
   const gridStagger = useMemo(
     () => ({
       hidden: {},
@@ -86,6 +73,8 @@ export default function FindClinics() {
     )}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
+
+  if (!ready) return <SkeletonFindClinics />;
 
   return (
     // FIX: bg-linear-to-b -> bg-gradient-to-b

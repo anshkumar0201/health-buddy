@@ -3,27 +3,9 @@ const { runGemini } = require("./geminiRouter");
 /* ======================================================
    PROMPT (STRICT, RULE-ALIGNED)
    ====================================================== */
-function buildPrompt(text, locale = "en", profileData = null) {
-
-  const profileContext = profileData && Object.keys(profileData).length > 0 ?
-
-    `
-  === PATIENT HEALTH PROFILE ===
-  ${JSON.stringify(profileData, null, 2)}
-
-  CLINICAL CONTEXT RULES:
-1. Cross-reference the user's symptoms with their "medicalConditions". (e.g., Is this an exacerbation of an existing illness?)
-2. Review their "medications". Could the reported symptoms be a side effect or adverse reaction to their current prescriptions?
-3. NEVER suggest any advice or conditions that conflict with their listed "allergies".
-4. Adjust the urgency level appropriately based on their profileData. High-risk factors (age, high blood pressure, asthma, etc.) combined with certain symptoms should elevate the urgency to "high".
-5. Remember if some of profileData values are incorrect(spelling errors, invalid, etc), then you may ignore those values to provide a response
-==============================
-    `
-    : `\n=== PATIENT HEALTH PROFILE ===\nNot provided. Evaluate based solely on the symptoms below.\n==============================\n`;
-
-
+function buildPrompt(text, locale = "en") {
   return `
-You are a highly advanced medical symptom analysis engine used inside a health application.
+You are a medical symptom analysis engine used inside a health application.
 
 IMPORTANT LANGUAGE RULE:
 - The output language for ALL user-facing text MUST be "${locale}"
@@ -65,19 +47,16 @@ More language references:
   - ur for urdu
 
 Your task:
-Based on the user's symptom description AND their patient health profile, return a FULL symptom analysis
+Based on the user's symptom description, return a FULL symptom analysis
 object that strictly follows the schema and rules below.
 
 CRITICAL RULES (MANDATORY):
-1. Return ONLY valid JSON
-2. Do NOT include markdown, comments, or explanations
-3. Do NOT remove, rename, or add any keys
-4. TONE & LIABILITY: You MUST use hedging language. Use phrases like "may indicate", "could be related to", or "is commonly associated with". NEVER say "you have" or make absolute diagnostic claims.
-5. EMERGENCY OVERRIDE: If the symptoms describe a potentially life-threatening event (e.g., stroke, heart attack, severe anaphylaxis, inability to breathe), the "high" urgency advice MUST explicitly instruct the user to call local emergency services immediately.
-6. MATH GUARANTEE: To force the frontend to display a specific urgency level, you MUST mathematically ensure that the values you assign in "symptomScores" sum up to a number that triggers your desired "urgencyThresholds".
-7. You may ONLY change VALUES where explicitly allowed
-8. Keep language simple, clear, and non-technical
-9. This is NOT a diagnosis
+- Return ONLY valid JSON
+- Do NOT include markdown, comments, or explanations
+- Do NOT remove, rename, or add any keys
+- You may ONLY change VALUES where explicitly allowed
+- Keep language simple, clear, and non-technical
+- This is NOT a diagnosis
 
 WHAT YOU MAY CHANGE:
 
@@ -86,7 +65,7 @@ CONFIG
 - config.symptomScores → you may:
   - reuse existing keys
   - add new symptom keys
-  - adjust numeric values based on user text and profile risk factors
+  - adjust numeric values based on user text
 - config.urgencyThresholds:
   - keys MUST remain "high" and "moderate"
   - values may change slightly but must stay close to typical ranges
@@ -95,8 +74,8 @@ URGENCY
 - urgency.high / moderate / low:
   - color → DO NOT change
   - label → DO NOT change
-  - description → you MAY change based on user text and patient profile
-  - advice → you MAY change based on user text and patient profile
+  - description → you MAY change based on user text
+  - advice → you MAY change based on user text
 
 CONDITIONS
 - conditions.high / moderate / low:
@@ -104,7 +83,7 @@ CONDITIONS
   - arrays may grow or shrink based on user text
   - you may decide condition name, tag, and description
   - minimum three conditions per urgency level
-  - condition names MUST be relevant to user symptoms and context
+  - condition names MUST be relevant to user symptoms
 
 REQUIRED JSON SCHEMA (DO NOT CHANGE STRUCTURE):
 
@@ -163,8 +142,6 @@ REQUIRED JSON SCHEMA (DO NOT CHANGE STRUCTURE):
   }
 }
 
-${profileContext}
-
 USER SYMPTOMS (${locale}):
 "${text}"
 
@@ -187,17 +164,22 @@ async function callGemini(prompt) {
 
 function extractJson(text) {
   if (!text || typeof text !== "string") return null;
+
+  // Remove BOM and trim
   const cleaned = text.replace(/^\uFEFF/, "").trim();
+
   const firstBrace = cleaned.indexOf("{");
   const lastBrace = cleaned.lastIndexOf("}");
+
   if (firstBrace === -1 || lastBrace === -1) return null;
+
   return cleaned.slice(firstBrace, lastBrace + 1);
 }
 
 /* ======================================================
    MAIN GEMINI CALL
    ====================================================== */
-async function analyzeSymptomsWithGemini(text, locale = "en", profileData = null) {
+async function analyzeSymptomsWithGemini(text, locale = "en") {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("GEMINI_API_KEY is not set");
   }
@@ -216,7 +198,7 @@ async function analyzeSymptomsWithGemini(text, locale = "en", profileData = null
 
   // -------- FIRST ATTEMPT --------
   try {
-    rawText = await callGemini(buildPrompt(text, locale, profileData));
+    rawText = await callGemini(buildPrompt(text, locale));
     parsed = parseGeminiJson(rawText);
 
     // ✅ LOGGING ADDED HERE
@@ -234,7 +216,7 @@ async function analyzeSymptomsWithGemini(text, locale = "en", profileData = null
   if (!parsed) {
     try {
       rawText = await callGemini(
-        buildPrompt(text, locale, profileData) +
+        buildPrompt(text, locale) +
         "\n\nREMINDER: Output MUST be valid JSON ONLY. No prose."
       );
 

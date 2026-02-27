@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import {
   Activity,
   Info,
@@ -8,19 +8,46 @@ import {
   Lightbulb,
   ArrowRight,
   ExternalLink,
+  Lock,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+
+import { useNavigate } from "react-router-dom";
 // Assuming you have a shared file for terms. If not, ensure this import is correct or mock it.
 import medicalTerms from "../../shared/medical/medical-terms.json";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
+import { useAuth } from "../context/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
-console.log("API_BASE:", API_BASE);
 
 if (!import.meta.env.VITE_API_BASE_URL) {
   console.error("❌ VITE_API_BASE_URL is missing!");
 }
+
+/* ======================================================
+   DATABASE FETCH
+   ====================================================== */
+const fetchUserProfile = async (uid) => {
+  try {
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Fetched User Profile for AI:", docSnap.data());
+      // Returns the full object (personalInfo, allergies, medications, etc.)
+      return docSnap.data();
+    } else {
+      console.log("No user profile found in Firestore.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return null;
+  }
+};
 
 /* ======================================================
    HELPER FUNCTIONS (Validation & Medical Checks)
@@ -193,12 +220,12 @@ function medicalDensity(tokens, minRatio = 0.03) {
 }
 
 const META_PATTERNS = [
-  /can you/i,
-  /please analyze/i,
-  /what is wrong/i,
-  /help me/i,
-  /doctor/i,
-  /hi|hello/i,
+  /\bcan you\b/i,
+  /\bplease analyze\b/i,
+  /\bwhat is wrong\b/i,
+  /\bhelp me\b/i,
+  /\bdoctor\b/i,
+  /\b(hi|hello|hey)\b/i,
 ];
 function isMetaInput(text) {
   return META_PATTERNS.some((r) => r.test(text));
@@ -209,6 +236,19 @@ function isMetaInput(text) {
    ====================================================== */
 export default function SymptomAnalyzer() {
   const { t, i18n, ready } = useTranslation();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  // Ref to track if component is mounted
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   const fallbackConfig = useMemo(() => {
     return t("SymptomAnalyzer.config", {
       returnObjects: true,
@@ -241,120 +281,129 @@ export default function SymptomAnalyzer() {
 
   /* ---------------- Motion presets ---------------- */
 
-  const pageReveal = useMemo(() => ({
-    hidden: { opacity: 0, scale: 0.98 },
-    show: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  }),[]);
-
-  const floatBrain = useMemo(() => ({
-    animate: {
-      y: [0, -6, 0],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut",
+  const pageReveal = useMemo(
+    () => ({
+      hidden: { opacity: 0, scale: 0.98 },
+      show: {
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.6, ease: "easeOut" },
       },
-    },
-  }),[]);
+    }),
+    [],
+  );
 
-  const pulseCTA = useMemo(() => ({
-    animate: {
-      scale: [1, 1.03, 1],
-      transition: {
-        duration: 1.8,
-        repeat: Infinity,
-        ease: "easeInOut",
+  const floatBrain = useMemo(
+    () => ({
+      animate: {
+        y: [0, -6, 0],
+        transition: {
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
       },
-    },
-  }),[]);
+    }),
+    [],
+  );
+
+  const pulseCTA = useMemo(
+    () => ({
+      animate: {
+        scale: [1, 1.03, 1],
+        transition: {
+          duration: 1.8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+      },
+    }),
+    [],
+  );
 
   const fail = (reason) => {
     console.warn("SYMPTOM ANALYZER BLOCKED:", reason);
-    console.warn("Please enter valid input. Current USER INPUT:", text);
     setResult({ status: "invalid", reason });
     return false;
   };
 
   const analyzeSymptoms = async () => {
-    if (charCount > MAX_CHARS) {
-      return fail("Character limit exceeded");
-    }
-    if (wordCount > MAX_WORDS) {
-      return fail("Word limit exceeded");
+    if (!user) {
+      return fail("Authentication required to use AI features.");
     }
 
-    if (!text.trim() || charCount < MIN_CHARS) {
+    if (charCount > MAX_CHARS) return fail("Character limit exceeded");
+    if (wordCount > MAX_WORDS) return fail("Word limit exceeded");
+    if (!text.trim() || charCount < MIN_CHARS)
       return fail("Character count is less than minimum");
-    }
 
     const tokens = tokenize(text);
-
-    if (!isTextClearEnough(text, 0.4)) {
-      return fail("Text not clear enough");
-    }
-    if (!hasMedicalSignal(text, 2)) {
-      return fail("No medical signal detected");
-    }
-    if (!hasSymptomStructure(tokens)) {
-      return fail("No symptom structure");
-    }
-    if (!medicalDensity(tokens, 0.08)) {
-      return fail("Medical density too low");
-    }
-    if (isMetaInput(text)) {
-      return fail("Meta / conversational input");
-    }
+    if (!isTextClearEnough(text, 0.4)) return fail("Text not clear enough");
+    if (!hasMedicalSignal(text, 2)) return fail("No medical signal detected");
+    if (!hasSymptomStructure(tokens)) return fail("No symptom structure");
+    if (!medicalDensity(tokens, 0.08)) return fail("Medical density too low");
+    if (isMetaInput(text)) return fail("Meta / conversational input");
 
     setLoading(true);
     setResult({ status: "loading" });
 
     try {
+      const profileData = user ? await fetchUserProfile(user.uid) : null;
       const response = await fetch(`${API_BASE}/api/analyze-symptoms`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, locale: i18n.language }),
+        body: JSON.stringify({ text, locale: i18n.language, profileData }),
       });
+
       if (!response.ok) throw new Error("AI analysis failed");
+
       const aiData = await response.json();
+
       const input = text.toLowerCase();
       const scores = aiData.config?.symptomScores || {};
       const thresholds = aiData.config?.urgencyThresholds || {
         high: 20,
         moderate: 10,
       };
+
       let score = 0;
       for (const keyword in scores) {
         const value = scores[keyword];
         const occurrences = input.split(keyword).length - 1;
         if (occurrences > 0) score += occurrences * value;
       }
+
       let urgencyLevel =
         score >= thresholds.high
           ? "high"
           : score >= thresholds.moderate
             ? "moderate"
             : "low";
+
       const urgencyData = aiData.urgency[urgencyLevel];
       const conditions = aiData.conditions[urgencyLevel] || [];
 
-      setResult({
-        status: "done",
-        urgency: urgencyLevel,
-        label: urgencyData.label,
-        description: urgencyData.description,
-        advice: urgencyData.advice,
-        color: urgencyData.color,
-        conditions,
-      });
+      if (isMounted.current) {
+        setResult({
+          status: "done",
+          urgency: urgencyLevel,
+          label: urgencyData.label,
+          description: urgencyData.description,
+          advice: urgencyData.advice,
+          color: urgencyData.color,
+          conditions,
+        });
+      }
     } catch (error) {
       console.error(error);
-      setResult({ status: "invalid" });
+      if (isMounted.current) {
+        setResult({ status: "invalid" });
+      }
     } finally {
-      setLoading(false);
+      // 4. Turn off loading ONLY if mounted
+      if (isMounted.current) {
+        setLoading(false);
+      }
     }
   };
 
@@ -392,7 +441,8 @@ export default function SymptomAnalyzer() {
       !loading &&
       charCount >= MIN_CHARS &&
       charCount <= MAX_CHARS &&
-      wordCount <= MAX_WORDS
+      wordCount <= MAX_WORDS &&
+      user
     ) {
       e.preventDefault();
       analyzeSymptoms();
@@ -409,6 +459,15 @@ export default function SymptomAnalyzer() {
   }, [charCount, loading, text, result.status]);
 
   useEffect(() => {
+    const nav = performance.getEntriesByType("navigation")[0];
+
+    // If page was reloaded → clear stored state
+    if (nav?.type === "reload") {
+      sessionStorage.removeItem("symptomAnalyzerState");
+      return;
+    }
+
+    // Otherwise restore state (SPA navigation case)
     const saved = sessionStorage.getItem("symptomAnalyzerState");
     if (saved) {
       const parsed = JSON.parse(saved);
@@ -434,30 +493,39 @@ export default function SymptomAnalyzer() {
     setResult({ status: "idle" });
   };
 
-  const doneContainer = useMemo(() => ({
-    hidden: {},
-    show: {
-      transition: { staggerChildren: 0.12 },
-    },
-  }),[]);
+  const doneContainer = useMemo(
+    () => ({
+      hidden: {},
+      show: {
+        transition: { staggerChildren: 0.12 },
+      },
+    }),
+    [],
+  );
 
-  const doneItem = useMemo(() => ({
-    hidden: { opacity: 0, y: 16 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.45, ease: "easeOut" },
-    },
-  }),[]);
+  const doneItem = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: 16 },
+      show: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.45, ease: "easeOut" },
+      },
+    }),
+    [],
+  );
 
-  const softPop = useMemo(() => ({
-    hidden: { opacity: 0, scale: 0.96 },
-    show: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-  }),[]);
+  const softPop = useMemo(
+    () => ({
+      hidden: { opacity: 0, scale: 0.96 },
+      show: {
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.4, ease: "easeOut" },
+      },
+    }),
+    [],
+  );
 
   if (!ready) return <SkeletonSymptomAnalyzer />;
 
@@ -504,11 +572,38 @@ export default function SymptomAnalyzer() {
           bg-white border-gray-300 
           dark:bg-[#1e293b] dark:border-gray-700 dark:shadow-gray-700"
         >
-          <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5 text-purple-500" />
-            <h2 className="font-semibold transition-colors duration-300 text-gray-900 dark:text-gray-100">
-              {t("SymptomAnalyzer.inputTitle")}
-            </h2>
+          {/* 👉 NEW: Not Logged In Warning Banner */}
+          {!user && (
+            <div className="mb-6 rounded-xl bg-blue-50 border border-blue-200 p-4 text-blue-800 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-start gap-3">
+                <Lock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold mb-1">Authentication Required</p>
+                  <p className="text-sm opacity-90">
+                    Please log in to use the AI Symptom Analyzer. This ensures
+                    the AI can securely read your personal health profile
+                    (medications, allergies, and vitals) to provide highly
+                    personalized medical triage.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => navigate("/login")} // Change '/login' if your route is named differently!
+                className="whitespace-nowrap w-full sm:w-auto px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow-md cursor-pointer"
+              >
+                Log In Now
+              </button>
+            </div>
+          )}
+          <div
+            className={`transition-all duration-500 ${!user ? "opacity-40 pointer-events-none select-none grayscale-[20%]" : ""}`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-5 h-5 text-purple-500" />
+              <h2 className="font-semibold transition-colors duration-300 text-gray-900 dark:text-gray-100">
+                {t("SymptomAnalyzer.inputTitle")}
+              </h2>
+            </div>
           </div>
 
           <div className="relative">
@@ -517,6 +612,7 @@ export default function SymptomAnalyzer() {
               value={text}
               onChange={handleTextChange}
               onKeyDown={handleKeyDown}
+              disabled={!user}
               className="resize-y w-full rounded-xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 transition-colors duration-300
                 bg-white border-gray-200 text-gray-900 placeholder-gray-500
                 dark:bg-[#0f172a] dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
