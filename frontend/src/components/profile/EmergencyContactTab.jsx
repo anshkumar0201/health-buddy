@@ -14,6 +14,10 @@ import {
 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
+// 👉 NEW: Import Firestore methods
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 const RELATION_OPTIONS = [
   "Spouse",
   "Parent",
@@ -31,6 +35,7 @@ export default function EmergencyContactTab({ user }) {
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // 👉 NEW: Loading state
 
   // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -44,7 +49,7 @@ export default function EmergencyContactTab({ user }) {
     setValue,
     reset,
     getValues,
-    watch, // 👉 NEW: Needed for the CustomSelect
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(emergencyContactSchema),
@@ -57,37 +62,51 @@ export default function EmergencyContactTab({ user }) {
     },
   });
 
-  // Hydrate form with Database data
+  // 👉 UPDATED: Fetch data from Firestore on mount
   useEffect(() => {
-    const fetchedDataFromDB = {
-      name: "Jane Doe",
-      relation: "Spouse",
-      phone: "+1 555-0198",
-      alternateNumber: "+1 555-0199",
+    const fetchEmergencyContact = async () => {
+      if (!user?.uid) return;
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data().emergencyContact || {};
+
+          reset({
+            ...getValues(),
+            name: data.name || "",
+            relation: data.relation || "",
+            phone: data.phone || "",
+            alternateNumber: data.alternateNumber || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching emergency contact:", error);
+      } finally {
+        setIsFetching(false);
+      }
     };
 
-    reset({
-      ...getValues(),
-      name: fetchedDataFromDB.name || "",
-      relation: fetchedDataFromDB.relation || "",
-      phone: fetchedDataFromDB.phone || "",
-      alternateNumber: fetchedDataFromDB.alternateNumber || "",
-    });
-  }, [reset, getValues]);
+    fetchEmergencyContact();
+  }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
+  // 👉 UPDATED: Save data directly to Firestore
   const confirmSave = async () => {
     setIsSaving(true);
 
     try {
       console.log("Saving Emergency Contact to Firestore:", pendingData);
 
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const docRef = doc(db, "users", user.uid);
+      // 👉 Merge true ensures we only update the emergencyContact object!
+      await setDoc(docRef, { emergencyContact: pendingData }, { merge: true });
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -104,16 +123,39 @@ export default function EmergencyContactTab({ user }) {
     }
   };
 
+  // 👉 UPDATED: Cancel resets to DB values
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const data = docSnap.exists()
+        ? docSnap.data().emergencyContact || {}
+        : {};
+      reset({
+        name: data.name || "",
+        relation: data.relation || "",
+        phone: data.phone || "",
+        alternateNumber: data.alternateNumber || "",
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
+      <div className="animate-in fade-in duration-300">
         {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
           <h2
@@ -161,7 +203,6 @@ export default function EmergencyContactTab({ user }) {
             disabled={!isEditing}
           />
 
-          {/* 👉 UPDATED: Now uses CustomSelect for perfect styling */}
           <CustomSelect
             label="Relationship"
             placeholder="Select Relationship"

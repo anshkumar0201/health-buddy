@@ -14,6 +14,10 @@ import {
 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
+// 👉 NEW: Import Firestore methods
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 const SMOKING_OPTIONS = [
   "Never",
   "Former smoker",
@@ -27,6 +31,7 @@ export default function LifestyleTab({ user }) {
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // 👉 NEW: Loading state
 
   // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -40,7 +45,7 @@ export default function LifestyleTab({ user }) {
     setValue,
     reset,
     getValues,
-    watch, // 👉 NEW: Needed for CustomSelect
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(lifestyleSchema),
@@ -53,37 +58,51 @@ export default function LifestyleTab({ user }) {
     },
   });
 
-  // Hydrate form with Database data
+  // 👉 UPDATED: Fetch data from Firestore on mount
   useEffect(() => {
-    const fetchedDataFromDB = {
-      smoking: "Never",
-      alcohol: "Occasionally on weekends",
-      exercise: "3 times a week (Cardio)",
-      sleepHours: 7,
+    const fetchLifestyle = async () => {
+      if (!user?.uid) return;
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data().lifestyle || {};
+
+          reset({
+            ...getValues(),
+            smoking: data.smoking || "",
+            alcohol: data.alcohol || "",
+            exercise: data.exercise || "",
+            sleepHours: data.sleepHours || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching lifestyle data:", error);
+      } finally {
+        setIsFetching(false);
+      }
     };
 
-    reset({
-      ...getValues(),
-      smoking: fetchedDataFromDB.smoking || "",
-      alcohol: fetchedDataFromDB.alcohol || "",
-      exercise: fetchedDataFromDB.exercise || "",
-      sleepHours: fetchedDataFromDB.sleepHours || "",
-    });
-  }, [reset, getValues]);
+    fetchLifestyle();
+  }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
+  // 👉 UPDATED: Save data directly to Firestore
   const confirmSave = async () => {
     setIsSaving(true);
 
     try {
       console.log("Saving Lifestyle to Firestore:", pendingData);
 
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const docRef = doc(db, "users", user.uid);
+      // 👉 Merge true ensures we only update the lifestyle object!
+      await setDoc(docRef, { lifestyle: pendingData }, { merge: true });
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -100,16 +119,37 @@ export default function LifestyleTab({ user }) {
     }
   };
 
+  // 👉 UPDATED: Cancel resets to DB values
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const data = docSnap.exists() ? docSnap.data().lifestyle || {} : {};
+      reset({
+        smoking: data.smoking || "",
+        alcohol: data.alcohol || "",
+        exercise: data.exercise || "",
+        sleepHours: data.sleepHours || "",
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
+      <div className="animate-in fade-in duration-300">
         {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
           <h2
@@ -149,7 +189,6 @@ export default function LifestyleTab({ user }) {
 
         {/* Form Fields */}
         <div className="space-y-4">
-          {/* 👉 UPDATED: Now uses CustomSelect */}
           <CustomSelect
             label="Smoking History"
             placeholder="Select History"
@@ -354,7 +393,6 @@ const CustomSelect = ({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking anywhere outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

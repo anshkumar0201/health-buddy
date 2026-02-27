@@ -14,11 +14,16 @@ import {
 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
+// 👉 NEW: Import Firestore methods
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 export default function MedicationsTab({ user }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // 👉 NEW: Loading state
 
   // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -46,36 +51,52 @@ export default function MedicationsTab({ user }) {
     name: "medications",
   });
 
-  // Hydrate form with Database data
+  // 👉 UPDATED: Fetch data from Firestore on mount
   useEffect(() => {
-    const fetchedDataFromDB = [
-      { medName: "Lisinopril", dosage: "10mg", frequency: "Once daily" },
-      {
-        medName: "Metformin",
-        dosage: "500mg",
-        frequency: "Twice daily with meals",
-      },
-    ];
+    const fetchMedications = async () => {
+      if (!user?.uid) return;
 
-    reset({
-      ...getValues(),
-      medications: fetchedDataFromDB.length > 0 ? fetchedDataFromDB : [],
-    });
-  }, [reset, getValues]);
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const fetchedMeds = docSnap.data().medications || [];
+
+          reset({
+            ...getValues(),
+            medications: fetchedMeds,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching medications:", error);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchMedications();
+  }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
+  // 👉 UPDATED: Save data directly to Firestore
   const confirmSave = async () => {
     setIsSaving(true);
 
     try {
-      console.log("Saving Medications to Firestore:", pendingData);
+      console.log("Saving Medications to Firestore:", pendingData.medications);
 
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const docRef = doc(db, "users", user.uid);
+      // 👉 Merge true ensures we only update the medications array!
+      await setDoc(
+        docRef,
+        { medications: pendingData.medications },
+        { merge: true },
+      );
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -92,9 +113,19 @@ export default function MedicationsTab({ user }) {
     }
   };
 
+  // 👉 UPDATED: Cancel resets to DB values
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const fetchedMeds = docSnap.exists()
+        ? docSnap.data().medications || []
+        : [];
+      reset({
+        medications: fetchedMeds,
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const handleAddMedication = () => {
@@ -103,9 +134,19 @@ export default function MedicationsTab({ user }) {
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
+      <div className="animate-in fade-in duration-300">
         {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
           <h2
@@ -152,7 +193,6 @@ export default function MedicationsTab({ user }) {
           {fields.map((item, index) => (
             <div
               key={item.id}
-              // 👉 UPDATED: Medication item cards with subtle inset background
               className={`border rounded-2xl p-5 space-y-4 relative transition-colors duration-300 ${
                 isDark
                   ? "border-[#282A2C] bg-[#131314]/50"

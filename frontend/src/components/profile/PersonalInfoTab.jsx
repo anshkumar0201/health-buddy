@@ -13,6 +13,8 @@ import {
   Check,
 } from "lucide-react"; // 👉 Added Check
 import { useTheme } from "../../context/ThemeContext";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const GENDER_OPTIONS = [
   "Male",
@@ -28,6 +30,7 @@ export default function PersonalInfoTab({ user }) {
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   // States for the Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -57,15 +60,43 @@ export default function PersonalInfoTab({ user }) {
     },
   });
 
-  // Hydrate form when user data loads
   useEffect(() => {
-    if (user) {
-      reset({
-        ...getValues(),
-        name: user.displayName || "",
-        email: user.email || "",
-      });
-    }
+    const fetchPersonalInfo = async () => {
+      if (!user?.uid) return;
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data().personalInfo || {};
+
+          reset({
+            ...getValues(),
+            name: data.name || user.displayName || "",
+            email: user.email || "", // Always pull email directly from Auth
+            age: data.age || "",
+            gender: data.gender || "",
+            bloodGroup: data.bloodGroup || "",
+            height: data.height || "",
+            weight: data.weight || "",
+          });
+        } else {
+          // If no doc exists yet, just populate from the Auth object
+          reset({
+            ...getValues(),
+            name: user.displayName || "",
+            email: user.email || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching personal info:", error);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchPersonalInfo();
   }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
@@ -77,10 +108,10 @@ export default function PersonalInfoTab({ user }) {
     setIsSaving(true);
 
     try {
-      console.log("Saving Personal Info to Firestore:", pendingData);
+      const docRef = doc(db, "users", user.uid);
 
-      // Simulate network request
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // We use { merge: true } so we don't overwrite other profile tabs like medications or allergies!
+      await setDoc(docRef, { personalInfo: pendingData }, { merge: true });
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -90,7 +121,7 @@ export default function PersonalInfoTab({ user }) {
         setShowToast(false);
       }, 3000);
     } catch (error) {
-      console.error("Failed to save changes:", error);
+      console.error("Failed to save changes to Firestore:", error);
       alert("Something went wrong. Please try again.");
     } finally {
       setIsSaving(false);
@@ -98,11 +129,35 @@ export default function PersonalInfoTab({ user }) {
   };
 
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    // A quick hack to force reset to the last fetched values if they canceled edits
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const data = docSnap.exists() ? docSnap.data().personalInfo || {} : {};
+      reset({
+        name: data.name || user.displayName || "",
+        email: user.email || "",
+        age: data.age || "",
+        gender: data.gender || "",
+        bloodGroup: data.bloodGroup || "",
+        height: data.height || "",
+        weight: data.weight || "",
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const hasErrors = Object.keys(errors).length > 0;
+
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
 
   return (
     <>

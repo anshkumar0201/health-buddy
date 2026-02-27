@@ -6,13 +6,17 @@ import { allergiesSchema } from "../../schemas/profileSchema";
 import { Pencil, X, Save, CheckCircle2, Loader2 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
+// 👉 IMPORT FIRESTORE METHODS
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 export default function AllergiesTab({ user }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
-  // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pendingData, setPendingData] = useState(null);
   const [showToast, setShowToast] = useState(false);
@@ -34,31 +38,41 @@ export default function AllergiesTab({ user }) {
     },
   });
 
-  // Hydrate form with Database data
+  // 👉 FETCH FROM FIRESTORE
   useEffect(() => {
-    const fetchedDataFromDB = {
-      food: ["Peanuts", "Shellfish"],
-      medicines: ["Penicillin"],
-      others: ["Dust Mites", "Pollen"],
+    const fetchAllergies = async () => {
+      if (!user?.uid) return;
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data().allergies || {};
+
+          reset({
+            ...getValues(),
+            food: data.food ? data.food.join(", ") : "",
+            medicines: data.medicines ? data.medicines.join(", ") : "",
+            others: data.others ? data.others.join(", ") : "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching allergies:", error);
+      } finally {
+        setIsFetching(false);
+      }
     };
 
-    reset({
-      ...getValues(),
-      food: fetchedDataFromDB.food ? fetchedDataFromDB.food.join(", ") : "",
-      medicines: fetchedDataFromDB.medicines
-        ? fetchedDataFromDB.medicines.join(", ")
-        : "",
-      others: fetchedDataFromDB.others
-        ? fetchedDataFromDB.others.join(", ")
-        : "",
-    });
-  }, [reset, getValues]);
+    fetchAllergies();
+  }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
+  // 👉 SAVE TO FIRESTORE
   const confirmSave = async () => {
     setIsSaving(true);
 
@@ -77,10 +91,8 @@ export default function AllergiesTab({ user }) {
         others: cleanArrayString(pendingData.others),
       };
 
-      console.log("Saving Allergies to Firestore:", firestorePayload);
-
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const docRef = doc(db, "users", user.uid);
+      await setDoc(docRef, { allergies: firestorePayload }, { merge: true });
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -98,23 +110,40 @@ export default function AllergiesTab({ user }) {
   };
 
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const data = docSnap.exists() ? docSnap.data().allergies || {} : {};
+      reset({
+        food: data.food ? data.food.join(", ") : "",
+        medicines: data.medicines ? data.medicines.join(", ") : "",
+        others: data.others ? data.others.join(", ") : "",
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
-        {/* Header & Controls */}
+      <div className="animate-in fade-in duration-300">
         <div className="flex justify-between items-center mb-6">
           <h2
             className={`text-xl font-bold tracking-tight ${isDark ? "text-gray-100" : "text-slate-800"}`}
           >
             Allergies
           </h2>
-
           {!isEditing ? (
             <button
               type="button"
@@ -125,8 +154,7 @@ export default function AllergiesTab({ user }) {
                   : "bg-blue-50 text-blue-600 hover:bg-blue-100"
               }`}
             >
-              <Pencil className="w-4 h-4 mr-2" />
-              Edit Section
+              <Pencil className="w-4 h-4 mr-2" /> Edit Section
             </button>
           ) : (
             <button
@@ -138,13 +166,11 @@ export default function AllergiesTab({ user }) {
                   : "bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100"
               }`}
             >
-              <X className="w-4 h-4 mr-2" />
-              Cancel
+              <X className="w-4 h-4 mr-2" /> Cancel
             </button>
           )}
         </div>
 
-        {/* Form Fields */}
         <div className="space-y-4">
           <Input
             label="Food Allergies (comma separated)"
@@ -153,7 +179,6 @@ export default function AllergiesTab({ user }) {
             error={errors?.food}
             disabled={!isEditing}
           />
-
           <Input
             label="Medicine Allergies (comma separated)"
             placeholder="e.g. Penicillin, Aspirin, Ibuprofen"
@@ -161,7 +186,6 @@ export default function AllergiesTab({ user }) {
             error={errors?.medicines}
             disabled={!isEditing}
           />
-
           <Input
             label="Other Allergies (comma separated)"
             placeholder="e.g. Dust, Pollen, Latex"
@@ -171,7 +195,6 @@ export default function AllergiesTab({ user }) {
           />
         </div>
 
-        {/* Save Button */}
         {isEditing && (
           <button
             onClick={handleSubmit(handlePreSubmit)}
@@ -184,23 +207,15 @@ export default function AllergiesTab({ user }) {
                 : "bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] cursor-pointer"
             }`}
           >
-            <Save className="w-4 h-4 mr-2" />
-            Save Changes
+            <Save className="w-4 h-4 mr-2" /> Save Changes
           </button>
         )}
       </div>
 
-      {/* =======================
-          CONFIRMATION MODAL
-      ======================== */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-in fade-in duration-200">
           <div
-            className={`w-full max-w-sm p-6 rounded-2xl shadow-2xl transform transition-all ${
-              isDark
-                ? "bg-[#1E1F20] text-[#E3E3E3] border border-[#282A2C]"
-                : "bg-white text-slate-900"
-            }`}
+            className={`w-full max-w-sm p-6 rounded-2xl shadow-2xl transform transition-all ${isDark ? "bg-[#1E1F20] text-[#E3E3E3] border border-[#282A2C]" : "bg-white text-slate-900"}`}
           >
             <h3 className="text-xl font-bold mb-2">Save Changes?</h3>
             <p
@@ -208,33 +223,22 @@ export default function AllergiesTab({ user }) {
             >
               Are you sure you want to update your Allergies?
             </p>
-
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowConfirmModal(false)}
                 disabled={isSaving}
-                className={`px-4 py-2.5 text-sm font-semibold rounded-xl border transition-colors ${
-                  isDark
-                    ? "bg-[#131314] text-[#E3E3E3] border-[#282A2C] hover:bg-[#282A2C]"
-                    : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
-                } ${isSaving ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                className={`px-4 py-2.5 text-sm font-semibold rounded-xl border transition-colors ${isDark ? "bg-[#131314] text-[#E3E3E3] border-[#282A2C] hover:bg-[#282A2C]" : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"} ${isSaving ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
               >
                 Cancel
               </button>
-
               <button
                 onClick={confirmSave}
                 disabled={isSaving}
-                className={`flex items-center px-4 py-2.5 text-sm font-semibold rounded-xl text-white transition-all ${
-                  isSaving
-                    ? "bg-blue-400 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer"
-                }`}
+                className={`flex items-center px-4 py-2.5 text-sm font-semibold rounded-xl text-white transition-all ${isSaving ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer"}`}
               >
                 {isSaving ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Saving...
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving...
                   </>
                 ) : (
                   "Yes, Save"
@@ -245,9 +249,6 @@ export default function AllergiesTab({ user }) {
         </div>
       )}
 
-      {/* =======================
-          SUCCESS TOAST
-      ======================== */}
       {showToast && (
         <div className="fixed bottom-24 right-6 z-50 flex items-center bg-emerald-500 text-white px-5 py-3.5 rounded-xl shadow-xl animate-in slide-in-from-bottom-5 duration-300">
           <CheckCircle2 className="w-5 h-5 mr-2" />
@@ -260,9 +261,6 @@ export default function AllergiesTab({ user }) {
   );
 }
 
-/* =========================
-INPUT COMPONENT
-========================== */
 const Input = forwardRef(
   (
     {
@@ -291,22 +289,10 @@ const Input = forwardRef(
           {...props}
           onWheel={(e) => e.target.blur()}
           onKeyDown={(e) => {
-            if (type === "number" && (e.key === "-" || e.key === "e")) {
+            if (type === "number" && (e.key === "-" || e.key === "e"))
               e.preventDefault();
-            }
           }}
-          className={`w-full px-4 py-2.5 rounded-xl border outline-none transition-all duration-300
-        ${
-          error
-            ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
-            : "border-slate-200 dark:border-[#282A2C] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-        }
-        ${
-          disabled || readOnly
-            ? "opacity-60 cursor-not-allowed bg-slate-100 dark:bg-[#131314] text-slate-500 dark:text-[#C4C7C5]"
-            : "bg-slate-50 dark:bg-[#131314] text-slate-900 dark:text-[#E3E3E3] hover:border-slate-300 dark:hover:border-slate-600"
-        }
-        ${className}`}
+          className={`w-full px-4 py-2.5 rounded-xl border outline-none transition-all duration-300 ${error ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20" : "border-slate-200 dark:border-[#282A2C] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"} ${disabled || readOnly ? "opacity-60 cursor-not-allowed bg-slate-100 dark:bg-[#131314] text-slate-500 dark:text-[#C4C7C5]" : "bg-slate-50 dark:bg-[#131314] text-slate-900 dark:text-[#E3E3E3] hover:border-slate-300 dark:hover:border-slate-600"} ${className}`}
         />
         {error && (
           <p className="text-red-500 text-xs mt-1.5 font-medium">

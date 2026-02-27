@@ -6,11 +6,16 @@ import { medicalConditionsSchema } from "../../schemas/profileSchema";
 import { Pencil, X, Save, CheckCircle2, Loader2 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
+// 👉 NEW: Import Firestore methods
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 export default function MedicalConditionsTab({ user }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // 👉 NEW: Loading state
 
   // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -33,35 +38,50 @@ export default function MedicalConditionsTab({ user }) {
     },
   });
 
-  // Hydrate the form when user data loads
+  // 👉 UPDATED: Fetch data from Firestore on mount
   useEffect(() => {
-    const fetchedDataFromDB = {
-      conditions: ["Asthma", "High Blood Pressure"],
-      notes: "Allergic to penicillin.",
+    const fetchMedicalConditions = async () => {
+      if (!user?.uid) return;
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data().medicalConditions || {};
+
+          reset({
+            ...getValues(),
+            conditions: data.conditions ? data.conditions.join(", ") : "",
+            notes: data.notes || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching medical conditions:", error);
+      } finally {
+        setIsFetching(false);
+      }
     };
 
-    reset({
-      ...getValues(),
-      conditions: fetchedDataFromDB.conditions
-        ? fetchedDataFromDB.conditions.join(", ")
-        : "",
-      notes: fetchedDataFromDB.notes || "",
-    });
-  }, [reset, getValues]);
+    fetchMedicalConditions();
+  }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
+  // 👉 UPDATED: Save data directly to Firestore
   const confirmSave = async () => {
     setIsSaving(true);
 
     try {
       const cleanConditionsArray = pendingData.conditions
-        .split(",")
-        .map((item) => item.trim())
-        .filter((item) => item !== "");
+        ? pendingData.conditions
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item !== "")
+        : [];
 
       const firestorePayload = {
         conditions: cleanConditionsArray,
@@ -70,8 +90,13 @@ export default function MedicalConditionsTab({ user }) {
 
       console.log("Saving Medical Conditions to Firestore:", firestorePayload);
 
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const docRef = doc(db, "users", user.uid);
+      // 👉 Merge true ensures we only update the medicalConditions object!
+      await setDoc(
+        docRef,
+        { medicalConditions: firestorePayload },
+        { merge: true },
+      );
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -88,16 +113,37 @@ export default function MedicalConditionsTab({ user }) {
     }
   };
 
+  // 👉 UPDATED: Cancel resets to DB values
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const data = docSnap.exists()
+        ? docSnap.data().medicalConditions || {}
+        : {};
+      reset({
+        conditions: data.conditions ? data.conditions.join(", ") : "",
+        notes: data.notes || "",
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
+      <div className="animate-in fade-in duration-300">
         {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
           <h2

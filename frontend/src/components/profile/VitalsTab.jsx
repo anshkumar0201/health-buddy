@@ -1,4 +1,3 @@
-// src/components/profile/VitalsTab.jsx
 import { useState, useEffect, forwardRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,11 +5,16 @@ import { vitalsSchema } from "../../schemas/profileSchema";
 import { Pencil, X, Save, CheckCircle2, Loader2 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
+// 👉 NEW: Import Firestore methods
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 export default function VitalsTab({ user }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // 👉 NEW: Loading state
 
   // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -36,50 +40,63 @@ export default function VitalsTab({ user }) {
     },
   });
 
-  // Hydrate form with Database data
+  // 👉 UPDATED: Fetch data from Firestore on mount
   useEffect(() => {
-    const fetchedDataFromDB = {
-      bloodPressure: "120/80",
-      bloodSugar: 95,
-      heartRate: 72,
-      oxygenLevel: 98,
-      lastUpdated: "2026-02-25", // YYYY-MM-DD format works best for type="date"
+    const fetchVitals = async () => {
+      if (!user?.uid) return;
+
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data().vitals || {};
+
+          reset({
+            ...getValues(),
+            bloodPressure: data.bloodPressure || "",
+            bloodSugar: data.bloodSugar || "",
+            heartRate: data.heartRate || "",
+            oxygenLevel: data.oxygenLevel || "",
+            lastUpdated: data.lastUpdated || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching vitals:", error);
+      } finally {
+        setIsFetching(false);
+      }
     };
 
-    reset({
-      ...getValues(),
-      bloodPressure: fetchedDataFromDB.bloodPressure || "",
-      bloodSugar: fetchedDataFromDB.bloodSugar || "",
-      heartRate: fetchedDataFromDB.heartRate || "",
-      oxygenLevel: fetchedDataFromDB.oxygenLevel || "",
-      lastUpdated: fetchedDataFromDB.lastUpdated || "",
-    });
-  }, [reset, getValues]);
+    fetchVitals();
+  }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
+  // 👉 UPDATED: Save data directly to Firestore
   const confirmSave = async () => {
     setIsSaving(true);
 
     try {
-      // We update the 'lastUpdated' to today's date automatically upon saving
-      const today = new Date().toISOString().split("T")[0]; // Outputs "YYYY-MM-DD"
+      // Auto-generate today's date for the save payload
+      const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
 
       const firestorePayload = {
         ...pendingData,
-        lastUpdated: today, // Force the update timestamp
+        lastUpdated: today,
       };
 
       console.log("Saving Vitals to Firestore:", firestorePayload);
 
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const docRef = doc(db, "users", user.uid);
+      // 👉 Merge true ensures we only update the vitals object!
+      await setDoc(docRef, { vitals: firestorePayload }, { merge: true });
 
-      // Reset the form baseline with the newly injected date so the UI updates instantly
-      reset({ ...pendingData, lastUpdated: today });
+      // Update the local form state with the new date
+      reset(firestorePayload);
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -96,16 +113,38 @@ export default function VitalsTab({ user }) {
     }
   };
 
+  // 👉 UPDATED: Cancel resets to DB values
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const data = docSnap.exists() ? docSnap.data().vitals || {} : {};
+      reset({
+        bloodPressure: data.bloodPressure || "",
+        bloodSugar: data.bloodSugar || "",
+        heartRate: data.heartRate || "",
+        oxygenLevel: data.oxygenLevel || "",
+        lastUpdated: data.lastUpdated || "",
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
+      <div className="animate-in fade-in duration-300">
         {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
           <h2
@@ -194,7 +233,6 @@ export default function VitalsTab({ user }) {
               readOnly={true} // Always disabled, updated automatically on save
               className={`opacity-80 cursor-not-allowed ${isDark ? "bg-[#131314]" : "bg-slate-50"}`}
             />
-            {/* Using absolute positioning to tuck the hint nicely under the input without breaking spacing */}
             <p
               className={`absolute -bottom-5 left-1 text-[10px] md:text-xs font-medium ${isDark ? "text-slate-500" : "text-slate-400"}`}
             >

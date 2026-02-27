@@ -1,4 +1,3 @@
-// src/components/profile/SurgeriesTab.jsx
 import { useState, useEffect, forwardRef } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,11 +13,16 @@ import {
 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
+// 👉 NEW: Import Firestore methods
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
 export default function SurgeriesTab({ user }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetching, setIsFetching] = useState(true); // 👉 NEW: Loading state
 
   // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -46,40 +50,52 @@ export default function SurgeriesTab({ user }) {
     name: "surgeries",
   });
 
-  // Hydrate form with Database data
+  // 👉 UPDATED: Fetch data from Firestore on mount
   useEffect(() => {
-    const fetchedDataFromDB = [
-      {
-        surgeryName: "Appendectomy",
-        year: 2015,
-        hospital: "City General Hospital",
-      },
-      {
-        surgeryName: "ACL Reconstruction",
-        year: 2019,
-        hospital: "OrthoCare Clinic",
-      },
-    ];
+    const fetchSurgeries = async () => {
+      if (!user?.uid) return;
 
-    reset({
-      ...getValues(),
-      surgeries: fetchedDataFromDB.length > 0 ? fetchedDataFromDB : [],
-    });
-  }, [reset, getValues]);
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const fetchedSurgeries = docSnap.data().surgeries || [];
+
+          reset({
+            ...getValues(),
+            surgeries: fetchedSurgeries,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching surgeries:", error);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchSurgeries();
+  }, [user, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
+  // 👉 UPDATED: Save data directly to Firestore
   const confirmSave = async () => {
     setIsSaving(true);
 
     try {
-      console.log("Saving Surgeries to Firestore:", pendingData);
+      console.log("Saving Surgeries to Firestore:", pendingData.surgeries);
 
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const docRef = doc(db, "users", user.uid);
+      // 👉 Merge true ensures we only update the surgeries array!
+      await setDoc(
+        docRef,
+        { surgeries: pendingData.surgeries },
+        { merge: true },
+      );
 
       setShowConfirmModal(false);
       setIsEditing(false);
@@ -96,9 +112,19 @@ export default function SurgeriesTab({ user }) {
     }
   };
 
+  // 👉 UPDATED: Cancel resets to DB values
   const handleCancel = () => {
-    reset();
-    setIsEditing(false);
+    setIsFetching(true);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      const fetchedSurgeries = docSnap.exists()
+        ? docSnap.data().surgeries || []
+        : [];
+      reset({
+        surgeries: fetchedSurgeries,
+      });
+      setIsFetching(false);
+      setIsEditing(false);
+    });
   };
 
   const handleAddSurgery = () => {
@@ -107,9 +133,19 @@ export default function SurgeriesTab({ user }) {
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  if (isFetching) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2
+          className={`w-8 h-8 animate-spin ${isDark ? "text-blue-400" : "text-blue-500"}`}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
+      <div className="animate-in fade-in duration-300">
         {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
           <h2

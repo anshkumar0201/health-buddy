@@ -15,6 +15,8 @@ import { motion } from "framer-motion";
 import medicalTerms from "../../shared/medical/medical-terms.json";
 import SkeletonSymptomAnalyzer from "@/components/skeletons/SkeletonSymptomAnalyzer";
 import { useAuth } from "../context/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -23,54 +25,25 @@ if (!import.meta.env.VITE_API_BASE_URL) {
 }
 
 /* ======================================================
-   MOCK DATABASE FETCH (To be replaced with Firestore)
+   DATABASE FETCH
    ====================================================== */
 const fetchUserProfile = async (uid) => {
-  // In production: const docSnap = await getDoc(doc(db, "users", uid)); return docSnap.data();
-  // We simulate fetching the consolidated profile data here.
-  // We only send fields that are filled out to save on AI Tokens!
-  return {
-    personalInfo: {
-      age: 34,
-      gender: "Male",
-      bloodGroup: "O+",
-      height: 165,
-      weight: 70,
-    },
-    medicalConditions: {
-      conditions: ["Asthma", "High Blood Pressure"],
-      notes: "Allergic to penicillin.",
-    },
-    medications: [
-      { medName: "Lisinopril", dosage: "10mg", frequency: "Once daily" },
-    ],
-    allergies: {
-      food: ["Peanuts"],
-      medicines: ["Penicillin"],
-      others: ["Cats"],
-    },
-    surgeries: [
-      {
-        surgeryName: "Knee Replacement",
-        year: 2020,
-        hospital: "Fortis Healthcare",
-      },
-    ],
-    vitals: {
-      bloodPressure: "120/80",
-      bloodSugar: 92,
-      heartRate: 72,
-      oxygenLevel: 92,
-      lastUpdate: "25-02-2026",
-    },
-    lifestyle: {
-      smoking: "Never",
-      alcohol: "Occasionally on weekends",
-      exercise: "3 times a week (Cardio)",
-      diet: "Vegeterian",
-      sleepHours: 8,
-    },
-  };
+  try {
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Fetched User Profile for AI:", docSnap.data());
+      // Returns the full object (personalInfo, allergies, medications, etc.)
+      return docSnap.data();
+    } else {
+      console.log("No user profile found in Firestore.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return null;
+  }
 };
 
 /* ======================================================
