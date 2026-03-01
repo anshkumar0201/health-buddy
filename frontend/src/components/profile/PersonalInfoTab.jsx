@@ -82,20 +82,25 @@ export default function PersonalInfoTab({ user }) {
           const data = docSnap.data().personalInfo || {};
 
           reset({
-            ...getValues(),
+            // ...getValues(),
             name: data.name || user.displayName || "",
             email: user.email || "", // Ensure email is pulled from auth here too
-            age: data.age || "",
+            age: data.age ?? "",
             gender: data.gender || "",
-            bloodGroup: data.bloodGroup || "",
-            height: data.height || "",
-            weight: data.weight || "",
+            bloodGroup: data.bloodGroup ?? "",
+            height: data.height ?? "",
+            weight: data.weight ?? "",
           });
         } else {
           reset({
-            ...getValues(),
+            // ...getValues(),
             name: user.displayName || "",
             email: user.email || "",
+            age: "",
+            gender: "",
+            bloodGroup: "",
+            height: "",
+            weight: "",
           });
         }
       } catch (error) {
@@ -106,7 +111,7 @@ export default function PersonalInfoTab({ user }) {
     };
 
     fetchPersonalInfo();
-  }, [user?.uid, user?.email, user?.displayName, reset]);
+  }, [user, reset]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
@@ -222,10 +227,9 @@ export default function PersonalInfoTab({ user }) {
           <Input
             label="Email"
             {...register("email")}
-            disabled={true} // Use disabled instead of readOnly for clearer UI
-            className={
-              isDark ? "bg-[#131314] opacity-70" : "bg-slate-50 opacity-70"
-            }
+            error={errors?.email}
+            readOnly={true}
+            className={`${isDark ? "bg-[#131314]" : "bg-slate-50"} opacity-70 cursor-not-allowed`}
           />
 
           <div className="grid grid-cols-2 gap-4">
