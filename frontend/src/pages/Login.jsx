@@ -54,23 +54,24 @@ EMAIL LOGIN
     setError("");
 
     try {
-      // 🔥 FIX: Start the Firebase auth process IMMEDIATELY.
-      // Do not use await or setLoading yet, otherwise mobile browsers block the popup!
+      // 1. FIRE POPUP IMMEDIATELY (Do not use await or setLoading here!)
+      // This guarantees mobile browsers won't block it.
       const authPromise = loginWithGoogle();
 
-      // NOW we can safely tell React to update the UI
+      // 2. NOW update the React UI state
       setLoading(true);
 
-      // Wait for the popup to finish
+      // 3. Wait for the popup to finish
       const result = await authPromise;
 
       if (result?.isNewUser) {
-        navigate("/"); // fallback until onboarding exists
+        navigate("/");
       } else {
         navigate("/");
       }
     } catch (err) {
-      // Ignore the error if the user just closed the popup manually
+      console.error("Google Auth Error:", err);
+      // Ignore if user just closes the popup window
       if (
         err.code !== "auth/popup-closed-by-user" &&
         err.code !== "auth/cancelled-popup-request"
@@ -107,7 +108,7 @@ FRIENDLY ERRORS
       `}
     >
       <div
-        className={`w-full max-w-md rounded-2xl p-8 shadow-xl border
+        className={`w-full max-w-lg rounded-2xl p-8 shadow-xl border
           ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}
         `}
       >
