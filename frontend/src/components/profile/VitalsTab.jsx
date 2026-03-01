@@ -5,20 +5,36 @@ import { vitalsSchema } from "../../schemas/profileSchema";
 import { Pencil, X, Save, CheckCircle2, Loader2 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
-// 👉 NEW: Import Firestore methods
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import SkeletonVitalsTab from "../skeletons/profile/SkeletonVitalsTab";
+
+// 👉 NEW: Helper function to ensure consistent DD-MM-YYYY formatting
+const formatToDDMMYYYY = (dateString) => {
+  if (!dateString) return "";
+
+  // If it's already in DD-MM-YYYY, just return it
+  if (dateString.includes("-") && dateString.split("-")[0].length === 2) {
+    return dateString;
+  }
+
+  // If it's an old record in YYYY-MM-DD format, convert it
+  if (dateString.includes("-") && dateString.split("-")[0].length === 4) {
+    const [year, month, day] = dateString.split("-");
+    return `${day}-${month}-${year}`;
+  }
+
+  return dateString; // fallback
+};
 
 export default function VitalsTab({ user }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true); // initial skeleton
-  const [isFetching, setIsFetching] = useState(false); // cancel reset
+  const [loading, setLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
 
-  // States for Modal, Toast, and Loading status
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pendingData, setPendingData] = useState(null);
   const [showToast, setShowToast] = useState(false);
@@ -42,61 +58,63 @@ export default function VitalsTab({ user }) {
     },
   });
 
- useEffect(() => {
-   const fetchVitals = async () => {
-     if (!user?.uid) return;
+  useEffect(() => {
+    const fetchVitals = async () => {
+      if (!user?.uid) return;
 
-     try {
-       const docRef = doc(db, "users", user.uid);
-       const docSnap = await getDoc(docRef);
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
 
-       if (docSnap.exists()) {
-         const data = docSnap.data().vitals || {};
+        if (docSnap.exists()) {
+          const data = docSnap.data().vitals || {};
 
-         reset({
-           ...getValues(),
-           bloodPressure: data.bloodPressure || "",
-           bloodSugar: data.bloodSugar || "",
-           heartRate: data.heartRate || "",
-           oxygenLevel: data.oxygenLevel || "",
-           lastUpdated: data.lastUpdated || "",
-         });
-       }
-     } catch (error) {
-       console.error("Error fetching vitals:", error);
-     } finally {
-       setLoading(false);
-     }
-   };
+          reset({
+            ...getValues(),
+            bloodPressure: data.bloodPressure || "",
+            bloodSugar: data.bloodSugar || "",
+            heartRate: data.heartRate || "",
+            oxygenLevel: data.oxygenLevel || "",
+            // 👉 UPDATED: Format date to DD-MM-YYYY on fetch
+            lastUpdated: formatToDDMMYYYY(data.lastUpdated),
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching vitals:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-   fetchVitals();
- }, [user?.uid]);
+    fetchVitals();
+  }, [user?.uid, reset, getValues]);
 
   const handlePreSubmit = (data) => {
     setPendingData(data);
     setShowConfirmModal(true);
   };
 
-  // 👉 UPDATED: Save data directly to Firestore
   const confirmSave = async () => {
     setIsSaving(true);
 
     try {
-      // Auto-generate today's date for the save payload
-      const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+      // 👉 UPDATED: Generate today's date directly in DD-MM-YYYY format
+      const dateObj = new Date();
+      const day = String(dateObj.getDate()).padStart(2, "0");
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const year = dateObj.getFullYear();
+      const formattedToday = `${day}-${month}-${year}`;
 
       const firestorePayload = {
         ...pendingData,
-        lastUpdated: today,
+        lastUpdated: formattedToday, // Save as DD-MM-YYYY directly in DB!
       };
 
       console.log("Saving Vitals to Firestore:", firestorePayload);
 
       const docRef = doc(db, "users", user.uid);
-      // 👉 Merge true ensures we only update the vitals object!
       await setDoc(docRef, { vitals: firestorePayload }, { merge: true });
 
-      // Update the local form state with the new date
       reset(firestorePayload);
 
       setShowConfirmModal(false);
@@ -114,7 +132,6 @@ export default function VitalsTab({ user }) {
     }
   };
 
-  // 👉 UPDATED: Cancel resets to DB values
   const handleCancel = () => {
     setIsFetching(true);
     getDoc(doc(db, "users", user.uid)).then((docSnap) => {
@@ -124,7 +141,8 @@ export default function VitalsTab({ user }) {
         bloodSugar: data.bloodSugar || "",
         heartRate: data.heartRate || "",
         oxygenLevel: data.oxygenLevel || "",
-        lastUpdated: data.lastUpdated || "",
+        // 👉 UPDATED: Ensure format remains correct if they cancel changes
+        lastUpdated: formatToDDMMYYYY(data.lastUpdated),
       });
       setIsFetching(false);
       setIsEditing(false);
@@ -140,7 +158,6 @@ export default function VitalsTab({ user }) {
   return (
     <>
       <div className="animate-in fade-in duration-300">
-        {/* Header & Controls */}
         <div className="flex justify-between items-center mb-6">
           <h2
             className={`text-xl font-bold tracking-tight ${isDark ? "text-gray-100" : "text-slate-800"}`}
@@ -159,7 +176,7 @@ export default function VitalsTab({ user }) {
               }`}
             >
               <Pencil className="w-4 h-4 mr-2" />
-              Edit Section
+              Edit
             </button>
           ) : (
             <button
@@ -187,7 +204,6 @@ export default function VitalsTab({ user }) {
           )}
         </div>
 
-        {/* Form Fields */}
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <Input
@@ -228,14 +244,14 @@ export default function VitalsTab({ user }) {
             />
           </div>
 
-          {/* Read-only field showing when it was last updated */}
           <div className="pt-2 relative">
             <Input
               label="Last Updated Date"
-              type="date"
+              type="text" // 👉 THE FIX: Changed from 'date' to 'text' to kill the mobile calendar chevron icon
               {...register("lastUpdated")}
               error={errors?.lastUpdated}
-              readOnly={true} // Always disabled, updated automatically on save
+              readOnly={true}
+              placeholder="" // 👉 THE FIX: Keeps field completely blank if there's no data
               className={`opacity-80 cursor-not-allowed ${isDark ? "bg-[#131314]" : "bg-slate-50"}`}
             />
             <p
@@ -246,7 +262,6 @@ export default function VitalsTab({ user }) {
           </div>
         </div>
 
-        {/* Save Button */}
         {isEditing && (
           <button
             onClick={handleSubmit(handlePreSubmit)}
@@ -265,9 +280,6 @@ export default function VitalsTab({ user }) {
         )}
       </div>
 
-      {/* =======================
-          CONFIRMATION MODAL
-      ======================== */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-in fade-in duration-200">
           <div
@@ -320,9 +332,6 @@ export default function VitalsTab({ user }) {
         </div>
       )}
 
-      {/* =======================
-          SUCCESS TOAST
-      ======================== */}
       {showToast && (
         <div className="fixed bottom-24 right-6 z-50 flex items-center bg-emerald-500 text-white px-5 py-3.5 rounded-xl shadow-xl animate-in slide-in-from-bottom-5 duration-300">
           <CheckCircle2 className="w-5 h-5 mr-2" />
@@ -335,9 +344,6 @@ export default function VitalsTab({ user }) {
   );
 }
 
-/* =========================
-INPUT COMPONENT
-========================== */
 const Input = forwardRef(
   (
     {
