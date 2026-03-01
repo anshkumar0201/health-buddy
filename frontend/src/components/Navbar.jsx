@@ -406,7 +406,7 @@ export default function Navbar() {
             <div className="lg:hidden flex items-center gap-3">
               {/* Added relative here so the dropdown can overlay BOTH buttons */}
               <div
-                className="flex items-center gap-2 sm:gap-3 ml-auto relative"
+                className="flex items-center gap-3 sm:gap-3 ml-auto relative"
                 ref={mobileMoreRef}
               >
                 {/* Mobile Auth Button */}
@@ -425,10 +425,10 @@ export default function Navbar() {
                         alt="User"
                         referrerPolicy="no-referrer"
                         onError={() => setImgError(true)}
-                        className="w-10 h-10 rounded-full object-cover border border-white/10"
+                        className="w-9 h-9 rounded-full object-cover border border-white/10"
                       />
                     ) : user?.displayName || user?.email ? (
-                      <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm">
+                      <div className="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm">
                         {(
                           user?.displayName?.[0] ||
                           user?.email?.[0] ||
@@ -437,7 +437,7 @@ export default function Navbar() {
                       </div>
                     ) : (
                       <span
-                        className={`material-symbols-rounded text-4xl ${showDarkUI ? "text-gray-300" : "text-gray-600"}`}
+                        className={`material-symbols-rounded text-3xl ${showDarkUI ? "text-gray-300" : "text-gray-600"}`}
                       >
                         account_circle
                       </span>

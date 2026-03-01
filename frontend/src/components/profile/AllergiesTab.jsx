@@ -149,7 +149,7 @@ export default function AllergiesTab({ user }) {
                   : "bg-blue-50 text-blue-600 hover:bg-blue-100"
               }`}
             >
-              <Pencil className="w-4 h-4 mr-2" /> Edit Section
+              <Pencil className="w-4 h-4 mr-2" /> Edit
             </button>
           ) : (
             <button
