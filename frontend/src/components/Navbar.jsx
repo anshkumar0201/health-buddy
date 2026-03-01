@@ -15,6 +15,13 @@ import {
   Moon,
   User,
   LogOut,
+  MoreVertical,
+  ChevronRight,
+  ChevronLeft,
+  Globe,
+  Check,
+  LogIn,
+  UserPlus,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -50,19 +57,23 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const [desktopLangOpen, setDesktopLangOpen] = useState(false);
-  const [mobileLangOpen, setMobileLangOpen] = useState(false);
-  const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
+  // const [mobileLangOpen, setMobileLangOpen] = useState(false);
+  // const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [imgError, setImgError] = useState(false);
 
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const [mobileMenuView, setMobileMenuView] = useState("main");
+
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
-  const mobileDropdownRef = useRef(null);
-  const mobileButtonRef = useRef(null);
-  const mobileEmergencyRef = useRef(null);
-  const mobileEmergencyBtnRef = useRef(null);
+  // const mobileDropdownRef = useRef(null);
+  // const mobileButtonRef = useRef(null);
+  // const mobileEmergencyRef = useRef(null);
+  // const mobileEmergencyBtnRef = useRef(null);
   const userMenuRef = useRef(null);
+  const mobileMoreRef = useRef(null);
 
   const location = useLocation();
   const { t, i18n } = useTranslation();
@@ -80,7 +91,7 @@ export default function Navbar() {
     i18n.changeLanguage(code);
     localStorage.setItem("lang", code);
     setDesktopLangOpen(false);
-    setMobileLangOpen(false);
+    // setMobileLangOpen(false);
   };
 
   /* =========================
@@ -99,6 +110,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setUserMenuOpen(false);
+    setMobileMoreOpen(false);
   }, [location.pathname]);
 
   /* =========================
@@ -108,6 +120,10 @@ export default function Navbar() {
     function handleClick(e) {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
         setUserMenuOpen(false);
+      }
+
+      if (mobileMoreRef.current && !mobileMoreRef.current.contains(e.target)) {
+        setMobileMoreOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClick);
@@ -135,6 +151,7 @@ export default function Navbar() {
       if (e.key === "Escape") {
         setDesktopLangOpen(false);
         setUserMenuOpen(false);
+        setMobileMoreOpen(false); // 👉 ADDED
       }
     }
     document.addEventListener("keydown", handleKeyDown);
@@ -329,7 +346,7 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     onClick={(e) => {
-                      e.stopPropagation(); 
+                      e.stopPropagation();
                       setUserMenuOpen((v) => !v);
                     }}
                     className={`w-9 h-9 rounded-full flex items-center cursor-pointer justify-center border overflow-hidden ${
@@ -387,159 +404,20 @@ export default function Navbar() {
             {/* **************************************************************  */}
             {/* Mobile View*/}
             <div className="lg:hidden flex items-center gap-3">
-              {/* Right mobile group */}
-              <div className="flex items-center gap-3 ml-auto">
-                {/* Mobile Language */}
-                <button
-                  ref={mobileButtonRef}
-                  onClick={() => setMobileLangOpen((prev) => !prev)}
-                  onBlur={() => setMobileLangOpen(false)}
-                  className={`
-    flex items-center gap-1
-    px-1 py-1 rounded-lg
-    text-xs font-semibold
-    ${
-      showDarkUI
-        ? "bg-slate-900/90 border border-gray-500 shadow-amber-200 text-gray-300"
-        : "bg-white text-gray-600 border border-gray-400 shadow-gray-700"
-    }
-  `}
-                >
-                  {currentLang.toUpperCase()}
-                  <span
-                    className={`
-      material-symbols-rounded text-sm
-      transition-transform duration-300
-      ${mobileLangOpen ? "rotate-180" : ""}
-    `}
-                  >
-                    expand_more
-                  </span>
-                </button>
-
-                <div className="lg:hidden relative flex items-center gap-1">
-                  {mobileLangOpen && (
-                    <div
-                      onMouseDown={(e) => e.preventDefault()}
-                      ref={mobileDropdownRef}
-                      className={`
-    absolute top-full right-0 mt-8 w-28
-    rounded-xl
-    z-[9999]
-    border
-    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
-    animate-fade-in
-    transition-all duration-300
-          ${
-            isDark
-              ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
-              : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
-          }
-        `}
-                    >
-                      {memoLanguages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          onClick={() => {
-                            changeLanguage(lang.code);
-                            setMobileLangOpen(false);
-                          }}
-                          className={`
-    w-full text-left px-4 py-2 text-sm
-    transition-all duration-200
-    flex items-center justify-between
-    ${showDarkUI ? "text-gray-300 hover:bg-white/10" : "hover:bg-blue-100"}
-    ${lang.code === i18n.language ? "font-semibold scale-[1.02]" : ""}
-  `}
-                        >
-                          {lang.label}
-                          {lang.code === i18n.language && (
-                            <span className="material-symbols-rounded text-base">
-                              check
-                            </span>
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Mobile Theme Toggle */}
-                <button
-                  onClick={toggleTheme}
-                  className="material-symbols-rounded text-xl font-light"
-                >
-                  {showDarkUI ? "dark_mode" : "light_mode"}
-                </button>
-
-                {/* Mobile Emergency */}
-                <div className="relative">
-                  <button
-                    ref={mobileEmergencyBtnRef}
-                    onClick={() => setMobileEmergencyOpen((v) => !v)}
-                    onBlur={() => setMobileEmergencyOpen(false)}
-                    className="material-symbols-rounded text-xl text-red-600 mx-2 my-1.5"
-                  >
-                    phone
-                  </button>
-                  <div className="lg:hidden relative flex items-center gap-1">
-                    {mobileEmergencyOpen && (
-                      <div
-                        onMouseDown={(e) => e.preventDefault()}
-                        ref={mobileEmergencyRef}
-                        className={`
-    absolute top-full right-0 mt-4 w-48
-    rounded-xl
-    z-[9999]
-    border
-    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
-    animate-fade-in
-    transition-all duration-300
-          ${
-            isDark
-              ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
-              : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
-          }
-        `}
-                      >
-                        {memoEmergencyNumbers.map((item) => (
-                          <button
-                            key={item.number}
-                            onClick={() => {
-                              window.location.href = `tel:${item.number}`;
-                              setMobileEmergencyOpen(false);
-                            }}
-                            className={`
-            w-full text-left px-2 py-2 text-sm
-            flex justify-between items-center
-            transition-all
-            ${
-              showDarkUI
-                ? "text-gray-200 hover:bg-white/15"
-                : "hover:bg-white/40"
-            }
-          `}
-                          >
-                            {" "}
-                            {item.label}
-                            <span className="font-mono font-bold">
-                              {item.number}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Mobile Auth */}
+              {/* Added relative here so the dropdown can overlay BOTH buttons */}
+              <div
+                className="flex items-center gap-2 sm:gap-3 ml-auto relative"
+                ref={mobileMoreRef}
+              >
+                {/* Mobile Auth Button */}
                 <div className="relative">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setUserMenuOpen((v) => !v);
+                      setMobileMoreOpen(false);
                     }}
-                    className="flex items-center justify-center w-8 h-8 mt-1"
+                    className="flex items-center justify-center w-8 h-8 mt-0.5 border border-transparent rounded-full"
                   >
                     {user?.photoURL && !imgError ? (
                       <img
@@ -547,10 +425,10 @@ export default function Navbar() {
                         alt="User"
                         referrerPolicy="no-referrer"
                         onError={() => setImgError(true)}
-                        className="w-8 h-8 rounded-full object-cover"
+                        className="w-10 h-10 rounded-full object-cover border border-white/10"
                       />
                     ) : user?.displayName || user?.email ? (
-                      <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm">
+                      <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm">
                         {(
                           user?.displayName?.[0] ||
                           user?.email?.[0] ||
@@ -558,45 +436,43 @@ export default function Navbar() {
                         ).toUpperCase()}
                       </div>
                     ) : (
-                      <span className="material-symbols-rounded text-2xl">
+                      <span
+                        className={`material-symbols-rounded text-4xl ${showDarkUI ? "text-gray-300" : "text-gray-600"}`}
+                      >
                         account_circle
                       </span>
                     )}
                   </button>
 
-                  {userMenuOpen && (
+                  {/* Legacy Auth Dropdown (only visible if More is closed) */}
+                  {userMenuOpen && !mobileMoreOpen && (
                     <div
-                      onMouseDown={(e) => e.preventDefault()}
+                      onMouseDown={(e) => e.stopPropagation()}
                       className={`
-    absolute top-full right-0 mt-4 w-28
-    rounded-xl
-    z-[9999]
-    border
-    shadow-[0_8px_32px_rgba(0,0,0,0.25)]
-    animate-fade-in
-    transition-all duration-300
-    ${
-      isDark
-        ? "bg-[#1a1f27] border-gray-400/25 shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
-        : "bg-white border-white/60 shadow-[0_8px_25px_rgba(0,0,0,0.7)]"
-    }
-  `}
+                  absolute top-[-8px] right-[-4px] w-48 rounded-2xl z-[9999] border 
+                  shadow-[0_8px_32px_rgba(0,0,0,0.25)] animate-in fade-in zoom-in-95 duration-200 flex flex-col p-1.5 gap-1 
+                  ${showDarkUI ? "bg-[#1a1f27] border-gray-600 shadow-[0_8px_24px_rgba(0,0,0,0.4)]" : "bg-white border-gray-200 shadow-[0_8px_25px_rgba(0,0,0,0.15)]"}
+                `}
                     >
                       {!user ? (
                         <>
                           <Link
                             to="/login"
                             onClick={() => setUserMenuOpen(false)}
-                            className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium ${showDarkUI ? "hover:bg-white/10 text-gray-200" : "hover:bg-gray-100 text-gray-700"}`}
                           >
+                            <LogIn size={18} />
                             Login
                           </Link>
-
+                          <div
+                            className={`h-px w-full ${showDarkUI ? "bg-gray-700" : "bg-gray-200"}`}
+                          />
                           <Link
                             to="/signup"
                             onClick={() => setUserMenuOpen(false)}
-                            className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium ${showDarkUI ? "hover:bg-white/10 text-gray-200" : "hover:bg-gray-100 text-gray-700"}`}
                           >
+                            <UserPlus size={18} />
                             Sign Up
                           </Link>
                         </>
@@ -605,15 +481,19 @@ export default function Navbar() {
                           <Link
                             to="/profile"
                             onClick={() => setUserMenuOpen(false)}
-                            className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium ${showDarkUI ? "hover:bg-white/10 text-gray-200" : "hover:bg-gray-100 text-gray-700"}`}
                           >
+                            <User size={18} />
                             Profile
                           </Link>
-
+                          <div
+                            className={`h-px w-full my-1 ${showDarkUI ? "bg-gray-700" : "bg-gray-200"}`}
+                          />
                           <button
                             onClick={handleLogout}
-                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700"
+                            className={`w-full flex items-center gap-3 text-left px-4 py-3 text-sm font-medium ${showDarkUI ? "hover:bg-white/10 text-red-400" : "hover:bg-red-50 text-red-600"}`}
                           >
+                            <LogOut size={18} />
                             Logout
                           </button>
                         </>
@@ -621,6 +501,169 @@ export default function Navbar() {
                     </div>
                   )}
                 </div>
+
+                {/* Mobile 3-Dots Trigger */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileMenuView("main"); // Always start on main view
+                    setMobileMoreOpen((v) => !v);
+                    setUserMenuOpen(false);
+                  }}
+                  className={`p-1 flex items-center justify-center rounded-lg transition-colors mt-0.5 ${
+                    showDarkUI
+                      ? "text-gray-300 hover:bg-slate-800"
+                      : "text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  <MoreVertical size={24} />
+                </button>
+
+                {/* Telegram-Style Overlay Menu */}
+                {mobileMoreOpen && (
+                  <div
+                    onMouseDown={(e) => e.stopPropagation()}
+                    className={`
+                  absolute top-[-8px] right-[-6px] w-64 rounded-2xl z-[9999] border 
+                  shadow-[0_8px_32px_rgba(0,0,0,0.25)] animate-in fade-in zoom-in-95 duration-200 flex flex-col p-1.5 gap-1 
+                  ${showDarkUI ? "bg-[#1a1f27] border-gray-600 shadow-[0_8px_24px_rgba(0,0,0,0.4)]" : "bg-white border-gray-200 shadow-[0_8px_25px_rgba(0,0,0,0.15)]"}
+                `}
+                  >
+                    {/* =====================
+                      VIEW 1: MAIN MENU 
+                      ===================== */}
+                    {mobileMenuView === "main" && (
+                      <>
+                        {/* Theme Toggle */}
+                        <button
+                          onClick={toggleTheme}
+                          className={`flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium transition-colors ${showDarkUI ? "hover:bg-white/10 text-gray-200" : "hover:bg-gray-100 text-gray-700"}`}
+                        >
+                          <span className="flex items-center gap-3">
+                            {showDarkUI ? (
+                              <Moon size={18} />
+                            ) : (
+                              <Sun size={18} />
+                            )}
+                            Theme
+                          </span>
+                          <span
+                            className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-md ${showDarkUI ? "bg-black/40 text-gray-300" : "bg-gray-200 text-gray-600"}`}
+                          >
+                            {showDarkUI ? "Dark" : "Light"}
+                          </span>
+                        </button>
+
+                        {/* Language Switcher Button */}
+                        <button
+                          onClick={() => setMobileMenuView("lang")}
+                          className={`flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium transition-colors ${showDarkUI ? "hover:bg-white/10 text-gray-200" : "hover:bg-gray-100 text-gray-700"}`}
+                        >
+                          <span className="flex items-center gap-3">
+                            <Globe size={18} />
+                            Language
+                          </span>
+                          <span className="flex items-center gap-1 text-[11px] uppercase tracking-wider font-bold opacity-70">
+                            {currentLang}{" "}
+                            <ChevronRight size={16} className="mt-px" />
+                          </span>
+                        </button>
+
+                        <div
+                          className={`h-px w-full my-1 ${showDarkUI ? "bg-gray-700" : "bg-gray-200"}`}
+                        />
+
+                        {/* Emergency Contacts */}
+                        <div className="px-3 py-2">
+                          <span
+                            className={`text-[10px] font-bold uppercase tracking-widest opacity-70 text-red-500`}
+                          >
+                            Emergency Helplines
+                          </span>
+                          <div className="mt-2 flex flex-col gap-1">
+                            {memoEmergencyNumbers.map((item) => (
+                              <button
+                                key={item.number}
+                                onClick={() => {
+                                  window.location.href = `tel:${item.number}`;
+                                  setMobileMoreOpen(false);
+                                }}
+                                className={`text-left px-3 py-2.5 rounded-xl text-sm transition-colors flex justify-between items-center ${showDarkUI ? "text-red-400 hover:bg-red-500/10" : "text-red-600 hover:bg-red-50"}`}
+                              >
+                                <span className="truncate mr-2 font-medium">
+                                  {item.label}
+                                </span>
+                                <span
+                                  className={`font-mono font-bold px-1.5 py-0.5 rounded text-xs tracking-wide ${showDarkUI ? "bg-red-500/20" : "bg-red-500/10"}`}
+                                >
+                                  {item.number}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {/* =====================
+                      VIEW 2: LANGUAGE SUB-MENU 
+                      ===================== */}
+                    {mobileMenuView === "lang" && (
+                      <div className="flex flex-col animate-in slide-in-from-right-4 duration-200">
+                        {/* Sub-menu Header */}
+                        <div className="flex items-center gap-2 px-2 py-2 mb-1">
+                          <button
+                            onClick={() => setMobileMenuView("main")}
+                            className={`flex gap-3 p-1.5 rounded-lg transition-colors ${showDarkUI ? "hover:bg-white/10 text-gray-200" : "hover:bg-gray-100 text-gray-700"}`}
+                          >
+                            <ChevronLeft size={20} />
+
+                            <span
+                              className={`font-semibold text-sm ${showDarkUI ? "text-gray-100" : "text-gray-800"}`}
+                            >
+                              Select Language
+                            </span>
+                          </button>
+                        </div>
+
+                        <div
+                          className={`h-px w-full mb-1.5 ${showDarkUI ? "bg-gray-700" : "bg-gray-200"}`}
+                        />
+
+                        {/* Language List */}
+                        <div className="flex flex-col gap-0.5 px-1 pb-1">
+                          {memoLanguages.map((lang) => (
+                            <button
+                              key={lang.code}
+                              onClick={() => {
+                                changeLanguage(lang.code);
+                                setMobileMoreOpen(false); // Close entire menu after selection
+                              }}
+                              className={`text-left px-3 py-3 rounded-xl text-sm transition-colors flex justify-between items-center cursor-pointer ${
+                                lang.code === currentLang // 👉 THE FIX: Compare to currentLang, not raw i18n.language
+                                  ? showDarkUI
+                                    ? "bg-blue-500/20 text-blue-400 font-semibold"
+                                    : "bg-blue-50 text-blue-600 font-semibold"
+                                  : showDarkUI
+                                    ? "text-gray-300 hover:bg-white/10"
+                                    : "text-gray-700 hover:bg-gray-100"
+                              }`}
+                            >
+                              {lang.label}
+                              {lang.code === currentLang && ( // 👉 THE FIX
+                                <Check
+                                  size={18}
+                                  strokeWidth={2.5}
+                                  className="animate-in zoom-in duration-200"
+                                />
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -48,14 +48,21 @@ EMAIL LOGIN
   };
 
   /* =========================
-GOOGLE LOGIN
-========================== */
+  GOOGLE LOGIN
+  ========================== */
   const handleGoogleLogin = async () => {
     setError("");
 
     try {
+      // 🔥 FIX: Start the Firebase auth process IMMEDIATELY.
+      // Do not use await or setLoading yet, otherwise mobile browsers block the popup!
+      const authPromise = loginWithGoogle();
+
+      // NOW we can safely tell React to update the UI
       setLoading(true);
-      const result = await loginWithGoogle();
+
+      // Wait for the popup to finish
+      const result = await authPromise;
 
       if (result?.isNewUser) {
         navigate("/"); // fallback until onboarding exists
@@ -63,7 +70,13 @@ GOOGLE LOGIN
         navigate("/");
       }
     } catch (err) {
-      setError(getFriendlyError(err.code));
+      // Ignore the error if the user just closed the popup manually
+      if (
+        err.code !== "auth/popup-closed-by-user" &&
+        err.code !== "auth/cancelled-popup-request"
+      ) {
+        setError(getFriendlyError(err.code));
+      }
     } finally {
       setLoading(false);
     }

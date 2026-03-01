@@ -3,6 +3,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signInWithPopup,
+    signInWithRedirect,
     GoogleAuthProvider,
     updateProfile,
     sendEmailVerification,
@@ -46,19 +47,29 @@ export const signupWithEmail = async (name, email, password) => {
 };
 
 /* ---------- GOOGLE AUTH ---------- */
-const signInWithGooglePopup = async () => {
-    const result = await signInWithPopup(auth, googleProvider);
-    const additionalInfo = getAdditionalUserInfo(result);
+const handleGoogleAuth = async () => {
+    // 👉 1. Detect if the user is on a mobile device
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    return {
-        user: result.user,
-        isNewUser: additionalInfo?.isNewUser || false
-    };
+    if (isMobile) {
+        // 👉 2. Mobile users get the Redirect flow (Bypasses popup blockers)
+        // Note: This will navigate the user away from your app to Google, 
+        // then bounce them back. Our new AuthContext will catch them when they return!
+        await signInWithRedirect(auth, googleProvider);
+    } else {
+        // 👉 3. Desktop users keep the smooth Popup flow
+        const result = await signInWithPopup(auth, googleProvider);
+        const additionalInfo = getAdditionalUserInfo(result);
+
+        return {
+            user: result.user,
+            isNewUser: additionalInfo?.isNewUser || false
+        };
+    }
 };
 
-export const signupWithGoogle = signInWithGooglePopup;
-export const loginWithGoogle = signInWithGooglePopup;
-
+export const signupWithGoogle = handleGoogleAuth;
+export const loginWithGoogle = handleGoogleAuth;
 /* ---------- EMAIL LOGIN ---------- */
 export const loginWithEmail = async (email, password) => {
 
