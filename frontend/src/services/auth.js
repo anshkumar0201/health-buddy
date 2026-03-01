@@ -46,30 +46,21 @@ export const signupWithEmail = async (name, email, password) => {
     return result.user;
 };
 
-/* ---------- GOOGLE AUTH ---------- */
-const handleGoogleAuth = async () => {
-    // 👉 1. Detect if the user is on a mobile device
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+/* ---------- GOOGLE AUTH (Popup Only) ---------- */
+const signInWithGooglePopup = async () => {
+    // Because we trigger this immediately on tap in Login.jsx,
+    // mobile browsers will no longer block this popup!
+    const result = await signInWithPopup(auth, googleProvider);
+    const additionalInfo = getAdditionalUserInfo(result);
 
-    if (isMobile) {
-        // 👉 2. Mobile users get the Redirect flow (Bypasses popup blockers)
-        // Note: This will navigate the user away from your app to Google, 
-        // then bounce them back. Our new AuthContext will catch them when they return!
-        await signInWithRedirect(auth, googleProvider);
-    } else {
-        // 👉 3. Desktop users keep the smooth Popup flow
-        const result = await signInWithPopup(auth, googleProvider);
-        const additionalInfo = getAdditionalUserInfo(result);
-
-        return {
-            user: result.user,
-            isNewUser: additionalInfo?.isNewUser || false
-        };
-    }
+    return {
+        user: result.user,
+        isNewUser: additionalInfo?.isNewUser || false
+    };
 };
 
-export const signupWithGoogle = handleGoogleAuth;
-export const loginWithGoogle = handleGoogleAuth;
+export const signupWithGoogle = signInWithGooglePopup;
+export const loginWithGoogle = signInWithGooglePopup;
 /* ---------- EMAIL LOGIN ---------- */
 export const loginWithEmail = async (email, password) => {
 
