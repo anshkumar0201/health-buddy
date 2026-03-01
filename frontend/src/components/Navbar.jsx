@@ -54,6 +54,7 @@ export default function Navbar() {
   const [mobileEmergencyOpen, setMobileEmergencyOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -328,7 +329,7 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     onClick={(e) => {
-                      e.stopPropagation(); // ⭐ prevents document handler from firing
+                      e.stopPropagation(); 
                       setUserMenuOpen((v) => !v);
                     }}
                     className={`w-9 h-9 rounded-full flex items-center cursor-pointer justify-center border overflow-hidden ${
@@ -337,10 +338,12 @@ export default function Navbar() {
                         : "bg-white border-slate-200"
                     }`}
                   >
-                    {user?.photoURL ? (
+                    {user?.photoURL && !imgError ? (
                       <img
                         src={user.photoURL}
                         alt="User"
+                        referrerPolicy="no-referrer"
+                        onError={() => setImgError(true)}
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     ) : (
@@ -538,15 +541,21 @@ export default function Navbar() {
                     }}
                     className="flex items-center justify-center w-8 h-8 mt-1"
                   >
-                    {user?.photoURL ? (
+                    {user?.photoURL && !imgError ? (
                       <img
                         src={user.photoURL}
                         alt="User"
+                        referrerPolicy="no-referrer"
+                        onError={() => setImgError(true)}
                         className="w-8 h-8 rounded-full object-cover"
                       />
-                    ) : user?.displayName ? (
+                    ) : user?.displayName || user?.email ? (
                       <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm">
-                        {user.displayName[0]}
+                        {(
+                          user?.displayName?.[0] ||
+                          user?.email?.[0] ||
+                          "U"
+                        ).toUpperCase()}
                       </div>
                     ) : (
                       <span className="material-symbols-rounded text-2xl">
