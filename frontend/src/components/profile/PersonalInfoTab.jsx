@@ -72,31 +72,24 @@ export default function PersonalInfoTab({ user }) {
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
 
+        let dbData = {};
         if (docSnap.exists()) {
-          const data = docSnap.data().personalInfo || {};
-
-          reset({
-            // ...getValues(),
-            name: data.name || user.displayName || "",
-            email: user.email || "", // Ensure email is pulled from auth here too
-            age: data.age ?? "",
-            gender: data.gender || "",
-            bloodGroup: data.bloodGroup ?? "",
-            height: data.height ?? "",
-            weight: data.weight ?? "",
-          });
-        } else {
-          reset({
-            // ...getValues(),
-            name: user.displayName || "",
-            email: user.email || "",
-            age: "",
-            gender: "",
-            bloodGroup: "",
-            height: "",
-            weight: "",
-          });
+          dbData = docSnap.data().personalInfo || {};
         }
+
+        // 🔥 THE REAL FIX 🔥
+        // 1. We NO LONGER spread getValues() which caused race conditions.
+        // 2. We check dbData.email FIRST. If the Auth object is missing the email
+        //    (which it is in your prod screenshot), we safely use the database email!
+        reset({
+          name: dbData.name || user.displayName || "",
+          email: dbData.email || user.email || "",
+          age: dbData.age ?? "",
+          gender: dbData.gender ?? "",
+          bloodGroup: dbData.bloodGroup ?? "",
+          height: dbData.height ?? "",
+          weight: dbData.weight ?? "",
+        });
       } catch (error) {
         console.error("Error fetching personal info:", error);
       } finally {
@@ -221,10 +214,10 @@ export default function PersonalInfoTab({ user }) {
           <Input
             label="Email"
             {...register("email")}
-            value={user?.email || ""}
-            placeholder={user?.email ? "" : "No email linked to this account"}
+            error={errors?.email}
             readOnly={true}
-            className={`${isDark ? "bg-[#131314]" : "bg-slate-100"} opacity-60 cursor-not-allowed`}
+            placeholder="No email found"
+            className={`${isDark ? "bg-[#131314]" : "bg-slate-50"} opacity-70 cursor-not-allowed`}
           />
 
           <div className="grid grid-cols-2 gap-4">
