@@ -65,12 +65,6 @@ export default function PersonalInfoTab({ user }) {
   });
 
   useEffect(() => {
-    if (user?.email) {
-      setValue("email", user.email);
-    }
-  }, [user?.email, setValue]);
-
-  useEffect(() => {
     if (!user?.uid) return;
 
     const fetchPersonalInfo = async () => {
@@ -227,9 +221,10 @@ export default function PersonalInfoTab({ user }) {
           <Input
             label="Email"
             {...register("email")}
-            error={errors?.email}
+            value={user?.email || ""}
+            placeholder={user?.email ? "" : "No email linked to this account"}
             readOnly={true}
-            className={`${isDark ? "bg-[#131314]" : "bg-slate-50"} opacity-70 cursor-not-allowed`}
+            className={`${isDark ? "bg-[#131314]" : "bg-slate-100"} opacity-60 cursor-not-allowed`}
           />
 
           <div className="grid grid-cols-2 gap-4">
