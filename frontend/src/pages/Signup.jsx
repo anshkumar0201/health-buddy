@@ -48,6 +48,8 @@ export default function Signup() {
         return "Password should be stronger";
       case "auth/network-request-failed":
         return "Network error. Check your connection";
+      case "auth/unauthorized-domain": // 👉 ADDED for consistency with Login
+        return "This domain/IP is not authorized in Firebase.";
       default:
         return "Signup failed. Please try again";
     }
@@ -65,9 +67,7 @@ export default function Signup() {
 
     try {
       setLoading(true);
-
       await signupWithEmail(form.name.trim(), form.email.trim(), form.password);
-
       navigate("/");
     } catch (err) {
       setError(getFriendlyError(err.code));
@@ -76,20 +76,37 @@ export default function Signup() {
     }
   };
 
+  /* =========================
+     GOOGLE SIGNUP (Fixed for Mobile)
+  ========================== */
   const handleGoogleSignup = async () => {
     setError("");
 
     try {
+      // 1. FIRE POPUP IMMEDIATELY (Do not use await or setLoading here!)
+      // This guarantees mobile browsers won't block it.
+      const authPromise = signupWithGoogle();
+
+      // 2. NOW update the React UI state
       setLoading(true);
-      const result = await signupWithGoogle();
+
+      // 3. Wait for the popup to finish
+      const result = await authPromise;
 
       if (result.isNewUser) {
-        navigate("/"); // future page
+        navigate("/"); // future onboarding page
       } else {
         navigate("/");
       }
     } catch (err) {
-      setError(getFriendlyError(err.code));
+      console.error("Google Auth Error:", err);
+      // Ignore if user just closes the popup window manually
+      if (
+        err.code !== "auth/popup-closed-by-user" &&
+        err.code !== "auth/cancelled-popup-request"
+      ) {
+        setError(getFriendlyError(err.code));
+      }
     } finally {
       setLoading(false);
     }
@@ -106,17 +123,19 @@ export default function Signup() {
           ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}
         `}
       >
-        {/* Title */}{" "}
+        {/* Title */}
         <h2 className="text-2xl font-bold mb-2 text-center">Create Account </h2>
         <p className="text-sm text-center mb-6 opacity-70">
           Join Rurivia AI to start your health journey
         </p>
+
         {/* Error */}
         {error && (
           <div className="mb-4 text-sm text-red-500 bg-red-100/20 p-2 rounded-lg">
             {error}
           </div>
         )}
+
         {/* Form */}
         <form onSubmit={handleSignup} className="space-y-4">
           {/* Name */}
@@ -203,12 +222,14 @@ export default function Signup() {
             {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
+
         {/* Divider */}
         <div className="flex items-center my-6">
           <div className="flex-1 h-px bg-gray-300" />
           <span className="px-3 text-sm opacity-70">OR</span>
           <div className="flex-1 h-px bg-gray-300" />
         </div>
+
         {/* Google Signup */}
         <button
           onClick={handleGoogleSignup}
@@ -250,7 +271,7 @@ export default function Signup() {
           </svg>
           Continue with Google
         </button>
-        
+
         {/* Login link */}
         <p className="text-sm text-center mt-6 opacity-70">
           Already have an account?{" "}
