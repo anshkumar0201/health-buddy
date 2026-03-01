@@ -175,7 +175,7 @@ export default function PersonalInfoTab({ user }) {
               }`}
             >
               <Pencil className="w-4 h-4 mr-2" />
-              Edit Section
+              Edit
             </button>
           ) : (
             <button
