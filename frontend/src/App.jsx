@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { Navigate, useLocation } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 import Navbar from "@/components/Navbar";
 import EmergencyBar from "@/components/EmergencyBar";
@@ -242,6 +243,7 @@ export default function App() {
           <MobileTabBar />
         </ErrorBoundary>
       </div>
+      <Analytics />
     </BrowserRouter>
   );
 }
